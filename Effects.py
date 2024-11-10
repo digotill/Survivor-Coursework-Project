@@ -2,15 +2,7 @@ import pygame
 from Initialize import *
 
 
-class Hud:
-          def __init__(self, game):
-                    self.game = game
-
-          def draw(self):
-                    pass
-
-
-class BackgroundEffects:
+class BackgroundAndHud:
           def __init__(self, game):
                     self.game = game
                     self.border = pygame.image.load("BG\\border.png").convert_alpha()
@@ -28,8 +20,8 @@ class BackgroundEffects:
                               55, 267, 20))
                     self.game.display.blit(Health_bar, (10, 15))
                     self.game.display.blit(Mana_bar, (
-                    self.game.display.width - 30 - int((self.game.player.stamina / PLAYER_STAMINA) * 300),
-                    40 * 1080 / self.game.display.height))
+                              self.game.display.width - 30 - int((self.game.player.stamina / PLAYER_STAMINA) * 300),
+                              40 * 1080 / self.game.display.height))
 
                     #* 1920 / pygame.display.get_window_size()[0]
                     #* 1080 / pygame.display.get_window_size()[1]

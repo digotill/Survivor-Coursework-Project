@@ -1,13 +1,14 @@
-from Button import *
+from Button_Class import *
 from Initialize import *
 
 
 class MainMenu:
           def __init__(self, game):
                     self.game = game
-                    self.PLAY_BUTTON = Button(START_BUTTON, ratiox=0.5, ratioy=0.4, game=game)
-                    self.OPTIONS_BUTTON = Button(MENU_BUTTON, ratiox=0.5, ratioy=0.5, game=game)
-                    self.QUIT_BUTTON = Button(EXIT_BUTTON, ratiox=0.5, ratioy=0.6, game=game)
+                    self.PLAY_BUTTON = Button(START_BUTTON, (300, 500), game, False)
+                    self.OPTIONS_BUTTON = Button(MENU_BUTTON, (700, 800), game,  False)
+                    self.QUIT_BUTTON = Button(EXIT_BUTTON, (500, 700), game,  False)
+                    self.OTHER_BUTTON = Button(EXIT_BUTTON, (800, 500), game, True, "Other", "Font\\font2.ttf", "red", "blue")
                     self.BG = Main_Menu_BG
 
           def loop(self):
@@ -21,13 +22,14 @@ class MainMenu:
                               self.game.update_somethings()
 
                               if pygame.mouse.get_pressed()[0]:
-                                        if self.PLAY_BUTTON.check_for_input(pygame.mouse.get_pos()): return True
-                                        elif self.OPTIONS_BUTTON.check_for_input(pygame.mouse.get_pos()): self.game.settings.loop()
-                                        elif self.QUIT_BUTTON.check_for_input(pygame.mouse.get_pos()): return False
+                                        if self.PLAY_BUTTON.check_for_input(self.game.mouse_pos): return True
+                                        elif self.OPTIONS_BUTTON.check_for_input(self.game.mouse_pos): self.game.settings.loop()
+                                        elif self.QUIT_BUTTON.check_for_input(self.game.mouse_pos): return False
 
-                              for button in [self.PLAY_BUTTON, self.OPTIONS_BUTTON, self.QUIT_BUTTON]:
-                                        button.update()
+                              for button in [self.PLAY_BUTTON, self.OPTIONS_BUTTON, self.QUIT_BUTTON, self.OTHER_BUTTON]:
+                                        button.draw()
                                         button.update_pos(WIN_RES[0], WIN_RES[1])
+                                        button.changeColor(self.game.mouse_pos)
                               self.game.display_mouse()
 
                               if self.game.running: pygame.display.flip()

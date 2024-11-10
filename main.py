@@ -7,7 +7,7 @@ from Entities import *
 from Initialize import *
 from Window import *
 from Menu import *
-from Button import *
+from Button_Class import *
 
 
 class Game:
@@ -28,8 +28,7 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.sound_manager = SoundManager(self)
 
-                    self.background = BackgroundEffects(self)
-                    self.hud = Hud(self)
+                    self.background = BackgroundAndHud(self)
 
                     self.grids = Grids(self)
 
@@ -87,7 +86,6 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
-                    self.hud.draw()
 
           def event_manager(self):
                     global WIN_RES
