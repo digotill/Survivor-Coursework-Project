@@ -50,6 +50,7 @@ class Game:
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.keys = pygame.key.get_pressed()
+                    self.Last_Resize = 0
 
                     pygame.display.set_caption(GAME_NAME)
                     pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
@@ -88,30 +89,17 @@ class Game:
                     self.particle_manager.draw_particles()
 
           def event_manager(self):
-                    global WIN_RES
                     for event in pygame.event.get():
                               if event.type == pygame.QUIT or self.keys[pygame.K_ESCAPE]: self.running = False
-                              if event.type == pygame.VIDEORESIZE:
-                                        width, height = event.size
-                                        if width < MIN_WIN_RES[0] or height < MIN_WIN_RES[1]:
-                                                  WIN_RES = MIN_WIN_RES
-                                        elif width > MAX_WIN_RES[0] or height > MAX_WIN_RES[1]:
-                                                  WIN_RES = MAX_WIN_RES
-                                        elif MIN_WIN_RES[0] < width < MAX_WIN_RES[0] or MIN_WIN_RES[1] < height < MAX_WIN_RES[1]:
-                                                  if width == 2560 and height == 1417:
-                                                            pygame.display.set_window_position((0, 0))
-                                                            self.display = pygame.display.set_mode((2560, 1440), pygame.NOFRAME)
-                                                            break
-                                                  else: WIN_RES = width, int(width * WIN_RATIO2)
-                                        self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
-                              if self.keys[pygame.K_F11]:
-                                        self.fullscreen = not self.fullscreen
-                                        if self.fullscreen:
-                                                  pygame.display.set_window_position((0, 0))
-                                                  self.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
-                                        else:
-                                                  pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2, MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
-                                                  self.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
+                    if self.keys[pygame.K_F11] and self.Last_Resize + FULLSCREEN_COOLDOWN < time.time():
+                              self.fullscreen = not self.fullscreen
+                              if self.fullscreen:
+                                        pygame.display.set_window_position((0, 0))
+                                        self.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
+                              else:
+                                        pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2, MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
+                                        self.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
+                              self.Last_Resize = time.time()
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
