@@ -28,7 +28,7 @@ class MainMenu:
 
                               for button in [self.PLAY_BUTTON, self.OPTIONS_BUTTON, self.QUIT_BUTTON, self.OTHER_BUTTON]:
                                         button.draw()
-                                        button.update_pos(WIN_RES[0], WIN_RES[1])
+                                        button.update_pos()
                                         button.changeColor(self.game.mouse_pos)
                               self.game.display_mouse()
 
