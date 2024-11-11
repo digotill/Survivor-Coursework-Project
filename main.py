@@ -108,10 +108,10 @@ class Game:
                                         self.fullscreen = not self.fullscreen
                                         if self.fullscreen:
                                                   pygame.display.set_window_position((0, 0))
-                                                  self.display = pygame.display.set_mode((2560, 1440), pygame.NOFRAME)
+                                                  self.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
                                         else:
-                                                  pygame.display.set_window_position((2560 / 2 - 1920 / 2, 1440 / 2 - 1080 / 2))
-                                                  self.display = pygame.display.set_mode((1920, 1080), pygame.RESIZABLE)
+                                                  pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2, MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
+                                                  self.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
