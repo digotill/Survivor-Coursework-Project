@@ -97,11 +97,10 @@ class SoundManager:
 class BG_entities_manager:
           def __init__(self, game, number):
                     self.game = game
-                    images_array = (BG_sprite1, BG_sprite2, BG_sprite3, BG_sprite4)
                     for i in range(number):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
-                              image = images_array[random.randint(0, len(images_array) - 1)]
-                              entity2 = Entity(self.game, 0, image[0].get_size(), 0, 0, coordinates, "BG_Entity", idle=image)
+                              image = BG_sprites[random.randint(0, len(BG_sprites) - 1)]
+                              entity2 = Entity(self.game, 0, image.get_size(), 0, 0, coordinates, "BG_Entity", idle=BG_sprites)
                               collision = False
                               for u in self.game.grids.window_entities.items:
                                         if pygame.Rect.colliderect(entity2.rect, u.rect): collision = True

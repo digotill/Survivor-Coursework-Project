@@ -16,6 +16,8 @@ class Game:
                     pygame.mixer.init()
                     self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
                     self.screen = pygame.Surface(REN_RES).convert()
+                    self.display_screen = pygame.Surface(REN_RES).convert()
+                    self.display_screen.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
                     self.settings = Settings(self)
@@ -87,6 +89,7 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
+                    self.display_screen.blit(pygame.transform.scale(self.screen, (1817, 878)), (54, 161))
 
           def event_manager(self):
                     for event in pygame.event.get():
@@ -119,8 +122,8 @@ class Game:
                               self.small_window.move()
                               self.update_groups()
                               self.draw_groups()
+                              self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                               self.game_time = pygame.time.get_ticks()
-                              self.display.blit(pygame.transform.scale(self.screen, (1817, 878)), (54, 161))
                               self.display_mouse()
                               if self.running: pygame.display.flip()
                     pygame.quit()

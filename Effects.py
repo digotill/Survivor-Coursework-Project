@@ -11,6 +11,7 @@ class BackgroundAndHud:
                     pass
 
           def draw(self):
-                    self.game.display.blit(self.border)
+                    self.game.display_screen.blit(self.border)
+
 
 

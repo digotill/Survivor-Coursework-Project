@@ -22,10 +22,7 @@ Glock_array = import_SpriteSheet("Weapons\\02 - Sprite sheets\\Glock - P80 [64x4
                                  "\\[SHOOT WITH CASING AND MUZZLE FLASH] Glock - P80.png", 0, 0, 64, 48, 12)
 Glock_bullet = pygame.image.load("Weapons\\01 - Individual sprites\\Bullets & Ammo\\Glock - P80\\Bullet.png").convert_alpha()
 
-BG_sprite1 = import_gif("BG_entities\\sprite1")
-BG_sprite2 = import_gif("BG_entities\\sprite2")
-BG_sprite3 = import_gif("BG_entities\\sprite3")
-BG_sprite4 = import_gif("BG_entities\\sprite4")
+BG_sprites = import_gif("BG_entities")
 
 cursor1 = pygame.transform.scale(pygame.image.load("cursor\\03.png").convert(), (MOUSE_WIDTH, MOUSE_HEIGHT))
 cursor1.set_colorkey((255, 255, 255))
