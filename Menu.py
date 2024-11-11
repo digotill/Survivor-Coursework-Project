@@ -5,10 +5,9 @@ from Initialize import *
 class MainMenu:
           def __init__(self, game):
                     self.game = game
-                    self.PLAY_BUTTON = Button(START_BUTTON, (300, 500), game, False)
-                    self.OPTIONS_BUTTON = Button(MENU_BUTTON, (700, 800), game,  False)
-                    self.QUIT_BUTTON = Button(EXIT_BUTTON, (500, 700), game,  False)
-                    self.OTHER_BUTTON = Button(EXIT_BUTTON, (800, 500), game, True, "Other", "Font\\font2.ttf", "red", "blue")
+                    self.PLAY_BUTTON = Button(Buttons[0], (300, 500), game, True, "Play", "Font\\font2.ttf", "black", "blue")
+                    self.OPTIONS_BUTTON = Button(Buttons[1], (700, 800), game,  True, "Options", "Font\\font2.ttf", "black", "blue")
+                    self.QUIT_BUTTON = Button(Buttons[2], (500, 700), game,  True, "Quit", "Font\\font2.ttf", "black", "blue")
                     self.BG = Main_Menu_BG
 
           def loop(self):
@@ -26,7 +25,7 @@ class MainMenu:
                                         elif self.OPTIONS_BUTTON.check_for_input(self.game.mouse_pos): self.game.settings.loop()
                                         elif self.QUIT_BUTTON.check_for_input(self.game.mouse_pos): return False
 
-                              for button in [self.PLAY_BUTTON, self.OPTIONS_BUTTON, self.QUIT_BUTTON, self.OTHER_BUTTON]:
+                              for button in [self.PLAY_BUTTON, self.OPTIONS_BUTTON, self.QUIT_BUTTON]:
                                         button.draw()
                                         button.update_pos()
                                         button.changeColor(self.game.mouse_pos)

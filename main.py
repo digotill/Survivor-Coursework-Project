@@ -110,7 +110,6 @@ class Game:
                     main_menu = self.mainmenu.loop()
                     prev_time = time.time()
                     if main_menu is False: return None
-                    #pygame.mixer.Sound.play(self.sound, loops=-1)
                     while self.running:
                               self.clock.tick(self.fps)
                               now = time.time()
@@ -121,8 +120,7 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.game_time = pygame.time.get_ticks()
-                              self.display.blit(pygame.transform.scale(self.screen, (self.display.get_width() * (1817/1920), self.display.get_height() * (878/1080))),
-                                                (54 * (self.display.width/1920), 161 * (self.display.height/1080)))
+                              self.display.blit(pygame.transform.scale(self.screen, (1817, 878)), (54, 161))
                               self.display_mouse()
                               if self.running: pygame.display.flip()
                     pygame.quit()

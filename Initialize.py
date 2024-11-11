@@ -7,15 +7,10 @@ display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
 BG_entities_gif = import_gif("BG_entities")
 Main_Menu_BG = pygame.transform.scale(pygame.image.load("Still BG\\Menu_BG.png").convert(), WIN_RES)
 
-START_BUTTON = pygame.transform.scale(pygame.image.load("Buttons\\StartButton.jpg").convert(), (200, 70))
-START_BUTTON.set_colorkey((255, 255, 255))
-MENU_BUTTON = pygame.transform.scale(pygame.image.load("Buttons\\MenuButton.jpg").convert(), (200, 70))
-MENU_BUTTON.set_colorkey((255, 255, 255))
-EXIT_BUTTON = pygame.transform.scale(pygame.image.load("Buttons\\ExitButton.jpg").convert(), (200, 70))
-EXIT_BUTTON.set_colorkey((255, 255, 255))
+Buttons = import_gif("Buttons Bar", (300, 80))
 
-Health_bar = pygame.transform.scale(pygame.image.load("Health Bar\\health_bar.png").convert_alpha(), (300, 90))
-Mana_bar = pygame.transform.scale(pygame.image.load("Health Bar\\mana_bar.png").convert_alpha(), (300, 45))
+Health_bar = pygame.transform.scale(pygame.image.load("Health Bar\\health.png").convert_alpha(), (300, 90))
+Stamina_bar = pygame.transform.scale(pygame.image.load("Health Bar\\Sprite-0005.png").convert_alpha(), (300, 90))
 
 Player_run = import_gif("Player\\Run")
 Player_idle = import_gif("Player\\Idle")

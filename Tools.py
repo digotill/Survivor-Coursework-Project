@@ -2,14 +2,14 @@ from functools import wraps
 import pygame, os, random
 
 
-def import_gif(file_name, width=None, height=None, *args):
+def import_gif(file_name, res=None, *args):
           array = []
           for root, dirs, files in os.walk(file_name):
                     for file in files:
                               if file.endswith('.jpg') or file.endswith('.png'):
                                         img = pygame.image.load(file_name + "\\" + str(os.path.basename(file))).convert_alpha()
-                                        if width and height is None:
-                                                  img = pygame.transform.scale(img, (width, height))
+                                        if not (res is None):
+                                                  img = pygame.transform.scale(img, res)
                                         for a in args:
                                                   img.set_colorkey(a)
                                         array.append(img)
