@@ -30,7 +30,7 @@ class EnemyManager:
                                         enemy.facing = "right"
                               elif self.game.player.pos.x - enemy.pos.x < 0:
                                         enemy.facing = "left"
-                              if enemy.dead: self.delete_enemies(enemy)
+                              if enemy.dead: self.enemy_list.remove(enemy)
                     self.add_enemies()
                     self.game.grids.enemy1_entities.rebuild()
 
@@ -42,11 +42,8 @@ class EnemyManager:
                               self.last_spawn = time.time()
                               coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]), self.game.small_window.rect, ENEMY_RES[0], ENEMY_RES[1])
                               angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
-                              self.game.grids.enemy1_entities.insert(Entity(self.game, ENEMY_HEALTH, ENEMY_RES, ENEMY_VEL, ENEMY_DAMAGE, coordinates,ENEMY_NAME, angle=angle, idle=Enemy_idle))
-
-          def delete_enemies(self, enemy):
-                    self.enemy_list.remove(enemy)
-                    #add animation to death
+                              entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH, ENEMY_DAMAGE, Enemy_idle, angle)
+                              self.game.grids.enemy1_entities.insert(entity)
 
 
 class BulletManager:
@@ -99,12 +96,11 @@ class BG_entities_manager:
                     self.game = game
                     for i in range(number):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
-                              image = BG_sprites[random.randint(0, len(BG_sprites) - 1)]
-                              entity2 = Entity(self.game, 0, image.get_size(), 0, 0, coordinates, "BG_Entity", idle=BG_sprites)
+                              entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES, 0, "BG_Entity")
                               collision = False
                               for u in self.game.grids.window_entities.items:
-                                        if pygame.Rect.colliderect(entity2.rect, u.rect): collision = True
-                              if not collision: self.game.grids.window_entities.insert(entity2)
+                                        if pygame.Rect.colliderect(entity.rect, u.rect): collision = True
+                              if not collision: self.game.grids.window_entities.insert(entity)
 
           def draw(self):
                     for entity in self.game.grids.window_entities.query(self.game.small_window.rect): entity.blit()

@@ -39,8 +39,8 @@ class Game:
 
                     self.BG_entities = BG_entities_manager(self, NUMBER_OF_BG_ENTITIES)
 
-                    self.player = Entity(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
-                                         (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, idle=Player_idle, run=Player_run)
+                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
+                                         (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run)
                     self.gun = Gun(self, Glock_array, Glock_bullet, PLAYER_GUN_RES, PLAYER_BULLET_RES, PLAYER_BULLET_SPEED, PLAYER_BULLET_DAMAGE, PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_ANIMATION)
 
                     self.running = True
