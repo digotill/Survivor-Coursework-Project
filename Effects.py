@@ -22,7 +22,3 @@ class BackgroundAndHud:
                     self.game.display.blit(Mana_bar, (
                               self.game.display.width - 30 - int((self.game.player.stamina / PLAYER_STAMINA) * 300),
                               40 * 1080 / self.game.display.height))
-
-                    #* 1920 / pygame.display.get_window_size()[0]
-                    #* 1080 / pygame.display.get_window_size()[1]
-                    #/ 1080 *
