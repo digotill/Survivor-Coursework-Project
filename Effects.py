@@ -10,9 +10,8 @@ class BackgroundAndHud:
           def update(self):
                     pass
 
-          def draw(self):
+          def draw_border(self):
                     self.game.display_screen.blit(self.border)
-                    self.game.display_screen.blit(pygame.transform.scale(self.game.screen, (1817, 878)), (54, 161))
 
 
 

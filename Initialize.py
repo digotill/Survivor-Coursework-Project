@@ -19,7 +19,6 @@ Player_hit = import_gif("Player\\Hit")
 Enemy_idle = import_gif("Enemy1\\Idle")
 
 Glock_bullet = pygame.image.load("Weapons\\01 - Individual sprites\\Bullets & Ammo\\Glock - P80\\Bullet.png").convert_alpha()
-
 Rifle = pygame.image.load("Weapons\\rifle.png").convert_alpha()
 
 BG_sprites = import_gif("BG_entities")

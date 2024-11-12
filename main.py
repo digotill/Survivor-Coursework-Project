@@ -80,7 +80,7 @@ class Game:
                     self.update_somethings()
 
           def draw_groups(self):
-                    self.screen.fill(BG_COLOUR)
+                    self.display_screen.fill(BG_COLOUR)
                     self.BG_entities.draw()
                     self.player.blit()
                     self.gun.draw()
@@ -88,7 +88,8 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
-                    self.background.draw()
+                    self.background.draw_border()
+
 
           def event_manager(self):
                     for event in pygame.event.get():
