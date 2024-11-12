@@ -54,7 +54,7 @@ class Game:
 
                     pygame.display.set_caption(GAME_NAME)
                     pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
-                    pygame.display.set_icon(pygame.image.load("cover\\cover.png").convert())
+                    pygame.display.set_icon(cover)
 
           def refresh(self):
                     pygame.mixer.Sound.stop(self.sound)

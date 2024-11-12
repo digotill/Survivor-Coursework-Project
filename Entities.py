@@ -140,8 +140,8 @@ class Gun:
           def draw(self):
                     self.update_facing()
                     self.calc_angle()
-                    pos_x = self.game.player.rect.x + math.sin(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.x + int(self.res[0] / 2) - 0.5 * self.res[0]
-                    pos_y = self.game.player.rect.y + math.cos(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.y + int(self.res[1] / 2) - 0.5 * self.res[1]
+                    pos_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5
+                    pos_y = self.game.player.rect.centery + math.cos(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5
                     new_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
                     self.rect = new_image.get_rect(center=(pos_x, pos_y))
                     self.game.display_screen.blit(new_image, self.rect)
@@ -151,8 +151,8 @@ class Gun:
                     else: self.facing = "right"
 
           def calc_angle(self):
-                    change_in_x = self.game.player.rect.centerx - self.game.small_window.pos.x - int(self.game.mouse_pos[0] * REN_RES[0] / WIN_RES[0])
-                    change_in_y = self.game.player.rect.centery - self.game.small_window.pos.y - int(self.game.mouse_pos[1] * REN_RES[1] / WIN_RES[1])
+                    change_in_x = self.game.player.rect.centerx - self.game.small_window.pos.x - int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width)
+                    change_in_y = self.game.player.rect.centery - self.game.small_window.pos.y - int(self.game.mouse_pos[1] * REN_RES[1] / self.game.display.height)
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
                     if angle < 0: self.angle = angle + 360
                     else: self.angle = angle

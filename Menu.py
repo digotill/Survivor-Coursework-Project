@@ -5,9 +5,9 @@ from Initialize import *
 class MainMenu:
           def __init__(self, game):
                     self.game = game
-                    self.PLAY_BUTTON = Button(Buttons[0], (300, 500), game, True, "Play", "Font\\font2.ttf", "black", "blue")
-                    self.OPTIONS_BUTTON = Button(Buttons[1], (700, 800), game,  True, "Options", "Font\\font2.ttf", "black", "blue")
-                    self.QUIT_BUTTON = Button(Buttons[2], (500, 700), game,  True, "Quit", "Font\\font2.ttf", "black", "blue")
+                    self.PLAY_BUTTON = Button(Buttons[0], (300, 500), game, True, "Play", FONT, "black", "blue")
+                    self.OPTIONS_BUTTON = Button(Buttons[1], (700, 800), game,  True, "Options", FONT, "black", "blue")
+                    self.QUIT_BUTTON = Button(Buttons[2], (500, 700), game,  True, "Quit", FONT, "black", "blue")
                     self.BG = Main_Menu_BG
 
           def loop(self):
