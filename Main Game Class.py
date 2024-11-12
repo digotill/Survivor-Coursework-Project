@@ -52,7 +52,7 @@ class Game:
                     self.keys = pygame.key.get_pressed()
 
                     self.fullscreen = False
-                    self.Last_Resize = 0
+                    self.Last_Event = 0
 
                     pygame.display.set_caption(GAME_NAME)
                     pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
@@ -90,12 +90,13 @@ class Game:
                     self.particle_manager.draw_particles()
                     self.background.draw_border()
                     self.background.draw_bars()
+                    self.background.draw_fps()
 
 
           def event_manager(self):
                     for event in pygame.event.get():
                               if event.type == pygame.QUIT or self.keys[pygame.K_ESCAPE]: self.running = False
-                    if self.keys[pygame.K_F11] and self.Last_Resize + FULLSCREEN_COOLDOWN < time.time():
+                    if self.keys[FULLSCREEN_KEY] and self.Last_Event + 1 < time.time():
                               self.fullscreen = not self.fullscreen
                               if self.fullscreen:
                                         pygame.display.set_window_position((0, 0))
@@ -103,7 +104,10 @@ class Game:
                               else:
                                         pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2, MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
                                         self.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
-                              self.Last_Resize = time.time()
+                              self.Last_Event = time.time()
+                    if self.keys[TOGGLE_FPS_KEY] and self.Last_Event + 1 < time.time():
+                              self.background.fps_enabled = not self.background.fps_enabled
+                              self.Last_Event = time.time()
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
@@ -126,6 +130,7 @@ class Game:
                               self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                               self.game_time = pygame.time.get_ticks()
                               self.display_mouse()
+                              if self.player.health < 0: self.running = False
                               if self.running: pygame.display.flip()
                     pygame.quit()
 

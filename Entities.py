@@ -51,8 +51,6 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     w = self.game.keys[pygame.K_w]
                     s = self.game.keys[pygame.K_s]
 
-                    if a or d or w or s: self.update_frame()
-
                     self.update_facing(a, d)
 
                     dx, dy = 0, 0
@@ -60,6 +58,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     if d: dx += 1
                     if s: dy += 1
                     if w: dy -= 1
+
+                    if dy != 0 or dx != 0: self.update_frame()
 
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:
@@ -156,8 +156,8 @@ class Gun:
                     else: self.facing = "right"
 
           def calc_angle(self):
-                    change_in_x = self.game.player.rect.centerx - self.game.small_window.pos.x - int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width)
-                    change_in_y = self.game.player.rect.centery - self.game.small_window.pos.y - int(self.game.mouse_pos[1] * REN_RES[1] / self.game.display.height)
+                    change_in_x = self.game.player.rect.centerx - self.game.small_window.pos.x - int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) - 5
+                    change_in_y = self.game.player.rect.centery - self.game.small_window.pos.y - int(self.game.mouse_pos[1] * REN_RES[1] / self.game.display.height) - 5
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
                     if angle < 0: self.angle = angle + 360
                     else: self.angle = angle
