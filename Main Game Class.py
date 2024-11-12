@@ -38,7 +38,7 @@ class Game:
                     self.BG_entities = BG_entities_manager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
-                                         (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run)
+                                         (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run, acceleration=600)
                     self.gun = Gun(self, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
 
                     self.running = True

@@ -90,6 +90,6 @@ class BG_entities_manager:
                               if not collision: self.game.grids.window_entities.insert(entity)
 
           def draw(self):
-                    for entity in self.game.grids.window_entities.query(self.game.small_window.rect): entity.blit()
+                    for entity in self.game.grids.window_entities.query(self.game.small_window.offset_rect): entity.blit()
 
 

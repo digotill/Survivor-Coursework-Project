@@ -42,7 +42,7 @@ class SpatialHash:
 
           def window_query(self):
                     items = set()
-                    for cell in self._rect_cells(self.game.small_window.rect): items.update(self.grid.get(cell, ()))
+                    for cell in self._rect_cells(self.game.small_window.offset_rect): items.update(self.grid.get(cell, ()))
                     return items
 
 

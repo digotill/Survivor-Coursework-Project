@@ -41,7 +41,7 @@ class BackgroundAndHud():
                     total /= numbers_of_additions
                     if self.fps_enabled:
                               text = self.font.render(str(total), False, pygame.Color("orange"))
-                              self.game.display_screen.blit(text, (6, 3))
+                              self.game.display_screen.blit(text, (32, 1))
                     if self.fps_queue.full():
                               self.fps_queue.get()
                     self.fps_queue.put(int(self.game.clock.get_fps()))
