@@ -1,17 +1,20 @@
 import pygame
 from Initialize import *
+from Entities import *
 
 
-class BackgroundAndHud:
+class BackgroundAndHud():
           def __init__(self, game):
                     self.game = game
-                    self.border = pygame.image.load("BG\\border.png").convert_alpha()
 
           def update(self):
                     pass
 
           def draw_border(self):
-                    self.game.display_screen.blit(self.border)
+                    self.game.display_screen.blit(border)
+
+          def draw_bars(self):
+                    pass
 
 
 

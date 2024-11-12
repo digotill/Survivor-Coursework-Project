@@ -15,9 +15,7 @@ class Game:
                     pygame.init()
                     pygame.mixer.init()
                     self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
-                    self.screen = pygame.Surface(REN_RES).convert()
                     self.display_screen = pygame.Surface(REN_RES).convert()
-                    self.display_screen.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
                     self.settings = Settings(self)
@@ -34,10 +32,10 @@ class Game:
 
                     self.grids = Grids(self)
 
-                    self.small_window = Window(self, REN_RES, BIG_RES)
-                    self.big_window = BIG_RES
+                    self.small_window = Window(self, REN_RES, PLAYABLE_AREA)
+                    self.big_window = PLAYABLE_AREA
 
-                    self.BG_entities = BG_entities_manager(self, NUMBER_OF_BG_ENTITIES)
+                    self.BG_entities = BG_entities_manager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
                                          (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run)
@@ -45,7 +43,7 @@ class Game:
 
                     self.running = True
                     self.game_time = None
-                    self.fps = FPS_WIN
+                    self.fps = FPS
                     self.dt = 0
                     self.sound = None
                     self.fullscreen = False
@@ -89,6 +87,7 @@ class Game:
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
                     self.background.draw_border()
+                    self.background.draw_bars()
 
 
           def event_manager(self):

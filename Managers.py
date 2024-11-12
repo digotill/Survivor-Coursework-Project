@@ -15,21 +15,9 @@ class EnemyManager:
 
           def update_enemies(self):
                     for enemy in self.game.grids.enemy1_entities.items:
-                              if (abs(self.game.player.pos.x + 0.5 * self.game.player.res[0] - enemy.pos.x - 0.5 * enemy.rect.width) +
-                                      abs(self.game.player.pos.y + 0.5 * self.game.player.res[1] - enemy.pos.y - 0.5 * enemy.rect.height) > 25):
-                                        new_angle = enemy.calc_angle()
-                                        rotate = enemy.angle - new_angle
-                                        enemy.vel_vector.rotate_ip(rotate)
-                                        enemy.angle = new_angle
-                                        enemy.pos.x += enemy.vel_vector.x * self.game.dt
-                                        enemy.pos.y += enemy.vel_vector.y * self.game.dt
-                                        enemy.rect.x = enemy.pos.x
-                                        enemy.rect.y = enemy.pos.y
-                              enemy.frame += enemy.animation * self.game.dt
-                              if self.game.player.pos.x - enemy.pos.x > 0:
-                                        enemy.facing = "right"
-                              elif self.game.player.pos.x - enemy.pos.x < 0:
-                                        enemy.facing = "left"
+                              enemy.update()
+                              enemy.update_frame()
+                              enemy.update_facing()
                               if enemy.dead: self.enemy_list.remove(enemy)
                     self.add_enemies()
                     self.game.grids.enemy1_entities.rebuild()
@@ -90,11 +78,10 @@ class SoundManager:
                     self.game = game
                     self.sounds = {}
 
-
 class BG_entities_manager:
-          def __init__(self, game, number):
+          def __init__(self, game):
                     self.game = game
-                    for i in range(number):
+                    for i in range(int(PLAYABLE_AREA[0] / 200 * BG_ENTITIES_DENSITY)):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
                               entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES, 0, "BG_Entity")
                               collision = False

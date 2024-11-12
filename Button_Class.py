@@ -14,7 +14,7 @@ class Button:
                     self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
                     self.has_text = text
                     if self.has_text is True:
-                              self.font_size = int(self.image.height / 1.5)
+                              self.font_size = int(self.image.height / BUTTONS_SIZE)
                               self.font_path = font
                               self.font = pygame.font.Font(self.font_path, self.font_size)
                               self.base_color, self.hovering_color = base_color, hovering_color
