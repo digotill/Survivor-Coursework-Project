@@ -41,7 +41,7 @@ class Game:
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
                                          (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run)
-                    self.gun = Gun(self, Glock_array, Glock_bullet, PLAYER_GUN_RES, PLAYER_BULLET_RES, PLAYER_BULLET_SPEED, PLAYER_BULLET_DAMAGE, PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_ANIMATION)
+                    self.gun = Gun(self, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
 
                     self.running = True
                     self.game_time = None
@@ -81,7 +81,6 @@ class Game:
 
           def draw_groups(self):
                     self.screen.fill(BG_COLOUR)
-                    self.background.draw()
                     self.BG_entities.draw()
                     self.player.blit()
                     self.gun.draw()
@@ -89,7 +88,7 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
-                    self.display_screen.blit(pygame.transform.scale(self.screen, (1817, 878)), (54, 161))
+                    self.background.draw()
 
           def event_manager(self):
                     for event in pygame.event.get():

@@ -18,9 +18,9 @@ Player_hit = import_gif("Player\\Hit")
 
 Enemy_idle = import_gif("Enemy1\\Idle")
 
-Glock_array = import_SpriteSheet("Weapons\\02 - Sprite sheets\\Glock - P80 [64x48]"
-                                 "\\[SHOOT WITH CASING AND MUZZLE FLASH] Glock - P80.png", 0, 0, 64, 48, 12)
 Glock_bullet = pygame.image.load("Weapons\\01 - Individual sprites\\Bullets & Ammo\\Glock - P80\\Bullet.png").convert_alpha()
+
+Rifle = pygame.image.load("Weapons\\rifle.png").convert_alpha()
 
 BG_sprites = import_gif("BG_entities")
 

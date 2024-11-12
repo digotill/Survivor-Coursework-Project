@@ -108,7 +108,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
                     self.game.screen.blit(sprite, (self.pos.x - self.game.small_window.pos.x, self.pos.y - self.game.small_window.pos.y))
 
 
-class Gun2:
+class Gun:
           def __init__(self, game, gunImage, gun_res, distance):
                     self.game = game
                     self.gun_res = gun_res
@@ -120,54 +120,18 @@ class Gun2:
           def draw(self):
                     self.update_facing()
                     self.calc_angle(self.game.mouse_pos)
-                    pos_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle))
-                    pos_y = self.game.player.rect.centery + math.cos(math.radians(self.angle))
-                    self.game.display_screen.blit(pygame.transform.rotate(self.gunImage, self.angle), (pos_x, pos_y))
+                    pos_x = self.game.player.rect.x + math.sin(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.x + int(self.gun_res[0]/2) - 15
+                    pos_y = self.game.player.rect.y + math.cos(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.y + int(self.gun_res[1]/2) + 15
+                    pygame.transform.rotate(self.gunImage, self.angle)
+                    self.game.screen.blit(Rifle, (pos_x, pos_y))
+
 
           def update_facing(self):
                     if self.game.mouse_pos[0] < self.game.player.pos[0] - self.game.small_window.pos.x: self.facing = "left"
                     else: self.facing = "right"
 
           def calc_angle(self, pos):
-                    angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - pos[0] - 0.5 * self.gun_res[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - pos[1] - 0.5 * self.gun_res[1]).angle_to((0, 1))
+                    angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - self.game.small_window.pos.x - pos[0] - 0.5 * self.gun_res[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - self.game.small_window.pos.y - pos[1] - 0.5 * self.gun_res[1]).angle_to((0, 1))
                     if angle < 0: angle += 360
                     self.angle = angle
-
-
-class Gun:
-          def __init__(self, game, gunImages, Bullet, gun_res, bullet_res, bullet_speed, bullet_damage, bullet_range, bullet_frequency, animation=ANIMATION_SPEED):
-                    self.game = game
-                    self.gunImages = []
-                    for i in range(len(gunImages)):
-                              self.gunImages.append(pygame.transform.scale(gunImages[i], gun_res))
-                    self.gun_res = gun_res
-                    self.bullet_res = bullet_res
-                    self.bulletImage = Bullet
-                    self.bullet_speed = bullet_speed
-                    self.bullet_damage = bullet_damage
-                    self.bullet_range = bullet_range
-                    self.bullet_frequency = bullet_frequency
-                    self.last_shot_time = 0
-                    self.facing = "right"
-                    self.frame = 0
-                    self.animation = animation
-
-
-          def draw(self):
-                    if self.game.mouse_pos[0] < self.game.player.pos[0] - self.game.small_window.pos.x: self.facing = "left"
-                    else: self.facing = "right"
-
-                    player_x = int(self.game.player.pos.x + 0.5 * self.game.player.res[0] - self.game.small_window.pos.x) / 1920
-                    player_y = int(self.game.player.pos.y + 0.5 * self.game.player.res[1] - self.game.small_window.pos.y) / 1080
-
-                    angle = v2(player_x * pygame.display.get_window_size()[0] - self.game.mouse_pos[0], player_y * pygame.display.get_window_size()[1] - self.game.mouse_pos[1]).angle_to((0, 1))
-                    if angle < 0: angle += 360
-                    if self.facing == "left": sprite = pygame.transform.scale(pygame.transform.flip(self.gunImages[int(self.frame) % len(self.gunImages) - 1], True, False), self.gun_res)
-                    else: sprite = pygame.transform.scale(self.gunImages[int(self.frame) % len(self.gunImages) - 1], self.gun_res)
-                    if 180 > angle: sprite = pygame.transform.rotate(sprite, angle - 90)
-                    else: sprite = pygame.transform.rotate(sprite, angle + 90)
-
-                    self.frame += self.animation * self.game.dt
-                    self.game.screen.blit(sprite, (self.game.player.pos[0] - self.game.small_window.pos.x - int(sprite.get_width()/2), self.game.player.pos[1] - int(sprite.get_height()/2) - self.game.small_window.pos.y))
-
 
