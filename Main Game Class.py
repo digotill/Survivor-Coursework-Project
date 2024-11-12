@@ -46,10 +46,12 @@ class Game:
                     self.fps = FPS
                     self.dt = 0
                     self.sound = None
-                    self.fullscreen = False
+
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.keys = pygame.key.get_pressed()
+
+                    self.fullscreen = False
                     self.Last_Resize = 0
 
                     pygame.display.set_caption(GAME_NAME)

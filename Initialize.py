@@ -18,7 +18,7 @@ Player_hit = import_gif("Assets\\Entities\\Player\\Hit")
 
 Enemy_idle = import_gif("Assets\\Entities\\Enemy1")
 
-Rifle = load("Weapons\\rifle.png", None, (0, 0, 0))
+Rifle = load("Objects\\Weapons\\rifle.png", None, (0, 0, 0))
 
 cursor1 = load("Misc\\Mouse\\Mouse1\\03.png", MOUSE_RES, (255, 255, 255))
 cursor2 = load("Misc\\Mouse\\Mouse1\\04.png", MOUSE_RES, (255, 255, 255))

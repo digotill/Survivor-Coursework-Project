@@ -142,12 +142,17 @@ class Gun:
                     self.calc_angle()
                     pos_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5
                     pos_y = self.game.player.rect.centery + math.cos(math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE - self.game.small_window.pos.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5
-                    new_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
-                    self.rect = new_image.get_rect(center=(pos_x, pos_y))
-                    self.game.display_screen.blit(new_image, self.rect)
+                    if self.facing == "right":
+                              new_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
+                              self.rect = new_image.get_rect(center=(pos_x, pos_y))
+                              self.game.display_screen.blit(new_image, self.rect)
+                    else:
+                              new_image = pygame.transform.rotate(self.gunImage, -self.angle + 90)
+                              self.rect = new_image.get_rect(center=(pos_x, pos_y))
+                              self.game.display_screen.blit(pygame.transform.flip(new_image, True, False), self.rect)
 
           def update_facing(self):
-                    if self.game.mouse_pos[0] < self.game.player.pos[0] - self.game.small_window.pos.x: self.facing = "left"
+                    if int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x: self.facing = "left"
                     else: self.facing = "right"
 
           def calc_angle(self):
