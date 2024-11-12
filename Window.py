@@ -35,12 +35,12 @@ class Window:
                     if self.width / 2 < self.game.player.pos.x < self.game.big_window[0] - self.width / 2:
                               self.pos.x = new_x
                               self.rect.x = self.pos.x
-                              x_diff = int(int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) - 0.5 * REN_RES[0])
-                              self.offset_rect.x = self.rect.x + 0.3 * x_diff
+                              x_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0])
+                              self.offset_rect.x = self.rect.x + x_diff
                     if self.height / 2 < self.game.player.pos.y < self.game.big_window[1] - self.height / 2:
                               self.pos.y = new_y
                               self.rect.y = self.pos.y
-                              y_diff = int(int(self.game.mouse_pos[1] * REN_RES[1] / self.game.display.height) - 0.5 * REN_RES[1])
-                              self.offset_rect.y = self.rect.y + 0.3 * y_diff
+                              y_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+                              self.offset_rect.y = self.rect.y + y_diff
 
 # + int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) - 0.5 * REN_RES[0]

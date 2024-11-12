@@ -83,7 +83,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
           def blit(self):
                     if self.facing == "left": sprite = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True, False)
                     else: sprite = self.images[int(self.frame) % len(self.images) - 1]
-                    self.game.display_screen.blit(sprite, (self.pos.x - self.game.small_window.offset_rect.x, self.pos.y - self.game.small_window.offset_rect.y))
+                    self.game.display_screen.blit(sprite, (self.pos.x - self.game.small_window.offset_rect.x,
+                                                           self.pos.y - self.game.small_window.offset_rect.y))
 
           def update_facing(self, a, d):
                     if a and d: pass
@@ -99,14 +100,15 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               else: self.current_vel = 0
 
 class BG_entities(RectEntity):
-          def __init__(self, game, coordinates, res, vel, name):
+          def __init__(self, game, coordinates, res, vel=None, name=None):
                     RectEntity.__init__(self, game, coordinates, res, vel, name)
                     self.image = BG_entities_gif[random.randint(0, len(BG_entities_gif) - 1)]
                     self.rect = pygame.Rect(self.pos.x, self.pos.y, self.image.width, self.image.height)
                     self.name = name
 
           def blit(self):
-                    self.game.display_screen.blit(self.image, (self.pos.x - self.game.small_window.offset_rect.x, self.pos.y - self.game.small_window.offset_rect.y))
+                    self.game.display_screen.blit(self.image, (self.pos.x - self.game.small_window.offset_rect.x,
+                                                               self.pos.y - self.game.small_window.offset_rect.y))
 
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None, animation=ANIMATION_SPEED):
@@ -117,7 +119,8 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def blit(self):
                     if self.facing == "left": sprite = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True, False)
                     else: sprite = self.images[int(self.frame) % len(self.images) - 1]
-                    self.game.display_screen.blit(sprite, (self.pos.x - self.game.small_window.offset_rect.x, self.pos.y - self.game.small_window.offset_rect.y))
+                    self.game.display_screen.blit(sprite, (self.pos.x - self.game.small_window.offset_rect.x,
+                                                           self.pos.y - self.game.small_window.offset_rect.y))
 
           def update_facing(self):
                     if self.game.player.pos.x - self.pos.x > 0:
@@ -172,9 +175,9 @@ class Gun:
 
           def calc_angle(self):
                     change_in_x = (self.game.player.rect.centerx - self.game.small_window.offset_rect.x
-                                   - int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) - 5)
+                                   - self.game.correct_mouse_pos[0] - 5)
                     change_in_y = (self.game.player.rect.centery - self.game.small_window.offset_rect.y
-                                   - int(self.game.mouse_pos[1] * REN_RES[1] / self.game.display.height) - 5)
+                                   - self.game.correct_mouse_pos[1] - 5)
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
                     if angle < 0: self.angle = angle + 360
                     else: self.angle = angle

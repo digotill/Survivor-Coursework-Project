@@ -37,21 +37,22 @@ class Game:
 
                     self.BG_entities = BG_entities_manager(self)
 
-                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE,
-                                         (self.small_window.rect.centerx, self.small_window.rect.centery), PLAYER_NAME, Player_run, acceleration=600)
+                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.small_window.rect.centerx,
+                                                                                                      self.small_window.rect.centery), PLAYER_NAME, Player_run, acceleration=PLAYER_ACCELERATION)
                     self.gun = Gun(self, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
 
                     self.running = True
-                    self.game_time = None
+                    self.game_time = 0
                     self.fps = FPS
                     self.dt = 0
                     self.sound = None
 
                     self.mouse_pos = pygame.mouse.get_pos()
+                    self.correct_mouse_pos = pygame.mouse.get_pos()
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.keys = pygame.key.get_pressed()
 
-                    self.fullscreen = False
+                    self.fullscreen = START_FULLSCREEN
                     self.Last_Event = 0
 
                     pygame.display.set_caption(GAME_NAME)
@@ -112,7 +113,9 @@ class Game:
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
+                    self.correct_mouse_pos = int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height)
                     self.mouse_state = pygame.mouse.get_pressed()
+                    self.game_time = time.time()
 
           def run_game(self):
                     main_menu = self.mainmenu.loop()

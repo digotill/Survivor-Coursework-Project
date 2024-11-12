@@ -83,7 +83,7 @@ class BG_entities_manager:
                     self.game = game
                     for i in range(int(PLAYABLE_AREA[0] / 200 * BG_ENTITIES_DENSITY)):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
-                              entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES, 0, "BG_Entity")
+                              entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES)
                               collision = False
                               for u in self.game.grids.window_entities.items:
                                         if pygame.Rect.colliderect(entity.rect, u.rect): collision = True

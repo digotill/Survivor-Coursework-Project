@@ -9,7 +9,7 @@ class BackgroundAndHud():
           def __init__(self, game):
                     self.game = game
                     self.font = pygame.font.Font(FONT, 15)
-                    self.fps_enabled = False
+                    self.fps_enabled = START_WITH_FPS
                     self.fps_queue = queue.Queue(5)
                     self.fps_queue.put(200)
                     self.health_bar_rect = Health_bar.get_rect()
