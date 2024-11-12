@@ -40,10 +40,12 @@ class AnimalEntity:
                     self.dead = False
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, coordinates, name, images, angle=None, animation=ANIMATION_SPEED):
+          def __init__(self, game, health, res, vel, damage, coordinates, name, images, angle=None, animation=ANIMATION_SPEED, acceleration=0):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimatedEntity.__init__(self, game, images, animation)
                     AnimalEntity.__init__(self, game, health, damage)
+                    self.acceleration = acceleration
+                    self.current_vel = 0
 
           def update(self):
                     a = self.game.keys[pygame.K_a]
@@ -59,15 +61,15 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     if s: dy += 1
                     if w: dy -= 1
 
-                    if dy != 0 or dx != 0: self.update_frame()
-
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:
                               dx /= magnitude
                               dy /= magnitude
 
-                    new_x = self.pos.x + dx * PLAYER_VEL * self.game.dt
-                    new_y = self.pos.y + dy * PLAYER_VEL * self.game.dt
+                    if dy != 0 or dx != 0: self.update_frame()
+
+                    new_x = self.pos.x + dx * self.vel * self.game.dt
+                    new_y = self.pos.y + dy * self.vel * self.game.dt
 
                     if 0 < new_x < self.game.big_window[0] - self.res[0]:
                               self.pos.x = new_x
@@ -85,6 +87,14 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     if a and d: pass
                     elif a: self.facing = "left"
                     elif d: self.facing = "right"
+
+          def update_velocity(self, dy, dx):
+                    if dy != 0 or dx != 0:
+                              if self.vel + self.acceleration * self.game.dt < PLAYER_VEL: self.vel += self.acceleration * self.game.dt
+                              else:  self.vel = PLAYER_VEL
+                    else:
+                              if self.vel - self.acceleration * self.game.dt > 0: self.vel -= self.acceleration * self.game.dt
+                              else: self.vel = 0
 
 class BG_entities(RectEntity):
           def __init__(self, game, coordinates, res, vel, name):
