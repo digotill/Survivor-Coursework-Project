@@ -16,6 +16,8 @@ Player_run = import_gif("Assets\\Entities\\Player\\Run")
 Player_idle = import_gif("Assets\\Entities\\Player\\Idle")
 Player_hit = import_gif("Assets\\Entities\\Player\\Hit")
 
+Pink_Monster = import_SpriteSheet("Assets\\Entities\\Player\\1 Pink_Monster\\Pink_Monster_Run_6.png", 0, 0, 32, 32, 6)
+
 Enemy_idle = import_gif("Assets\\Entities\\Enemy1")
 
 Rifle = load("Objects\\Weapons\\rifle.png", None, (0, 0, 0))

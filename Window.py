@@ -4,40 +4,51 @@ from pygame.math import Vector2 as v2
 from Entities import *
 
 class Window(RectEntity):
-          def __init__(self, game, res, big_res, name=None, angle=30):
-                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, PLAYER_VEL, name, angle)
-                    self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
-                    self.little_offset_rect = self.offset_rect.copy()
+    def __init__(self, game, res, big_res, name=None, angle=30):
+        RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, PLAYER_VEL, name, angle)
+        self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
+        self.little_offset_rect = self.offset_rect.copy()
+        self.target_offset = v2(0, 0)
+        self.current_offset = v2(0, 0)
+        self.lerp_speed = WINDOW_LERP_SPEED
 
-          def move(self):
-                    a = self.game.keys[pygame.K_a]
-                    d = self.game.keys[pygame.K_d]
-                    w = self.game.keys[pygame.K_w]
-                    s = self.game.keys[pygame.K_s]
+    def move(self):
+        a = self.game.keys[pygame.K_a]
+        d = self.game.keys[pygame.K_d]
+        w = self.game.keys[pygame.K_w]
+        s = self.game.keys[pygame.K_s]
 
-                    dx, dy = 0, 0
-                    if a: dx -= 1
-                    if d: dx += 1
-                    if s: dy += 1
-                    if w: dy -= 1
+        dx, dy = 0, 0
+        if a: dx -= 1
+        if d: dx += 1
+        if s: dy += 1
+        if w: dy -= 1
 
-                    magnitude = math.sqrt(dx ** 2 + dy ** 2)
-                    if magnitude != 0:
-                              dx /= magnitude
-                              dy /= magnitude
+        magnitude = math.sqrt(dx ** 2 + dy ** 2)
+        if magnitude != 0:
+            dx /= magnitude
+            dy /= magnitude
 
-                    new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
-                    new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
+        new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
+        new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
 
-                    x_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0])
-                    y_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+        self.target_offset.x = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0])
+        self.target_offset.y = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
 
-                    if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
-                              self.pos.x = new_x
-                              self.rect.x = self.pos.x
-                              self.offset_rect.x = self.rect.x + x_diff
-                    if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
-                              self.pos.y = new_y
-                              self.rect.y = self.pos.y
-                              self.offset_rect.y = self.rect.y + y_diff
+        # Lerp the current offset towards the target offset
+        self.current_offset = v2(
+            self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed),
+            self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed)
+        )
 
+        if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
+            self.pos.x = new_x
+            self.rect.x = self.pos.x
+            self.offset_rect.x = self.rect.x + self.current_offset.x
+        if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
+            self.pos.y = new_y
+            self.rect.y = self.pos.y
+            self.offset_rect.y = self.rect.y + self.current_offset.y
+
+    def lerp(self, start, end, amount):
+        return start + (end - start) * amount
