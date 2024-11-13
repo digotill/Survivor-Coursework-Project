@@ -2,7 +2,7 @@ import pickle
 import os
 
 class SaveLoadSystem:
-    def __init__(self, file_extension, save_folder):
+    def __init__(self, file_extension, save_folder):  #".save", "save_data"
         self.file_extension = file_extension
         self.save_folder = save_folder
 
@@ -18,7 +18,7 @@ class SaveLoadSystem:
     def check_for_file(self, name):
         return os.path.exists(self.save_folder+"/"+name+self.file_extension)
 
-    def load_game_data(self, files_to_load, default_data):
+    def load_game_data(self, files_to_load, default_data): # can load multiple like this ["entities", "number"], [[], 1]
         variables = []
         for index, file in enumerate(files_to_load):
             if self.check_for_file(file):
@@ -31,6 +31,6 @@ class SaveLoadSystem:
         else:
             return variables[0]
 
-    def save_game_data(self, data_to_save, file_names):
+    def save_game_data(self, data_to_save, file_names): # [entities, number], ["entities", "number"]
         for index, file in enumerate(data_to_save):
             self.save_data(file, file_names[index])
