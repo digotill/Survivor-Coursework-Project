@@ -92,6 +92,7 @@ class Game:
                     self.event_manager_class.update_window_events()
                     self.event_manager_class.update_size()
                     self.event_manager_class.update_fps_toggle()
+                    self.event_manager_class.update_grab()
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
