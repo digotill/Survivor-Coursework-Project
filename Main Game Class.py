@@ -87,6 +87,7 @@ class Game:
                     self.background.draw_border()
                     self.background.draw_bars()
                     self.background.draw_fps()
+                    self.background.draw_time()
 
           def event_manager(self):
                     self.event_manager_class.update_window_events()
@@ -99,7 +100,7 @@ class Game:
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height)
                     self.mouse_state = pygame.mouse.get_pressed()
-                    self.game_time = time.time()
+                    self.game_time = pygame.time.get_ticks() / 1000
 
           def run_game(self):
                     main_menu = self.mainmenu.loop()
