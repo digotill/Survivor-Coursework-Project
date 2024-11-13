@@ -1,6 +1,6 @@
 import pygame, math, random
-from Variables import *
-from Initialize import *
+from _internal.Variables.Variables import *
+from _internal.Variables.Initialize import *
 from pygame.math import Vector2 as v2
 
 

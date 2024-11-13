@@ -1,5 +1,5 @@
 import time
-from Variables import *
+from _internal.Variables.Variables import *
 
 class Event_Manager:
           def __init__(self, game):

@@ -1,8 +1,8 @@
 import time
 
 import pygame, queue
-from Initialize import *
-from Entities import *
+from _internal.Variables.Variables import *
+from _internal.Classes.Entities import *
 
 
 class BackgroundAndHud():

@@ -1,5 +1,5 @@
 import pygame
-from Variables import *
+from _internal.Variables.Variables import *
 
 
 class Button:

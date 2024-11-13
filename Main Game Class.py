@@ -1,14 +1,14 @@
 import pygame, time, math
-from Variables import *
-from Managers import *
-from Grid import *
-from Effects import *
-from Entities import *
-from Initialize import *
-from Window import *
-from Menu import *
-from Button_Class import *
-from Event_Manager import  *
+from _internal.Variables.Variables import *
+from _internal.Classes.Managers import *
+from _internal.Utilities.Grid import *
+from _internal.Display.Effects import *
+from _internal.Classes.Entities import *
+from _internal.Variables.Initialize import *
+from _internal.Display.Window import *
+from _internal.Display.Menu import *
+from _internal.Classes.Button_Class import *
+from _internal.Display.Event_Manager import *
 
 
 class Game:

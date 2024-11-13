@@ -1,7 +1,7 @@
 import pygame, math
-from Variables import *
+from _internal.Variables.Variables import *
 from pygame.math import Vector2 as v2
-from Entities import *
+from _internal.Classes.Entities import *
 
 
 class Window(RectEntity):
