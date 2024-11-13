@@ -38,8 +38,7 @@ class Game:
                     self.BG_entities = BG_entities_manager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.small_window.rect.centerx,
-                                                                                                      self.small_window.rect.centery), PLAYER_NAME, Pink_Monster, acceleration=PLAYER_ACCELERATION)
-                    self.gun = Gun(self, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
+                                                            self.small_window.rect.centery), PLAYER_NAME, Pink_Monster)
 
                     self.running = True
                     self.game_time = 0
@@ -84,7 +83,7 @@ class Game:
                     self.display_screen.fill(BG_COLOUR)
                     self.BG_entities.draw()
                     self.player.blit()
-                    self.gun.draw()
+                    self.player.gun.draw()
                     self.enemy_manager.draw_enemies()
                     self.object_manager.draw()
                     self.bullet_manager.draw()
