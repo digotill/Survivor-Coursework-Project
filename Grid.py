@@ -44,10 +44,3 @@ class SpatialHash:
                     items = set()
                     for cell in self._rect_cells(self.game.small_window.offset_rect): items.update(self.grid.get(cell, ()))
                     return items
-
-
-class Grids:
-          def __init__(self, game):
-                    self.game = game
-                    self.window_entities = SpatialHash(game)
-                    self.enemy1_entities = SpatialHash(game)

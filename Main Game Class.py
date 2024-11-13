@@ -8,6 +8,7 @@ from Initialize import *
 from Window import *
 from Menu import *
 from Button_Class import *
+from Event_Manager import  *
 
 
 class Game:
@@ -30,12 +31,10 @@ class Game:
 
                     self.background = BackgroundAndHud(self)
 
-                    self.grids = Grids(self)
-
                     self.small_window = Window(self, REN_RES, PLAYABLE_AREA)
                     self.big_window = PLAYABLE_AREA
 
-                    self.BG_entities = BG_entities_manager(self)
+                    self.BG_entities = BG_Entities_Manager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.small_window.rect.centerx,
                                                             self.small_window.rect.centery), PLAYER_NAME, Pink_Monster)
@@ -44,22 +43,19 @@ class Game:
                     self.game_time = 0
                     self.fps = FPS
                     self.dt = 0
-                    self.sound = None
 
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = pygame.mouse.get_pos()
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.keys = pygame.key.get_pressed()
 
-                    self.fullscreen = START_FULLSCREEN
-                    self.Last_Event = 0
+                    self.event_manager_class = Event_Manager(self)
 
                     pygame.display.set_caption(GAME_NAME)
                     pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
                     pygame.display.set_icon(cover)
 
           def refresh(self):
-                    pygame.mixer.Sound.stop(self.sound)
                     self.__init__()
                     pygame.display.flip()
                     self.run_game()
@@ -92,22 +88,10 @@ class Game:
                     self.background.draw_bars()
                     self.background.draw_fps()
 
-
           def event_manager(self):
-                    for event in pygame.event.get():
-                              if event.type == pygame.QUIT or self.keys[pygame.K_ESCAPE]: self.running = False
-                    if self.keys[FULLSCREEN_KEY] and self.Last_Event + 1 < time.time():
-                              self.fullscreen = not self.fullscreen
-                              if self.fullscreen:
-                                        pygame.display.set_window_position((0, 0))
-                                        self.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
-                              else:
-                                        pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2, MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
-                                        self.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
-                              self.Last_Event = time.time()
-                    if self.keys[TOGGLE_FPS_KEY] and self.Last_Event + 1 < time.time():
-                              self.background.fps_enabled = not self.background.fps_enabled
-                              self.Last_Event = time.time()
+                    self.event_manager_class.update_window_events()
+                    self.event_manager_class.update_size()
+                    self.event_manager_class.update_fps_toggle()
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
