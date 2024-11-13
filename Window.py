@@ -1,16 +1,13 @@
 import pygame, math
 from Variables import *
 from pygame.math import Vector2 as v2
+from Entities import *
 
-class Window:
-          def __init__(self, game, res, big_res):
-                    self.game = game
-                    self.width = res[0]
-                    self.height = res[1]
-                    self.pos = v2(big_res[0] / 2 - self.width / 2, big_res[1] / 2 - self.height / 2)
-                    self.rect = pygame.Rect(self.pos.x, self.pos.y, self.width, self.height)
-                    self.vel = PLAYER_VEL
-                    self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.width, self.height)
+class Window(RectEntity):
+          def __init__(self, game, res, big_res, name=None, angle=30):
+                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, PLAYER_VEL, name, angle)
+                    self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
+                    self.little_offset_rect = self.offset_rect.copy()
 
           def move(self):
                     a = self.game.keys[pygame.K_a]
@@ -32,15 +29,15 @@ class Window:
                     new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
 
-                    if self.width / 2 < self.game.player.pos.x < self.game.big_window[0] - self.width / 2:
+                    x_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0])
+                    y_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+
+                    if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
                               self.pos.x = new_x
                               self.rect.x = self.pos.x
-                              x_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0])
                               self.offset_rect.x = self.rect.x + x_diff
-                    if self.height / 2 < self.game.player.pos.y < self.game.big_window[1] - self.height / 2:
+                    if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
                               self.pos.y = new_y
                               self.rect.y = self.pos.y
-                              y_diff = WINDOW_MAX_OFFSET * int(self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
                               self.offset_rect.y = self.rect.y + y_diff
 
-# + int(self.game.mouse_pos[0] * REN_RES[0] / self.game.display.width) - 0.5 * REN_RES[0]

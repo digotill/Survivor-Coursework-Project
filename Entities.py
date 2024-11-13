@@ -179,5 +179,5 @@ class Gun:
                     change_in_y = (self.game.player.rect.centery - self.game.small_window.offset_rect.y
                                    - self.game.correct_mouse_pos[1] - 5)
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
-                    if angle < 0: self.angle = angle + 360
+                    if angle <= 0: self.angle = angle + 360
                     else: self.angle = angle
