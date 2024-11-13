@@ -37,7 +37,7 @@ class Game:
                     self.BG_entities = BG_Entities_Manager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.small_window.rect.centerx,
-                                                            self.small_window.rect.centery), PLAYER_NAME, Pink_Monster)
+                                                            self.small_window.rect.centery), PLAYER_NAME, Player_Running)
 
                     self.running = True
                     self.game_time = 0

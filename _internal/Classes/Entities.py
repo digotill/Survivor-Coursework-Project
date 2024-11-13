@@ -49,11 +49,11 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
           def __init__(self, game, health, res, vel, damage, coordinates, name, images, angle=None,
                               animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
-                    AnimatedEntity.__init__(self, game, images, animation)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.gun = Gun(game, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
+                    AnimatedEntity.__init__(self, game, images, animation)
 
           def update(self):
                     a = self.game.keys[pygame.K_a]
@@ -61,7 +61,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     w = self.game.keys[pygame.K_w]
                     s = self.game.keys[pygame.K_s]
 
-                    self.update_facing(a, d)
+                    self.update_facing()
 
                     dx, dy = 0, 0
                     if a: dx -= 1
@@ -88,20 +88,16 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               self.rect.y = self.pos.y
 
           def blit(self):
-                    if self.facing == "left":
-                              image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True,
-                                                            False)
-                    else:
-                              image = self.images[int(self.frame) % len(self.images) - 1]
+                    if self.facing == "left": image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True, False)
+                    else: image = self.images[int(self.frame) % len(self.images) - 1]
                     self.game.display_screen.blit(image, (self.pos.x - self.game.small_window.offset_rect.x - 10,
                                                           self.pos.y - self.game.small_window.offset_rect.y))
 
-          def update_facing(self, a, d):
-                    if a and d:
-                              pass
-                    elif a:
+          def update_facing(self):
+                    if int(self.game.mouse_pos[0] * REN_RES[
+                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x:
                               self.facing = "left"
-                    elif d:
+                    else:
                               self.facing = "right"
 
           def update_velocity(self, dy, dx):
@@ -115,6 +111,9 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                         self.current_vel -= self.acceleration * self.game.dt
                               else:
                                         self.current_vel = 0
+
+          def update_frame(self):
+                    self.frame += self.animation * self.game.dt
 
 
 class BG_entities(RectEntity):

@@ -12,11 +12,11 @@ Buttons = import_gif("Assets\\Misc\\Buttons", (REN_RES[0] * 300 / WIN_RES[0], RE
 Health_bar = load("Misc\\Bars\\health.png", BARS_RES)
 Stamina_bar = load("Misc\\Bars\\Sprite-0005.png", BARS_RES)
 
-Player_run = import_gif("Assets\\Entities\\Player\\Run")
-Player_idle = import_gif("Assets\\Entities\\Player\\Idle")
-Player_hit = import_gif("Assets\\Entities\\Player\\Hit")
-
-Pink_Monster = import_SpriteSheet("Assets\\Entities\\Player\\1 Pink_Monster\\Pink_Monster_Run_6.png", 0, 0, 32, 32, 6)
+Player_Running = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 98, 32, 32, 8)
+Player_Walking = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 2, 32, 32, 4)
+Player_Dying = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 7, 32, 32, 8)
+Player_Idle = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 0, 32, 32, 2)
+Player_Blinking = import_gif("Assets\\Entities\\Player\\AnimationSheet_Character_Blinking", 0, 2 + 32 * 1, 32, 32, 2)
 
 Enemy_idle = import_gif("Assets\\Entities\\Enemy1")
 
