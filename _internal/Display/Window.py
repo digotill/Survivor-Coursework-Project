@@ -64,11 +64,13 @@ class Window(RectEntity):
             if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
                     self.pos.x = new_x
                     self.rect.x = self.pos.x
-                    self.offset_rect.x = self.rect.x + rounded_offset.x
+                    if 0 < self.rect.x + rounded_offset.x < self.game.big_window[0] - self.res[0] / 2:
+                              self.offset_rect.x = self.rect.x + rounded_offset.x
             if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
                     self.pos.y = new_y
                     self.rect.y = self.pos.y
-                    self.offset_rect.y = self.rect.y + rounded_offset.y
+                    if 0 < self.rect.y + rounded_offset.y < self.game.big_window[1] - self.res[1] / 2:
+                              self.offset_rect.y = self.rect.y + rounded_offset.y
 
             if self.shake_duration > 0:
                       shake_offset = self.calculate_shake()
@@ -77,7 +79,7 @@ class Window(RectEntity):
 
         def calculate_shake(self):
                   current_time = pygame.time.get_ticks()
-                  elapsed_time = (current_time - self.shake_start_time) / 1000.0  # Convert to seconds
+                  elapsed_time = (current_time - self.shake_start_time) / 1000.0
 
                   if elapsed_time > self.shake_duration:
                             self.shake_duration = 0
@@ -97,7 +99,7 @@ class Window(RectEntity):
 
         @staticmethod
         def get_2d_noise(x, y):
-                  # Improved Perlin noise function
+
                   def fade(t):
                             return t * t * t * (t * (t * 6 - 15) + 10)
 
