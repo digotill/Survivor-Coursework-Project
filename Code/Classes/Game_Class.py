@@ -1,14 +1,14 @@
 import pygame, time, math
-from _internal.Variables.Variables import *
-from _internal.Classes.Managers import *
-from _internal.Utilities.Grid import *
-from _internal.Display.UI import *
-from _internal.Classes.Entities import *
-from _internal.Variables.Initialize import *
-from _internal.Display.Window import *
-from _internal.Display.Menu import *
-from _internal.Classes.Button_Class import *
-from _internal.Display.Event_Manager import *
+from Code.Variables.Variables import *
+from Code.Classes.Managers import *
+from Code.Utilities.Grid import *
+from Code.Display.UI import *
+from Code.Classes.Entities import *
+from Code.Variables.Initialize import *
+from Code.Display.Window import *
+from Code.Display.Menu import *
+from Code.Classes.Button_Class import *
+from Code.Display.Event_Manager import *
 
 
 class Game:
@@ -111,7 +111,6 @@ class Game:
                               self.dt = now - prev_time
                               prev_time = now
                               self.event_manager()
-                              self.window.move()
                               self.update_groups()
                               self.draw_groups()
                               self.game_time = pygame.time.get_ticks()

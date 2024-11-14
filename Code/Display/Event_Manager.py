@@ -1,5 +1,5 @@
 import time
-from _internal.Variables.Variables import *
+from Code.Variables.Variables import *
 
 
 class Event_Manager:

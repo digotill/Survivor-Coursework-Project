@@ -1,8 +1,8 @@
 import time
 
 import pygame, queue
-from _internal.Variables.Variables import *
-from _internal.Classes.Entities import *
+from Code.Variables.Variables import *
+from Code.Classes.Entities import *
 
 
 class UI:

@@ -1,8 +1,8 @@
 import time
-from _internal.Variables.Initialize import *
-from _internal.Classes.Entities import *
+from Code.Variables.Initialize import *
+from Code.Classes.Entities import *
 from pygame.math import Vector2 as v2
-from _internal.Utilities.Grid import *
+from Code.Utilities.Grid import *
 
 
 class EnemyManager:

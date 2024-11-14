@@ -1,11 +1,11 @@
 import pygame, math, random
-from _internal.Variables.Variables import *
+from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
-from _internal.Classes.Entities import *
+from Code.Classes.Entities import *
 
 class Window(RectEntity):
         def __init__(self, game, res, big_res, name=None, angle=30):
-                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, PLAYER_VEL, name, angle)
+                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0, name, angle)
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.little_offset_rect = self.offset_rect.copy()
                     self.target_offset = v2(0, 0)
@@ -18,10 +18,12 @@ class Window(RectEntity):
                     self.shake_magnitude = 0
                     self.shake_speed = WINDOW_SHAKE_SPEED
                     self.shake_seed = random.random() * WINDOW_SHAKE_SEED
-                    self.shake_direction = v2(1, 1)
-                    self.shake_noise_magnitude = 0.5
+                    self.shake_direction = v2(WINDOW_SHAKE_DIRECTION)
+                    self.shake_noise_magnitude = WINDOW_SHAKE_NOISE_MAGNITUDE
+                    self.current_rounded_offset = v2(0, 0)
+                    self.max_window_offset = WINDOW_MAX_OFFSET
 
-        def move(self):
+        def move(self, move_horizontal, move_vertical):
             a = self.game.keys[pygame.K_a]
             d = self.game.keys[pygame.K_d]
             w = self.game.keys[pygame.K_w]
@@ -52,30 +54,31 @@ class Window(RectEntity):
             if abs(self.mouse_smoothing.y) < self.deadzone:
                     self.mouse_smoothing.y = 0
 
-            self.target_offset.x = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.x)
-            self.target_offset.y = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.y)
+            self.target_offset.x = self.max_window_offset * int(self.mouse_smoothing.x)
+            self.target_offset.y = self.max_window_offset * int(self.mouse_smoothing.y)
 
             self.current_offset = v2(
                     self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed),
                     self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed))
 
-            rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
+            self.current_rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
-            if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
-                    self.pos.x = new_x
-                    self.rect.x = self.pos.x
-                    if 0 < self.rect.x + rounded_offset.x < self.game.big_window[0] - self.res[0] / 2:
-                              self.offset_rect.x = self.rect.x + rounded_offset.x
-            if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
-                    self.pos.y = new_y
-                    self.rect.y = self.pos.y
-                    if 0 < self.rect.y + rounded_offset.y < self.game.big_window[1] - self.res[1] / 2:
-                              self.offset_rect.y = self.rect.y + rounded_offset.y
+            if move_horizontal: self.pos.x = new_x
+            if move_vertical: self.pos.y = new_y
+
+            if 0 < self.pos.x < self.game.big_window[0] - self.res[0]:
+                    if 0 < self.pos.x + self.current_rounded_offset.x < self.game.big_window[0] - self.res[0]:
+                              self.offset_rect.x = self.pos.x + self.current_rounded_offset.x
+            if 0 < self.pos.y < self.game.big_window[1] - self.res[1]:
+                    if 0 < self.pos.y + self.current_rounded_offset.y < self.game.big_window[1] - self.res[1]:
+                              self.offset_rect.y = self.pos.y + self.current_rounded_offset.y
 
             if self.shake_duration > 0:
                       shake_offset = self.calculate_shake()
                       self.offset_rect.x += shake_offset.x
                       self.offset_rect.y += shake_offset.y
+
+            print(self.pos )
 
         def calculate_shake(self):
                   current_time = pygame.time.get_ticks()
@@ -103,14 +106,15 @@ class Window(RectEntity):
                   def fade(t):
                             return t * t * t * (t * (t * 6 - 15) + 10)
 
-                  def lerp(t, a, b):
-                            return a + t * (b - a)
+                  def lerp(t, a_, b_):
+                            return a_ + t * (b_ - a_)
 
-                  def grad(hash, x, y):
-                            h = hash & 15
+                  def grad(hash_, x_, y_):
+                            h = hash_ & 15
+
                             grad_x = 1 if h < 8 else -1
                             grad_y = 1 if h < 4 else -1 if h in [12, 13] else 0
-                            return grad_x * x + grad_y * y
+                            return grad_x * x_ + grad_y * y_
 
                   p = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
                        140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148,
