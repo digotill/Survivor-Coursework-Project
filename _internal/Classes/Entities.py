@@ -47,12 +47,12 @@ class AnimalEntity:
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
           def __init__(self, game, health, res, vel, damage, coordinates, name, images, angle=None,
-                              animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
+                       animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
                     self.current_vel = 0
-                    self.gun = Gun(game, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE)
+                    self.gun = Gun(game, Rifle, PLAYER_GUN_RES, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED, PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE)
                     AnimatedEntity.__init__(self, game, images, animation)
 
           def update(self):
@@ -88,23 +88,32 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               self.rect.y = self.pos.y
 
           def blit(self):
-                    if self.facing == "left": image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True, False)
-                    else: image = self.images[int(self.frame) % len(self.images) - 1]
+                    if self.facing == "left":
+                              image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True,
+                                                            False)
+                    else:
+                              image = self.images[int(self.frame) % len(self.images) - 1]
                     self.game.display_screen.blit(image, (self.pos.x - self.game.small_window.offset_rect.x - 10,
                                                           self.pos.y - self.game.small_window.offset_rect.y))
 
           def update_facing(self):
                     if int(self.game.mouse_pos[0] * REN_RES[
-                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x: self.facing = "left"
-                    else: self.facing = "right"
+                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x:
+                              self.facing = "left"
+                    else:
+                              self.facing = "right"
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:
-                              if self.current_vel + self.acceleration * self.game.dt < PLAYER_VEL: self.current_vel += self.acceleration * self.game.dt
-                              else: self.current_vel = PLAYER_VEL
+                              if self.current_vel + self.acceleration * self.game.dt < PLAYER_VEL:
+                                        self.current_vel += self.acceleration * self.game.dt
+                              else:
+                                        self.current_vel = PLAYER_VEL
                     else:
-                              if self.current_vel - self.acceleration * self.game.dt > 0: self.current_vel -= self.acceleration * self.game.dt
-                              else: self.current_vel = 0
+                              if self.current_vel - self.acceleration * self.game.dt > 0:
+                                        self.current_vel -= self.acceleration * self.game.dt
+                              else:
+                                        self.current_vel = 0
 
           def update_frame(self):
                     self.frame += self.animation * self.game.dt
@@ -121,58 +130,61 @@ class BG_entities(RectEntity):
                     self.game.display_screen.blit(self.image, (self.pos.x - self.game.small_window.offset_rect.x,
                                                                self.pos.y - self.game.small_window.offset_rect.y))
 
+
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
-    def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None, animation=ANIMATION_SPEED):
-        RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
-        AnimatedEntity.__init__(self, game, images, animation)
-        AnimalEntity.__init__(self, game, health, damage)
-        self.facing = "right"
+          def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None,
+                       animation=ANIMATION_SPEED):
+                    RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
+                    AnimatedEntity.__init__(self, game, images, animation)
+                    AnimalEntity.__init__(self, game, health, damage)
+                    self.facing = "right"
 
-    def update(self):
-        if self.should_move():
-            self.move()
-        self.update_facing()
-        self.update_frame()
+          def update(self):
+                    if self.should_move():
+                              self.move()
+                    self.update_facing()
+                    self.update_frame()
 
-    def should_move(self):
-        distance = self.distance_to_player()
-        return distance > ENEMY_STOPPING_DISTANCE
+          def should_move(self):
+                    distance = self.distance_to_player()
+                    return distance > ENEMY_STOPPING_DISTANCE
 
-    def distance_to_player(self):
-        player_center = self.game.player.pos + v2(self.game.player.res) * 0.5
-        enemy_center = self.pos + v2(self.res) * 0.5
-        return (player_center - enemy_center).length()
+          def distance_to_player(self):
+                    player_center = self.game.player.pos + v2(self.game.player.res) * 0.5
+                    enemy_center = self.pos + v2(self.res) * 0.5
+                    return (player_center - enemy_center).length()
 
-    def move(self):
-        new_angle = self.calc_angle()
-        self.rotate_velocity(new_angle)
-        self.update_position()
+          def move(self):
+                    new_angle = self.calc_angle()
+                    self.rotate_velocity(new_angle)
+                    self.update_position()
 
-    def rotate_velocity(self, new_angle):
-        rotate = self.angle - new_angle
-        self.vel_vector.rotate_ip(rotate)
-        self.angle = new_angle
+          def rotate_velocity(self, new_angle):
+                    rotate = self.angle - new_angle
+                    self.vel_vector.rotate_ip(rotate)
+                    self.angle = new_angle
 
-    def update_position(self):
-        self.pos += self.vel_vector * self.game.dt
-        self.rect.topleft = self.pos
+          def update_position(self):
+                    self.pos += self.vel_vector * self.game.dt
+                    self.rect.topleft = self.pos
 
-    def update_facing(self):
-        self.facing = "right" if self.game.player.pos.x > self.pos.x else "left"
+          def update_facing(self):
+                    self.facing = "right" if self.game.player.pos.x > self.pos.x else "left"
 
-    def blit(self):
-        sprite = self.get_current_sprite()
-        draw_pos = self.pos - (self.game.small_window.offset_rect.x, self.game.small_window.offset_rect.y)
-        self.game.display_screen.blit(sprite, draw_pos)
+          def blit(self):
+                    sprite = self.get_current_sprite()
+                    draw_pos = self.pos - (self.game.small_window.offset_rect.x, self.game.small_window.offset_rect.y)
+                    self.game.display_screen.blit(sprite, draw_pos)
 
-    def get_current_sprite(self):
-        sprite = self.images[int(self.frame) % len(self.images)]
-        if self.facing == "left":
-            return pygame.transform.flip(sprite, True, False)
-        return sprite
+          def get_current_sprite(self):
+                    sprite = self.images[int(self.frame) % len(self.images)]
+                    if self.facing == "left":
+                              return pygame.transform.flip(sprite, True, False)
+                    return sprite
+
 
 class Gun:
-          def __init__(self, game, gunImage, gun_res, distance):
+          def __init__(self, game, gunImage, gun_res, distance, velocity, lifetime, fire_rate, friction=0):
                     self.game = game
                     self.res = gun_res
                     self.gunImage = gunImage
@@ -180,15 +192,22 @@ class Gun:
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
                     self.facing = "right"
                     self.angle = 0
+                    self.bullet_velocity = velocity
+                    self.bullet_lifetime = lifetime
+                    self.bullet_friction = friction
+                    self.last_shot_time = 0
+                    self.fire_rate = fire_rate
 
-          def draw(self):
+          def update(self):
                     self.update_facing()
                     self.calc_angle()
+
+          def draw(self):
                     pos_x = (self.game.player.rect.centerx + math.sin(
-                              math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE -
+                              math.radians(self.angle + 180)) * self.distance -
                              self.game.small_window.offset_rect.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5)
                     pos_y = (self.game.player.rect.centery + math.cos(
-                              math.radians(self.angle + 180)) * PLAYER_GUN_DISTANCE -
+                              math.radians(self.angle + 180)) * self.distance -
                              self.game.small_window.offset_rect.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5)
                     if self.facing == "right":
                               new_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
@@ -216,3 +235,49 @@ class Gun:
                               self.angle = angle + 360
                     else:
                               self.angle = angle
+
+          def shoot(self):
+                    current_time = pygame.time.get_ticks()
+                    if self.fire_rate + self.last_shot_time < current_time:
+                              self.last_shot_time = current_time
+
+                              # Calculate bullet start position
+                              start_x = self.game.player.rect.centerx + math.sin(
+                                        math.radians(self.angle + 180)) * self.distance
+                              start_y = self.game.player.rect.centery + math.cos(
+                                        math.radians(self.angle + 180)) * self.distance
+                              start_pos = v2(start_x, start_y)
+
+                              # Create new bullet
+                              new_bullet = Bullet(self.game, start_pos, self.angle, self.bullet_velocity,
+                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction)
+
+                              # Add bullet to game's bullet manager
+                              self.game.bullet_manager.add_bullet(new_bullet)
+
+
+class Bullet(RectEntity):
+          def __init__(self, game, pos, angle, velocity, image, lifetime, name=PLAYER_NAME, friction=0,
+                       damage=10):
+                    self.image = pygame.transform.rotate(image, angle)
+                    RectEntity.__init__(game, pos, self.image.get_size(), velocity, name, angle)
+                    self.original_image = image
+                    self.lifetime = lifetime
+                    self.creation_time = pygame.time.get_ticks()
+                    self.friction = friction
+                    self.damage = damage
+
+          def update(self):
+                    if self.friction > 0:
+                              self.vel_vector *= (1 - self.friction * self.game.dt)
+
+                    self.pos += self.vel_vector * self.game.dt
+                    self.rect.center = self.pos
+
+
+          def check_collision(self, target):
+                    if self.rect.colliderect(target.rect):
+                              target.health -= self.damage
+                              self.game.bullet_manager.remove_bullet(self)
+                              return True
+                    return False

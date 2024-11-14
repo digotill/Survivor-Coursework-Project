@@ -2,7 +2,7 @@ import pygame, time, math
 from _internal.Variables.Variables import *
 from _internal.Classes.Managers import *
 from _internal.Utilities.Grid import *
-from _internal.Display.Effects import *
+from _internal.Display.UI import *
 from _internal.Classes.Entities import *
 from _internal.Variables.Initialize import *
 from _internal.Display.Window import *
@@ -29,7 +29,7 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.sound_manager = SoundManager(self)
 
-                    self.background = BackgroundAndHud(self)
+                    self.background = UI(self)
 
                     self.small_window = Window(self, REN_RES, PLAYABLE_AREA)
                     self.big_window = PLAYABLE_AREA
@@ -60,15 +60,11 @@ class Game:
                     pygame.display.flip()
                     self.run_game()
 
-          def display_mouse(self):
-                    if pygame.mouse.get_focused():
-                              if self.mouse_state[0]: self.display.blit(cursor1, (self.mouse_pos[0], self.mouse_pos[1]))
-                              else: self.display.blit(cursor2, (self.mouse_pos[0], self.mouse_pos[1]))
-
           def update_groups(self):
                     self.enemy_manager.update_enemies()
                     self.object_manager.update()
                     self.player.update()
+                    self.player.gun.update()
                     self.particle_manager.update_particles()
                     self.bullet_manager.update()
                     self.background.update()
@@ -88,6 +84,8 @@ class Game:
                     self.background.draw_bars()
                     self.background.draw_fps()
                     self.background.draw_time()
+                    self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
+                    self.background.display_mouse()
 
           def event_manager(self):
                     self.event_manager_class.update_window_events()
@@ -98,7 +96,8 @@ class Game:
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.correct_mouse_pos = int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height)
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
+                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.game_time = pygame.time.get_ticks() / 1000
 
@@ -115,14 +114,7 @@ class Game:
                               self.small_window.move()
                               self.update_groups()
                               self.draw_groups()
-                              self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                               self.game_time = pygame.time.get_ticks()
-                              self.display_mouse()
                               if self.player.health < 0: self.running = False
                               if self.running: pygame.display.flip()
                     pygame.quit()
-
-
-if __name__ == "__main__":
-          game = Game()
-          game.run_game()

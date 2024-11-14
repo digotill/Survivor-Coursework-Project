@@ -29,10 +29,11 @@ class MainMenu:
                                         button.draw()
                                         button.update_pos()
                                         button.changeColor(self.game.mouse_pos)
-                              self.game.display_mouse()
+                              self.game.background.display_mouse()
 
                               if self.game.running: pygame.display.flip()
                               else: break
+
 
 
 class GameOver:

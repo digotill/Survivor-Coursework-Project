@@ -5,7 +5,7 @@ from _internal.Variables.Variables import *
 from _internal.Classes.Entities import *
 
 
-class BackgroundAndHud():
+class UI():
           def __init__(self, game):
                     self.game = game
                     self.font = pygame.font.Font(FONT, int(FPS_AND_TIME_SIZE * REN_RES[0] / 640))
@@ -60,3 +60,8 @@ class BackgroundAndHud():
                                             pygame.Color("orange"))
                     text_rect = text.get_rect(center=(REN_RES[0] - TIME_POS[0] * REN_RES[0] / 640, TIME_POS[1] * REN_RES[0] / 640))
                     self.game.display_screen.blit(text, text_rect)
+
+          def display_mouse(self):
+                    if pygame.mouse.get_focused():
+                              if self.game.mouse_state[0]: self.game.display.blit(cursor1, (self.game.mouse_pos[0], self.game.mouse_pos[1]))
+                              else: self.game.display.blit(cursor2, (self.game.mouse_pos[0], self.game.mouse_pos[1]))

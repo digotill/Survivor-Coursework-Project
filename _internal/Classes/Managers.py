@@ -40,13 +40,25 @@ class BulletManager:
 
           def __init__(self, game):
                     self.game = game
-                    self.bullets = []
+                    self.grid = SpatialHash(game)
 
           def update(self):
-                    pass
+                    for bullet in self.grid.items:
+                              bullet.update()
+                              if pygame.time.get_ticks() - bullet.creation_time > bullet.lifetime: self.remove_bullet(bullet)
+                    self.grid.rebuild()
+
 
           def draw(self):
-                    pass
+                    for bullet in self.grid.window_query():
+                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.small_window.offset_rect.x
+                                                  - 0.5 * bullet.res[0], bullet.rect.x - self.game.small_window.offset_rect.y - 0.5 * bullet.res[1]))
+
+          def add_bullet(self, bullet):
+                    self.grid.insert(bullet)
+
+          def remove_bullet(self, bullet):
+                    self.grid.items.remove(bullet)
 
 
 class ParticleManager:
