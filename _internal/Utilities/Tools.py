@@ -1,7 +1,6 @@
 from functools import wraps
 import pygame, os, random
 
-
 def import_gif(file_name, res=None, *args):
           array = []
           for root, dirs, files in os.walk(file_name):

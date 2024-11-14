@@ -14,10 +14,11 @@ class EnemyManager:
 
           def update_enemies(self):
                     for enemy in self.grid.items:
-                              enemy.update()
+                              if enemy.should_move():
+                                        enemy.move()
                               enemy.update_frame()
                               enemy.update_facing()
-                              if enemy.dead: self.grid.items.remove(enemy)
+                    self.remove_enemy()
                     self.add_enemies()
                     self.grid.rebuild()
 
@@ -28,37 +29,61 @@ class EnemyManager:
                     if time.time() - self.last_spawn > self.spawn_cooldown:
                               self.last_spawn = time.time()
                               coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                                      self.game.small_window.rect, ENEMY_RES[0], ENEMY_RES[1])
+                                                      self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
                               angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0],
                                          self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
                               entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH,
                                              ENEMY_DAMAGE, Enemy_idle, angle)
                               self.grid.insert(entity)
 
+          def remove_enemy(self):
+                    for enemy in self.grid.items.copy():
+                              if enemy.health <= 0: enemy.dead = True
+                              if enemy.dead:
+                                        self.grid.items.remove(enemy)
+                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION,
+                                                                          magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
+
 class BulletManager:
 
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
+                    self.player_bullets = set()
+                    self.enemy_bullets = set()
 
           def update(self):
                     for bullet in self.grid.items:
                               bullet.update()
-                              if pygame.time.get_ticks() / 1000 - bullet.creation_time > bullet.lifetime: bullet.dead = True
+                              if bullet.creation_time + bullet.lifetime < pygame.time.get_ticks() / 1000 or bullet.health <= 0: bullet.dead = True
+                    self.check_for_collisions()
                     self.grid.rebuild()
-
+                    self.remove_bullet()
 
           def draw(self):
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (bullet.rect.centerx - self.game.small_window.offset_rect.x, bullet.rect.centery - self.game.small_window.offset_rect.y))
+                              self.game.display_screen.blit(bullet.image, (bullet.rect.centerx - self.game.window.offset_rect.x,
+                                                                           bullet.rect.centery - self.game.window.offset_rect.y))
 
           def add_bullet(self, bullet):
                     self.grid.insert(bullet)
+                    if bullet.name == "Player Bullet": self.player_bullets.add(bullet)
+                    elif bullet.name == "Enemy Bullet": self.enemy_bullets.add(bullet)
 
           def remove_bullet(self):
-                    for bullet in self.grid.items:
-                              if bullet.dead: self.grid.items.remove(bullet)
+                    new_set = self.grid.items.copy()
+                    for bullet in new_set:
+                              if bullet.dead:
+                                        self.grid.items.remove(bullet)
+                                        if bullet.name == "Player Bullet": self.player_bullets.remove(bullet)
+                                        elif bullet.name == "Enemy Bullet": self.enemy_bullets.remove(bullet)
 
+          def check_for_collisions(self):
+                    for bullet in self.player_bullets:
+                              for enemy in self.game.enemy_manager.grid.query(bullet.rect):
+                                        if bullet.check_collision(enemy):
+                                                  bullet.health -= 1
+                                                  if bullet.health <= 0: bullet.dead = True
 
 class ParticleManager:
           def __init__(self, game):

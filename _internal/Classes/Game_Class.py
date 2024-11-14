@@ -31,13 +31,13 @@ class Game:
 
                     self.background = UI(self)
 
-                    self.small_window = Window(self, REN_RES, PLAYABLE_AREA)
+                    self.window = Window(self, REN_RES, PLAYABLE_AREA)
                     self.big_window = PLAYABLE_AREA
 
                     self.BG_entities = BG_Entities_Manager(self)
 
-                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.small_window.rect.centerx,
-                                                            self.small_window.rect.centery), PLAYER_NAME, Player_Running)
+                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.window.rect.centerx,
+                                                            self.window.rect.centery), PLAYER_NAME, Player_Running)
 
                     self.running = True
                     self.game_time = 0
@@ -111,7 +111,7 @@ class Game:
                               self.dt = now - prev_time
                               prev_time = now
                               self.event_manager()
-                              self.small_window.move()
+                              self.window.move()
                               self.update_groups()
                               self.draw_groups()
                               self.game_time = pygame.time.get_ticks()

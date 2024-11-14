@@ -54,7 +54,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.gun = Gun(game, Rifle, PLAYER_GUN_RES, Rifle_bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
-                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE)
+                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION)
                     AnimatedEntity.__init__(self, game, images, animation)
 
           def update(self):
@@ -95,12 +95,12 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                                             False)
                     else:
                               image = self.images[int(self.frame) % len(self.images) - 1]
-                    self.game.display_screen.blit(image, (self.pos.x - self.game.small_window.offset_rect.x - 10,
-                                                          self.pos.y - self.game.small_window.offset_rect.y))
+                    self.game.display_screen.blit(image, (self.pos.x - self.game.window.offset_rect.x - 10,
+                                                          self.pos.y - self.game.window.offset_rect.y))
 
           def update_facing(self):
                     if int(self.game.mouse_pos[0] * REN_RES[
-                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x:
+                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.window.pos.x:
                               self.facing = "left"
                     else:
                               self.facing = "right"
@@ -129,8 +129,8 @@ class BG_entities(RectEntity):
                     self.name = name
 
           def blit(self):
-                    self.game.display_screen.blit(self.image, (self.pos.x - self.game.small_window.offset_rect.x,
-                                                               self.pos.y - self.game.small_window.offset_rect.y))
+                    self.game.display_screen.blit(self.image, (self.pos.x - self.game.window.offset_rect.x,
+                                                               self.pos.y - self.game.window.offset_rect.y))
 
 
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
@@ -140,12 +140,6 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
                     AnimatedEntity.__init__(self, game, images, animation)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.facing = "right"
-
-          def update(self):
-                    if self.should_move():
-                              self.move()
-                    self.update_facing()
-                    self.update_frame()
 
           def should_move(self):
                     distance = self.distance_to_player()
@@ -175,7 +169,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
 
           def blit(self):
                     sprite = self.get_current_sprite()
-                    draw_pos = self.pos - (self.game.small_window.offset_rect.x, self.game.small_window.offset_rect.y)
+                    draw_pos = self.pos - (self.game.window.offset_rect.x, self.game.window.offset_rect.y)
                     self.game.display_screen.blit(sprite, draw_pos)
 
           def get_current_sprite(self):
@@ -210,10 +204,10 @@ class Gun:
           def draw(self):
                     pos_x = (self.game.player.rect.centerx + math.sin(
                               math.radians(self.angle + 180)) * self.distance -
-                             self.game.small_window.offset_rect.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5)
+                             self.game.window.offset_rect.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5)
                     pos_y = (self.game.player.rect.centery + math.cos(
                               math.radians(self.angle + 180)) * self.distance -
-                             self.game.small_window.offset_rect.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5)
+                             self.game.window.offset_rect.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5)
                     if self.facing == "right":
                               self.rotated_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
                               self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
@@ -225,15 +219,15 @@ class Gun:
 
           def update_facing(self):
                     if int(self.game.mouse_pos[0] * REN_RES[
-                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.small_window.pos.x:
+                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.window.pos.x:
                               self.facing = "left"
                     else:
                               self.facing = "right"
 
           def calc_angle(self):
-                    change_in_x = (self.game.player.rect.centerx - self.game.small_window.offset_rect.x
+                    change_in_x = (self.game.player.rect.centerx - self.game.window.offset_rect.x
                                    - self.game.correct_mouse_pos[0] - 5)
-                    change_in_y = (self.game.player.rect.centery - self.game.small_window.offset_rect.y
+                    change_in_y = (self.game.player.rect.centery - self.game.window.offset_rect.y
                                    - self.game.correct_mouse_pos[1] - 5)
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
                     if angle <= 0:
@@ -253,20 +247,21 @@ class Gun:
                               start_pos = start_x, start_y
 
                               new_bullet = Bullet(self.game, start_pos, self.angle, self.bullet_velocity,
-                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction, "Player Bullet")
+                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction, "Player Bullet", PLAYER_BULLET_DAMAGE)
 
                               self.game.bullet_manager.add_bullet(new_bullet)
 
-
 class Bullet(RectEntity):
-          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10):
+          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10, health=1):
                     self.image = pygame.transform.rotate(image, angle)
                     RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, change_random(angle + 180, PLAYER_GUN_SPREAD))
                     self.original_image = image
-                    self.lifetime = lifetime
+                    self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
+                    self.dead = False
                     self.creation_time = pygame.time.get_ticks() / 1000
                     self.friction = friction
                     self.damage = damage
+                    self.health = health
 
           def update(self):
                     if self.friction > 0:
@@ -278,6 +273,5 @@ class Bullet(RectEntity):
           def check_collision(self, target):
                     if self.rect.colliderect(target.rect):
                               target.health -= self.damage
-                              self.game.bullet_manager.remove_bullet(self)
                               return True
                     return False
