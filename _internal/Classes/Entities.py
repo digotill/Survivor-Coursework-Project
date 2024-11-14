@@ -1,8 +1,8 @@
 import pygame, math, random
-from Code.Variables.Variables import *
-from Code.Variables.Initialize import *
+from _internal.Variables.Variables import *
+from _internal.Variables.Initialize import *
 from pygame.math import Vector2 as v2
-from Code.Utilities.Tools import *
+from _internal.Utilities.Tools import *
 
 
 class RectEntity:
@@ -82,18 +82,12 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     new_x = self.pos.x + dx * self.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt
 
-                    move_hor, move_vert = False, False
-
                     if 0 < new_x < self.game.big_window[0] - self.res[0]:
                               self.pos.x = new_x
                               self.rect.x = self.pos.x
-                              move_hor = True
                     if -10 < new_y < self.game.big_window[1] - self.res[1]:
                               self.pos.y = new_y
                               self.rect.y = self.pos.y
-                              move_vert = True
-
-                    self.game.window.move(move_hor, move_vert)
 
           def blit(self):
                     if self.facing == "left":

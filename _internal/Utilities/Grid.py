@@ -1,5 +1,5 @@
 from itertools import product
-from Code.Variables.Variables import *
+from _internal.Variables.Variables import *
 
 
 class SpatialHash:

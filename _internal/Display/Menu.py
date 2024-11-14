@@ -1,5 +1,5 @@
-from Code.Classes.Button_Class import *
-from Code.Variables.Initialize import *
+from _internal.Classes.Button_Class import *
+from _internal.Variables.Initialize import *
 
 
 class MainMenu:
