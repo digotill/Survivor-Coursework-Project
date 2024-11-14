@@ -58,3 +58,8 @@ def load(filename, res=None, *args):
                     pygame.image.load("Assets\\" + filename).convert_alpha(), res)
           for a in args: image.set_colorkey(a)
           return image
+
+def change_random(number, diff):
+          random_diff = random.uniform(0, diff)
+          if random.randint(0, 1) == 0: return number - random_diff
+          else: return number + random_diff

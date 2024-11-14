@@ -35,7 +35,6 @@ class EnemyManager:
                                              ENEMY_DAMAGE, Enemy_idle, angle)
                               self.grid.insert(entity)
 
-
 class BulletManager:
 
           def __init__(self, game):
@@ -45,20 +44,20 @@ class BulletManager:
           def update(self):
                     for bullet in self.grid.items:
                               bullet.update()
-                              if pygame.time.get_ticks() - bullet.creation_time > bullet.lifetime: self.remove_bullet(bullet)
+                              if pygame.time.get_ticks() / 1000 - bullet.creation_time > bullet.lifetime: bullet.dead = True
                     self.grid.rebuild()
 
 
           def draw(self):
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.small_window.offset_rect.x
-                                                  - 0.5 * bullet.res[0], bullet.rect.x - self.game.small_window.offset_rect.y - 0.5 * bullet.res[1]))
+                              self.game.display_screen.blit(bullet.image, (bullet.rect.centerx - self.game.small_window.offset_rect.x, bullet.rect.centery - self.game.small_window.offset_rect.y))
 
           def add_bullet(self, bullet):
                     self.grid.insert(bullet)
 
-          def remove_bullet(self, bullet):
-                    self.grid.items.remove(bullet)
+          def remove_bullet(self):
+                    for bullet in self.grid.items:
+                              if bullet.dead: self.grid.items.remove(bullet)
 
 
 class ParticleManager:

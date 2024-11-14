@@ -20,7 +20,10 @@ Player_Blinking = import_gif("Assets\\Entities\\Player\\AnimationSheet_Character
 
 Enemy_idle = import_gif("Assets\\Entities\\Enemy1")
 
+Slash_Effect = import_gif("Assets\\VFX\\Slash", )
+
 Rifle = load("Objects\\Weapons\\rifle.png", None, (0, 0, 0))
+Rifle_bullet = load("Objects\\Bullet\\Bullet 1\\Bullet.png", None, (0, 0, 0))
 
 cursor1 = load("Misc\\Mouse\\Mouse1\\03.png", MOUSE_RES, (255, 255, 255))
 cursor2 = load("Misc\\Mouse\\Mouse1\\04.png", MOUSE_RES, (255, 255, 255))

@@ -5,7 +5,7 @@ from _internal.Variables.Variables import *
 from _internal.Classes.Entities import *
 
 
-class UI():
+class UI:
           def __init__(self, game):
                     self.game = game
                     self.font = pygame.font.Font(FONT, int(FPS_AND_TIME_SIZE * REN_RES[0] / 640))
@@ -27,8 +27,8 @@ class UI():
                                         self.health_bar_rect.width * self.game.player.health / PLAYER_HEALTH * REN_RES[0] / 640,
                                         self.health_bar_rect.height * REN_RES[0] / 640))
                               Health_bar_surface.blit(Health_bar)
-                              self.game.display_screen.blit(Health_bar_surface, (
-                                        (HEALTH_BAR_POS[0] - 0.5 * self.health_bar_rect.width) * REN_RES[0] / 640, (HEALTH_BAR_POS[1] - 0.5 * self.health_bar_rect.height) * REN_RES[0] / 640))
+                              self.game.display_screen.blit(Health_bar_surface, ((HEALTH_BAR_POS[0] - 0.5 * self.health_bar_rect.width) * REN_RES[0] / 640,
+                                                                                 (HEALTH_BAR_POS[1] - 0.5 * self.health_bar_rect.height) * REN_RES[0] / 640))
                     if self.game.player.stamina > 0:
                               Stamina_bar_surface = pygame.Surface((
                                         self.stamina_bar_rect.width * self.game.player.stamina / PLAYER_STAMINA * REN_RES[0] / 640,
