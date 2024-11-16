@@ -52,8 +52,9 @@ def memoize(func):
 
 
 def load(filename, res=None, *args):
-          image = pygame.image.load("Assets\\" + filename).convert_alpha() if res is None else pygame.transform.scale(
-                    pygame.image.load("Assets\\" + filename).convert_alpha(), res)
+          image = pygame.image.load("Assets\\" + filename).convert_alpha()
+          if res is not None:
+                    image = pygame.transform.scale(pygame.image.load("Assets\\" + filename).convert_alpha(), res)
           for a in args: image.set_colorkey(a)
           return image
 

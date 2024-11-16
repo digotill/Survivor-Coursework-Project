@@ -11,6 +11,7 @@ border = load("Backgrounds\\border.png", REN_RES)
 Buttons = import_gif("Assets\\Misc\\Buttons", (REN_RES[0] * 300 / WIN_RES[0], REN_RES[1] * 80 / WIN_RES[1]))
 Health_bar = load("Misc\\Bars\\health.png", BARS_RES)
 Stamina_bar = load("Misc\\Bars\\Sprite-0005.png", BARS_RES)
+Outside_Health_bar = load("Misc\\Bars\\health_bar.png", BARS_RES)
 
 Player_Running = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 98, 32, 32, 8, (0, 0, 0))
 Player_Walking = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 2, 32, 32, 4, (0, 0, 0))

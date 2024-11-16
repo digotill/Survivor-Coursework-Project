@@ -24,9 +24,9 @@ class Event_Manager:
                                         pygame.display.set_window_position((0, 0))
                                         self.game.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
                               else:
-                                        pygame.display.set_window_position((MAX_WIN_RES[0] / 2 - REN_RES[0] / 2,
-                                                                            MAX_WIN_RES[1] / 2 - REN_RES[1] / 2))
-                                        self.game.display = pygame.display.set_mode(REN_RES, pygame.RESIZABLE)
+                                        pygame.display.set_window_position((MONITER_RES[0] / 2 - MIN_WIN_RES[0] / 2,
+                                                                            MONITER_RES[1] / 2 - MIN_WIN_RES[1] / 2))
+                                        self.game.display = pygame.display.set_mode(MIN_WIN_RES, pygame.RESIZABLE)
                               self.Last_Fullscreen = time.time()
 
           def update_fps_toggle(self):
