@@ -14,12 +14,20 @@ class UI:
                     self.fps_queue.put(200)
                     self.health_bar_rect = Health_bar.get_rect()
                     self.stamina_bar_rect = Stamina_bar.get_rect()
+                    self.current_border_frame = 0
+
 
           def update(self):
+                    #can do all of these methods in one go if wanted to
                     pass
 
           def draw_border(self):
-                    self.game.display_screen.blit(border)
+                    #self.game.display_screen.blit(Main_Border_Image)
+                    #second_border_image = Border_Animation_Images[int(self.current_border_frame) % len(Border_Animation_Images)]
+                    #self.game.display_screen.blit(second_border_image, (960 - second_border_image.get_width(), 0))
+
+                    self.game.display_screen.blit(New_Border_Images[int(self.current_border_frame) % len(New_Border_Images)])
+                    self.current_border_frame += BORDER_ANIMATION_SPEED * self.game.dt
 
           def draw_bars(self):
                     if self.game.player.health > 0:

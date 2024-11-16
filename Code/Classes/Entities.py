@@ -103,7 +103,6 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               self.facing = "left"
                     else:
                               self.facing = "right"
-                    print(self.game.player.rect.x - self.game.window.pos.x)
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:

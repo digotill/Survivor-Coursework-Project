@@ -15,14 +15,13 @@ def import_gif(file_name, res=None, *args):
                                         array.append(img)
           return array
 
-
-def import_SpriteSheet(filename, px, py, tw, th, tiles):
+def import_SpriteSheet(filename, px, py, tw, th, tiles, *args):
           sheet = pygame.image.load(filename).convert_alpha()
           array = []
           cropped = pygame.Surface((tw, th))
           for i in range(tiles):
                     cropped.blit(sheet, (0, 0), (px + tw * i, py, tw, th))
-                    cropped.set_colorkey((0, 0, 0))
+                    for a in args: cropped.set_colorkey(a)
                     array.append(cropped)
                     cropped = pygame.Surface((tw, th))
           return array
@@ -62,3 +61,9 @@ def change_random(number, diff):
           random_diff = random.uniform(0, diff)
           if random.randint(0, 1) == 0: return number - random_diff
           else: return number + random_diff
+
+def re_res(array, res):
+          new_array = []
+          for img in array:
+                    new_array.append(pygame.transform.scale(img, res))
+          return new_array

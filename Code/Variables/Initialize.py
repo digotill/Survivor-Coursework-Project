@@ -12,13 +12,19 @@ Buttons = import_gif("Assets\\Misc\\Buttons", (REN_RES[0] * 300 / WIN_RES[0], RE
 Health_bar = load("Misc\\Bars\\health.png", BARS_RES)
 Stamina_bar = load("Misc\\Bars\\Sprite-0005.png", BARS_RES)
 
-Player_Running = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 98, 32, 32, 8)
-Player_Walking = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 2, 32, 32, 4)
-Player_Dying = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 7, 32, 32, 8)
-Player_Idle = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 0, 32, 32, 2)
+Player_Running = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 98, 32, 32, 8, (0, 0, 0))
+Player_Walking = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 2, 32, 32, 4, (0, 0, 0))
+Player_Dying = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 7, 32, 32, 8, (0, 0, 0))
+Player_Idle = import_SpriteSheet("Assets\\Entities\\Player\\AnimationSheet_Character.png", 0, 2 + 32 * 0, 32, 32, 2, (0, 0, 0))
 Player_Blinking = import_gif("Assets\\Entities\\Player\\AnimationSheet_Character_Blinking", 0, 2 + 32 * 1, 32, 32, 2)
 
 Enemy_idle = import_gif("Assets\\Entities\\Enemy1")
+
+Main_Border_Image = load("Backgrounds\\Foundation\\043.png", None, (255, 255, 255))
+Border_Animation_Images = import_gif("Assets\\Backgrounds\\New_Border")
+
+New_Border_Images = import_SpriteSheet("Assets\\Backgrounds\\output-onlinegiftools.png", 0, 0, 960, 534, 44, (255, 255, 255))
+New_Border_Images = re_res(New_Border_Images, REN_RES)
 
 Slash_Effect = import_gif("Assets\\VFX\\Slash", )
 
