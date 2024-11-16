@@ -18,74 +18,70 @@ class Window(RectEntity):
                     self.shake_magnitude = 0
                     self.shake_speed = WINDOW_SHAKE_SPEED
                     self.shake_seed = random.random() * WINDOW_SHAKE_SEED
-                    self.shake_direction = v2(1, 1)
-                    self.shake_noise_magnitude = 0.5
+                    self.shake_direction = v2(WINDOW_SHAKE_DIRECTIONS)
+                    self.shake_noise_magnitude = WINDOW_SHAKE_NOISE_MAGNITUDE
 
         def move(self, dx, dy, move_horizontally, move_vertically):
 
-            new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
-            new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
+                    new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
+                    new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
 
-            mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
+                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
                     self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
-            self.mouse_smoothing = v2(
+                    self.mouse_smoothing = v2(
                     self.lerp(self.mouse_smoothing.x, mouse_target.x, 0.1),
                     self.lerp(self.mouse_smoothing.y, mouse_target.y, 0.1))
 
-            if abs(self.mouse_smoothing.x) < self.deadzone:
-                    self.mouse_smoothing.x = 0
-            if abs(self.mouse_smoothing.y) < self.deadzone:
-                    self.mouse_smoothing.y = 0
+                    if abs(self.mouse_smoothing.x) < self.deadzone:
+                              self.mouse_smoothing.x = 0
+                    if abs(self.mouse_smoothing.y) < self.deadzone:
+                              self.mouse_smoothing.y = 0
 
-            self.target_offset.x = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.x)
-            self.target_offset.y = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.y)
+                    self.target_offset.x = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.x)
+                    self.target_offset.y = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.y)
 
-            self.current_offset = v2(
-                    self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed),
-                    self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed))
+                    self.current_offset = v2(
+                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed),
+                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed))
 
-            rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
+                    rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
-            if (move_horizontally and 0 < new_x < self.game.big_window[0] - self.res[0] and
-                    0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
-                      self.pos.x = new_x
-            if (move_vertically and 0 < new_y < self.game.big_window[1] - self.res[1] and
-                    0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
-                      self.pos.y = new_y
+                    if (move_horizontally and 0 < new_x < self.game.big_window[0] - self.res[0] and
+                              0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
+                              self.pos.x = new_x
+                    if (move_vertically and 0 < new_y < self.game.big_window[1] - self.res[1] and
+                              0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
+                              self.pos.y = new_y
 
-            if 0 < self.pos.x + rounded_offset.x < self.game.big_window[0] - self.res[0]:
-                    self.offset_rect.x = self.pos.x + rounded_offset.x
-            if 0 < self.pos.y + rounded_offset.y < self.game.big_window[1] - self.res[1]:
-                    self.offset_rect.y = self.pos.y + rounded_offset.y
+                    if 0 < self.pos.x + rounded_offset.x < self.game.big_window[0] - self.res[0]:
+                              self.offset_rect.x = self.pos.x + rounded_offset.x
+                    if 0 < self.pos.y + rounded_offset.y < self.game.big_window[1] - self.res[1]:
+                              self.offset_rect.y = self.pos.y + rounded_offset.y
 
-                    # Calculate screen shake
-            shake_offset = self.calculate_shake()
+                    shake_offset = self.calculate_shake()
 
-            # Apply screen shake to the offset_rect
-            self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
+                    self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
                                             self.game.big_window[0] - self.res[0]))
-            self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
+                    self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
                                             self.game.big_window[1] - self.res[1]))
 
-            # Ensure the player is always visible within the offset_rect
-            player_left = self.game.player.pos.x - self.offset_rect.x
-            player_right = player_left + self.game.player.res[0]
-            player_top = self.game.player.pos.y - self.offset_rect.y
-            player_bottom = player_top + self.game.player.res[1]
+                    player_left = self.game.player.pos.x - self.offset_rect.x
+                    player_right = player_left + self.game.player.res[0]
+                    player_top = self.game.player.pos.y - self.offset_rect.y
+                    player_bottom = player_top + self.game.player.res[1]
 
-            if player_left < 19:
-                      self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0]
-            elif player_right > self.res[0]:
-                      self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0]
+                    if player_left < 19:
+                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0]
+                    elif player_right > self.res[0]:
+                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0]
 
-            if player_top < 51:
-                      self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1]
-            elif player_bottom > self.res[1]:
-                      self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1]
+                    if player_top < 51:
+                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1]
+                    elif player_bottom > self.res[1]:
+                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1]
 
-            # Ensure the offset_rect stays within the big_window boundaries
-            self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
-            self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
+                    self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
+                    self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
 
         def calculate_shake(self):
                   current_time = pygame.time.get_ticks()
@@ -110,51 +106,10 @@ class Window(RectEntity):
         @staticmethod
         def get_2d_noise(x, y):
 
-                  def fade(t):
-                            return t * t * t * (t * (t * 6 - 15) + 10)
+                  scaled_x = x * 0.1
+                  scaled_y = y * 0.1
 
-                  def lerp(t, a_, b_):
-                            return a_ + t * (b_ - a_)
-
-                  def grad(hash_, x_, y_):
-                            h = hash_ & 15
-                            grad_x = 1 if h < 8 else -1
-                            grad_y = 1 if h < 4 else -1 if h in [12, 13] else 0
-                            return grad_x * x_ + grad_y * y_
-
-                  p = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
-                       140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148,
-                       247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32,
-                       57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175,
-                       74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122,
-                       60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54,
-                       65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169,
-                       200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64,
-                       52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212,
-                       207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213,
-                       119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9,
-                       129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104,
-                       218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241,
-                       81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157,
-                       184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93,
-                       222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180]
-
-                  p += p
-                  x, y = int(x * 255), int(y * 255)
-                  xi, yi = x & 255, y & 255
-                  xf, yf = x - xi, y - yi
-                  u, v = fade(xf), fade(yf)
-
-                  a = p[xi] + yi
-                  aa = p[a]
-                  ab = p[a + 1]
-                  b = p[xi + 1] + yi
-                  ba = p[b]
-                  bb = p[b + 1]
-
-                  x1 = lerp(u, grad(p[aa], xf, yf), grad(p[ba], xf - 1, yf))
-                  x2 = lerp(u, grad(p[ab], xf, yf - 1), grad(p[bb], xf - 1, yf - 1))
-                  return lerp(v, x1, x2)
+                  return perlin([scaled_x, scaled_y])
 
         def add_screen_shake(self, duration, magnitude):
                   self.shake_duration = duration
