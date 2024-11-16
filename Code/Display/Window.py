@@ -11,7 +11,7 @@ class Window(RectEntity):
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)
                     self.lerp_speed = WINDOW_LERP_SPEED
-                    self.mouse_smoothing = v2(0, 0)
+                    self.mouse_smoothing = v2(WINDOW_MOUSE_SMOOTHING)
                     self.deadzone = WINDOW_DEADZONE
                     self.shake_duration = 0
                     self.shake_start_time = 0
