@@ -83,7 +83,9 @@ class BulletManager:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
                                                   bullet.health -= 1
-                                                  if bullet.health <= 0: bullet.dead = True
+                                                  if bullet.health <= 0:
+                                                            bullet.dead = True
+                                                            break
 
 class ParticleManager:
           def __init__(self, game):

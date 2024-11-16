@@ -4,8 +4,8 @@ from pygame.math import Vector2 as v2
 from Code.Classes.Entities import *
 
 class Window(RectEntity):
-        def __init__(self, game, res, big_res, name=None, angle=30):
-                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, PLAYER_VEL, name, angle)
+        def __init__(self, game, res, big_res, name=None, angle=0):
+                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0, name, angle)
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.little_offset_rect = self.offset_rect.copy()
                     self.target_offset = v2(0, 0)
@@ -21,22 +21,7 @@ class Window(RectEntity):
                     self.shake_direction = v2(1, 1)
                     self.shake_noise_magnitude = 0.5
 
-        def move(self):
-            a = self.game.keys[pygame.K_a]
-            d = self.game.keys[pygame.K_d]
-            w = self.game.keys[pygame.K_w]
-            s = self.game.keys[pygame.K_s]
-
-            dx, dy = 0, 0
-            if a: dx -= 1
-            if d: dx += 1
-            if s: dy += 1
-            if w: dy -= 1
-
-            magnitude = math.sqrt(dx ** 2 + dy ** 2)
-            if magnitude != 0:
-                    dx /= magnitude
-                    dy /= magnitude
+        def move(self, dx, dy, move_horizontally, move_vertically):
 
             new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
             new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
@@ -61,21 +46,46 @@ class Window(RectEntity):
 
             rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
-            if self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2:
-                    self.pos.x = new_x
-                    self.rect.x = self.pos.x
-                    if 0 < self.rect.x + rounded_offset.x < self.game.big_window[0] - self.res[0] / 2:
-                              self.offset_rect.x = self.rect.x + rounded_offset.x
-            if self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2:
-                    self.pos.y = new_y
-                    self.rect.y = self.pos.y
-                    if 0 < self.rect.y + rounded_offset.y < self.game.big_window[1] - self.res[1] / 2:
-                              self.offset_rect.y = self.rect.y + rounded_offset.y
+            if (move_horizontally and 0 < new_x < self.game.big_window[0] - self.res[0] and
+                    0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
+                      self.pos.x = new_x
+            if (move_vertically and 0 < new_y < self.game.big_window[1] - self.res[1] and
+                    0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
+                      self.pos.y = new_y
 
-            if self.shake_duration > 0:
-                      shake_offset = self.calculate_shake()
-                      self.offset_rect.x += shake_offset.x
-                      self.offset_rect.y += shake_offset.y
+            if 0 < self.pos.x + rounded_offset.x < self.game.big_window[0] - self.res[0]:
+                    self.offset_rect.x = self.pos.x + rounded_offset.x
+            if 0 < self.pos.y + rounded_offset.y < self.game.big_window[1] - self.res[1]:
+                    self.offset_rect.y = self.pos.y + rounded_offset.y
+
+                    # Calculate screen shake
+            shake_offset = self.calculate_shake()
+
+            # Apply screen shake to the offset_rect
+            self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
+                                            self.game.big_window[0] - self.res[0]))
+            self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
+                                            self.game.big_window[1] - self.res[1]))
+
+            # Ensure the player is always visible within the offset_rect
+            player_left = self.game.player.pos.x - self.offset_rect.x
+            player_right = player_left + self.game.player.res[0]
+            player_top = self.game.player.pos.y - self.offset_rect.y
+            player_bottom = player_top + self.game.player.res[1]
+
+            if player_left < 19:
+                      self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0]
+            elif player_right > self.res[0]:
+                      self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0]
+
+            if player_top < 51:
+                      self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1]
+            elif player_bottom > self.res[1]:
+                      self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1]
+
+            # Ensure the offset_rect stays within the big_window boundaries
+            self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
+            self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
 
         def calculate_shake(self):
                   current_time = pygame.time.get_ticks()
@@ -103,14 +113,14 @@ class Window(RectEntity):
                   def fade(t):
                             return t * t * t * (t * (t * 6 - 15) + 10)
 
-                  def lerp(t, a, b):
-                            return a + t * (b - a)
+                  def lerp(t, a_, b_):
+                            return a_ + t * (b_ - a_)
 
-                  def grad(hash, x, y):
-                            h = hash & 15
+                  def grad(hash_, x_, y_):
+                            h = hash_ & 15
                             grad_x = 1 if h < 8 else -1
                             grad_y = 1 if h < 4 else -1 if h in [12, 13] else 0
-                            return grad_x * x + grad_y * y
+                            return grad_x * x_ + grad_y * y_
 
                   p = [151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
                        140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148,

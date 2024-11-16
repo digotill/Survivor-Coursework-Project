@@ -111,7 +111,6 @@ class Game:
                               self.dt = now - prev_time
                               prev_time = now
                               self.event_manager()
-                              self.window.move()
                               self.update_groups()
                               self.draw_groups()
                               self.game_time = pygame.time.get_ticks()

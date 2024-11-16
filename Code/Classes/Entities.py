@@ -58,18 +58,11 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     AnimatedEntity.__init__(self, game, images, animation)
 
           def update(self):
-                    a = self.game.keys[pygame.K_a]
-                    d = self.game.keys[pygame.K_d]
-                    w = self.game.keys[pygame.K_w]
-                    s = self.game.keys[pygame.K_s]
-
-                    self.update_facing()
-
                     dx, dy = 0, 0
-                    if a: dx -= 1
-                    if d: dx += 1
-                    if s: dy += 1
-                    if w: dy -= 1
+                    if self.game.keys[pygame.K_a]: dx -= 1
+                    if self.game.keys[pygame.K_d]: dx += 1
+                    if self.game.keys[pygame.K_s]: dy += 1
+                    if self.game.keys[pygame.K_w]: dy -= 1
 
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:
@@ -78,16 +71,22 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
 
                     if dy != 0 or dx != 0: self.update_frame()
                     self.update_velocity(dy, dx)
+                    self.update_facing()
 
                     new_x = self.pos.x + dx * self.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt
 
-                    if 0 < new_x < self.game.big_window[0] - self.res[0]:
+                    move_hor, move_vert = False, False
+                    if 19 < new_x < self.game.big_window[0] - self.res[0] + 1:
                               self.pos.x = new_x
                               self.rect.x = self.pos.x
-                    if -10 < new_y < self.game.big_window[1] - self.res[1]:
+                              move_hor = True
+                    if 52 < new_y < self.game.big_window[1] - self.res[1] + 10:
                               self.pos.y = new_y
                               self.rect.y = self.pos.y
+                              move_vert = True
+
+                    self.game.window.move(dx, dy, move_hor, move_vert)
 
           def blit(self):
                     if self.facing == "left":
@@ -104,6 +103,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               self.facing = "left"
                     else:
                               self.facing = "right"
+                    print(self.game.player.rect.x - self.game.window.pos.x)
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:
@@ -218,11 +218,7 @@ class Gun:
                               self.game.display_screen.blit(pygame.transform.flip(self.rotated_image, True, False), self.rect)
 
           def update_facing(self):
-                    if int(self.game.mouse_pos[0] * REN_RES[
-                              0] / self.game.display.width) < self.game.player.rect.centerx - self.game.window.pos.x:
-                              self.facing = "left"
-                    else:
-                              self.facing = "right"
+                    self.facing = self.game.player.facing
 
           def calc_angle(self):
                     change_in_x = (self.game.player.rect.centerx - self.game.window.offset_rect.x
