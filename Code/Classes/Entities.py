@@ -1,9 +1,8 @@
 import pygame, math, random
 from Code.Variables.Variables import *
 from Code.Variables.Initialize import *
-from pygame.math import Vector2 as v2
 from Code.Utilities.Tools import *
-
+from pygame.math import Vector2 as v2
 
 class RectEntity:
           def __init__(self, game, coordinates, res, vel, name, angle=None):

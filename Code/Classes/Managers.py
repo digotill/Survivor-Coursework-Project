@@ -122,7 +122,7 @@ class BG_Entities_Manager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
-                    for i in range(int(PLAYABLE_AREA[0] / 200 * BG_ENTITIES_DENSITY)):
+                    for i in range(int(PLAYABLE_AREA_SIZE[0] / 200 * BG_ENTITIES_DENSITY)):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
                               entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES)
                               collision = False

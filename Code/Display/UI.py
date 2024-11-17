@@ -22,29 +22,36 @@ class UI:
                     pass
 
           def draw_border(self):
-                    #self.game.display_screen.blit(Main_Border_Image)
-                    #second_border_image = Border_Animation_Images[int(self.current_border_frame) % len(Border_Animation_Images)]
-                    #self.game.display_screen.blit(second_border_image, (960 - second_border_image.get_width(), 0))
-
                     self.game.display_screen.blit(New_Border_Images[int(self.current_border_frame) % len(New_Border_Images)])
                     self.current_border_frame += BORDER_ANIMATION_SPEED * self.game.dt
 
           def draw_bars(self):
                     if self.game.player.health > 0:
-                              Health_bar_surface = pygame.Surface((
-                                        self.health_bar_rect.width * self.game.player.health / PLAYER_HEALTH * REN_RES[0] / 640,
-                                        self.health_bar_rect.height * REN_RES[0] / 640))
-                              Health_bar_surface.blit(Health_bar)
-                              self.game.display_screen.blit(Health_bar_surface, ((HEALTH_BAR_POS[0] - 0.5 * self.health_bar_rect.width) * REN_RES[0] / 640,
-                                                                                 (HEALTH_BAR_POS[1] - 0.5 * self.health_bar_rect.height) * REN_RES[0] / 640))
+                              health = self.game.player.health
+                    else:
+                              health = 1
+                    Health_bar_surface = pygame.Surface((
+                                        self.health_bar_rect.width * health / PLAYER_HEALTH,
+                                        self.health_bar_rect.height))
+                    Health_bar_surface.blit(Health_bar)
+                    self.game.display_screen.blit(Health_bar_surface, ((HEALTH_BAR_POS[0] - 0.5 * self.health_bar_rect.width) * REN_RES[0] / 640,
+                                                                                 (HEALTH_BAR_POS[1] - 0.5 * self.health_bar_rect.height) * REN_RES[0] / 640 - 1))
+                    self.game.display_screen.blit(Outside_Health_bar, ((HEALTH_BAR_POS[0] - 0.5 * Outside_Health_bar.get_rect().width) * REN_RES[0] / 640,
+                                                                                 (HEALTH_BAR_POS[1] - 0.5 * Outside_Health_bar.get_rect().height) * REN_RES[0] / 640 - 5))
                     if self.game.player.stamina > 0:
-                              Stamina_bar_surface = pygame.Surface((
-                                        self.stamina_bar_rect.width * self.game.player.stamina / PLAYER_STAMINA * REN_RES[0] / 640,
-                                        self.stamina_bar_rect.height * REN_RES[0] / 640))
-                              Stamina_bar_surface.blit(Stamina_bar)
-                              self.game.display_screen.blit(Stamina_bar_surface, (
+                              stamina = self.game.player.stamina
+                    else:
+                              stamina = 1
+                    Stamina_bar_surface = pygame.Surface((
+                                        self.stamina_bar_rect.width * stamina / PLAYER_STAMINA,
+                                        self.stamina_bar_rect.height))
+                    Stamina_bar_surface.blit(Stamina_bar)
+                    self.game.display_screen.blit(Stamina_bar_surface, (
                                         REN_RES[0] - (STAMINA_BAR_POS[0] + 0.5 * self.stamina_bar_rect.width) * REN_RES[0] / 640,
-                                        (STAMINA_BAR_POS[1] - 0.5 * self.stamina_bar_rect.height) * REN_RES[0] / 640))
+                                        (STAMINA_BAR_POS[1] - 0.5 * self.stamina_bar_rect.height) * REN_RES[0] / 640 - 1))
+                    self.game.display_screen.blit(pygame.transform.flip(Outside_Health_bar, True, False), (
+                              REN_RES[0] - (STAMINA_BAR_POS[0] + 0.5 * Outside_Health_bar.get_rect().width) * REN_RES[0] / 640 - 2,
+                              (STAMINA_BAR_POS[1] - 0.5 * Outside_Health_bar.get_rect().height) * REN_RES[0] / 640 - 5))
 
           def draw_fps(self):
                     copy_fps_queue = self.fps_queue
@@ -64,12 +71,17 @@ class UI:
                     self.fps_queue.put(int(self.game.clock.get_fps()))
 
           def draw_time(self):
-                    text = self.font.render(str(int(self.game.game_time)) + " SECONDS", False,
+                    if self.fps_enabled:
+                              text = self.font.render(str(int(self.game.game_time)) + " SECONDS", False,
                                             pygame.Color("orange"))
-                    text_rect = text.get_rect(center=(REN_RES[0] - TIME_POS[0] * REN_RES[0] / 640, TIME_POS[1] * REN_RES[0] / 640))
-                    self.game.display_screen.blit(text, text_rect)
+                              text_rect = text.get_rect(center=(REN_RES[0] - TIME_POS[0] * REN_RES[0] / 640, TIME_POS[1] * REN_RES[0] / 640))
+                              self.game.display_screen.blit(text, text_rect)
 
           def display_mouse(self):
                     if pygame.mouse.get_focused():
-                              if self.game.mouse_state[0]: self.game.display.blit(cursor1, (self.game.mouse_pos[0], self.game.mouse_pos[1]))
-                              else: self.game.display.blit(cursor2, (self.game.mouse_pos[0], self.game.mouse_pos[1]))
+                              if self.game.mouse_state[0]: image = cursor1
+                              else: image = cursor2
+                              new_image = pygame.transform.scale(image, (image.get_rect().width * self.game.display.width / REN_RES[0],
+                                                                         image.get_rect().height * self.game.display.height / REN_RES[1]))
+                              self.game.display.blit(new_image, (self.game.mouse_pos[0] - new_image.get_rect().width / 2,
+                                                                 self.game.mouse_pos[1] - new_image.get_rect().height / 2))

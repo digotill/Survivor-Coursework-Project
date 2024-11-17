@@ -17,9 +17,9 @@ class Window(RectEntity):
                     self.shake_start_time = 0
                     self.shake_magnitude = 0
                     self.shake_speed = WINDOW_SHAKE_SPEED
-                    self.shake_seed = random.random() * WINDOW_SHAKE_SEED
+                    self.shake_seed = random.random() * 1000
                     self.shake_direction = v2(WINDOW_SHAKE_DIRECTIONS)
-                    self.shake_noise_magnitude = WINDOW_SHAKE_NOISE_MAGNITUDE
+                    self.shake_noise_magnitude = 0
 
         def move(self, dx, dy, move_horizontally, move_vertically):
 

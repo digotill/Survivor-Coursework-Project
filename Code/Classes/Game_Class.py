@@ -31,8 +31,8 @@ class Game:
 
                     self.background = UI(self)
 
-                    self.window = Window(self, REN_RES, PLAYABLE_AREA)
-                    self.big_window = PLAYABLE_AREA
+                    self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
+                    self.big_window = PLAYABLE_AREA_SIZE
 
                     self.BG_entities = BG_Entities_Manager(self)
 
@@ -43,6 +43,7 @@ class Game:
                     self.game_time = 0
                     self.fps = FPS
                     self.dt = 0
+                    self.changing_settings = CHANGING_SETTINGS
 
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = pygame.mouse.get_pos()
@@ -50,9 +51,6 @@ class Game:
                     self.keys = pygame.key.get_pressed()
 
                     self.event_manager_class = Event_Manager(self)
-
-                    pygame.display.set_caption(GAME_NAME)
-                    pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
                     pygame.display.set_icon(cover)
 
           def refresh(self):
