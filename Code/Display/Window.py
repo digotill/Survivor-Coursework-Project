@@ -74,12 +74,12 @@ class Window(RectEntity):
                     if player_left < PLAYER_OFFSET_X1:
                               self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - PLAYER_OFFSET_X1 + self.game.player.res[0]
                     elif player_right > self.res[0] + PLAYER_OFFSET_X2:
-                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0] - PLAYER_OFFSET_X2 + 1
+                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0] - PLAYER_OFFSET_X2
 
                     if player_top < PLAYER_OFFSET_Y1:
                               self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - PLAYER_OFFSET_Y1 + self.game.player.res[1]
-                    elif player_bottom > self.res[1] + PLAYER_OFFSET_Y2 + 1:
-                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1] - PLAYER_OFFSET_Y2
+                    elif player_bottom > self.res[1] + PLAYER_OFFSET_Y2:
+                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1] - PLAYER_OFFSET_Y2 - 1
 
                     self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))

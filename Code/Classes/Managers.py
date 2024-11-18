@@ -26,8 +26,8 @@ class EnemyManager:
                     for enemies in self.grid.window_query(): enemies.blit()
 
           def add_enemies(self):
-                    if time.time() - self.last_spawn > self.spawn_cooldown:
-                              self.last_spawn = time.time()
+                    if self.last_spawn + self.spawn_cooldown < self.game.game_time and len(self.grid.items) < MAX_ENEMIES:
+                              self.last_spawn = self.game.game_time
                               coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
                                                       self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
                               angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0],

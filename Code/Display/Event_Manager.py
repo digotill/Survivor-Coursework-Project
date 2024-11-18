@@ -18,7 +18,7 @@ class Event_Manager:
                               if event.type == pygame.QUIT or self.game.keys[ESCAPE_KEY]: self.game.running = False
 
           def update_size(self):
-                    if self.game.keys[FULLSCREEN_KEY] and self.Last_Fullscreen + self.Fullscreen_Cooldown < time.time():
+                    if self.game.keys[FULLSCREEN_KEY] and self.Last_Fullscreen + self.Fullscreen_Cooldown < self.game.game_time:
                               self.Fullscreen_Toggled = not self.Fullscreen_Toggled
                               if self.Fullscreen_Toggled:
                                         pygame.display.set_window_position((0, 0))
@@ -27,18 +27,18 @@ class Event_Manager:
                                         pygame.display.set_window_position((MONITER_RES[0] / 2 - MIN_WIN_RES[0] / 2,
                                                                             MONITER_RES[1] / 2 - MIN_WIN_RES[1] / 2))
                                         self.game.display = pygame.display.set_mode(MIN_WIN_RES, pygame.RESIZABLE)
-                              self.Last_Fullscreen = time.time()
+                              self.Last_Fullscreen = self.game.game_time
 
           def update_fps_toggle(self):
-                    if self.game.keys[TOGGLE_FPS_KEY] and self.Last_FPS_Toggle + self.FPS_Cooldown < time.time():
+                    if self.game.keys[TOGGLE_FPS_KEY] and self.Last_FPS_Toggle + self.FPS_Cooldown < self.game.game_time:
                               self.game.background.fps_enabled = not self.game.background.fps_enabled
-                              self.Last_FPS_Toggle = time.time()
+                              self.Last_FPS_Toggle = self.game.game_time
 
           def update_grab(self):
                     if self.game.mouse_state[0]: pygame.event.set_grab(True)
                     elif self.game.keys[UNGRAB_KEY]: pygame.event.set_grab(False)
 
           def update_changing_settings(self):
-                    if self.game.keys[UNGRAB_KEY] and self.Last_Changing_settings + self.Changing_settings_Cooldown < time.time():
+                    if self.game.keys[UNGRAB_KEY] and self.Last_Changing_settings + self.Changing_settings_Cooldown < self.game.game_time:
                               self.game.changing_settings = not self.game.changing_settings
-                              self.Last_Changing_settings = time.time()
+                              self.Last_Changing_settings = self.game.game_time

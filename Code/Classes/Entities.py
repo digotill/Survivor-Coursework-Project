@@ -81,7 +81,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                         self.pos.x = new_x
                                         self.rect.x = self.pos.x
                                         move_hor = True
-                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[1] + PLAYER_OFFSET_Y2:
+                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[1] + PLAYER_OFFSET_Y2 + 23:
                                         self.pos.y = new_y
                                         self.rect.y = self.pos.y
                                         move_vert = True
@@ -223,9 +223,8 @@ class Gun:
                               self.angle = angle
 
           def update_shooting(self):
-                    current_time = pygame.time.get_ticks() / 1000
-                    if self.fire_rate + self.last_shot_time < current_time and self.game.mouse_state[0] and not self.game.changing_settings:
-                              self.last_shot_time = current_time
+                    if self.fire_rate + self.last_shot_time < self.game.game_time and self.game.mouse_state[0] and not self.game.changing_settings:
+                              self.last_shot_time = self.game.game_time
 
                               start_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(self.distance - 18))
                               start_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(self.distance - 18))

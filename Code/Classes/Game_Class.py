@@ -117,6 +117,5 @@ class Game:
                               self.event_manager()
                               self.update_groups()
                               self.draw_groups()
-                              self.game_time = pygame.time.get_ticks()
                               if self.running: pygame.display.flip()
                     pygame.quit()
