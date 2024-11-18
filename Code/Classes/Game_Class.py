@@ -40,7 +40,7 @@ class Game:
                                                             self.window.rect.centery), PLAYER_NAME, Player_Running)
 
                     self.running = True
-                    self.game_time = 0
+                    self.game_time = pygame.time.get_ticks() / 1000
                     self.fps = FPS
                     self.dt = 0
                     self.changing_settings = False
@@ -103,7 +103,10 @@ class Game:
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
                                               int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     self.mouse_state = pygame.mouse.get_pressed()
-                    self.game_time = pygame.time.get_ticks() / 1000
+                    if not self.changing_settings:
+                              self.game_time += self.dt
+                    print(f"Game Time: {self.game_time:.2f} seconds")
+
 
           def run_game(self):
                     main_menu = self.mainmenu.loop()

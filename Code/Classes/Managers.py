@@ -55,7 +55,7 @@ class BulletManager:
           def update(self):
                     for bullet in self.grid.items:
                               bullet.update()
-                              if bullet.creation_time + bullet.lifetime < pygame.time.get_ticks() / 1000 or bullet.health <= 0: bullet.dead = True
+                              if bullet.creation_time + bullet.lifetime < self.game.game_time or bullet.health <= 0: bullet.dead = True
                     self.check_for_collisions()
                     self.grid.rebuild()
                     self.remove_bullet()
