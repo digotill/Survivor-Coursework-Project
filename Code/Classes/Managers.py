@@ -62,8 +62,8 @@ class BulletManager:
 
           def draw(self):
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (bullet.rect.centerx - self.game.window.offset_rect.x,
-                                                                           bullet.rect.centery - self.game.window.offset_rect.y))
+                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.window.offset_rect.x,
+                                                                           bullet.rect.y - self.game.window.offset_rect.y))
 
           def add_bullet(self, bullet):
                     self.grid.insert(bullet)

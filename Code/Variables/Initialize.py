@@ -1,5 +1,5 @@
 from Code.Variables.Variables import *
-from Code.Utilities.Tools import *
+from Code.Utilities.Utils import *
 import pygame
 
 display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)

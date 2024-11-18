@@ -77,7 +77,7 @@ class Game:
           def draw_groups(self):
                     self.display_screen.fill(BG_COLOUR)
                     self.BG_entities.draw()
-                    self.player.blit()
+                    self.player.draw()
                     self.player.gun.draw()
                     self.enemy_manager.draw_enemies()
                     self.object_manager.draw()

@@ -9,7 +9,6 @@ class Window(RectEntity):
                     RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0,
                                         name, angle)
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
-                    self.little_offset_rect = self.offset_rect.copy()
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)
                     self.lerp_speed = WINDOW_LERP_SPEED
@@ -72,16 +71,15 @@ class Window(RectEntity):
                     player_top = self.game.player.pos.y - self.offset_rect.y
                     player_bottom = player_top + self.game.player.res[1]
 
-                    print(player_left, player_right, player_top, player_bottom)
-                    if player_left < 59:
-                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - 34
-                    elif player_right > self.res[0] - 44:
-                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0] + 45
+                    if player_left < PLAYER_OFFSET_X1:
+                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - PLAYER_OFFSET_X1 + self.game.player.res[0]
+                    elif player_right > self.res[0] + PLAYER_OFFSET_X2:
+                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0] - PLAYER_OFFSET_X2 + 1
 
-                    if player_top < 50:
-                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1]
-                    elif player_bottom > self.res[1] - 7:
-                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1] + 9
+                    if player_top < PLAYER_OFFSET_Y1:
+                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - PLAYER_OFFSET_Y1 + self.game.player.res[1]
+                    elif player_bottom > self.res[1] + PLAYER_OFFSET_Y2 + 1:
+                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1] - PLAYER_OFFSET_Y2
 
                     self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))

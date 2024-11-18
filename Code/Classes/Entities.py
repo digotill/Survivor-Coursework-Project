@@ -1,7 +1,7 @@
 import pygame, math, random
 from Code.Variables.Variables import *
 from Code.Variables.Initialize import *
-from Code.Utilities.Tools import *
+from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
 
 class RectEntity:
@@ -68,7 +68,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                               dx /= magnitude
                               dy /= magnitude
 
-                    if dy != 0 or dx != 0: self.update_frame()
+                    if (dy != 0 or dx != 0) and not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
                     self.update_facing()
 
@@ -76,29 +76,30 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt
 
                     move_hor, move_vert = False, False
-                    if 59 < new_x < self.game.big_window[0] - self.res[0] - 44:
-                              self.pos.x = new_x
-                              self.rect.x = self.pos.x
-                              move_hor = True
-                    if 50 < new_y < self.game.big_window[1] - self.res[1] - 8:
-                              self.pos.y = new_y
-                              self.rect.y = self.pos.y
-                              move_vert = True
+                    if not self.game.changing_settings:
+                              if PLAYER_OFFSET_X1 < new_x < self.game.big_window[0] - self.res[0] + PLAYER_OFFSET_X2:
+                                        self.pos.x = new_x
+                                        self.rect.x = self.pos.x
+                                        move_hor = True
+                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[1] + PLAYER_OFFSET_Y2:
+                                        self.pos.y = new_y
+                                        self.rect.y = self.pos.y
+                                        move_vert = True
 
                     self.game.window.move(dx, dy, move_hor, move_vert)
 
-          def blit(self):
+          def draw(self):
                     if self.facing == "left":
                               image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True,
                                                             False)
                     else:
                               image = self.images[int(self.frame) % len(self.images) - 1]
-                    self.game.display_screen.blit(image, (self.pos.x - self.game.window.offset_rect.x - 10,
-                                                          self.pos.y - self.game.window.offset_rect.y))
+                    image = pygame.transform.scale(image, PLAYER_RES)
+                    self.game.display_screen.blit(image, (self.rect.x - self.game.window.offset_rect.x,
+                                                          self.rect.y - self.game.window.offset_rect.y))
 
           def update_facing(self):
-                    if int(self.game.mouse_pos[0] * REN_RES[
-                              0] / self.game.display.width) < self.game.player.rect.x - self.game.window.pos.x:
+                    if self.game.correct_mouse_pos[0] < self.game.player.rect.centerx - self.game.window.offset_rect.x:
                               self.facing = "left"
                     else:
                               self.facing = "right"
@@ -168,7 +169,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def blit(self):
                     sprite = self.get_current_sprite()
                     draw_pos = self.pos - (self.game.window.offset_rect.x, self.game.window.offset_rect.y)
-                    self.game.display_screen.blit(sprite, draw_pos)
+                    self.game.display_screen.blit(pygame.transform.scale(sprite, ENEMY_RES), draw_pos)
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]
@@ -195,34 +196,26 @@ class Gun:
                     self.fire_rate = fire_rate
 
           def update(self):
-                    self.update_facing()
                     self.calc_angle()
                     self.update_shooting()
 
           def draw(self):
-                    pos_x = (self.game.player.rect.centerx + math.sin(
-                              math.radians(self.angle + 180)) * self.distance -
-                             self.game.window.offset_rect.x + int(self.res[0] / 2) - 0.5 * self.res[0] - 5)
-                    pos_y = (self.game.player.rect.centery + math.cos(
-                              math.radians(self.angle + 180)) * self.distance -
-                             self.game.window.offset_rect.y + int(self.res[1] / 2) - 0.5 * self.res[1] - 5)
-                    if self.facing == "right":
+                    if self.game.player.facing == "right":
                               self.rotated_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
-                              self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
-                              self.game.display_screen.blit(self.rotated_image, self.rect)
                     else:
-                              self.rotated_image = pygame.transform.rotate(self.gunImage, -self.angle + 90)
-                              self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
-                              self.game.display_screen.blit(pygame.transform.flip(self.rotated_image, True, False), self.rect)
-
-          def update_facing(self):
-                    self.facing = self.game.player.facing
+                              self.rotated_image = pygame.transform.flip(pygame.transform.rotate(self.gunImage, -self.angle + 90), True, False)
+                    pos_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * self.distance -
+                             self.game.window.offset_rect.x)
+                    pos_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * self.distance -
+                             self.game.window.offset_rect.y)
+                    self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
+                    self.game.display_screen.blit(self.rotated_image, self.rect)
 
           def calc_angle(self):
                     change_in_x = (self.game.player.rect.centerx - self.game.window.offset_rect.x
-                                   - self.game.correct_mouse_pos[0] - 5)
+                                   - self.game.correct_mouse_pos[0])
                     change_in_y = (self.game.player.rect.centery - self.game.window.offset_rect.y
-                                   - self.game.correct_mouse_pos[1] - 5)
+                                   - self.game.correct_mouse_pos[1])
                     angle = self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
                     if angle <= 0:
                               self.angle = angle + 360
@@ -231,16 +224,13 @@ class Gun:
 
           def update_shooting(self):
                     current_time = pygame.time.get_ticks() / 1000
-                    if self.fire_rate + self.last_shot_time < current_time and self.game.mouse_state[0]:
+                    if self.fire_rate + self.last_shot_time < current_time and self.game.mouse_state[0] and not self.game.changing_settings:
                               self.last_shot_time = current_time
 
-                              start_x = self.game.player.rect.x - 1 + math.sin(
-                                        math.radians(self.angle + 180)) * int(self.distance + 12)
-                              start_y = self.game.player.rect.y + 10 + math.cos(
-                                        math.radians(self.angle + 180)) * int(self.distance + 12)
-                              start_pos = start_x, start_y
+                              start_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(self.distance - 18))
+                              start_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(self.distance - 18))
 
-                              new_bullet = Bullet(self.game, start_pos, self.angle, self.bullet_velocity,
+                              new_bullet = Bullet(self.game, (start_x, start_y), self.angle, self.bullet_velocity,
                                                   self.bullet_image, self.bullet_lifetime, self.bullet_friction, "Player Bullet", PLAYER_BULLET_DAMAGE)
 
                               self.game.bullet_manager.add_bullet(new_bullet)
