@@ -28,6 +28,7 @@ class Game:
                     self.object_manager = ObjectManager(self)
                     self.bullet_manager = BulletManager(self)
                     self.sound_manager = SoundManager(self)
+                    self.button_manager = ButtonManager(self)
 
                     self.background = UI(self)
 
@@ -40,8 +41,8 @@ class Game:
                                                             self.window.rect.centery), PLAYER_NAME, Player_Running)
 
                     self.running = True
-                    self.game_time = pygame.time.get_ticks() / 1000
-                    self.fps = FPS
+                    self.game_time = 0
+                    self.fps = pygame.display.get_current_refresh_rate()
                     self.dt = 0
                     self.changing_settings = False
 
@@ -73,6 +74,7 @@ class Game:
                     self.background.update()
                     self.update_somethings()
                     self.player.gun.update()
+                    self.button_manager.update_buttons()
 
           def draw_groups(self):
                     self.display_screen.fill(BG_COLOUR)
@@ -87,6 +89,7 @@ class Game:
                     self.background.draw_bars()
                     self.background.draw_fps()
                     self.background.draw_time()
+                    self.button_manager.draw_buttons()
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                     self.background.display_mouse()
 
@@ -105,13 +108,11 @@ class Game:
                     self.mouse_state = pygame.mouse.get_pressed()
                     if not self.changing_settings:
                               self.game_time += self.dt
-                    print(f"Game Time: {self.game_time:.2f} seconds")
-
 
           def run_game(self):
                     main_menu = self.mainmenu.loop()
-                    prev_time = time.time()
                     if main_menu is False: return None
+                    prev_time = time.time()
                     while self.running:
                               self.clock.tick(self.fps)
                               now = time.time()

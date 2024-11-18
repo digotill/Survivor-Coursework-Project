@@ -3,6 +3,7 @@ from Code.Variables.Initialize import *
 from Code.Classes.Entities import *
 from pygame.math import Vector2 as v2
 from Code.Utilities.Grid import *
+from Code.Classes.Button_Class import *
 
 
 class EnemyManager:
@@ -121,7 +122,7 @@ class BG_Entities_Manager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
-                    for i in range(int(PLAYABLE_AREA_SIZE[0] / 200 * BG_ENTITIES_DENSITY)):
+                    for i in range(int(PLAYABLE_AREA_SIZE[0] / 480 * BG_ENTITIES_DENSITY)):
                               coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
                               entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES)
                               collision = False
@@ -131,5 +132,24 @@ class BG_Entities_Manager:
 
           def draw(self):
                     for entity in self.grid.window_query(): entity.blit()
+
+
+class ButtonManager:
+          def __init__(self, game):
+                    self.game = game
+                    self.play_button = Settings_Button(self.game, Buttons[0], (240, 135), True, "x", "max",  100,
+                                                       "Play", FONT, (255, 255, 255), (255, 0, 0))
+                    self.buttons = [self.play_button]
+
+          def update_buttons(self):
+                    for button in self.buttons:
+                              button.active = self.game.changing_settings
+                              button.update()
+                              button.changeColor(pygame.mouse.get_pos())
+                              button.check_for_input(self.game.correct_mouse_pos)
+
+          def draw_buttons(self):
+                    for button in self.buttons:
+                              button.draw()
 
 
