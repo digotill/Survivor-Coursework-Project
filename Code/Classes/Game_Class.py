@@ -43,7 +43,7 @@ class Game:
                     self.game_time = 0
                     self.fps = FPS
                     self.dt = 0
-                    self.changing_settings = CHANGING_SETTINGS
+                    self.changing_settings = False
 
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = pygame.mouse.get_pos()
@@ -51,7 +51,10 @@ class Game:
                     self.keys = pygame.key.get_pressed()
 
                     self.event_manager_class = Event_Manager(self)
+
                     pygame.display.set_icon(cover)
+                    pygame.display.set_caption("Vampire Survivor")
+                    pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 
           def refresh(self):
                     self.__init__()
@@ -59,15 +62,17 @@ class Game:
                     self.run_game()
 
           def update_groups(self):
-                    self.enemy_manager.update_enemies()
+                    if not self.changing_settings:
+                              self.enemy_manager.update_enemies()
+                              self.particle_manager.update_particles()
+                              self.bullet_manager.update()
+                              self.game_over.update()
+
                     self.object_manager.update()
                     self.player.update()
-                    self.player.gun.update()
-                    self.particle_manager.update_particles()
-                    self.bullet_manager.update()
                     self.background.update()
-                    self.game_over.update()
                     self.update_somethings()
+                    self.player.gun.update()
 
           def draw_groups(self):
                     self.display_screen.fill(BG_COLOUR)
@@ -90,6 +95,7 @@ class Game:
                     self.event_manager_class.update_size()
                     self.event_manager_class.update_fps_toggle()
                     self.event_manager_class.update_grab()
+                    self.event_manager_class.update_changing_settings()
 
           def update_somethings(self):
                     self.keys = pygame.key.get_pressed()
@@ -112,6 +118,5 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.game_time = pygame.time.get_ticks()
-                              if self.player.health < 0: self.running = False
                               if self.running: pygame.display.flip()
                     pygame.quit()

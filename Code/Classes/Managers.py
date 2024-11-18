@@ -82,7 +82,6 @@ class BulletManager:
                     for bullet in self.player_bullets:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
-                                                  bullet.health -= 1
                                                   if bullet.health <= 0:
                                                             bullet.dead = True
                                                             break

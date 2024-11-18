@@ -8,10 +8,10 @@ class Event_Manager:
                     self.Last_Fullscreen = 0
                     self.Last_FPS_Toggle = 0
                     self.Fullscreen_Toggled = START_FULLSCREEN
-                    self.FPS_Toggled = START_WITH_FPS
                     self.Fullscreen_Cooldown = FULLSCREEN_COOLDOWN
-                    self.FPS_Cooldown = FPS_COOLDOWN
-
+                    self.FPS_Cooldown = FPS_AND_TIME_COOLDOWN
+                    self.Changing_settings_Cooldown = CHANGING_SETTINGS_COOLDOWN
+                    self.Last_Changing_settings = 0
 
           def update_window_events(self):
                     for event in pygame.event.get():
@@ -38,4 +38,7 @@ class Event_Manager:
                     if self.game.mouse_state[0]: pygame.event.set_grab(True)
                     elif self.game.keys[UNGRAB_KEY]: pygame.event.set_grab(False)
 
-
+          def update_changing_settings(self):
+                    if self.game.keys[UNGRAB_KEY] and self.Last_Changing_settings + self.Changing_settings_Cooldown < time.time():
+                              self.game.changing_settings = not self.game.changing_settings
+                              self.Last_Changing_settings = time.time()

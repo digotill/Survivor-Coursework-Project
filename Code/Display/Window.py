@@ -3,9 +3,11 @@ from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
 from Code.Classes.Entities import *
 
+
 class Window(RectEntity):
-        def __init__(self, game, res, big_res, name=None, angle=0):
-                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0, name, angle)
+          def __init__(self, game, res, big_res, name=None, angle=0):
+                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0,
+                                        name, angle)
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.little_offset_rect = self.offset_rect.copy()
                     self.target_offset = v2(0, 0)
@@ -21,16 +23,16 @@ class Window(RectEntity):
                     self.shake_direction = v2(WINDOW_SHAKE_DIRECTIONS)
                     self.shake_noise_magnitude = 0
 
-        def move(self, dx, dy, move_horizontally, move_vertically):
+          def move(self, dx, dy, move_horizontally, move_vertically):
 
                     new_x = self.pos.x + dx * self.game.player.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
 
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
-                    self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+                                      self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
                     self.mouse_smoothing = v2(
-                    self.lerp(self.mouse_smoothing.x, mouse_target.x, 0.1),
-                    self.lerp(self.mouse_smoothing.y, mouse_target.y, 0.1))
+                              self.lerp(self.mouse_smoothing.x, mouse_target.x, 0.1),
+                              self.lerp(self.mouse_smoothing.y, mouse_target.y, 0.1))
 
                     if abs(self.mouse_smoothing.x) < self.deadzone:
                               self.mouse_smoothing.x = 0
@@ -47,10 +49,10 @@ class Window(RectEntity):
                     rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
                     if (move_horizontally and 0 < new_x < self.game.big_window[0] - self.res[0] and
-                              0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
+                            0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
                               self.pos.x = new_x
                     if (move_vertically and 0 < new_y < self.game.big_window[1] - self.res[1] and
-                              0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
+                            0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
                               self.pos.y = new_y
 
                     if 0 < self.pos.x + rounded_offset.x < self.game.big_window[0] - self.res[0]:
@@ -61,63 +63,64 @@ class Window(RectEntity):
                     shake_offset = self.calculate_shake()
 
                     self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
-                                            self.game.big_window[0] - self.res[0]))
+                                                    self.game.big_window[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
-                                            self.game.big_window[1] - self.res[1]))
+                                                    self.game.big_window[1] - self.res[1]))
 
                     player_left = self.game.player.pos.x - self.offset_rect.x
                     player_right = player_left + self.game.player.res[0]
                     player_top = self.game.player.pos.y - self.offset_rect.y
                     player_bottom = player_top + self.game.player.res[1]
 
-                    if player_left < 19:
-                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0]
-                    elif player_right > self.res[0]:
-                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0]
+                    print(player_left, player_right, player_top, player_bottom)
+                    if player_left < 59:
+                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - 34
+                    elif player_right > self.res[0] - 44:
+                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[0] + 45
 
-                    if player_top < 51:
+                    if player_top < 50:
                               self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1]
-                    elif player_bottom > self.res[1]:
-                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1]
+                    elif player_bottom > self.res[1] - 7:
+                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[1] + 9
 
                     self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
 
-        def calculate_shake(self):
-                  current_time = pygame.time.get_ticks()
-                  elapsed_time = (current_time - self.shake_start_time) / 1000.0
+          def calculate_shake(self):
+                    current_time = pygame.time.get_ticks()
+                    elapsed_time = (current_time - self.shake_start_time) / 1000.0
 
-                  if elapsed_time > self.shake_duration:
-                            self.shake_duration = 0
-                            return v2(0, 0)
+                    if elapsed_time > self.shake_duration:
+                              self.shake_duration = 0
+                              return v2(0, 0)
 
-                  fade_out = 1 - (elapsed_time / self.shake_duration)
-                  sin_value = math.sin(self.shake_speed * (self.shake_seed + elapsed_time))
+                    fade_out = 1 - (elapsed_time / self.shake_duration)
+                    sin_value = math.sin(self.shake_speed * (self.shake_seed + elapsed_time))
 
-                  noise_x = self.get_2d_noise(self.shake_seed + elapsed_time, 0)
-                  noise_y = self.get_2d_noise(0, self.shake_seed + elapsed_time)
-                  noise_offset = v2(noise_x, noise_y)
+                    noise_x = self.get_2d_noise(self.shake_seed + elapsed_time, 0)
+                    noise_y = self.get_2d_noise(0, self.shake_seed + elapsed_time)
+                    noise_offset = v2(noise_x, noise_y)
 
-                  direction = (self.shake_direction + noise_offset * self.shake_noise_magnitude).normalize()
+                    direction = (self.shake_direction + noise_offset * self.shake_noise_magnitude).normalize()
 
-                  shake_offset = direction * sin_value * self.shake_magnitude * fade_out
-                  return v2(int(shake_offset.x), int(shake_offset.y))
+                    shake_offset = direction * sin_value * self.shake_magnitude * fade_out
+                    return v2(int(shake_offset.x), int(shake_offset.y))
 
-        @staticmethod
-        def get_2d_noise(x, y):
+          @staticmethod
+          def get_2d_noise(x, y):
 
-                  scaled_x = x * 0.1
-                  scaled_y = y * 0.1
+                    scaled_x = x * 0.1
+                    scaled_y = y * 0.1
 
-                  return perlin([scaled_x, scaled_y])
+                    return perlin([scaled_x, scaled_y])
 
-        def add_screen_shake(self, duration, magnitude):
-                  self.shake_duration = duration
-                  self.shake_magnitude = magnitude
-                  self.shake_start_time = pygame.time.get_ticks()
-                  self.shake_seed = random.random() * 1000
-                  self.shake_direction = v2(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
+          def add_screen_shake(self, duration, magnitude):
+                    self.shake_duration = duration
+                    self.shake_magnitude = magnitude
+                    self.shake_start_time = pygame.time.get_ticks()
+                    self.shake_seed = self.game.game_time
+                    self.shake_direction = v2(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
 
-        @staticmethod
-        def lerp(start, end, amount):
-                return start + (end - start) * amount
+          @staticmethod
+          def lerp(start, end, amount):
+                    return start + (end - start) * amount

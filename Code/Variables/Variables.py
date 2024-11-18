@@ -2,7 +2,7 @@ import pygame, random
 from perlin_noise import PerlinNoise
 pygame.init()
 
-START_FULLSCREEN = True
+START_FULLSCREEN = False
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 MAX_WIN_RES = 2560, 1440
@@ -65,17 +65,17 @@ WINDOW_MOUSE_SMOOTHING = 10, 10
 WINDOW_SHAKE_DIRECTIONS = 1, 1
 
 PLAY_BUTTON_NAME = "Play"
-PLAY_BUTTON_POS = 300, 500
+PLAY_BUTTON_POS = 240, 80
 PLAY_BUTTON_BASE_COLOUR = "black"
 PLAY_BUTTON_HOVERING_COLOUR = "blue"
 
 OPTIONS_BUTTON_NAME = "Options"
-OPTIONS_BUTTON_POS = 700, 800
+OPTIONS_BUTTON_POS = 240, 160
 OPTIONS_BUTTON_BASE_COLOUR = "black"
 OPTIONS_BUTTON_HOVERING_COLOUR = "blue"
 
 QUIT_BUTTON_NAME = "Quit"
-QUIT_BUTTON_POS = 500, 700
+QUIT_BUTTON_POS = 240, 240
 QUIT_BUTTON_BASE_COLOUR = "black"
 QUIT_BUTTON_HOVERING_COLOUR = "blue"
 
@@ -91,14 +91,11 @@ TOGGLE_FPS_KEY = pygame.K_F12
 ESCAPE_KEY = pygame.K_F10
 UNGRAB_KEY = pygame.K_ESCAPE
 
-CHANGING_SETTINGS = False
-START_WITH_FPS = False
-FPS_COOLDOWN = 1
+START_WITH_FPS_AND_TIME = False
+FPS_AND_TIME_COOLDOWN = 1
 FULLSCREEN_COOLDOWN = 1
+CHANGING_SETTINGS_COOLDOWN = 1
 
 PERLIN_OCTAVES = 3
 PERLIN_SEED = random.randint(0, 100000)
 perlin = PerlinNoise(octaves=PERLIN_OCTAVES, seed=PERLIN_SEED)
-
-pygame.display.set_caption("Vampire Survivor")
-pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))

@@ -76,11 +76,11 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt
 
                     move_hor, move_vert = False, False
-                    if 19 < new_x < self.game.big_window[0] - self.res[0] + 1:
+                    if 59 < new_x < self.game.big_window[0] - self.res[0] - 44:
                               self.pos.x = new_x
                               self.rect.x = self.pos.x
                               move_hor = True
-                    if 52 < new_y < self.game.big_window[1] - self.res[1] + 10:
+                    if 50 < new_y < self.game.big_window[1] - self.res[1] - 8:
                               self.pos.y = new_y
                               self.rect.y = self.pos.y
                               move_vert = True
@@ -247,7 +247,7 @@ class Gun:
 
 class Bullet(RectEntity):
           def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10, health=1):
-                    self.image = pygame.transform.rotate(image, angle)
+                    self.image = pygame.transform.rotate(image, angle + 90)
                     RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, change_random(angle + 180, PLAYER_GUN_SPREAD))
                     self.original_image = image
                     self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
@@ -256,6 +256,7 @@ class Bullet(RectEntity):
                     self.friction = friction
                     self.damage = damage
                     self.health = health
+                    self.rect.center = self.pos
 
           def update(self):
                     if self.friction > 0:
@@ -267,5 +268,6 @@ class Bullet(RectEntity):
           def check_collision(self, target):
                     if self.rect.colliderect(target.rect):
                               target.health -= self.damage
+                              self.health -= 1
                               return True
                     return False
