@@ -85,6 +85,8 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
+                    if self.changing_settings:
+                              self.display_screen.fill((12, 12, 12), special_flags=pygame.BLEND_RGB_SUB)
                     self.background.draw_border()
                     self.background.draw_bars()
                     self.background.draw_fps()

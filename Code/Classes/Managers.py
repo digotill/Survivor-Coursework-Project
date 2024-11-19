@@ -56,7 +56,7 @@ class BulletManager:
           def update(self):
                     for bullet in self.grid.items:
                               bullet.update()
-                              if bullet.creation_time + bullet.lifetime < self.game.game_time or bullet.health <= 0: bullet.dead = True
+                              if bullet.creation_time + bullet.lifetime < self.game.game_time: bullet.dead = True
                     self.check_for_collisions()
                     self.grid.rebuild()
                     self.remove_bullet()
@@ -137,16 +137,17 @@ class BG_Entities_Manager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = Settings_Button(self.game, Buttons[0], (240, 135), True, "x", "max",  100,
-                                                       "Play", FONT, (255, 255, 255), (255, 0, 0))
+                    self.play_button = Settings_Button(self.game, Buttons[0], (240, 135), PLAY_BUTTON_RES, True, "x", "max",
+                                                       SETTINGS_BUTTON_SPEED, "Play", FONT, (255, 255, 255), (255, 0, 0))
                     self.buttons = [self.play_button]
 
           def update_buttons(self):
                     for button in self.buttons:
                               button.active = self.game.changing_settings
                               button.update()
-                              button.changeColor(pygame.mouse.get_pos())
-                              button.check_for_input(self.game.correct_mouse_pos)
+                              button.changeColor()
+                    if self.game.mouse_state[0]:
+                              if self.play_button.check_for_input(): print(True)
 
           def draw_buttons(self):
                     for button in self.buttons:

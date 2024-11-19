@@ -55,6 +55,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.gun = Gun(game, Rifle, PLAYER_GUN_RES, Rifle_bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
                                    PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION)
                     AnimatedEntity.__init__(self, game, images, animation)
+                    self.pos.x -= self.res[0] / 2
+                    self.pos.y -= self.res[1] / 2
 
           def update(self):
                     dx, dy = 0, 0
@@ -241,7 +243,7 @@ class Bullet(RectEntity):
                     self.original_image = image
                     self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
                     self.dead = False
-                    self.creation_time = pygame.time.get_ticks() / 1000
+                    self.creation_time = self.game.game_time
                     self.friction = friction
                     self.damage = damage
                     self.health = health
