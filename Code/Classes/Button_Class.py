@@ -60,37 +60,34 @@ class Paused_Buttons:
                     self.image = pygame.transform.scale(image, res)
                     self.rect = self.image.get_rect(center=pos)
                     self.original_pos = v2(pos)
+                    self.active = False
+                    self.speed = speed
+                    self.axis = axis
+                    self.axis_location = axis_location
+                    self.starting_pos = self.calculate_starting_position()
+                    self.current_pos = v2(self.starting_pos)
+                    self.rect.center = self.current_pos
+
                     self.has_text = text
                     self.text_input = text_input
                     self.font_path = font
                     self.base_color = base_color
                     self.hovering_color = hovering_color
-                    self.active = False
-                    self.speed = speed
-                    self.axis = axis
-                    self.axis_location = axis_location
-
-                    self.starting_pos = self.calculate_starting_position()
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
-
                     if self.has_text:
                               self.setup_text()
 
           def calculate_starting_position(self):
                     if self.axis == "x":
-                              x = REN_RES[
-                                            0] + self.rect.width / 2 + 1 if self.axis_location == "max" else -self.rect.width / 2 - 1
+                              x = REN_RES[0] + self.rect.width / 2 + 1 if self.axis_location == "max" else -self.rect.width / 2 - 1
                               return x, self.original_pos.y
                     else:
-                              y = REN_RES[
-                                            1] + self.rect.height / 2 + 1 if self.axis_location == "max" else -self.rect.height / 2 - 1
+                              y = REN_RES[1] + self.rect.height / 2 + 1 if self.axis_location == "max" else -self.rect.height / 2 - 1
                               return self.original_pos.x, y
 
           def setup_text(self):
-                    self.font_size = int(self.rect.height / BUTTONS_SIZE )
+                    self.font_size = int(self.rect.height / BUTTONS_SIZE / 1.2)
                     self.font = pygame.font.Font(self.font_path, self.font_size)
-                    self.text = self.font.render(self.text_input, True, self.base_color)
+                    self.text = self.font.render(self.text_input, False, self.base_color)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
 
           def draw(self):
@@ -103,21 +100,15 @@ class Paused_Buttons:
                     screen_rect = self.game.display_screen.get_rect()
                     return self.rect.colliderect(screen_rect)
 
-
           def update(self):
                     target = self.original_pos if self.active else v2(self.starting_pos)
                     distance = (target - self.current_pos).length()
-
-                    speed_factor = min(distance / SETTINGS_BUTTON_FRICTION,
-                                                 1)
+                    speed_factor = min(distance / SETTINGS_BUTTON_FRICTION, 1)
 
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
-
-                    if movement.length() > distance:
-                              self.current_pos = target
-                    else:
-                              self.current_pos += movement
+                    if movement.length() > distance: self.current_pos = target
+                    else: self.current_pos += movement
 
                     self.rect.center = self.current_pos
                     if self.has_text:
@@ -129,5 +120,5 @@ class Paused_Buttons:
           def changeColor(self):
                     if self.has_text:
                               color = self.hovering_color if self.rect.collidepoint(self.game.correct_mouse_pos) else self.base_color
-                              self.text = self.font.render(self.text_input, True, color)
+                              self.text = self.font.render(self.text_input, False, color)
                               self.text_rect = self.text.get_rect(center=self.rect.center)

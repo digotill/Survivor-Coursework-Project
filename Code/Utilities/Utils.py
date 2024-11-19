@@ -26,7 +26,6 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, *args):
                     cropped = pygame.Surface((tw, th))
           return array
 
-
 def random_xy(rect1, rect2, sprite_width, sprite_height):
           while True:
                     x = random.randint(rect1.left, rect1.right - sprite_width)
@@ -34,7 +33,6 @@ def random_xy(rect1, rect2, sprite_width, sprite_height):
 
                     if not rect2.collidepoint(x, y):
                               return x, y
-
 
 def memoize(func):
           cache = {}
@@ -49,7 +47,6 @@ def memoize(func):
                     return cache[key]
 
           return wrapper
-
 
 def load(filename, res=None, *args):
           image = pygame.image.load("Assets\\" + filename).convert_alpha()

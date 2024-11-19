@@ -139,10 +139,13 @@ class ButtonManager:
                     self.game = game
                     self.play_button = Paused_Buttons(self.game, Buttons[0], (240, 135), PLAY_BUTTON_RES, True, "y", "max",
                                                       SETTINGS_BUTTON_SPEED, "Play", FONT, (255, 255, 255), (255, 0, 0))
-                    self.buttons = [self.play_button]
+                    self.quit_button = Paused_Buttons(self.game, Buttons[1], (360, 220), QUIT_BUTTON_RES, True, "x", "max",
+                                                      SETTINGS_BUTTON_SPEED, "Quit", FONT, (255, 255, 255), (255, 0, 0))
+                    self.first_buttons = [self.play_button, self.quit_button]
+                    self.second_buttons = []
 
           def update_buttons(self):
-                    for button in self.buttons:
+                    for button in self.first_buttons:
                               button.active = self.game.changing_settings
                               button.update()
                               button.changeColor()
@@ -150,7 +153,7 @@ class ButtonManager:
                               if self.play_button.check_for_input(): print(True)
 
           def draw_buttons(self):
-                    for button in self.buttons:
+                    for button in self.first_buttons:
                               button.draw()
 
 
