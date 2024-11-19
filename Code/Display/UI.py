@@ -85,3 +85,7 @@ class UI:
                                                                          image.get_rect().height * self.game.display.height / REN_RES[1]))
                               self.game.display.blit(new_image, (self.game.mouse_pos[0] - new_image.get_rect().width / 2,
                                                                  self.game.mouse_pos[1] - new_image.get_rect().height / 2))
+
+          def darken_screen(self):
+                    if self.game.changing_settings:
+                              self.game.display_screen.fill((12, 12, 12), special_flags=pygame.BLEND_RGB_SUB)

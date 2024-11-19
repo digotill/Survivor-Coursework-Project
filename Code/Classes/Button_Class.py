@@ -53,7 +53,7 @@ class Button:
         self.update_size_and_position()
 
 
-class Settings_Button:
+class Paused_Buttons:
           def __init__(self, game, image, pos, res, text, axis, axis_location, speed, text_input=None, font=None,
                        base_color=None, hovering_color=None):
                     self.game = game
@@ -128,6 +128,6 @@ class Settings_Button:
 
           def changeColor(self):
                     if self.has_text:
-                              color = self.hovering_color if self.text_rect.collidepoint(self.game.correct_mouse_pos) else self.base_color
+                              color = self.hovering_color if self.rect.collidepoint(self.game.correct_mouse_pos) else self.base_color
                               self.text = self.font.render(self.text_input, True, color)
                               self.text_rect = self.text.get_rect(center=self.rect.center)

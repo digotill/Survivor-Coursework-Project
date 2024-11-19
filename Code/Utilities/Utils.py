@@ -59,9 +59,9 @@ def load(filename, res=None, *args):
           return image
 
 def change_random(number, diff):
-          random_diff = random.uniform(0, diff)
-          if random.randint(0, 1) == 0: return number - random_diff
-          else: return number + random_diff
+          diff = random.random() * diff
+          if random.randint(0, 1) == 0: return number - diff
+          else: return number + diff
 
 def re_res(array, res):
           new_array = []

@@ -239,7 +239,7 @@ class Gun:
 class Bullet(RectEntity):
           def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10, health=1):
                     self.image = pygame.transform.rotate(image, angle + 90)
-                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, change_random(angle + 180, PLAYER_GUN_SPREAD))
+                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, change_random(angle, PLAYER_GUN_SPREAD) + 180)
                     self.original_image = image
                     self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
                     self.dead = False

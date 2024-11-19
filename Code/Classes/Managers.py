@@ -137,8 +137,8 @@ class BG_Entities_Manager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = Settings_Button(self.game, Buttons[0], (240, 135), PLAY_BUTTON_RES, True, "x", "max",
-                                                       SETTINGS_BUTTON_SPEED, "Play", FONT, (255, 255, 255), (255, 0, 0))
+                    self.play_button = Paused_Buttons(self.game, Buttons[0], (240, 135), PLAY_BUTTON_RES, True, "y", "max",
+                                                      SETTINGS_BUTTON_SPEED, "Play", FONT, (255, 255, 255), (255, 0, 0))
                     self.buttons = [self.play_button]
 
           def update_buttons(self):

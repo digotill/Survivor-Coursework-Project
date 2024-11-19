@@ -68,11 +68,9 @@ class Game:
                               self.particle_manager.update_particles()
                               self.bullet_manager.update()
                               self.game_over.update()
-
-                    self.object_manager.update()
+                              self.object_manager.update()
                     self.player.update()
                     self.background.update()
-                    self.update_somethings()
                     self.player.gun.update()
                     self.button_manager.update_buttons()
 
@@ -85,8 +83,7 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
-                    if self.changing_settings:
-                              self.display_screen.fill((12, 12, 12), special_flags=pygame.BLEND_RGB_SUB)
+                    self.background.darken_screen()
                     self.background.draw_border()
                     self.background.draw_bars()
                     self.background.draw_fps()
@@ -102,7 +99,7 @@ class Game:
                     self.event_manager_class.update_grab()
                     self.event_manager_class.update_changing_settings()
 
-          def update_somethings(self):
+          def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
@@ -110,16 +107,15 @@ class Game:
                     self.mouse_state = pygame.mouse.get_pressed()
                     if not self.changing_settings:
                               self.game_time += self.dt
+                    if self.clock.get_fps() == 0: fps = 200
+                    else: fps = self.clock.get_fps()
+                    self.dt = 1 / fps
 
           def run_game(self):
-                    main_menu = self.mainmenu.loop()
-                    if main_menu is False: return None
-                    prev_time = time.time()
+                    if self.mainmenu.loop() is False: return None
                     while self.running:
                               self.clock.tick(self.fps)
-                              now = time.time()
-                              self.dt = now - prev_time
-                              prev_time = now
+                              self.update_game_variables()
                               self.event_manager()
                               self.update_groups()
                               self.draw_groups()

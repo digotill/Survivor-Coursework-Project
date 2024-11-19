@@ -21,7 +21,7 @@ class MainMenu:
                               self.game.display.blit(new_bg, (0, 0))
 
                               self.game.event_manager()
-                              self.game.update_somethings()
+                              self.game.update_game_variables()
 
                               if pygame.mouse.get_pressed()[0]:
                                         if self.PLAY_BUTTON.check_for_input(self.game.mouse_pos): return True
