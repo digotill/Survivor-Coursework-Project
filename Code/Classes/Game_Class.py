@@ -8,7 +8,7 @@ from Code.Variables.Initialize import *
 from Code.Display.Window import *
 from Code.Display.Menu import *
 from Code.Classes.Button_Class import *
-from Code.Display.Event_Manager import *
+from Code.Display.EventManager import *
 
 
 class Game:
@@ -35,7 +35,7 @@ class Game:
                     self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
                     self.big_window = PLAYABLE_AREA_SIZE
 
-                    self.BG_entities = BG_Entities_Manager(self)
+                    self.BG_entities = BGEntitiesManager(self)
 
                     self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, (self.window.rect.centerx,
                                                             self.window.rect.centery), PLAYER_NAME, Player_Running)
@@ -51,7 +51,7 @@ class Game:
                     self.mouse_state = pygame.mouse.get_pressed()
                     self.keys = pygame.key.get_pressed()
 
-                    self.event_manager_class = Event_Manager(self)
+                    self.event_manager_class = EventManager(self)
 
                     pygame.display.set_icon(cover)
                     pygame.display.set_caption("Vampire Survivor")

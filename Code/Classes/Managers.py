@@ -118,7 +118,8 @@ class SoundManager:
                     self.game = game
                     self.sounds = {}
 
-class BG_Entities_Manager:
+
+class BGEntitiesManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
@@ -137,12 +138,11 @@ class BG_Entities_Manager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = Paused_Buttons(self.game, Buttons[0], (240, 135), PLAY_BUTTON_RES, True, "y", "max",
-                                                      SETTINGS_BUTTON_SPEED, "Play", FONT, (255, 255, 255), (255, 0, 0))
-                    self.quit_button = Paused_Buttons(self.game, Buttons[1], (360, 220), QUIT_BUTTON_RES, True, "x", "max",
-                                                      SETTINGS_BUTTON_SPEED, "Quit", FONT, (255, 255, 255), (255, 0, 0))
-                    self.first_buttons = [self.play_button, self.quit_button]
+                    self.play_button = PausedButtons(self.game, Buttons[0], (240, 135),  "y", "max", text_input="Play")
+                    self.slider = NewSlider(self.game, Buttons[1], (360, 180), "x", "max", text_input="Max FPS: ", text_pos="right", max_value=240, min_value=60)
+                    self.first_buttons = [self.play_button, self.slider]
                     self.second_buttons = []
+                    self.sliders = []
 
           def update_buttons(self):
                     for button in self.first_buttons:

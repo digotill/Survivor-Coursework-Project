@@ -2,7 +2,7 @@ import time
 from Code.Variables.Variables import *
 
 
-class Event_Manager:
+class EventManager:
           def __init__(self, game):
                     self.game = game
                     self.Last_Fullscreen = 0
