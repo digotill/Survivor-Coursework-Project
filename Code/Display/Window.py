@@ -21,6 +21,7 @@ class Window(RectEntity):
                     self.shake_seed = random.random() * 1000
                     self.shake_direction = v2(WINDOW_SHAKE_DIRECTIONS)
                     self.shake_noise_magnitude = 0
+                    self.reduced_screen_shake = 1
 
           def move(self, dx, dy, move_horizontally, move_vertically):
 
@@ -99,7 +100,7 @@ class Window(RectEntity):
                     noise_y = self.get_2d_noise(0, self.shake_seed + elapsed_time)
                     noise_offset = v2(noise_x, noise_y)
 
-                    direction = (self.shake_direction + noise_offset * self.shake_noise_magnitude).normalize()
+                    direction = (self.shake_direction + noise_offset * self.shake_noise_magnitude * self.reduced_screen_shake).normalize()
 
                     shake_offset = direction * sin_value * self.shake_magnitude * fade_out
                     return v2(int(shake_offset.x), int(shake_offset.y))

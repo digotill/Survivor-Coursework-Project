@@ -15,11 +15,7 @@ class UI:
                     self.health_bar_rect = Health_bar.get_rect()
                     self.stamina_bar_rect = Stamina_bar.get_rect()
                     self.current_border_frame = 0
-
-
-          def update(self):
-                    #can do all of these methods in one go if wanted to
-                    pass
+                    self.brightness = INITIAL_BRIGHTNESS
 
           def draw_border(self):
                     self.game.display_screen.blit(New_Border_Images[int(self.current_border_frame) % len(New_Border_Images)])
@@ -88,4 +84,9 @@ class UI:
 
           def darken_screen(self):
                     if self.game.changing_settings:
-                              self.game.display_screen.fill((12, 12, 12), special_flags=pygame.BLEND_RGB_SUB)
+                              self.game.display_screen.fill(CHANGING_SETTINGS_DARKENING, special_flags=pygame.BLEND_RGB_SUB)
+
+          def draw_brightness(self):
+                    if self.brightness == 50: return None
+                    if self.brightness > 50: self.game.display.fill((int(MAX_BRIGHTNESS * (self.brightness - 50)), int(MAX_BRIGHTNESS * (self.brightness - 50)), int(MAX_BRIGHTNESS * (self.brightness - 50))), special_flags=pygame.BLEND_RGB_ADD)
+                    elif self.brightness < 50: self.game.display.fill((int(MAX_DARKNESS * (50 - self.brightness)), int(MAX_DARKNESS * (50 - self.brightness)), int(MAX_DARKNESS * (50 - self.brightness))), special_flags=pygame.BLEND_RGB_SUB)

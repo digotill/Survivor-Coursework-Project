@@ -32,7 +32,7 @@ class MainMenu:
                                         button.draw()
                                         button.update_pos()
                                         button.changeColor(self.game.mouse_pos)
-                              self.game.background.display_mouse()
+                              self.game.ui.display_mouse()
 
                               if self.game.running: pygame.display.flip()
                               else: break

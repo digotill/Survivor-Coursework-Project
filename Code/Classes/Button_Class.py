@@ -143,7 +143,7 @@ class NewSlider:
                     pygame.draw.circle(self.circle_surface, self.current_colour, (self.circle_radius, self.circle_radius), self.circle_radius)
                     self.max_value = max_value
                     self.min_value = min_value
-                    self.value = initial_value * (self.max_value - self.min_value) + self.min_value
+                    self.value = initial_value
                     self.circle_rect = pygame.Rect(self.rect.x + self.value * self.rect.width - self.circle_radius, self.rect.y - self.circle_radius + 0.5 * self.rect.height,
                                                    self.circle_radius * 2, self.circle_radius * 2)
                     self.active = False
@@ -152,6 +152,7 @@ class NewSlider:
                     self.line_thickness = 2
                     self.text_pos = text_pos
                     self.axis = axis
+                    self.update_value = False
                     self.axis_location = axisl
                     self.is_dragging = False
                     self.starting_pos = self.calculate_starting_position()
@@ -177,13 +178,12 @@ class NewSlider:
                     if self.is_visible_on_screen():
                               self.game.display_screen.blit(self.image, self.rect)
 
-                              # Draw the slider line
                               line_start = (self.rect.left + self.padding, self.rect.centery)
                               line_end = (self.rect.right - self.padding, self.rect.centery)
                               pygame.draw.line(self.game.display_screen, self.line_color, line_start, line_end,
                                                self.line_thickness)
 
-                              self.game.display_screen.blit(self.circle_surface, self.circle_rect)
+                              self.game.display_screen.blit(self.circle_surface, (self.circle_rect.x, self.circle_rect.y + 1))
                               self.game.display_screen.blit(self.text, self.text_rect)
 
           def update_text(self):
@@ -203,6 +203,7 @@ class NewSlider:
                     return self.rect.colliderect(screen_rect)
 
           def update(self):
+                    self.update_value = False
                     target = self.original_pos if self.active else v2(self.starting_pos)
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / SETTINGS_BUTTON_FRICTION, 1)
@@ -249,3 +250,4 @@ class NewSlider:
                               normalized_x = (mouse_x - (self.rect.left + self.padding)) / (
                                                 self.rect.width - 2 * self.padding)
                               self.value = self.min_value + normalized_x * (self.max_value - self.min_value)
+                    self.update_value = True

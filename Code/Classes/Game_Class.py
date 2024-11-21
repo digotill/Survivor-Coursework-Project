@@ -30,7 +30,7 @@ class Game:
                     self.sound_manager = SoundManager(self)
                     self.button_manager = ButtonManager(self)
 
-                    self.background = UI(self)
+                    self.ui = UI(self)
 
                     self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
                     self.big_window = PLAYABLE_AREA_SIZE
@@ -70,7 +70,6 @@ class Game:
                               self.game_over.update()
                               self.object_manager.update()
                     self.player.update()
-                    self.background.update()
                     self.player.gun.update()
                     self.button_manager.update_buttons()
 
@@ -83,14 +82,15 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw_particles()
-                    self.background.darken_screen()
-                    self.background.draw_border()
-                    self.background.draw_bars()
-                    self.background.draw_fps()
-                    self.background.draw_time()
+                    self.ui.darken_screen()
+                    self.ui.draw_border()
+                    self.ui.draw_bars()
+                    self.ui.draw_fps()
+                    self.ui.draw_time()
                     self.button_manager.draw_buttons()
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
-                    self.background.display_mouse()
+                    self.ui.display_mouse()
+                    self.ui.draw_brightness()
 
           def event_manager(self):
                     self.event_manager_class.update_window_events()

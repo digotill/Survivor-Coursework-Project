@@ -17,8 +17,8 @@ class EventManager:
                     for event in pygame.event.get():
                               if event.type == pygame.QUIT or self.game.keys[ESCAPE_KEY]: self.game.running = False
 
-          def update_size(self):
-                    if self.game.keys[FULLSCREEN_KEY] and self.Last_Fullscreen + self.Fullscreen_Cooldown < pygame.time.get_ticks() / 1000:
+          def update_size(self, always_toggle=False):
+                    if self.game.keys[FULLSCREEN_KEY] and self.Last_Fullscreen + self.Fullscreen_Cooldown < pygame.time.get_ticks() / 1000 or always_toggle:
                               self.Fullscreen_Toggled = not self.Fullscreen_Toggled
                               if self.Fullscreen_Toggled:
                                         pygame.display.set_window_position((0, 0))
@@ -31,7 +31,7 @@ class EventManager:
 
           def update_fps_toggle(self):
                     if self.game.keys[TOGGLE_FPS_KEY] and self.Last_FPS_Toggle + self.FPS_Cooldown < pygame.time.get_ticks() / 1000:
-                              self.game.background.fps_enabled = not self.game.background.fps_enabled
+                              self.game.ui.fps_enabled = not self.game.ui.fps_enabled
                               self.Last_FPS_Toggle = pygame.time.get_ticks() / 1000
 
           def update_grab(self):

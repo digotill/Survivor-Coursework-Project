@@ -138,22 +138,27 @@ class BGEntitiesManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = PausedButtons(self.game, Buttons[0], (240, 135),  "y", "max", text_input="Play")
-                    self.slider = NewSlider(self.game, Buttons[1], (360, 180), "x", "max", text_input="Max FPS: ", text_pos="right", max_value=240, min_value=60)
-                    self.first_buttons = [self.play_button, self.slider]
-                    self.second_buttons = []
-                    self.sliders = []
+                    self.resume_button = PausedButtons(self.game, Buttons[0], (240, 135), "y", "max", text_input="Resume")
+                    self.fps_slider = NewSlider(self.game, Buttons[1], (360, 180), "x", "max", text_input="Max FPS: ",
+                                                text_pos="right", max_value=240, min_value=60, initial_value=pygame.display.get_current_refresh_rate())
+                    self.brightness_slider = NewSlider(self.game, Buttons[1], (360, 235), "x", "max", text_input="Brightness: ",
+                                                       text_pos="right", max_value=100, min_value=0, initial_value=INITIAL_BRIGHTNESS)
+                    self.fullscreen_button = PausedButtons(self.game, Buttons[0], (240, 170), "y", "max", text_input="Fullscreen")
+                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button]
 
           def update_buttons(self):
-                    for button in self.first_buttons:
+                    for button in self.buttons:
                               button.active = self.game.changing_settings
                               button.update()
                               button.changeColor()
                     if self.game.mouse_state[0]:
-                              if self.play_button.check_for_input(): print(True)
+                              if self.resume_button.check_for_input(): self.game.changing_settings = False
+                              elif self.fps_slider.update_value: self.game.fps = self.fps_slider.value
+                              elif self.brightness_slider.update_value: self.game.ui.brightness = self.brightness_slider.value
+                              elif self.fullscreen_button.check_for_input(): self.game.event_manager_class.update_size(True)
 
           def draw_buttons(self):
-                    for button in self.first_buttons:
+                    for button in self.buttons:
                               button.draw()
 
 
