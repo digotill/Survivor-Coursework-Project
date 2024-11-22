@@ -17,6 +17,8 @@ class Game:
                     pygame.mixer.init()
                     self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
                     self.display_screen = pygame.Surface(REN_RES).convert()
+                    self.ui_surface = pygame.Surface((480, 270)).convert()
+                    self.ui_surface.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
                     self.settings = Settings(self)
@@ -45,6 +47,7 @@ class Game:
                     self.fps = pygame.display.get_current_refresh_rate()
                     self.dt = 0
                     self.changing_settings = False
+                    self.immidiate_quit = False
 
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = pygame.mouse.get_pos()
@@ -89,8 +92,11 @@ class Game:
                     self.ui.draw_time()
                     self.button_manager.draw_buttons()
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
+                    self.display.blit(pygame.transform.scale(self.ui_surface, self.display.size))
                     self.ui.display_mouse()
                     self.ui.draw_brightness()
+                    self.ui_surface = pygame.Surface((480, 270)).convert()
+                    self.ui_surface.set_colorkey((0, 0, 0))
 
           def event_manager(self):
                     self.event_manager_class.update_window_events()
@@ -119,5 +125,6 @@ class Game:
                               self.event_manager()
                               self.update_groups()
                               self.draw_groups()
+                              if self.immidiate_quit: return None
                               if self.running: pygame.display.flip()
                     pygame.quit()

@@ -92,9 +92,9 @@ class PausedButtons:
 
           def draw(self):
                     if self.is_visible_on_screen():
-                              self.game.display_screen.blit(self.image, self.rect)
+                              self.game.ui_surface.blit(self.image, self.rect)
                               if self.has_text:
-                                        self.game.display_screen.blit(self.text, self.text_rect)
+                                        self.game.ui_surface.blit(self.text, self.text_rect)
 
           def is_visible_on_screen(self):
                     screen_rect = self.game.display_screen.get_rect()
@@ -176,15 +176,14 @@ class NewSlider:
 
           def draw(self):
                     if self.is_visible_on_screen():
-                              self.game.display_screen.blit(self.image, self.rect)
+                              self.game.ui_surface.blit(self.image, self.rect)
 
                               line_start = (self.rect.left + self.padding, self.rect.centery)
                               line_end = (self.rect.right - self.padding, self.rect.centery)
-                              pygame.draw.line(self.game.display_screen, self.line_color, line_start, line_end,
-                                               self.line_thickness)
+                              pygame.draw.line(self.game.ui_surface, self.line_color, line_start, line_end, self.line_thickness)
 
-                              self.game.display_screen.blit(self.circle_surface, (self.circle_rect.x, self.circle_rect.y + 1))
-                              self.game.display_screen.blit(self.text, self.text_rect)
+                              self.game.ui_surface.blit(self.circle_surface, (self.circle_rect.x, self.circle_rect.y + 1))
+                              self.game.ui_surface.blit(self.text, self.text_rect)
 
           def update_text(self):
                     self.text = self.font.render(self.text_input + str(int( self.value)), False, self.text_base_color)

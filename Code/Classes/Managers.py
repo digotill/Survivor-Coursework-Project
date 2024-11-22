@@ -144,7 +144,8 @@ class ButtonManager:
                     self.brightness_slider = NewSlider(self.game, Buttons[1], (360, 235), "x", "max", text_input="Brightness: ",
                                                        text_pos="right", max_value=100, min_value=0, initial_value=INITIAL_BRIGHTNESS)
                     self.fullscreen_button = PausedButtons(self.game, Buttons[0], (240, 170), "y", "max", text_input="Fullscreen")
-                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button]
+                    self.quit_button = PausedButtons(self.game, Buttons[0], (240, 215), "y", "max", text_input="Quit")
+                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button, self.quit_button]
 
           def update_buttons(self):
                     for button in self.buttons:
@@ -156,9 +157,11 @@ class ButtonManager:
                               elif self.fps_slider.update_value: self.game.fps = self.fps_slider.value
                               elif self.brightness_slider.update_value: self.game.ui.brightness = self.brightness_slider.value
                               elif self.fullscreen_button.check_for_input(): self.game.event_manager_class.update_size(True)
+                              elif self.quit_button.check_for_input(): self.game.immidiate_quit = True
 
           def draw_buttons(self):
                     for button in self.buttons:
                               button.draw()
+
 
 

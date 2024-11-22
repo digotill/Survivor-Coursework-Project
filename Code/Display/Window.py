@@ -29,10 +29,12 @@ class Window(RectEntity):
                     new_y = self.pos.y + dy * self.game.player.current_vel * self.game.dt
 
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
-                                      self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+                                                    self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+
                     self.mouse_smoothing = v2(
-                              self.lerp(self.mouse_smoothing.x, mouse_target.x, 0.1),
-                              self.lerp(self.mouse_smoothing.y, mouse_target.y, 0.1))
+                              self.lerp(self.mouse_smoothing.x, mouse_target.x, WINDOW_MOUSE_SMOOTHING_AMOUNT * self.game.dt),
+                              self.lerp(self.mouse_smoothing.y, mouse_target.y, WINDOW_MOUSE_SMOOTHING_AMOUNT * self.game.dt))
+
 
                     if abs(self.mouse_smoothing.x) < self.deadzone:
                               self.mouse_smoothing.x = 0
@@ -43,8 +45,8 @@ class Window(RectEntity):
                     self.target_offset.y = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.y)
 
                     self.current_offset = v2(
-                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed),
-                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed))
+                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
+                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt))
 
                     rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
@@ -108,9 +110,7 @@ class Window(RectEntity):
           @staticmethod
           def get_2d_noise(x, y):
 
-                    scaled_x = x * 0.1
-                    scaled_y = y * 0.1
-
+                    scaled_x, scaled_y = x * 0.1, y * 0.1
                     return perlin([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):
