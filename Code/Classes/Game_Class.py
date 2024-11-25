@@ -1,4 +1,5 @@
 import pygame, time, math
+import pandas as pd
 from Code.Variables.Variables import *
 from Code.Classes.Managers import *
 from Code.Utilities.Grid import *
@@ -59,6 +60,21 @@ class Game:
                     pygame.display.set_icon(cover)
                     pygame.display.set_caption("Vampire Survivor")
                     pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
+
+                    self.stats = pd.DataFrame(columns=['Time', 'Score', 'Enemies', 'Health'])
+
+          def game_stats(self):
+                    def add_stat(time, score, enemies, health):
+                              new_stat = pd.DataFrame(
+                                        {'Time': [time], 'Score': [score], 'Enemies': [enemies], 'Health': [health]})
+                              self.stats = pd.concat([self.stats, new_stat], ignore_index=True)
+
+                    def get_average_score():
+                              return self.stats['Score'].mean()
+
+                    def get_max_enemies():
+                              return self.stats['Enemies'].max()
+
 
           def refresh(self):
                     self.__init__()

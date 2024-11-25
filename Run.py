@@ -1,7 +1,6 @@
 from Code.Classes.Game_Class import *
-import cProfile
+import cProfile, os
 
-import os
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
 if PROFILE:

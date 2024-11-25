@@ -18,12 +18,12 @@ class MainMenu:
                     self.current_frame = 0
 
           def loop(self):
-                    while True:
+                    while self.game.running:
                               self.game.clock.tick(self.game.fps)
                               if self.game.display.size != WIN_RES:
                                         self.game.display.blit(pygame.transform.scale(self.loading_screen[int(self.current_frame) % len(self.loading_screen)], self.game.display.size))
                               else: self.game.display.blit(self.loading_screen[int(self.current_frame) % len(self.loading_screen)])
-                              self.current_frame += ANIMATION_SPEED * self.game.dt * 3
+                              self.current_frame -= ANIMATION_SPEED * self.game.dt * 3
 
                               self.game.event_manager()
                               self.game.update_game_variables()
@@ -39,8 +39,7 @@ class MainMenu:
 
                               self.game.ui.display_mouse()
 
-                              if self.game.running: pygame.display.flip()
-                              else: break
+                              pygame.display.flip()
 
 
 
