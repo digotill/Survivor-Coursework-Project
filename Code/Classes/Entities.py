@@ -1,4 +1,4 @@
-import pygame, math, random
+import pygame, math, random, perlin_noise
 from Code.Variables.Variables import *
 from Code.Variables.Initialize import *
 from Code.Utilities.Utils import *
@@ -197,6 +197,7 @@ class Gun:
                     self.bullet_friction = friction
                     self.last_shot_time = 0
                     self.fire_rate = fire_rate
+                    self.continuous_fire_start = None
 
           def update(self):
                     self.calc_angle()
@@ -226,30 +227,52 @@ class Gun:
                               self.angle = angle
 
           def update_shooting(self):
-                    if self.fire_rate + self.last_shot_time < self.game.game_time and self.game.mouse_state[0] and not self.game.changing_settings:
-                              self.last_shot_time = self.game.game_time
+                    current_time = self.game.game_time
+                    if self.fire_rate + self.last_shot_time < current_time and self.game.mouse_state[
+                              0] and not self.game.changing_settings:
+                              if self.continuous_fire_start is None:
+                                        self.continuous_fire_start = current_time
 
-                              start_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(self.distance - 18))
-                              start_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(self.distance - 18))
+                              firing_duration = current_time - self.continuous_fire_start
+                              max_spread_time = 2.0
+                              spread_factor = min(firing_duration / max_spread_time, 1.0)
+
+                              self.last_shot_time = current_time
+
+                              start_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
+                                        self.distance - 18))
+                              start_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
+                                        self.distance - 18))
 
                               new_bullet = Bullet(self.game, (start_x, start_y), self.angle, self.bullet_velocity,
-                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction, "Player Bullet", PLAYER_BULLET_DAMAGE)
+                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction,
+                                                  "Player Bullet", PLAYER_BULLET_DAMAGE, spread_factor=spread_factor)
 
-                              for i in range(3):
-                                        self.game.particle_manager.sparks.add(Spark(self.game, [start_x - self.game.window.offset_rect.x,
-                                                  start_y - self.game.window.offset_rect.y], math.radians(random.randint(int(270 - self.angle) - 10,
-                                                            int(270 - self.angle) + 10)), random.randint(3, 6), (255, 255, 255), 0.3))
+                              for _ in range(GUN_SPARK_AMOUNT):
+                                        self.game.particle_manager.sparks.add(Spark(self.game, [start_x, start_y],
+                                                  math.radians(random.randint(int(270 - self.angle) - GUN_SPARK_SPREAD,
+                                                            int(270 - self.angle) + GUN_SPARK_SPREAD)), random.randint(3, 6),
+                                                                      GUN_SPARK_COLOUR, GUN_SPARK_SIZE))
 
                               self.game.bullet_manager.add_bullet(new_bullet)
+                    elif self.fire_rate + self.last_shot_time + 0.5 < current_time:
+                              self.continuous_fire_start = None
 
 class Bullet(RectEntity):
-          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10, health=1):
-                    self.image = pygame.transform.rotate(image, angle + 90)
-                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, change_random(angle, PLAYER_GUN_SPREAD) + 180)
+          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10,
+                       health=1, spread_factor=0):
+                    time = game.game_time
+                    noise_value = perlin([time * 0.1, 0])
+                    spread_angle = noise_value * PLAYER_GUN_SPREAD * spread_factor
+
+                    final_angle = angle + spread_angle
+
+                    self.image = pygame.transform.rotate(image, final_angle + 90)
+                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, final_angle + 180)
                     self.original_image = image
                     self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
                     self.dead = False
-                    self.creation_time = self.game.game_time
+                    self.creation_time = game.game_time
                     self.friction = friction
                     self.damage = damage
                     self.health = health

@@ -11,7 +11,7 @@ class EventManager:
                     self.Fullscreen_Toggled = START_FULLSCREEN
                     self.Fullscreen_Cooldown = FULLSCREEN_COOLDOWN
                     self.FPS_Cooldown = FPS_AND_TIME_COOLDOWN
-                    self.Changing_settings_Cooldown = CHANGING_SETTINGS_COOLDOWN
+                    self.Changing_settings_Cooldown = SETTINGS_COOLDOWN
 
           def update_window_events(self):
                     for event in pygame.event.get():

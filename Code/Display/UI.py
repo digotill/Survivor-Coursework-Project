@@ -84,7 +84,7 @@ class UI:
 
           def darken_screen(self):
                     if self.game.changing_settings:
-                              self.game.display_screen.fill(CHANGING_SETTINGS_DARKENING, special_flags=pygame.BLEND_RGB_SUB)
+                              self.game.display_screen.fill(SETTINGS_DARKENING, special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
                     if self.brightness == 50: return None

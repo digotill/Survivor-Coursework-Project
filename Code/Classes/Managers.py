@@ -83,10 +83,11 @@ class BulletManager:
                     for bullet in self.player_bullets:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
-                                                  location = [bullet.rect.centerx - self.game.window.offset_rect.x, bullet.rect.centery - self.game.window.offset_rect.y]
-                                                  for _ in range(3):
-                                                            self.game.particle_manager.sparks.add(Spark(self.game, location, math.radians(random.randint(int(270 - bullet.angle) - 10,
-                                                                                int(270 - bullet.angle) + 10)), random.randint(3, 6), (255, 255, 255), 0.6))
+                                                  location = [bullet.rect.centerx, bullet.rect.centery]
+                                                  for _ in range(BULLET_SPARK_AMOUNT):
+                                                            self.game.particle_manager.sparks.add(Spark(self.game, location, math.radians(random.randint(int(270 - bullet.angle)
+                                                                      - BULLET_SPARK_SPREAD, int(270 - bullet.angle) + BULLET_SPARK_SPREAD)),
+                                                                                random.randint(3, 6), BULLET_SPARK_COLOUR, BULLET_SPARK_SIZE))
                                                   if bullet.health <= 0:
                                                             bullet.dead = True
                                                             break
@@ -104,7 +105,7 @@ class ParticleManager:
 
           def draw(self):
                     for _, spark in sorted(enumerate(self.sparks), reverse=True):
-                              spark.draw(self.sparks)
+                              spark.draw()
 
 class ObjectManager:
           def __init__(self, game):

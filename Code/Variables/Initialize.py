@@ -8,6 +8,9 @@ BG_entities_gif = import_gif("Assets\\Backgrounds\\Background Entities", (12, 9)
 Main_Menu_BG = load("Backgrounds\\Menu_BG.png", WIN_RES)
 border = load("Backgrounds\\border.png", REN_RES)
 
+loading_screen_1 = import_gif("Assets\\LoadingScreens\\1", None)
+loading_screen_2 = import_gif("Assets\\LoadingScreens\\2", None)
+
 Buttons = import_gif("Assets\\Misc\\Buttons", (REN_RES[0] * 300 / WIN_RES[0], REN_RES[1] * 80 / WIN_RES[1]))
 Health_bar = load("Misc\\Bars\\health.png")
 Stamina_bar = load("Misc\\Bars\\Sprite-0005.png")
