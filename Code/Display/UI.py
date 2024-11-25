@@ -1,6 +1,4 @@
-import time
-
-import pygame, queue
+import pygame, time
 from Code.Variables.Variables import *
 from Code.Classes.Entities import *
 
@@ -10,8 +8,6 @@ class UI:
                     self.game = game
                     self.font = pygame.font.Font(FONT, int(FPS_AND_TIME_SIZE * REN_RES[0] / 640))
                     self.fps_enabled = START_WITH_FPS_AND_TIME
-                    self.fps_queue = queue.Queue(5)
-                    self.fps_queue.put(200)
                     self.health_bar_rect = Health_bar.get_rect()
                     self.stamina_bar_rect = Stamina_bar.get_rect()
                     self.current_border_frame = 0
@@ -50,21 +46,11 @@ class UI:
                               (STAMINA_BAR_POS[1] - 0.5 * Outside_Health_bar.get_rect().height) * REN_RES[0] / 640 - 5))
 
           def draw_fps(self):
-                    copy_fps_queue = self.fps_queue
-                    total = 0
-                    numbers_of_additions = 0
-                    while not copy_fps_queue.empty():
-                              total += copy_fps_queue.get()
-                              numbers_of_additions += 1
-                    total /= numbers_of_additions
                     if self.fps_enabled:
-                              text = self.font.render(str(total) + "  FPS", False, pygame.Color("orange"))
+                              text = self.font.render(str(int(self.game.clock.get_fps())) + "  FPS", False, pygame.Color("orange"))
                               center = FPS_POS[0] * REN_RES[0] / 640, FPS_POS[1] * REN_RES[0] / 640
                               text_rect = text.get_rect(center=center)
                               self.game.ui_surface.blit(text, text_rect)
-                    if self.fps_queue.full():
-                              self.fps_queue.get()
-                    self.fps_queue.put(int(self.game.clock.get_fps()))
 
           def draw_time(self):
                     if self.fps_enabled:

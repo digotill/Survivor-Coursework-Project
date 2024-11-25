@@ -54,7 +54,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.gun = Gun(game, Rifle, PLAYER_GUN_RES, Rifle_bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
-                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION)
+                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION, PLAYER_BULLET_DAMAGE)
                     AnimatedEntity.__init__(self, game, images, animation)
                     self.pos.x -= self.res[0] / 2
                     self.pos.y -= self.res[1] / 2
@@ -172,7 +172,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def blit(self):
                     sprite = self.get_current_sprite()
                     draw_pos = self.pos - (self.game.window.offset_rect.x, self.game.window.offset_rect.y)
-                    self.game.display_screen.blit(pygame.transform.scale(sprite, ENEMY_RES), draw_pos)
+                    self.game.display_screen.blit(sprite, draw_pos)
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]
@@ -182,11 +182,12 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
 
 
 class Gun:
-          def __init__(self, game, gunImage, gun_res, bullet_image, distance, velocity, lifetime, fire_rate, friction=0):
+          def __init__(self, game, gunImage, gun_res, bullet_image, distance, velocity, lifetime, fire_rate, friction=0, damage=30):
                     self.game = game
                     self.res = gun_res
                     self.gunImage = gunImage
                     self.distance = distance
+                    self.damage = damage
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
                     self.facing = "right"
                     self.angle = 0
@@ -246,7 +247,7 @@ class Gun:
 
                               new_bullet = Bullet(self.game, (start_x, start_y), self.angle, self.bullet_velocity,
                                                   self.bullet_image, self.bullet_lifetime, self.bullet_friction,
-                                                  "Player Bullet", PLAYER_BULLET_DAMAGE, spread_factor=spread_factor)
+                                                  "Player Bullet", self.damage, spread_factor=spread_factor)
 
                               for _ in range(GUN_SPARK_AMOUNT):
                                         self.game.particle_manager.sparks.add(Spark(self.game, [start_x, start_y],
@@ -264,9 +265,7 @@ class Bullet(RectEntity):
                     time = game.game_time
                     noise_value = perlin([time * 0.1, 0])
                     spread_angle = noise_value * PLAYER_GUN_SPREAD * spread_factor
-
                     final_angle = angle + spread_angle
-
                     self.image = pygame.transform.rotate(image, final_angle + 90)
                     RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, final_angle + 180)
                     self.original_image = image

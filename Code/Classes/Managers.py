@@ -3,7 +3,7 @@ from Code.Variables.Initialize import *
 from Code.Classes.Entities import *
 from pygame.math import Vector2 as v2
 from Code.Utilities.Grid import *
-from Code.Classes.Button_Class import *
+from Code.Classes.Buttons import *
 from Code.Utilities.Particles import Spark
 
 
@@ -11,6 +11,7 @@ class EnemyManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
+                    self.enemy_pool = set()
                     self.spawn_cooldown = ENEMY_SPAWN_RATE
                     self.last_spawn = 0
 
@@ -30,21 +31,28 @@ class EnemyManager:
           def add_enemies(self):
                     if self.last_spawn + self.spawn_cooldown < self.game.game_time and len(self.grid.items) < MAX_ENEMIES:
                               self.last_spawn = self.game.game_time
-                              coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                                      self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
-                              angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0],
-                                         self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
-                              entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH,
-                                             ENEMY_DAMAGE, Enemy_idle, angle)
-                              self.grid.insert(entity)
+                              coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]), self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
+                              angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
+                              if not bool(self.enemy_pool):
+                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH, ENEMY_DAMAGE, Enemy_idle, angle)
+                                        self.grid.insert(entity)
+                              else:
+                                        entity = self.enemy_pool.pop()
+                                        entity.pos = v2(coordinates)
+                                        entity.rect.topleft = coordinates
+                                        entity.angle = angle
+                                        entity.vel_vector = v2(entity.vel * math.sin(math.radians(angle)), entity.vel * math.cos(math.radians(angle)))
+                                        entity.health = ENEMY_HEALTH
+                                        entity.dead = False
+                                        self.grid.insert(entity)
 
           def remove_enemy(self):
                     for enemy in self.grid.items.copy():
                               if enemy.health <= 0: enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
-                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION,
-                                                                          magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
+                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION, magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
+                                        self.enemy_pool.add(enemy)
 
 class BulletManager:
 
@@ -98,7 +106,7 @@ class ParticleManager:
                     self.sparks = set()
 
           def update(self):
-                    for i, spark in sorted(enumerate(self.sparks), reverse=True):
+                    for _, spark in sorted(enumerate(self.sparks), reverse=True):
                               spark.move()
                               if not spark.alive:
                                         self.sparks.remove(spark)
@@ -146,13 +154,13 @@ class BGEntitiesManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.resume_button = PausedButtons(self.game, Buttons[0], (240, 135), "y", "max", text_input="Resume")
-                    self.fps_slider = NewSlider(self.game, Buttons[1], (360, 180), "x", "max", text_input="Max FPS: ",
+                    self.resume_button = PausedButtons(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max", text_input="Resume")
+                    self.fps_slider = NewSlider(self.game, Buttons[1], FPS_SLIDER_POS, "x", "max", text_input="Max FPS: ",
                                                 text_pos="right", max_value=240, min_value=60, initial_value=pygame.display.get_current_refresh_rate())
-                    self.brightness_slider = NewSlider(self.game, Buttons[1], (360, 235), "x", "max", text_input="Brightness: ",
+                    self.brightness_slider = NewSlider(self.game, Buttons[1], BRIGHTNESS_SLIDER_POS, "x", "max", text_input="Brightness: ",
                                                        text_pos="right", max_value=100, min_value=0, initial_value=INITIAL_BRIGHTNESS)
-                    self.fullscreen_button = PausedButtons(self.game, Buttons[0], (240, 170), "y", "max", text_input="Fullscreen")
-                    self.quit_button = PausedButtons(self.game, Buttons[0], (240, 215), "y", "max", text_input="Quit")
+                    self.fullscreen_button = PausedButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max", text_input="Fullscreen")
+                    self.quit_button = PausedButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max", text_input="Quit")
                     self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button, self.quit_button]
 
           def update_buttons(self):

@@ -7,7 +7,7 @@ from Code.Classes.Entities import *
 from Code.Variables.Initialize import *
 from Code.Display.Window import *
 from Code.Display.Menu import *
-from Code.Classes.Button_Class import *
+from Code.Classes.Buttons import *
 from Code.Display.EventManager import *
 
 
@@ -15,7 +15,7 @@ class Game:
           def __init__(self):
                     pygame.init()
                     pygame.mixer.init()
-                    self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE)
+                    self.display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
                     self.display_screen = pygame.Surface(REN_RES).convert()
                     self.ui_surface = pygame.Surface((480, 270)).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))
@@ -91,12 +91,11 @@ class Game:
                     self.ui.draw_fps()
                     self.ui.draw_time()
                     self.button_manager.draw_buttons()
+                    self.display_screen.blit(self.ui_surface)
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
-                    self.display.blit(pygame.transform.scale(self.ui_surface, self.display.size))
                     self.ui.display_mouse()
                     self.ui.draw_brightness()
-                    self.ui_surface = pygame.Surface((480, 270)).convert()
-                    self.ui_surface.set_colorkey((0, 0, 0))
+                    self.ui_surface.fill((0, 0, 0, 0))
 
           def event_manager(self):
                     self.event_manager_class.update_window_events()
@@ -108,23 +107,20 @@ class Game:
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
-                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     self.mouse_state = pygame.mouse.get_pressed()
-                    if not self.changing_settings:
-                              self.game_time += self.dt
-                    if self.clock.get_fps() == 0: fps = 200
-                    else: fps = self.clock.get_fps()
-                    self.dt = 1 / fps
+                    if not self.changing_settings: self.game_time += self.dt
+                    if self.clock.get_fps() == 0: self.dt = 1 / 200
+                    else: self.dt = 1 / self.clock.get_fps()
 
           def run_game(self):
                     if self.mainmenu.loop() is False: return None
                     while self.running:
-                              self.clock.tick(self.fps)
+                              self.clock.tick_busy_loop(self.fps)
                               self.update_game_variables()
                               self.event_manager()
                               self.update_groups()
                               self.draw_groups()
                               if self.immidiate_quit: return None
-                              if self.running: pygame.display.flip()
+                              pygame.display.flip()
                     pygame.quit()

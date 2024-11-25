@@ -22,11 +22,11 @@ class EventManager:
                               self.Fullscreen_Toggled = not self.Fullscreen_Toggled
                               if self.Fullscreen_Toggled:
                                         pygame.display.set_window_position((0, 0))
-                                        self.game.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME)
+                                        self.game.display = pygame.display.set_mode(MAX_WIN_RES, pygame.NOFRAME | pygame.DOUBLEBUF)
                               else:
                                         pygame.display.set_window_position((MONITER_RES[0] / 2 - MIN_WIN_RES[0] / 2,
                                                                             MONITER_RES[1] / 2 - MIN_WIN_RES[1] / 2))
-                                        self.game.display = pygame.display.set_mode(MIN_WIN_RES, pygame.RESIZABLE)
+                                        self.game.display = pygame.display.set_mode(MIN_WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
                               self.Last_Fullscreen = pygame.time.get_ticks() / 1000
 
           def update_fps_toggle(self):

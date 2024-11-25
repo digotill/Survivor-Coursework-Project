@@ -20,7 +20,8 @@ class Spark:
                     self.loc[0] += movement[0]
                     self.loc[1] += movement[1]
 
-                    self.speed *= 0.95
+                    if self.speed * 0.95 * self.game.dt * 235 < self.speed: self.speed *= 0.95 * self.game.dt * 235
+                    elif self.speed * 0.95 * self.game.dt < self.speed: self.speed *= 0.95 * self.game.dt
 
                     if self.speed <= 0.1:
                               self.alive = False
