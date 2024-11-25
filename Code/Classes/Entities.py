@@ -3,6 +3,7 @@ from Code.Variables.Variables import *
 from Code.Variables.Initialize import *
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
+from Code.Utilities.Particles import Spark
 
 class RectEntity:
           def __init__(self, game, coordinates, res, vel, name, angle=None):
@@ -233,6 +234,11 @@ class Gun:
 
                               new_bullet = Bullet(self.game, (start_x, start_y), self.angle, self.bullet_velocity,
                                                   self.bullet_image, self.bullet_lifetime, self.bullet_friction, "Player Bullet", PLAYER_BULLET_DAMAGE)
+
+                              for i in range(3):
+                                        self.game.particle_manager.sparks.add(Spark(self.game, [start_x - self.game.window.offset_rect.x,
+                                                  start_y - self.game.window.offset_rect.y], math.radians(random.randint(int(270 - self.angle) - 10,
+                                                            int(270 - self.angle) + 10)), random.randint(3, 6), (255, 255, 255), 0.3))
 
                               self.game.bullet_manager.add_bullet(new_bullet)
 

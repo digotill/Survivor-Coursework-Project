@@ -68,7 +68,7 @@ class Game:
           def update_groups(self):
                     if not self.changing_settings:
                               self.enemy_manager.update_enemies()
-                              self.particle_manager.update_particles()
+                              self.particle_manager.update()
                               self.bullet_manager.update()
                               self.game_over.update()
                               self.object_manager.update()
@@ -84,7 +84,7 @@ class Game:
                     self.enemy_manager.draw_enemies()
                     self.object_manager.draw()
                     self.bullet_manager.draw()
-                    self.particle_manager.draw_particles()
+                    self.particle_manager.draw()
                     self.ui.darken_screen()
                     self.ui.draw_border()
                     self.ui.draw_bars()

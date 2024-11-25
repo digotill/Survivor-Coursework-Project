@@ -4,6 +4,7 @@ from Code.Classes.Entities import *
 from pygame.math import Vector2 as v2
 from Code.Utilities.Grid import *
 from Code.Classes.Button_Class import *
+from Code.Utilities.Particles import Spark
 
 
 class EnemyManager:
@@ -63,8 +64,7 @@ class BulletManager:
 
           def draw(self):
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.window.offset_rect.x,
-                                                                           bullet.rect.y - self.game.window.offset_rect.y))
+                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.window.offset_rect.x, bullet.rect.y - self.game.window.offset_rect.y))
 
           def add_bullet(self, bullet):
                     self.grid.insert(bullet)
@@ -83,6 +83,10 @@ class BulletManager:
                     for bullet in self.player_bullets:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
+                                                  location = [bullet.rect.centerx - self.game.window.offset_rect.x, bullet.rect.centery - self.game.window.offset_rect.y]
+                                                  for _ in range(3):
+                                                            self.game.particle_manager.sparks.add(Spark(self.game, location, math.radians(random.randint(int(270 - bullet.angle) - 10,
+                                                                                int(270 - bullet.angle) + 10)), random.randint(3, 6), (255, 255, 255), 0.6))
                                                   if bullet.health <= 0:
                                                             bullet.dead = True
                                                             break
@@ -90,14 +94,17 @@ class BulletManager:
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
-                    self.particle_list = []
+                    self.sparks = set()
 
-          def update_particles(self):
-                    pass
+          def update(self):
+                    for i, spark in sorted(enumerate(self.sparks), reverse=True):
+                              spark.move()
+                              if not spark.alive:
+                                        self.sparks.remove(spark)
 
-          def draw_particles(self):
-                    pass
-
+          def draw(self):
+                    for _, spark in sorted(enumerate(self.sparks), reverse=True):
+                              spark.draw(self.sparks)
 
 class ObjectManager:
           def __init__(self, game):
