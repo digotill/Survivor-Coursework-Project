@@ -140,7 +140,7 @@ class BGEntitiesManager:
                     self.game = game
                     self.grid = SpatialHash(game)
                     for i in range(int(PLAYABLE_AREA_SIZE[0] / 480 * BG_ENTITIES_DENSITY)):
-                              coordinates = random.randint(0, self.game.big_window[0]), random.randint(0, self.game.big_window[1])
+                              coordinates = random.randint(0, PLAYABLE_AREA_SIZE[0]), random.randint(0, PLAYABLE_AREA_SIZE[1])
                               entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES)
                               collision = False
                               for u in self.grid.items:
@@ -172,7 +172,7 @@ class ButtonManager:
                               if self.resume_button.check_for_input(): self.game.changing_settings = False
                               elif self.fps_slider.update_value: self.game.fps = self.fps_slider.value
                               elif self.brightness_slider.update_value: self.game.ui.brightness = self.brightness_slider.value
-                              elif self.fullscreen_button.check_for_input(): self.game.event_manager_class.update_size(True)
+                              elif self.fullscreen_button.check_for_input(): self.game.event_manager.update_size(True)
                               elif self.quit_button.check_for_input(): self.game.immidiate_quit = True
 
           def draw_buttons(self):

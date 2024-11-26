@@ -8,9 +8,9 @@ Code examples: Python code with the use of pygame and opengl
  
 License: Dunno 
  
-Contributors: Me
+Contributors: Me, some ai
  
-Technologies: some ai
+Technologies: my cool laptop
  
 Requirements: have fun
 

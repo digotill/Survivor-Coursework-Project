@@ -2,8 +2,6 @@ import pygame, random
 from perlin_noise import PerlinNoise
 pygame.init()
 
-PROFILE = True
-
 START_FULLSCREEN = True
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
@@ -88,7 +86,7 @@ ENEMY_SCREEN_SHAKE_MAGNITUDE = 4
 MAX_ENEMIES = 50
 
 BG_ENTITIES_DENSITY = 90
-BG_ENTITIES_RES = 24, 19
+BG_ENTITIES_RES = 12, 9
 
 ANIMATION_SPEED = 5
 SPATIAL_GRID_SIZE = 300
@@ -145,7 +143,7 @@ FULLSCREEN_COOLDOWN = 0.5
 SETTINGS_COOLDOWN = 0.5
 SETTINGS_DARKENING = (12, 12, 12)
 
-MAX_DARKNESS = 2.5
+MAX_DARKNESS = 2.55
 MAX_BRIGHTNESS = 0.5
 INITIAL_BRIGHTNESS = 50
 

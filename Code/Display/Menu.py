@@ -25,7 +25,7 @@ class MainMenu:
                               else: self.game.display.blit(self.loading_screen[int(self.current_frame) % len(self.loading_screen)])
                               self.current_frame -= ANIMATION_SPEED * self.game.dt * 3
 
-                              self.game.event_manager()
+                              self.game.manage_events()
                               self.game.update_game_variables()
 
                               for button in self.buttons:
