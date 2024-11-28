@@ -15,15 +15,20 @@ from Code.Display.EventManager import *
 class Game:
           def __init__(self):
                     pygame.init()
+
                     self.display = display
                     self.display_screen = pygame.Surface(REN_RES).convert()
-                    self.ui_surface = pygame.Surface((480, 270)).convert()
+                    self.ui_surface = pygame.Surface(REN_RES).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
-                    self.settings = Settings(self)
-                    self.mainmenu = MainMenu(self)
-                    self.game_over = GameOver(self)
+                    self.running = True
+                    self.game_time = 0
+                    self.fps = pygame.display.get_current_refresh_rate()
+                    self.dt = 0
+                    self.changing_settings = False
+                    self.immidiate_quit = False
+                    self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
 
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
@@ -33,25 +38,16 @@ class Game:
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
                     self.BG_entities = BGEntitiesManager(self)
-
                     self.ui = UI(self)
+
+                    self.update_game_variables()
 
                     self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
                     self.big_window = PLAYABLE_AREA_SIZE
 
-                    self.player = Player(self, PLAYER_HEALTH, PLAYER_RES, PLAYER_VEL, PLAYER_DAMAGE, self.window.rect.center, PLAYER_NAME, Player_Running)
-
-                    self.running = True
-                    self.game_time = 0
-                    self.fps = pygame.display.get_current_refresh_rate()
-                    self.dt = 0
-                    self.changing_settings = False
-                    self.immidiate_quit = False
-                    self.update_game_variables()
-
-                    self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed'])
-                    #new_stat = pd.DataFrame({'Coins': [Coins], 'Score': [score], 'Enemies': [enemies], 'Enemies Killed': [Enemies_Killed]})
-                    #self.stats = pd.concat([self.stats, new_stat], ignore_index=True)
+                    self.player = None
+                    self.mainmenu = MainMenu(self)
+                    if self.mainmenu.loop(): self.running = False
 
 
           def refresh(self):
@@ -64,7 +60,6 @@ class Game:
                               self.enemy_manager.update_enemies()
                               self.particle_manager.update()
                               self.bullet_manager.update()
-                              self.game_over.update()
                               self.object_manager.update()
                     self.player.update()
                     self.player.gun.update()
@@ -107,8 +102,8 @@ class Game:
                     if self.clock.get_fps() == 0: self.dt = 1 / 200
                     else: self.dt = 1 / self.clock.get_fps()
 
+
           def run_game(self):
-                    if self.mainmenu.loop() is False: return None
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
                               self.update_game_variables()

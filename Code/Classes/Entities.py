@@ -47,13 +47,14 @@ class AnimalEntity:
 
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, coordinates, name, images, angle=None,
+          def __init__(self, game, health, res, vel, damage, coordinates, name=PLAYER_NAME, images=Player_Running, angle=None,
                        animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
                     self.current_vel = 0
-                    self.gun = Gun(game, Rifle, PLAYER_GUN_RES, Rifle_bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
+                    self.max_health = health
+                    self.gun = Gun(game, AK_47, PLAYER_GUN_RES, AK_47_Bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
                                    PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION, PLAYER_BULLET_DAMAGE)
                     AnimatedEntity.__init__(self, game, images, animation)
                     self.pos.x -= self.res[0] / 2

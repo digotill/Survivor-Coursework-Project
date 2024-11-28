@@ -14,6 +14,7 @@ class EnemyManager:
                     self.enemy_pool = set()
                     self.spawn_cooldown = ENEMY_SPAWN_RATE
                     self.last_spawn = 0
+                    self.enemy_multiplier = 1
 
           def update_enemies(self):
                     for enemy in self.grid.items:
@@ -34,7 +35,8 @@ class EnemyManager:
                               coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]), self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
                               angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
                               if not bool(self.enemy_pool):
-                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH, ENEMY_DAMAGE, Enemy_idle, angle)
+                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH * self.enemy_multiplier,
+                                                       ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle, angle)
                                         self.grid.insert(entity)
                               else:
                                         entity = self.enemy_pool.pop()

@@ -22,7 +22,7 @@ class UI:
                               health = self.game.player.health
                     else:
                               health = 1
-                    Health_bar_surface = pygame.Surface((self.health_bar_rect.width * health / PLAYER_HEALTH, self.health_bar_rect.height))
+                    Health_bar_surface = pygame.Surface((self.health_bar_rect.width * health / self.game.player.max_health, self.health_bar_rect.height))
                     Health_bar_surface.blit(Health_bar)
                     self.game.ui_surface.blit(Health_bar_surface, ((HEALTH_BAR_POS[0] - 0.5 * self.health_bar_rect.width) * REN_RES[0] / 640,
                                                                                  (HEALTH_BAR_POS[1] - 0.5 * self.health_bar_rect.height) * REN_RES[0] / 640 - 1))
