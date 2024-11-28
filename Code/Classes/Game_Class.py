@@ -49,19 +49,9 @@ class Game:
                     self.immidiate_quit = False
                     self.update_game_variables()
 
-                    self.stats = pd.DataFrame(columns=['Time', 'Score', 'Enemies', 'Health'])
-
-          def game_stats(self):
-                    def add_stat(time, score, enemies, health):
-                              new_stat = pd.DataFrame(
-                                        {'Time': [time], 'Score': [score], 'Enemies': [enemies], 'Health': [health]})
-                              self.stats = pd.concat([self.stats, new_stat], ignore_index=True)
-
-                    def get_average_score():
-                              return self.stats['Score'].mean()
-
-                    def get_max_enemies():
-                              return self.stats['Enemies'].max()
+                    self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed'])
+                    #new_stat = pd.DataFrame({'Coins': [Coins], 'Score': [score], 'Enemies': [enemies], 'Enemies Killed': [Enemies_Killed]})
+                    #self.stats = pd.concat([self.stats, new_stat], ignore_index=True)
 
 
           def refresh(self):

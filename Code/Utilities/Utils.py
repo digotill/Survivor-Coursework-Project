@@ -5,17 +5,6 @@ import numpy as np
 import pandas as pd
 import pygame
 
-def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
-    sheet = load_image(filename, None, *color_keys)
-    array = []
-    for i in range(tiles):
-        cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
-        cropped.blit(sheet, (0, 0), (px + tw * i, py, tw, th))
-        if res:
-            cropped = pygame.transform.scale(cropped, res)
-        array.append(cropped)
-    return array
-
 def random_xy(rect1, rect2, sprite_width, sprite_height):
           while True:
                     x = random.randint(rect1.left, rect1.right - sprite_width)
@@ -41,10 +30,8 @@ def check_collisions(player_rect, object_rects):
 
 def load_image(file_path, res=None, *color_keys):
     img = pygame.image.load(file_path).convert_alpha()
-    if res:
-        img = pygame.transform.scale(img, res)
-    for color_key in color_keys:
-        img.set_colorkey(color_key)
+    if res: img = pygame.transform.scale(img, res)
+    for color_key in color_keys: img.set_colorkey(color_key)
     return img
 
 @functools.lru_cache(maxsize=None)
@@ -54,3 +41,13 @@ def cached_load(file_path, res=None, *color_keys):
 def cached_import_gif(file_name, res=None, *color_keys):
     file_paths = [os.path.join(file_name, f) for f in os.listdir(file_name) if f.endswith(('.jpg', '.png'))]
     return [cached_load(file_path, res, *color_keys) for file_path in file_paths]
+
+def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
+    sheet = load_image(filename, None, *color_keys)
+    array = []
+    for i in range(tiles):
+        cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
+        cropped.blit(sheet, (0, 0), (px + tw * i, py, tw, th))
+        if res: cropped = pygame.transform.scale(cropped, res)
+        array.append(cropped)
+    return array

@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
 
@@ -46,12 +46,9 @@ class Button:
         def changeColor(self, position):
                 if self.has_text:
                         if self.rect.collidepoint(position):
-                                self.text = self.font.render(self.text_input, True, self.hovering_color)
+                                self.text = self.font.render(self.text_input, False, self.hovering_color)
                 else:
-                        self.text = self.font.render(self.text_input, True, self.base_color)
-
-        def update_pos(self):
-                self.update_size_and_position()
+                        self.text = self.font.render(self.text_input, False, self.base_color)
 
 
 class PausedButtons:
@@ -251,3 +248,21 @@ class NewSlider:
                                                 self.rect.width - 2 * self.padding)
                               self.value = self.min_value + normalized_x * (self.max_value - self.min_value)
                     self.update_value = True
+
+class SwitchButton(Button):
+        def __init__(self, image, pos, game, text, text_input=None, font=None, base_color=None, hovering_color=None, res=None):
+                  super().__init__(image, pos, game, text, text_input, font, base_color, hovering_color, res)
+                  self.original_pos = pos
+                  self.cooldown = BUTTON_COOLDOWN
+                  self.last_pressed_time = 0
+                  self.update_size_and_position()
+                  self.on = False
+
+        def changeColor(self, position):
+                  current_time = pygame.time.get_ticks() / 1000
+                  if self.has_text and self.rect.collidepoint(position) and self.game.mouse_state[0] and current_time - self.last_pressed_time > self.cooldown:
+                            color = self.hovering_color if self.on else self.base_color
+                            self.text = self.font.render(self.text_input, False, color)
+                            self.last_pressed_time = current_time
+                            self.on = not self.on
+

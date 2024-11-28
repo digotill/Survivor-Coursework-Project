@@ -39,6 +39,6 @@ class EventManager:
                     elif self.game.keys[UNGRAB_KEY]: pygame.event.set_grab(False)
 
           def update_changing_settings(self):
-                    if self.game.keys[UNGRAB_KEY] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000:
+                    if self.game.keys[UNGRAB_KEY] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.mainmenu.in_menu:
                               self.game.changing_settings = not self.game.changing_settings
                               self.Last_Changing_settings = pygame.time.get_ticks() / 1000

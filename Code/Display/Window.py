@@ -6,8 +6,7 @@ from Code.Classes.Entities import *
 
 class Window(RectEntity):
           def __init__(self, game, res, big_res, name=None, angle=0):
-                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0,
-                                        name, angle)
+                    RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0, name, angle)
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)
