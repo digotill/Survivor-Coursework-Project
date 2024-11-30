@@ -1,6 +1,7 @@
-import pygame, time
-from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
+
+from Code.Variables.Variables import *
+
 
 class Button:
         def __init__(self, image, pos, game, text, text_input=None, font=None, base_color=None, hovering_color=None, res=None):
@@ -51,7 +52,7 @@ class Button:
                         self.text = self.font.render(self.text_input, False, self.base_color)
 
 
-class PausedButtons:
+class SlidingButtons:
           def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
                     text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0)):
                     self.game = game
@@ -184,7 +185,7 @@ class NewSlider:
                               self.game.ui_surface.blit(self.text, self.text_rect)
 
           def update_text(self):
-                    self.text = self.font.render(self.text_input + str(int( self.value)), False, self.text_base_color)
+                    self.text = self.font.render(self.text_input + str(int(self.value)), False, self.text_base_color)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
                     if self.text_pos == "top":
                               self.text_rect.centery = self.rect.top - 0.3 * self.text_rect.height
@@ -285,4 +286,3 @@ class SwitchButton(Button):
                 else:
                        self.text = self.font.render(self.text_input, False, self.base_color)
                        self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
-

@@ -1,5 +1,3 @@
-import pygame, time
-from Code.Variables.Variables import *
 from Code.Classes.Entities import *
 
 
@@ -35,7 +33,7 @@ class UI:
                     self.game.ui_surface.blit(Stamina_bar_surface, (REN_RES[0] - (STAMINA_BAR_POS[0] + 0.5 * self.stamina_bar_rect.width) * REN_RES[0] / 640,
                                         (STAMINA_BAR_POS[1] - 0.5 * self.stamina_bar_rect.height) * REN_RES[0] / 640 - 1))
                     self.game.ui_surface.blit(pygame.transform.flip(Outside_Health_bar, True, False), (REN_RES[0] - (STAMINA_BAR_POS[0] + 0.5 *
-                              Outside_Health_bar.get_rect().width) * REN_RES[0] / 640 - 2,(STAMINA_BAR_POS[1] - 0.5 * Outside_Health_bar.get_rect().height) * REN_RES[0] / 640 - 5))
+                              Outside_Health_bar.get_rect().width) * REN_RES[0] / 640 - 2, (STAMINA_BAR_POS[1] - 0.5 * Outside_Health_bar.get_rect().height) * REN_RES[0] / 640 - 5))
 
           def draw_fps(self):
                     if self.fps_enabled:

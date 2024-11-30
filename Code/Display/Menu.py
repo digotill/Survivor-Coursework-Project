@@ -1,9 +1,7 @@
-from Code.Classes.Buttons import *
-from Code.Variables.Initialize import *
-from Code.Variables.Variables import *
-from Code.Classes.Entities import *
-import random
+import pandas as pd
 
+from Code.Classes.Buttons import *
+from Code.Classes.Entities import *
 
 
 class MainMenu:
@@ -19,6 +17,8 @@ class MainMenu:
                                                       MEDIUM_BUTTON_BASE_COLOUR, MEDIUM_BUTTON_HOVERING_COLOUR, on=True)
                     self.HARD_BUTTON = SwitchButton(Buttons[0], HARD_BUTTON_POS, game, True, HARD_BUTTON_NAME, FONT,
                                                     HARD_BUTTON_BASE_COLOUR, HARD_BUTTON_HOVERING_COLOUR)
+                    self.fullscreen_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max",
+                                                            text_input="Fullscreen")
                     self.buttons = [self.PLAY_BUTTON, self.QUIT_BUTTON, self.EASY_BUTTON, self.MEDIUM_BUTTON, self.HARD_BUTTON]
                     for button in self.buttons:
                               button.active = True
@@ -32,11 +32,10 @@ class MainMenu:
                     self.in_menu = True
                     return_value = None
                     difficulty = 'Medium'
+                    self.fullscreen_button.active = True
                     while self.in_menu and self.game.running:
                               self.game.clock.tick(self.game.fps)
-                              if self.game.display.size != WIN_RES:
-                                        self.game.display.blit(pygame.transform.scale(self.loading_screen[int(self.current_frame) % len(self.loading_screen)], self.game.display.size))
-                              else: self.game.display.blit(self.loading_screen[int(self.current_frame) % len(self.loading_screen)])
+                              self.game.display.blit(pygame.transform.scale(self.loading_screen[int(self.current_frame) % len(self.loading_screen)], self.game.display.size))
                               self.current_frame -= ANIMATION_SPEED * self.game.dt * 3
 
                               self.game.manage_events()
@@ -46,6 +45,9 @@ class MainMenu:
                                         button.update_size_and_position()
                                         button.changeColor(self.game.mouse_pos)
                                         button.draw()
+                              self.fullscreen_button.update()
+                              self.fullscreen_button.changeColor()
+                              self.fullscreen_button.draw()
 
                               if pygame.mouse.get_pressed()[0]:
                                         if self.PLAY_BUTTON.check_for_input(self.game.mouse_pos):
@@ -68,6 +70,8 @@ class MainMenu:
                                                   difficulty = 'Medium'
 
                               self.game.ui.display_mouse()
+                              self.game.display.blit(self.game.ui_surface)
+                              self.game.ui_surface.fill((0, 0, 0, 0))
                               pygame.display.flip()
 
                     new_stat = pd.DataFrame(
@@ -99,4 +103,3 @@ class GameOver:
 
           def loop(self):
                     pass
-

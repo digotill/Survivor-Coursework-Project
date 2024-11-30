@@ -1,6 +1,3 @@
-import pygame, math, random
-from Code.Variables.Variables import *
-from pygame.math import Vector2 as v2
 from Code.Classes.Entities import *
 
 

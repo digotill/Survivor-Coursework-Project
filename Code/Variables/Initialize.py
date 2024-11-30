@@ -24,5 +24,6 @@ New_Border_Images = import_SpriteSheet("Assets/Backgrounds/output-onlinegiftools
 Slash_Effect = cached_import_gif("Assets/VFX/Slash", )
 AK_47 = load_image("Assets/Objects/Weapons/rifle.png", AK47_RES, (0, 0, 0))
 AK_47_Bullet = load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
+Minigun = load_image("Assets/Objects/Weapons/Mini gun.png", MINIGUN_RES)
 cursor1 = load_image("Assets/Misc/Mouse/Mouse3/Sprite-0002.png", MOUSE_RES)
 cursor2 = load_image("Assets/Misc/Mouse/Mouse3/Sprite-0001.png", MOUSE_RES,)

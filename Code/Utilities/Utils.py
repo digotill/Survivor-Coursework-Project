@@ -1,9 +1,9 @@
-from functools import wraps
 import functools
-import pygame, os, random
+import os
+import random
 import numpy as np
-import pandas as pd
 import pygame
+
 
 def random_xy(rect1, rect2, sprite_width, sprite_height):
           while True:
@@ -51,3 +51,18 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
         if res: cropped = pygame.transform.scale(cropped, res)
         array.append(cropped)
     return array
+
+def perfect_outline_2(img):
+    copy_img = img.copy()
+    mask = pygame.mask.from_surface(img)
+    mask_outline = mask.outline()
+    mask_surf = pygame.Surface(img.get_size())
+    for pixel in mask_outline:
+        mask_surf.set_at(pixel, (255, 255, 255))
+    mask_surf.set_colorkey((0, 0, 0))
+    copy_img.blit(mask_surf, (- 1, 0))
+    copy_img.blit(mask_surf, (1, 0))
+    copy_img.blit(mask_surf, (0, - 1))
+    copy_img.blit(mask_surf, (0, + 1))
+    copy_img.blit(img)
+    return copy_img

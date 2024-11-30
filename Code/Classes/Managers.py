@@ -156,13 +156,13 @@ class BGEntitiesManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.resume_button = PausedButtons(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max", text_input="Resume")
+                    self.resume_button = SlidingButtons(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max", text_input="Resume")
                     self.fps_slider = NewSlider(self.game, Buttons[1], FPS_SLIDER_POS, "x", "max", text_input="Max FPS: ",
                                                 text_pos="right", max_value=240, min_value=60, initial_value=pygame.display.get_current_refresh_rate())
                     self.brightness_slider = NewSlider(self.game, Buttons[1], BRIGHTNESS_SLIDER_POS, "x", "max", text_input="Brightness: ",
                                                        text_pos="right", max_value=100, min_value=0, initial_value=INITIAL_BRIGHTNESS)
-                    self.fullscreen_button = PausedButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max", text_input="Fullscreen")
-                    self.quit_button = PausedButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max", text_input="Quit")
+                    self.fullscreen_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max", text_input="Fullscreen")
+                    self.quit_button = SlidingButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max", text_input="Quit")
                     self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button, self.quit_button]
 
           def update_buttons(self):

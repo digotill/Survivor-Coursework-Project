@@ -1,15 +1,8 @@
-import pygame, time, math
-import pandas as pd
-from Code.Variables.Variables import *
 from Code.Classes.Managers import *
-from Code.Utilities.Grid import *
-from Code.Display.UI import *
-from Code.Classes.Entities import *
-from Code.Variables.Initialize import *
-from Code.Display.Window import *
-from Code.Display.Menu import *
-from Code.Classes.Buttons import *
 from Code.Display.EventManager import *
+from Code.Display.Menu import *
+from Code.Display.UI import *
+from Code.Display.Window import *
 
 
 class Game:
@@ -98,9 +91,12 @@ class Game:
                     self.mouse_pos = pygame.mouse.get_pos()
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     self.mouse_state = pygame.mouse.get_pressed()
-                    if not self.changing_settings: self.game_time += self.dt
-                    if self.clock.get_fps() == 0: self.dt = 1 / 200
-                    else: self.dt = 1 / self.clock.get_fps()
+                    if not self.changing_settings:
+                              self.game_time += self.dt
+
+                    if self.clock.get_fps() == 0: fps = 200
+                    else: fps = self.clock.get_fps()
+                    self.dt = 1 / fps
 
 
           def run_game(self):
