@@ -137,49 +137,75 @@ class BG_entities(RectEntity):
 
 
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None,
+          def __init__(self, game, coordinates, res, max_vel, name, health, damage, images, angle=None,
                        animation=ANIMATION_SPEED):
-                    RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
+                    super().__init__(game, coordinates, res, max_vel, name, angle)
                     AnimatedEntity.__init__(self, game, images, animation)
                     AnimalEntity.__init__(self, game, health, damage)
+                    self.max_vel = max_vel
+                    self.acceleration = v2(0, 0)
+                    self.vel_vector = v2(0, 0)
+                    self.friction = 0.2  # Adjust this value to control how quickly the enemy slows down
                     self.facing = "right"
+
+          def apply_force(self, force):
+                    self.vel_vector += force
+                    if self.vel_vector.length() > self.vel:
+                              self.vel_vector = self.vel_vector.normalize() * self.vel
+
+          def update(self):
+                    if self.should_move():
+                              self.move()
+                    self.update_frame()
+                    self.update_facing()
+                    self.update_position()
 
           def should_move(self):
                     distance = self.distance_to_player()
                     return distance > ENEMY_STOPPING_DISTANCE
 
-          def distance_to_player(self):
-                    player_center = self.game.player.pos + v2(self.game.player.res) * 0.5
-                    enemy_center = self.pos + v2(self.res) * 0.5
-                    return (player_center - enemy_center).length()
-
           def move(self):
-                    new_angle = self.calc_angle()
-                    self.rotate_velocity(new_angle)
-                    self.update_position()
+                    direction = self.game.player.rect.center - self.pos
+                    if direction.length() > 0:
+                              direction = direction.normalize()
 
-          def rotate_velocity(self, new_angle):
-                    rotate = self.angle - new_angle
-                    self.vel_vector.rotate_ip(rotate)
-                    self.angle = new_angle
+                    desired_velocity = direction * self.max_vel
+                    steering = (desired_velocity - self.vel_vector) * 0.8  # Adjust 0.1 to control steering strength
+                    self.apply_force(steering)
+
+                    # Update velocity
+                    self.vel_vector += self.acceleration * self.game.dt
+                    if self.vel_vector.length() > self.max_vel:
+                              self.vel_vector = self.vel_vector.normalize() * self.max_vel
+
+                    # Apply friction
+                    self.vel_vector *= (1 - self.friction)
+
+                    # Reset acceleration
+                    self.acceleration = v2(0, 0)
 
           def update_position(self):
                     self.pos += self.vel_vector * self.game.dt
-                    self.rect.topleft = self.pos
+                    self.rect.center = self.pos
 
           def update_facing(self):
-                    self.facing = "right" if self.game.player.pos.x > self.pos.x else "left"
+                    self.facing = "right" if self.game.player.rect.centerx > self.pos.x else "left"
+
+          def distance_to_player(self):
+                    return (self.game.player.rect.center - self.pos).length()
 
           def blit(self):
                     sprite = self.get_current_sprite()
-                    draw_pos = self.pos - (self.game.window.offset_rect.x, self.game.window.offset_rect.y)
+                    draw_pos = (self.rect.x - self.game.window.offset_rect.x,
+                                self.rect.y - self.game.window.offset_rect.y)
                     self.game.display_screen.blit(sprite, draw_pos)
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]
                     if self.facing == "left":
-                              return pygame.transform.flip(sprite, True, False)
+                              sprite = pygame.transform.flip(sprite, True, False)
                     return sprite
+
 
 
 class Gun:

@@ -15,13 +15,14 @@ class EnemyManager:
                     self.spawn_cooldown = ENEMY_SPAWN_RATE
                     self.last_spawn = 0
                     self.enemy_multiplier = 1
+                    self.separation_radius = 15
+                    self.separation_strength = 0.4
 
           def update_enemies(self):
                     for enemy in self.grid.items:
-                              if enemy.should_move():
-                                        enemy.move()
-                              enemy.update_frame()
-                              enemy.update_facing()
+                              separation_force = self.calculate_separation(enemy)
+                              enemy.apply_force(separation_force)
+                              enemy.update()
                     self.remove_enemy()
                     self.add_enemies()
                     self.grid.rebuild()
@@ -30,21 +31,24 @@ class EnemyManager:
                     for enemies in self.grid.window_query(): enemies.blit()
 
           def add_enemies(self):
-                    if self.last_spawn + self.spawn_cooldown < self.game.game_time and len(self.grid.items) < MAX_ENEMIES:
+                    if self.last_spawn + self.spawn_cooldown < self.game.game_time and len(
+                            self.grid.items) < MAX_ENEMIES:
                               self.last_spawn = self.game.game_time
-                              coordinates = random_xy(pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]), self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
-                              angle = v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - coordinates[0], self.game.player.pos.y + 0.5 * self.game.player.res[1] - coordinates[1]).angle_to((0, 1))
+                              coordinates = random_xy(
+                                        pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
+                                        self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
                               if not bool(self.enemy_pool):
-                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME, ENEMY_HEALTH * self.enemy_multiplier,
-                                                       ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle, angle)
+                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME,
+                                                       ENEMY_HEALTH * self.enemy_multiplier,
+                                                       ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle)
                                         self.grid.insert(entity)
                               else:
                                         entity = self.enemy_pool.pop()
                                         entity.pos = v2(coordinates)
-                                        entity.rect.topleft = coordinates
-                                        entity.angle = angle
-                                        entity.vel_vector = v2(entity.vel * math.sin(math.radians(angle)), entity.vel * math.cos(math.radians(angle)))
-                                        entity.health = ENEMY_HEALTH
+                                        entity.rect.center = coordinates
+                                        entity.vel_vector = v2(0, 0)
+                                        entity.acceleration = v2(0, 0)
+                                        entity.health = ENEMY_HEALTH * self.enemy_multiplier
                                         entity.dead = False
                                         self.grid.insert(entity)
 
@@ -55,6 +59,30 @@ class EnemyManager:
                                         self.grid.items.remove(enemy)
                                         self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION, magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
                                         self.enemy_pool.add(enemy)
+
+          def calculate_separation(self, enemy):
+                    steering = v2(0, 0)
+                    total = 0
+                    for other in self.grid.query(
+                            enemy.rect.inflate(self.separation_radius * 2, self.separation_radius * 2)):
+                              if other != enemy:
+                                        distance = enemy.pos.distance_to(other.pos)
+                                        if distance < self.separation_radius:
+                                                  diff = enemy.pos - other.pos
+                                                  diff = diff.normalize()
+                                                  diff /= distance  # Weight by distance
+                                                  steering += diff
+                                                  total += 1
+
+                    if total > 0:
+                              steering /= total
+                              if steering.length() > 0:
+                                        steering = steering.normalize() * enemy.vel
+                                        steering -= enemy.vel_vector
+                                        if steering.length() > enemy.vel:
+                                                  steering = steering.normalize() * enemy.vel
+
+                    return steering * self.separation_strength
 
 class BulletManager:
 
