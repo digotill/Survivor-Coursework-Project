@@ -2,6 +2,7 @@ from Code.Classes.Buttons import *
 from Code.Classes.Entities import *
 from Code.Utilities.Grid import *
 from Code.Utilities.Particles import Spark
+import pygame, math, random, perlin_noise
 
 
 class EnemyManager:
@@ -20,71 +21,79 @@ class EnemyManager:
                               separation_force = self.calculate_separation(enemy)
                               enemy.apply_force(separation_force)
                               enemy.update()
-                    self.remove_enemy()
+                    self.remove_dead_enemies()
                     self.add_enemies()
                     self.grid.rebuild()
 
           def draw_enemies(self):
-                    for enemies in self.grid.window_query(): enemies.blit()
+                    for enemy in self.grid.window_query():
+                              enemy.blit()
 
           def add_enemies(self):
-                    if self.last_spawn + self.spawn_cooldown < self.game.game_time and len(
-                            self.grid.items) < MAX_ENEMIES:
+                    if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
+                            len(self.grid.items) < MAX_ENEMIES and ENEMIES_SPAWNING):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                        self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1])
-                              if not bool(self.enemy_pool):
-                                        entity = Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME,
-                                                       ENEMY_HEALTH * self.enemy_multiplier,
-                                                       ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle)
-                                        self.grid.insert(entity)
-                              else:
-                                        entity = self.enemy_pool.pop()
-                                        entity.pos = v2(coordinates)
-                                        entity.rect.center = coordinates
-                                        entity.vel_vector = v2(0, 0)
-                                        entity.acceleration = v2(0, 0)
-                                        entity.health = ENEMY_HEALTH * self.enemy_multiplier
-                                        entity.dead = False
-                                        self.grid.insert(entity)
+                                        self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1]
+                              )
 
-          def remove_enemy(self):
+                              if self.enemy_pool:
+                                        enemy = self.enemy_pool.pop()
+                                        self.reset_enemy(enemy, coordinates)
+                              else:
+                                        enemy = self.create_new_enemy(coordinates)
+
+                              self.grid.insert(enemy)
+
+          def remove_dead_enemies(self):
                     for enemy in self.grid.items.copy():
-                              if enemy.health <= 0: enemy.dead = True
+                              if enemy.health <= 0:
+                                        enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
-                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION,
-                                                                          magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
+                                        self.game.window.add_screen_shake(
+                                                  duration=ENEMY_SCREEN_SHAKE_DURATION,
+                                                  magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE
+                                        )
                                         self.enemy_pool.add(enemy)
 
           def calculate_separation(self, enemy):
                     steering = v2(0, 0)
                     total = 0
-                    for other in self.grid.query(
-                            enemy.rect.inflate(self.separation_radius * 2, self.separation_radius * 2)):
+                    nearby_enemies = self.grid.query(
+                              enemy.rect.inflate(self.separation_radius * 2, self.separation_radius * 2))
+
+                    for other in nearby_enemies:
                               if other != enemy:
                                         distance = enemy.pos.distance_to(other.pos)
                                         if distance < self.separation_radius:
-                                                  diff = enemy.pos - other.pos
-                                                  diff = diff.normalize()
-                                                  diff /= distance
+                                                  diff = (enemy.pos - other.pos).normalize() / distance
                                                   steering += diff
                                                   total += 1
 
                     if total > 0:
-                              steering /= total
-                              if steering.length() > 0:
+                              steering = (steering / total).normalize() * enemy.vel - enemy.vel_vector
+                              if steering.length() > enemy.vel:
                                         steering = steering.normalize() * enemy.vel
-                                        steering -= enemy.vel_vector
-                                        if steering.length() > enemy.vel:
-                                                  steering = steering.normalize() * enemy.vel
 
                     return steering * self.separation_strength
 
+          def reset_enemy(self, enemy, coordinates):
+                    enemy.pos = v2(coordinates)
+                    enemy.rect.center = coordinates
+                    enemy.vel_vector = v2(0, 0)
+                    enemy.acceleration = v2(0, 0)
+                    enemy.health = ENEMY_HEALTH * self.enemy_multiplier
+                    enemy.dead = False
+
+          def create_new_enemy(self, coordinates):
+                    return Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME,
+                                 ENEMY_HEALTH * self.enemy_multiplier,
+                                 ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle)
+
 
 class BulletManager:
-
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
@@ -93,54 +102,58 @@ class BulletManager:
                     self.bullet_pool = set()
 
           def update(self):
-                    for bullet in self.grid.items:
+                    current_time = self.game.game_time
+                    for bullet in list(self.grid.items):
                               bullet.update()
-                              if bullet.creation_time + bullet.lifetime < self.game.game_time: bullet.dead = True
+                              if current_time - bullet.creation_time > bullet.lifetime:
+                                        bullet.dead = True
                     self.check_for_collisions()
+                    self.check_dead_bullets()
                     self.grid.rebuild()
-                    self.remove_bullet()
 
           def draw(self):
+                    offset_x, offset_y = self.game.window.offset_rect.topleft
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (
-                              bullet.rect.x - self.game.window.offset_rect.x,
-                              bullet.rect.y - self.game.window.offset_rect.y))
+                              self.game.display_screen.blit(bullet.image,
+                                                            (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
 
-          def add_bullet(self, start_x, start_y, angle, vel, img, life, friction, name, damage, spread):
-                    bullet = Bullet(self.game, (start_x, start_y), angle, vel,
-                                    img, life, friction, name, damage, spread_factor=spread)
+          def add_bullet(self, start_x, start_y, angle, vel, img, life, friction, name, damage, spread, health):
+                    if self.bullet_pool:
+                              bullet = self.bullet_pool.pop()
+                              bullet.reset(start_x, start_y, angle, vel, life, friction, name, damage, spread, health)
+                    else:
+                              bullet = Bullet(self.game, (start_x, start_y), angle, vel, img, life, friction, name,
+                                              damage, spread_factor=spread, health=health)
                     self.grid.insert(bullet)
-                    if bullet.name == "Player Bullet":
-                              self.player_bullets.add(bullet)
-                    elif bullet.name == "Enemy Bullet":
-                              self.enemy_bullets.add(bullet)
+                    bullet_set = self.player_bullets if name == "Player Bullet" else self.enemy_bullets
+                    bullet_set.add(bullet)
 
-          def remove_bullet(self):
-                    new_set = self.grid.items.copy()
-                    for bullet in new_set:
+          def check_dead_bullets(self):
+                    for bullet in self.grid.items.copy():
                               if bullet.dead:
                                         self.grid.items.remove(bullet)
-                                        if bullet.name == "Player Bullet":
-                                                  self.player_bullets.remove(bullet)
-                                        elif bullet.name == "Enemy Bullet":
-                                                  self.enemy_bullets.remove(bullet)
+                                        bullet_set = self.player_bullets if bullet.name == "Player Bullet" else self.enemy_bullets
+                                        bullet_set.remove(bullet)
+                                        self.bullet_pool.add(bullet)
 
           def check_for_collisions(self):
                     for bullet in self.player_bullets:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
-                                                  location = [bullet.rect.centerx, bullet.rect.centery]
-                                                  for _ in range(BULLET_SPARK_AMOUNT):
-                                                            self.game.particle_manager.sparks.add(
-                                                                      Spark(self.game, location, math.radians(
-                                                                                random.randint(int(270 - bullet.angle)
-                                                                                               - BULLET_SPARK_SPREAD,
-                                                                                               int(270 - bullet.angle) + BULLET_SPARK_SPREAD)),
-                                                                            random.randint(3, 6), BULLET_SPARK_COLOUR,
-                                                                            BULLET_SPARK_SIZE))
-                                                  if bullet.health <= 0:
-                                                            bullet.dead = True
-                                                            break
+                                                  self.create_bullet_sparks(bullet)
+                                                  break
+
+          def create_bullet_sparks(self, bullet):
+                    spark_angle = math.radians(random.randint(
+                              int(270 - bullet.angle) - BULLET_SPARK_SPREAD,
+                              int(270 - bullet.angle) + BULLET_SPARK_SPREAD
+                    ))
+                    for _ in range(BULLET_SPARK_AMOUNT):
+                              self.game.particle_manager.sparks.add(
+                                        Spark(self.game, bullet.pos, spark_angle,
+                                              random.randint(3, 6), BULLET_SPARK_COLOUR,
+                                              BULLET_SPARK_SIZE)
+                              )
 
 
 class ParticleManager:

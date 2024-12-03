@@ -24,7 +24,7 @@ class TileMap:
                     self.tiles = {}
                     for x in range(PLAYABLE_AREA_SIZE[0] // self.tile_size):
                               for y in range(PLAYABLE_AREA_SIZE[1] // self.tile_size):
-                                        self.add_tile(grass, (x * self.tile_size, y * self.tile_size))
+                                        self.add_tile(Grass_Tile, (x * self.tile_size, y * self.tile_size))
                     self.grid.rebuild()
 
           def add_tile(self, image, position):

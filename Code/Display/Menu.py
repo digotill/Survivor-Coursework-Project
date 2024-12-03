@@ -24,7 +24,7 @@ class MainMenu:
                                     self.HARD_BUTTON]
                     for button in self.buttons:
                               button.active = True
-                    self.loading_screen = loading_screen_1 if random.random() < 0.5 else loading_screen_2
+                    self.loading_screen = Green_Waterfall if random.random() < 0.5 else Orange_Pond
                     self.current_frame = 0
                     self.in_menu = False
 
@@ -39,7 +39,7 @@ class MainMenu:
                               self.game.display.blit(pygame.transform.scale(
                                         self.loading_screen[int(self.current_frame) % len(self.loading_screen)],
                                         self.game.display.size))
-                              self.current_frame -= ANIMATION_SPEED * self.game.dt * 3
+                              self.current_frame -= self.game.dt * MAIN_MENU_ANIMATION_SPEED
 
                               self.game.manage_events()
                               self.game.update_game_variables()
@@ -81,17 +81,17 @@ class MainMenu:
                               {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
                     if difficulty == 'Easy':
-                              self.game.enemy_manager.enemy_multiplier = 0.7
-                              player_health_multiplier = 1.5
-                              player_damage_multiplier = 1.1
+                              self.game.enemy_manager.enemy_multiplier = EASY_ENEMY_MULTIPLYER
+                              player_health_multiplier = EASY_PLAYER_HEALTH_MULTIPLYER
+                              player_damage_multiplier = EASY_PLAYER_DAMAGE_MULTIPLYER
                     elif difficulty == 'Medium':
-                              self.game.enemy_manager.enemy_multiplier = 1
-                              player_health_multiplier = 1
-                              player_damage_multiplier = 1
+                              self.game.enemy_manager.enemy_multiplier = MEDIUM_ENEMY_MULTIPLYER
+                              player_health_multiplier = MEDIUM_PLAYER_HEALTH_MULTIPLYER
+                              player_damage_multiplier = MEDIUM_PLAYER_DAMAGE_MULTIPLYER
                     elif difficulty == 'Hard':
-                              self.game.enemy_manager.enemy_multiplier = 1.3
-                              player_health_multiplier = 0.7
-                              player_damage_multiplier = 0.9
+                              self.game.enemy_manager.enemy_multiplier = HARD_ENEMY_MULTIPLYER
+                              player_health_multiplier = HARD_PLAYER_HEALTH_MULTIPLYER
+                              player_damage_multiplier = HARD_PLAYER_DAMAGE_MULTIPLYER
                     self.game.player = Player(self.game, PLAYER_HEALTH * player_health_multiplier, PLAYER_RES,
                                               PLAYER_VEL,
                                               PLAYER_DAMAGE * player_damage_multiplier, self.game.window.rect.center)

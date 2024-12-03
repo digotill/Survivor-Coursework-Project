@@ -11,6 +11,8 @@ class Window(RectEntity):
                     self.lerp_speed = WINDOW_LERP_SPEED
                     self.mouse_smoothing = v2(WINDOW_MOUSE_SMOOTHING)
                     self.deadzone = WINDOW_DEADZONE
+                    self.window_mouse_smoothing_amount = WINDOW_MOUSE_SMOOTHING_AMOUNT
+                    self.window_max_offset = WINDOW_MAX_OFFSET
                     self.shake_duration = 0
                     self.shake_start_time = 0
                     self.shake_magnitude = 0
@@ -30,17 +32,17 @@ class Window(RectEntity):
 
                     self.mouse_smoothing = v2(
                               self.lerp(self.mouse_smoothing.x, mouse_target.x,
-                                        WINDOW_MOUSE_SMOOTHING_AMOUNT * self.game.dt),
+                                        self.window_mouse_smoothing_amount * self.game.dt),
                               self.lerp(self.mouse_smoothing.y, mouse_target.y,
-                                        WINDOW_MOUSE_SMOOTHING_AMOUNT * self.game.dt))
+                                        self.window_mouse_smoothing_amount * self.game.dt))
 
                     if abs(self.mouse_smoothing.x) < self.deadzone:
                               self.mouse_smoothing.x = 0
                     if abs(self.mouse_smoothing.y) < self.deadzone:
                               self.mouse_smoothing.y = 0
 
-                    self.target_offset.x = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.x)
-                    self.target_offset.y = WINDOW_MAX_OFFSET * int(self.mouse_smoothing.y)
+                    self.target_offset.x = self.window_max_offset * int(self.mouse_smoothing.x)
+                    self.target_offset.y = self.window_max_offset * int(self.mouse_smoothing.y)
 
                     self.current_offset = v2(
                               self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
@@ -112,7 +114,6 @@ class Window(RectEntity):
 
           @staticmethod
           def get_2d_noise(x, y):
-
                     scaled_x, scaled_y = x * 0.1, y * 0.1
                     return perlin([scaled_x, scaled_y])
 
