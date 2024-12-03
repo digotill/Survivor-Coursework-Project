@@ -3,6 +3,7 @@ from Code.Display.EventManager import *
 from Code.Display.Menu import *
 from Code.Display.UI import *
 from Code.Display.Window import *
+from Code.Classes.TileMap import TileMap
 
 
 class Game:
@@ -30,8 +31,8 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
-                    self.BG_entities = BGEntitiesManager(self)
                     self.ui = UI(self)
+                    self.tilemap = TileMap(self)
 
                     self.update_game_variables()
 
@@ -59,8 +60,7 @@ class Game:
                     self.button_manager.update_buttons()
 
           def draw_groups(self):
-                    self.display_screen.fill(BG_COLOUR)
-                    self.BG_entities.draw()
+                    self.tilemap.draw()
                     self.player.draw()
                     self.player.gun.draw()
                     self.enemy_manager.draw_enemies()
@@ -68,7 +68,6 @@ class Game:
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
                     self.ui.darken_screen()
-                    self.ui.draw_border()
                     self.ui.draw_bars()
                     self.ui.draw_fps()
                     self.ui.draw_time()

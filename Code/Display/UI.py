@@ -8,12 +8,8 @@ class UI:
                     self.fps_enabled = START_WITH_FPS_AND_TIME
                     self.health_bar_rect = Health_bar.get_rect()
                     self.stamina_bar_rect = Stamina_bar.get_rect()
-                    self.current_border_frame = 0
                     self.brightness = INITIAL_BRIGHTNESS
 
-          def draw_border(self):
-                    self.game.ui_surface.blit(New_Border_Images[int(self.current_border_frame) % len(New_Border_Images)])
-                    self.current_border_frame += BORDER_ANIMATION_SPEED * self.game.dt
 
           def draw_bars(self):
                     if self.game.player.health > 0:

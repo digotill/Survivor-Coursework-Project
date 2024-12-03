@@ -22,7 +22,6 @@ class MainMenu:
                     self.buttons = [self.PLAY_BUTTON, self.QUIT_BUTTON, self.EASY_BUTTON, self.MEDIUM_BUTTON, self.HARD_BUTTON]
                     for button in self.buttons:
                               button.active = True
-                    self.BG = Main_Menu_BG
                     self.loading_screen = loading_screen_1 if random.random() < 0.5 else loading_screen_2
                     self.current_frame = 0
                     self.in_menu = False

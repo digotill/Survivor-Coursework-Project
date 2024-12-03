@@ -51,7 +51,6 @@ class Button:
                 else:
                         self.text = self.font.render(self.text_input, False, self.base_color)
 
-
 class SlidingButtons:
           def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
                     text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0)):

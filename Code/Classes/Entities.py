@@ -124,18 +124,6 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.frame += self.animation * self.game.dt
 
 
-class BG_entities(RectEntity):
-          def __init__(self, game, coordinates, res, vel=None, name=None):
-                    RectEntity.__init__(self, game, coordinates, res, vel, name)
-                    self.image = BG_entities_gif[random.randint(0, len(BG_entities_gif) - 1)]
-                    self.rect = pygame.Rect(self.pos.x, self.pos.y, self.image.width, self.image.height)
-                    self.name = name
-
-          def blit(self):
-                    self.game.display_screen.blit(self.image, (self.pos.x - self.game.window.offset_rect.x,
-                                                               self.pos.y - self.game.window.offset_rect.y))
-
-
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def __init__(self, game, coordinates, res, max_vel, name, health, damage, images, angle=None,
                        animation=ANIMATION_SPEED):

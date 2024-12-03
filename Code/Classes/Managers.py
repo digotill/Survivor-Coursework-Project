@@ -165,22 +165,6 @@ class SoundManager:
                     self.sounds = {}
 
 
-class BGEntitiesManager:
-          def __init__(self, game):
-                    self.game = game
-                    self.grid = SpatialHash(game)
-                    for i in range(int(PLAYABLE_AREA_SIZE[0] / 480 * BG_ENTITIES_DENSITY)):
-                              coordinates = random.randint(0, PLAYABLE_AREA_SIZE[0]), random.randint(0, PLAYABLE_AREA_SIZE[1])
-                              entity = BG_entities(self.game, coordinates, BG_ENTITIES_RES)
-                              collision = False
-                              for u in self.grid.items:
-                                        if pygame.Rect.colliderect(entity.rect, u.rect): collision = True
-                              if not collision: self.grid.insert(entity)
-
-          def draw(self):
-                    for entity in self.grid.window_query(): entity.blit()
-
-
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
