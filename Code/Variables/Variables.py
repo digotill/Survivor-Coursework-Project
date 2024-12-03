@@ -1,13 +1,16 @@
 import pygame, random
 from perlin_noise import PerlinNoise
+
 pygame.init()
 
 START_FULLSCREEN = True
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 MAX_WIN_RES = 2560, 1440
-if START_FULLSCREEN: WIN_RES = MONITER_RES
-else: WIN_RES = MIN_WIN_RES
+if START_FULLSCREEN:
+          WIN_RES = MONITER_RES
+else:
+          WIN_RES = MIN_WIN_RES
 PLAYABLE_AREA_SIZE = 3840, 2160
 REN_RES = 640, 360
 
@@ -162,7 +165,7 @@ FULLSCREEN_COOLDOWN = 0.5
 SETTINGS_COOLDOWN = 0.5
 SETTINGS_DARKENING = (12, 12, 12)
 
-MAX_DARKNESS = 2.55
+MAX_DARKNESS = 2.5
 MAX_BRIGHTNESS = 0.5
 INITIAL_BRIGHTNESS = 50
 

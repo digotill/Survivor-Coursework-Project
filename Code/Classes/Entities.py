@@ -5,6 +5,7 @@ from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
 from Code.Utilities.Particles import Spark
 
+
 class RectEntity:
           def __init__(self, game, coordinates, res, vel, name, angle=None):
                     self.game = game
@@ -47,7 +48,8 @@ class AnimalEntity:
 
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, coordinates, name=PLAYER_NAME, images=Player_Running, angle=None,
+          def __init__(self, game, health, res, vel, damage, coordinates, name=PLAYER_NAME, images=Player_Running,
+                       angle=None,
                        animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
@@ -55,7 +57,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.current_vel = 0
                     self.max_health = health
                     self.gun = Gun(game, AK_47, PLAYER_GUN_RES, AK_47_Bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
-                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION, PLAYER_BULLET_DAMAGE)
+                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION,
+                                   PLAYER_BULLET_DAMAGE)
                     AnimatedEntity.__init__(self, game, images, animation)
                     self.pos.x -= self.res[0] / 2
                     self.pos.y -= self.res[1] / 2
@@ -85,7 +88,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                         self.pos.x = new_x
                                         self.rect.x = self.pos.x
                                         move_hor = True
-                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[1] + PLAYER_OFFSET_Y2 + 23:
+                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[
+                                        1] + PLAYER_OFFSET_Y2 + 23:
                                         self.pos.y = new_y
                                         self.rect.y = self.pos.y
                                         move_vert = True
@@ -195,9 +199,9 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
                     return sprite
 
 
-
 class Gun:
-          def __init__(self, game, gunImage, gun_res, bullet_image, distance, velocity, lifetime, fire_rate, friction=0, damage=30):
+          def __init__(self, game, gunImage, gun_res, bullet_image, distance, velocity, lifetime, fire_rate, friction=0,
+                       damage=30):
                     self.game = game
                     self.res = gun_res
                     self.gunImage = gunImage
@@ -223,7 +227,8 @@ class Gun:
                     if self.game.player.facing == "right":
                               self.rotated_image = pygame.transform.rotate(self.gunImage, self.angle + 90)
                     else:
-                              self.rotated_image = pygame.transform.flip(pygame.transform.rotate(self.gunImage, -self.angle + 90), True, False)
+                              self.rotated_image = pygame.transform.flip(
+                                        pygame.transform.rotate(self.gunImage, -self.angle + 90), True, False)
                     pos_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * self.distance -
                              self.game.window.offset_rect.x)
                     pos_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * self.distance -
@@ -260,19 +265,21 @@ class Gun:
                               start_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
                                         self.distance - 18))
 
-                              new_bullet = Bullet(self.game, (start_x, start_y), self.angle, self.bullet_velocity,
-                                                  self.bullet_image, self.bullet_lifetime, self.bullet_friction,
-                                                  "Player Bullet", self.damage, spread_factor=spread_factor)
-
                               for _ in range(GUN_SPARK_AMOUNT):
                                         self.game.particle_manager.sparks.add(Spark(self.game, [start_x, start_y],
-                                                  math.radians(random.randint(int(270 - self.angle) - GUN_SPARK_SPREAD,
-                                                            int(270 - self.angle) + GUN_SPARK_SPREAD)), random.randint(3, 6),
-                                                                      GUN_SPARK_COLOUR, GUN_SPARK_SIZE))
+                                                                                    math.radians(random.randint(
+                                                                                              int(270 - self.angle) - GUN_SPARK_SPREAD,
+                                                                                              int(270 - self.angle) + GUN_SPARK_SPREAD)),
+                                                                                    random.randint(3, 6),
+                                                                                    GUN_SPARK_COLOUR, GUN_SPARK_SIZE))
 
-                              self.game.bullet_manager.add_bullet(new_bullet)
+                              self.game.bullet_manager.add_bullet(start_x, start_y, self.angle, self.bullet_velocity,
+                                                                  self.bullet_image, self.bullet_lifetime,
+                                                                  self.bullet_friction, "Player Bullet", self.damage,
+                                                                  spread_factor)
                     elif self.fire_rate + self.last_shot_time + 0.5 < current_time:
                               self.continuous_fire_start = None
+
 
 class Bullet(RectEntity):
           def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10,

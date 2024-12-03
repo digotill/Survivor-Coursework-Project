@@ -15,6 +15,7 @@ os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
 PROFILE = False
 
+
 def main():
           profiler = None
           if PROFILE:

@@ -43,7 +43,6 @@ class Game:
                     self.mainmenu = MainMenu(self)
                     if self.mainmenu.loop(): self.running = False
 
-
           def refresh(self):
                     self.__init__()
                     pygame.display.flip()
@@ -73,10 +72,10 @@ class Game:
                     self.ui.draw_time()
                     self.button_manager.draw_buttons()
                     self.display_screen.blit(self.ui_surface)
+                    self.ui_surface.fill((0, 0, 0, 0))
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                     self.ui.display_mouse()
                     self.ui.draw_brightness()
-                    self.ui_surface.fill((0, 0, 0, 0))
 
           def manage_events(self):
                     self.event_manager.update_window_events()
@@ -88,15 +87,17 @@ class Game:
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width), int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
+                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     self.mouse_state = pygame.mouse.get_pressed()
                     if not self.changing_settings:
                               self.game_time += self.dt
 
-                    if self.clock.get_fps() == 0: fps = 200
-                    else: fps = self.clock.get_fps()
+                    if self.clock.get_fps() == 0:
+                              fps = 200
+                    else:
+                              fps = self.clock.get_fps()
                     self.dt = 1 / fps
-
 
           def run_game(self):
                     while self.running:

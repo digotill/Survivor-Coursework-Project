@@ -9,17 +9,19 @@ class MainMenu:
                     self.game = game
                     self.PLAY_BUTTON = Button(Buttons[0], PLAY_BUTTON_POS, game, True, PLAY_BUTTON_NAME, FONT,
                                               PLAY_BUTTON_BASE_COLOUR, PLAY_BUTTON_HOVERING_COLOUR)
-                    self.QUIT_BUTTON = Button(Buttons[2], QUIT_BUTTON_POS, game,  True, QUIT_BUTTON_NAME, FONT,
+                    self.QUIT_BUTTON = Button(Buttons[2], QUIT_BUTTON_POS, game, True, QUIT_BUTTON_NAME, FONT,
                                               QUIT_BUTTON_BASE_COLOUR, QUIT_BUTTON_HOVERING_COLOUR)
                     self.EASY_BUTTON = SwitchButton(Buttons[0], EASY_BUTTON_POS, game, True, EASY_BUTTON_NAME, FONT,
-                                              EASY_BUTTON_BASE_COLOUR, EASY_BUTTON_HOVERING_COLOUR)
-                    self.MEDIUM_BUTTON = SwitchButton(Buttons[0], MEDIUM_BUTTON_POS, game, True, MEDIUM_BUTTON_NAME, FONT,
+                                                    EASY_BUTTON_BASE_COLOUR, EASY_BUTTON_HOVERING_COLOUR)
+                    self.MEDIUM_BUTTON = SwitchButton(Buttons[0], MEDIUM_BUTTON_POS, game, True, MEDIUM_BUTTON_NAME,
+                                                      FONT,
                                                       MEDIUM_BUTTON_BASE_COLOUR, MEDIUM_BUTTON_HOVERING_COLOUR, on=True)
                     self.HARD_BUTTON = SwitchButton(Buttons[0], HARD_BUTTON_POS, game, True, HARD_BUTTON_NAME, FONT,
                                                     HARD_BUTTON_BASE_COLOUR, HARD_BUTTON_HOVERING_COLOUR)
                     self.fullscreen_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max",
                                                             text_input="Fullscreen")
-                    self.buttons = [self.PLAY_BUTTON, self.QUIT_BUTTON, self.EASY_BUTTON, self.MEDIUM_BUTTON, self.HARD_BUTTON]
+                    self.buttons = [self.PLAY_BUTTON, self.QUIT_BUTTON, self.EASY_BUTTON, self.MEDIUM_BUTTON,
+                                    self.HARD_BUTTON]
                     for button in self.buttons:
                               button.active = True
                     self.loading_screen = loading_screen_1 if random.random() < 0.5 else loading_screen_2
@@ -34,7 +36,9 @@ class MainMenu:
                     self.fullscreen_button.active = True
                     while self.in_menu and self.game.running:
                               self.game.clock.tick(self.game.fps)
-                              self.game.display.blit(pygame.transform.scale(self.loading_screen[int(self.current_frame) % len(self.loading_screen)], self.game.display.size))
+                              self.game.display.blit(pygame.transform.scale(
+                                        self.loading_screen[int(self.current_frame) % len(self.loading_screen)],
+                                        self.game.display.size))
                               self.current_frame -= ANIMATION_SPEED * self.game.dt * 3
 
                               self.game.manage_events()
@@ -88,8 +92,9 @@ class MainMenu:
                               self.game.enemy_manager.enemy_multiplier = 1.3
                               player_health_multiplier = 0.7
                               player_damage_multiplier = 0.9
-                    self.game.player = Player(self.game, PLAYER_HEALTH * player_health_multiplier, PLAYER_RES, PLAYER_VEL,
-                                         PLAYER_DAMAGE * player_damage_multiplier, self.game.window.rect.center)
+                    self.game.player = Player(self.game, PLAYER_HEALTH * player_health_multiplier, PLAYER_RES,
+                                              PLAYER_VEL,
+                                              PLAYER_DAMAGE * player_damage_multiplier, self.game.window.rect.center)
                     return return_value
 
 

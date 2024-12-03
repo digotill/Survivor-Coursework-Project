@@ -1,9 +1,6 @@
-import time
-from Code.Variables.Initialize import *
-from Code.Classes.Entities import *
-from pygame.math import Vector2 as v2
-from Code.Utilities.Grid import *
 from Code.Classes.Buttons import *
+from Code.Classes.Entities import *
+from Code.Utilities.Grid import *
 from Code.Utilities.Particles import Spark
 
 
@@ -57,7 +54,8 @@ class EnemyManager:
                               if enemy.health <= 0: enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
-                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION, magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
+                                        self.game.window.add_screen_shake(duration=ENEMY_SCREEN_SHAKE_DURATION,
+                                                                          magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE)
                                         self.enemy_pool.add(enemy)
 
           def calculate_separation(self, enemy):
@@ -70,7 +68,7 @@ class EnemyManager:
                                         if distance < self.separation_radius:
                                                   diff = enemy.pos - other.pos
                                                   diff = diff.normalize()
-                                                  diff /= distance  # Weight by distance
+                                                  diff /= distance
                                                   steering += diff
                                                   total += 1
 
@@ -84,6 +82,7 @@ class EnemyManager:
 
                     return steering * self.separation_strength
 
+
 class BulletManager:
 
           def __init__(self, game):
@@ -91,6 +90,7 @@ class BulletManager:
                     self.grid = SpatialHash(game)
                     self.player_bullets = set()
                     self.enemy_bullets = set()
+                    self.bullet_pool = set()
 
           def update(self):
                     for bullet in self.grid.items:
@@ -102,20 +102,28 @@ class BulletManager:
 
           def draw(self):
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image, (bullet.rect.x - self.game.window.offset_rect.x, bullet.rect.y - self.game.window.offset_rect.y))
+                              self.game.display_screen.blit(bullet.image, (
+                              bullet.rect.x - self.game.window.offset_rect.x,
+                              bullet.rect.y - self.game.window.offset_rect.y))
 
-          def add_bullet(self, bullet):
+          def add_bullet(self, start_x, start_y, angle, vel, img, life, friction, name, damage, spread):
+                    bullet = Bullet(self.game, (start_x, start_y), angle, vel,
+                                    img, life, friction, name, damage, spread_factor=spread)
                     self.grid.insert(bullet)
-                    if bullet.name == "Player Bullet": self.player_bullets.add(bullet)
-                    elif bullet.name == "Enemy Bullet": self.enemy_bullets.add(bullet)
+                    if bullet.name == "Player Bullet":
+                              self.player_bullets.add(bullet)
+                    elif bullet.name == "Enemy Bullet":
+                              self.enemy_bullets.add(bullet)
 
           def remove_bullet(self):
                     new_set = self.grid.items.copy()
                     for bullet in new_set:
                               if bullet.dead:
                                         self.grid.items.remove(bullet)
-                                        if bullet.name == "Player Bullet": self.player_bullets.remove(bullet)
-                                        elif bullet.name == "Enemy Bullet": self.enemy_bullets.remove(bullet)
+                                        if bullet.name == "Player Bullet":
+                                                  self.player_bullets.remove(bullet)
+                                        elif bullet.name == "Enemy Bullet":
+                                                  self.enemy_bullets.remove(bullet)
 
           def check_for_collisions(self):
                     for bullet in self.player_bullets:
@@ -123,12 +131,17 @@ class BulletManager:
                                         if bullet.check_collision(enemy):
                                                   location = [bullet.rect.centerx, bullet.rect.centery]
                                                   for _ in range(BULLET_SPARK_AMOUNT):
-                                                            self.game.particle_manager.sparks.add(Spark(self.game, location, math.radians(random.randint(int(270 - bullet.angle)
-                                                                      - BULLET_SPARK_SPREAD, int(270 - bullet.angle) + BULLET_SPARK_SPREAD)),
-                                                                                random.randint(3, 6), BULLET_SPARK_COLOUR, BULLET_SPARK_SIZE))
+                                                            self.game.particle_manager.sparks.add(
+                                                                      Spark(self.game, location, math.radians(
+                                                                                random.randint(int(270 - bullet.angle)
+                                                                                               - BULLET_SPARK_SPREAD,
+                                                                                               int(270 - bullet.angle) + BULLET_SPARK_SPREAD)),
+                                                                            random.randint(3, 6), BULLET_SPARK_COLOUR,
+                                                                            BULLET_SPARK_SIZE))
                                                   if bullet.health <= 0:
                                                             bullet.dead = True
                                                             break
+
 
 class ParticleManager:
           def __init__(self, game):
@@ -144,6 +157,7 @@ class ParticleManager:
           def draw(self):
                     for _, spark in sorted(enumerate(self.sparks), reverse=True):
                               spark.draw()
+
 
 class ObjectManager:
           def __init__(self, game):
@@ -168,14 +182,22 @@ class SoundManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.resume_button = SlidingButtons(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max", text_input="Resume")
-                    self.fps_slider = NewSlider(self.game, Buttons[1], FPS_SLIDER_POS, "x", "max", text_input="Max FPS: ",
-                                                text_pos="right", max_value=240, min_value=60, initial_value=pygame.display.get_current_refresh_rate())
-                    self.brightness_slider = NewSlider(self.game, Buttons[1], BRIGHTNESS_SLIDER_POS, "x", "max", text_input="Brightness: ",
-                                                       text_pos="right", max_value=100, min_value=0, initial_value=INITIAL_BRIGHTNESS)
-                    self.fullscreen_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max", text_input="Fullscreen")
-                    self.quit_button = SlidingButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max", text_input="Quit")
-                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button, self.quit_button]
+                    self.resume_button = SlidingButtons(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max",
+                                                        text_input="Resume")
+                    self.fps_slider = NewSlider(self.game, Buttons[1], FPS_SLIDER_POS, "x", "max",
+                                                text_input="Max FPS: ",
+                                                text_pos="right", max_value=240, min_value=60,
+                                                initial_value=pygame.display.get_current_refresh_rate())
+                    self.brightness_slider = NewSlider(self.game, Buttons[1], BRIGHTNESS_SLIDER_POS, "x", "max",
+                                                       text_input="Brightness: ",
+                                                       text_pos="right", max_value=100, min_value=0,
+                                                       initial_value=INITIAL_BRIGHTNESS)
+                    self.fullscreen_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max",
+                                                            text_input="Fullscreen")
+                    self.quit_button = SlidingButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max",
+                                                      text_input="Quit")
+                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button,
+                                    self.quit_button]
 
           def update_buttons(self):
                     for button in self.buttons:
@@ -183,15 +205,17 @@ class ButtonManager:
                               button.update()
                               button.changeColor()
                     if self.game.mouse_state[0]:
-                              if self.resume_button.check_for_input(): self.game.changing_settings = False
-                              elif self.fps_slider.update_value: self.game.fps = self.fps_slider.value
-                              elif self.brightness_slider.update_value: self.game.ui.brightness = self.brightness_slider.value
-                              elif self.fullscreen_button.check_for_input(): self.game.event_manager.update_size(True)
-                              elif self.quit_button.check_for_input(): self.game.immidiate_quit = True
+                              if self.resume_button.check_for_input():
+                                        self.game.changing_settings = False
+                              elif self.fps_slider.update_value:
+                                        self.game.fps = self.fps_slider.value
+                              elif self.brightness_slider.update_value:
+                                        self.game.ui.brightness = self.brightness_slider.value
+                              elif self.fullscreen_button.check_for_input():
+                                        self.game.event_manager.update_size(True)
+                              elif self.quit_button.check_for_input():
+                                        self.game.immidiate_quit = True
 
           def draw_buttons(self):
                     for button in self.buttons:
                               button.draw()
-
-
-

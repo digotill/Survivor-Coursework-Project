@@ -26,8 +26,10 @@ class SpatialHash:
                     self.items.add(entity)
                     for cell in self._rect_cells(entity.rect):
                               items = self.grid.get(cell)
-                              if items is None: self.grid[cell] = [entity]
-                              else: items.append(entity)
+                              if items is None:
+                                        self.grid[cell] = [entity]
+                              else:
+                                        items.append(entity)
 
           def query(self, rect):
                     items = set()
