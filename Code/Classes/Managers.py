@@ -2,7 +2,7 @@ from Code.Classes.Buttons import *
 from Code.Classes.Entities import *
 from Code.Utilities.Grid import *
 from Code.Utilities.Particles import Spark
-import pygame, math, random, perlin_noise
+import pygame, math, random
 
 
 class EnemyManager:

@@ -1,9 +1,9 @@
-import pygame, math, random, perlin_noise
-from Code.Variables.Variables import *
-from Code.Variables.Initialize import *
-from Code.Utilities.Utils import *
+import math
+
 from pygame.math import Vector2 as v2
+
 from Code.Utilities.Particles import Spark
+from Code.Variables.Initialize import *
 
 
 class RectEntity:
@@ -257,7 +257,7 @@ class Gun:
                               self.continuous_fire_start = current_time
 
                     firing_duration = current_time - self.continuous_fire_start
-                    max_spread_time = 2.0
+                    max_spread_time = PLAYER_GUN_SPREAD_TIME
                     spread_factor = min(firing_duration / max_spread_time, 1.0)
 
                     self.last_shot_time = current_time

@@ -12,7 +12,7 @@ class Game:
 
                     self.display = display
                     self.display_screen = pygame.Surface(REN_RES).convert()
-                    self.ui_surface = pygame.Surface(REN_RES).convert()
+                    self.ui_surface = pygame.Surface((640, 360)).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
@@ -41,7 +41,7 @@ class Game:
 
                     self.player = None
                     self.mainmenu = MainMenu(self)
-                    if self.mainmenu.loop(): self.running = False
+                    self.mainmenu.loop()
 
           def refresh(self):
                     self.__init__()
@@ -71,11 +71,14 @@ class Game:
                     self.ui.draw_fps()
                     self.ui.draw_time()
                     self.button_manager.draw_buttons()
+
+          def update_display(self):
                     self.display_screen.blit(self.ui_surface)
                     self.ui_surface.fill((0, 0, 0, 0))
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
                     self.ui.display_mouse()
                     self.ui.draw_brightness()
+                    pygame.display.flip()
 
           def manage_events(self):
                     self.event_manager.update_window_events()
@@ -92,7 +95,6 @@ class Game:
                     self.mouse_state = pygame.mouse.get_pressed()
                     if not self.changing_settings:
                               self.game_time += self.dt
-
                     if self.clock.get_fps() == 0:
                               fps = 200
                     else:
@@ -106,6 +108,6 @@ class Game:
                               self.manage_events()
                               self.update_groups()
                               self.draw_groups()
+                              self.update_display()
                               if self.immidiate_quit: return None
-                              pygame.display.flip()
                     pygame.quit()

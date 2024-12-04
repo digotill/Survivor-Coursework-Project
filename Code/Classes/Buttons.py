@@ -3,58 +3,6 @@ from pygame.math import Vector2 as v2
 from Code.Variables.Variables import *
 
 
-class Button:
-          def __init__(self, image, pos, game, text, text_input=None, font=None, base_color=None, hovering_color=None,
-                       res=None):
-                    self.game = game
-                    if res is not None:
-                              self.org_image = pygame.transform.scale(image, res)
-                    else:
-                              self.org_image = image
-                    self.original_pos = pos
-                    self.has_text = text
-                    self.text_input = text_input
-                    self.font_path = font
-                    self.base_color = base_color
-                    self.hovering_color = hovering_color
-
-                    self.update_size_and_position()
-
-          def update_size_and_position(self):
-                    current_res = pygame.display.get_window_size()
-                    scale_x = current_res[0] / REN_RES[0]
-                    scale_y = current_res[1] / REN_RES[1]
-
-                    scaled_width = int(self.org_image.get_width() * scale_x)
-                    scaled_height = int(self.org_image.get_height() * scale_y)
-                    self.image = pygame.transform.scale(self.org_image, (scaled_width, scaled_height))
-
-                    self.x_pos = int(self.original_pos[0] * scale_x)
-                    self.y_pos = int(self.original_pos[1] * scale_y)
-                    self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
-
-                    if self.has_text:
-                              self.font_size = int(scaled_height / BUTTONS_SIZE / 2.1)
-                              self.font = pygame.font.Font(self.font_path, self.font_size)
-                              self.text = self.font.render(self.text_input, False, self.base_color)
-                              self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
-
-          def draw(self):
-                    self.game.display.blit(self.image, self.rect)
-                    if self.has_text:
-                              self.game.display.blit(self.text, self.text_rect)
-
-          def check_for_input(self, position):
-                    return self.rect.collidepoint(position)
-
-          def changeColor(self, position):
-                    if self.has_text:
-                              if self.rect.collidepoint(position):
-                                        self.text = self.font.render(self.text_input, False, self.hovering_color)
-                    else:
-                              self.text = self.font.render(self.text_input, False, self.base_color)
-
-
 class SlidingButtons:
           def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
                        text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0)):
@@ -273,41 +221,38 @@ class NewSlider:
                     self.update_value = True
 
 
-class SwitchButton(Button):
-          def __init__(self, image, pos, game, text, text_input=None, font=None, base_color=None, hovering_color=None,
-                       res=None, on=False):
+class SwitchButton(SlidingButtons):
+          def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
+                       text_input=None, font=FONT, base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False):
+                    super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
+                                     text_input=text_input, font=font, base_colour=base_color,
+                                     hovering_colour=hovering_color)
                     self.on = on
-                    super().__init__(image, pos, game, text, text_input, font, base_color, hovering_color, res)
-                    self.original_pos = pos
                     self.cooldown = BUTTON_COOLDOWN
                     self.last_pressed_time = 0
 
-          def changeColor(self, position):
-                    current_time = pygame.time.get_ticks() / 1000
-                    if self.has_text and self.rect.collidepoint(position) and self.game.mouse_state[
-                              0] and current_time - self.last_pressed_time > self.cooldown:
-                              self.text = self.font.render(self.text_input, False, self.hovering_color)
-                              self.last_pressed_time = current_time
-                              self.on = True
+          def update(self):
+                    super().update()
 
-          def update_size_and_position(self):
-                    current_res = pygame.display.get_window_size()
-                    scale_x = current_res[0] / REN_RES[0]
-                    scale_y = current_res[1] / REN_RES[1]
+          def changeColor(self):
+                    self.update_text()
 
-                    scaled_width = int(self.org_image.get_width() * scale_x)
-                    scaled_height = int(self.org_image.get_height() * scale_y)
-                    self.image = pygame.transform.scale(self.org_image, (scaled_width, scaled_height))
+          def can_change(self):
+                    return self.rect.collidepoint(self.game.correct_mouse_pos) and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown
 
-                    self.x_pos = int(self.original_pos[0] * scale_x)
-                    self.y_pos = int(self.original_pos[1] * scale_y)
-                    self.rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
+          def change_on(self):
+                    self.on = not self.on
+                    self.last_pressed_time = pygame.time.get_ticks() / 1000
+                    self.update_text()
 
-                    self.font_size = int(scaled_height / BUTTONS_SIZE / 2.1)
-                    self.font = pygame.font.Font(self.font_path, self.font_size)
-                    if self.has_text and self.on:
-                              self.text = self.font.render(self.text_input, False, self.hovering_color)
-                              self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
-                    else:
-                              self.text = self.font.render(self.text_input, False, self.base_color)
-                              self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos))
+          def update_text(self):
+                    if self.has_text:
+                              color = self.hovering_color if self.on else self.base_color
+                              self.text = self.font.render(self.text_input, False, color)
+                              self.text_rect = self.text.get_rect(center=self.rect.center)
+
+          def draw(self):
+                    if self.is_visible_on_screen():
+                              self.game.ui_surface.blit(self.image, self.rect)
+                              if self.has_text:
+                                        self.game.ui_surface.blit(self.text, self.text_rect)
