@@ -62,43 +62,55 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
           return array
 
 
-def perfect_outline_2(img):
-          copy_img = img.copy()
+def perfect_outline(img, outline_color=(255, 255, 255)):
           mask = pygame.mask.from_surface(img)
           mask_outline = mask.outline()
-          mask_surf = pygame.Surface(img.get_size())
-          for pixel in mask_outline:
-                    mask_surf.set_at(pixel, (255, 255, 255))
-          mask_surf.set_colorkey((0, 0, 0))
-          copy_img.blit(mask_surf, (- 1, 0))
-          copy_img.blit(mask_surf, (1, 0))
-          copy_img.blit(mask_surf, (0, - 1))
-          copy_img.blit(mask_surf, (0, + 1))
-          copy_img.blit(img)
-          return copy_img
+          mask_surf = pygame.Surface(img.get_size(), pygame.SRCALPHA)
+
+          for x, y in mask_outline:
+                    for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                              mask_surf.set_at((x + dx, y + dy), outline_color)
+
+          outlined_img = img.copy()
+          outlined_img.blit(mask_surf, (0, 0))
+          outlined_img.blit(img)
+          return outlined_img
+
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage_drop_off, damage, distance):
           return {
-                    "RES": res,
-                    "VEL": vel,
-                    "SPREAD": spread,
-                    "RELOAD_TIME": reload_time,
-                    "FIRE_RATE": fire_rate,
-                    "CLIP_SIZE": clip_size,
-                    "LIFETIME": lifetime,
-                    "LIFETIME_RANDOMNESS": lifetime_randomness,
-                    "DAMAGE_DROP_OFF": damage_drop_off,
-                    "DAMAGE": damage,
-                    "DISTANCE": distance
+                    "res": res,
+                    "vel": vel,
+                    "spread": spread,
+                    "reload_time": reload_time,
+                    "fire_rate": fire_rate,
+                    "clip_size": clip_size,
+                    "lifetime": lifetime,
+                    "lifetime_randomness": lifetime_randomness,
+                    "damage_drop_off": damage_drop_off,
+                    "damage": damage,
+                    "distance": distance
           }
 
 
-def create_button_settings(name, pos, res=(46, 15), axis="y", axisl="max"):
+def create_button_settings(name, pos, res=(46, 15), axis="y", axisl="max", text_pos="center", image=None):
+          dictionary = {
+                    "name": name,
+                    "pos": pos,
+                    "res": res,
+                    "axis": axis,
+                    "axisl": axisl,
+                    "text_pos": text_pos
+          }
+          if image is not None: dict["image"] = image
+          return dictionary
+
+
+def create_spark_settings(spread, size, colour, amount):
           return {
-                    "NAME": name,
-                    "POS": pos,
-                    "RES": res,
-                    "AXIS": axis,
-                    "AXISL": axisl
+                    "spread": spread,
+                    "size": size,
+                    "colour": colour,
+                    "amount": amount
           }

@@ -10,7 +10,7 @@ class EnemyManager:
                     self.game = game
                     self.grid = SpatialHash(game)
                     self.enemy_pool = set()
-                    self.spawn_cooldown = ENEMY_SPAWN_RATE
+                    self.spawn_cooldown = enemy_attributes["spawn_rate"]
                     self.last_spawn = 0
                     self.enemy_multiplier = 1
                     self.separation_radius = 15
@@ -31,11 +31,11 @@ class EnemyManager:
 
           def add_enemies(self):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < MAX_ENEMIES and ENEMIES_SPAWNING):
+                            len(self.grid.items) < enemy_attributes["max_enemies"] and not PEACEFUL_MODE):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                        self.game.window.rect, ENEMY_RES[0], ENEMY_RES[1]
+                                        self.game.window.rect, enemy_attributes["res"][0], enemy_attributes["res"][1]
                               )
 
                               if self.enemy_pool:
@@ -53,8 +53,8 @@ class EnemyManager:
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
                                         self.game.window.add_screen_shake(
-                                                  duration=ENEMY_SCREEN_SHAKE_DURATION,
-                                                  magnitude=ENEMY_SCREEN_SHAKE_MAGNITUDE
+                                                  duration=screen_shake["bullet_impact_shake_duration"],
+                                                  magnitude=screen_shake['bullet_impact_shake_magnitude']
                                         )
                                         self.enemy_pool.add(enemy)
 
@@ -84,13 +84,13 @@ class EnemyManager:
                     enemy.rect.center = coordinates
                     enemy.vel_vector = v2(0, 0)
                     enemy.acceleration = v2(0, 0)
-                    enemy.health = ENEMY_HEALTH * self.enemy_multiplier
+                    enemy.health = enemy_attributes["health"] * self.enemy_multiplier
                     enemy.dead = False
 
           def create_new_enemy(self, coordinates):
-                    return Enemy(self.game, coordinates, ENEMY_RES, ENEMY_VEL, ENEMY_NAME,
-                                 ENEMY_HEALTH * self.enemy_multiplier,
-                                 ENEMY_DAMAGE * self.enemy_multiplier, Enemy_idle)
+                    return Enemy(self.game, coordinates, enemy_attributes["res"], enemy_attributes["vel"], enemy_attributes["name"],
+                                 enemy_attributes["health"] * self.enemy_multiplier,
+                                 enemy_attributes["damage"] * self.enemy_multiplier, Enemy_idle)
 
 
 class BulletManager:
@@ -145,14 +145,14 @@ class BulletManager:
 
           def create_bullet_sparks(self, bullet):
                     spark_angle = math.radians(random.randint(
-                              int(270 - bullet.angle) - BULLET_SPARK_SPREAD,
-                              int(270 - bullet.angle) + BULLET_SPARK_SPREAD
+                              int(270 - bullet.angle) - sparks['bullet']['spread'],
+                              int(270 - bullet.angle) + sparks['bullet']['spread']
                     ))
-                    for _ in range(BULLET_SPARK_AMOUNT):
+                    for _ in range(sparks['bullet']['amount']):
                               self.game.particle_manager.sparks.add(
                                         Spark(self.game, bullet.pos, spark_angle,
-                                              random.randint(3, 6), BULLET_SPARK_COLOUR,
-                                              BULLET_SPARK_SIZE)
+                                              random.randint(3, 6), sparks['bullet']['colour'],
+                                              sparks['bullet']['size'])
                               )
 
 
@@ -202,46 +202,44 @@ class ButtonManager:
 
           def _create_buttons(self):
                     button_configs = {
-                              'resume': BUTTONS['RESUME'],
-                              'fullscreen': BUTTONS['FULLSCREEN'],
-                              'quit': BUTTONS['NEW_QUIT']
+                              'resume': buttons['resume'],
+                              'fullscreen': buttons['fullscreen'],
+                              'quit': buttons['quit']
                     }
-
                     for name, config in button_configs.items():
                               self.buttons[name] = Button(
                                         self.game,
                                         Buttons[0],
-                                        config['POS'],
-                                        config['AXIS'],
-                                        config['AXISL'],
-                                        text_input=config['NAME']
+                                        config['pos'],
+                                        config['axis'],
+                                        config['axisl'],
+                                        text_input=config['name']
                               )
 
           def _create_sliders(self):
                     slider_configs = {
                               'fps': {
-                                        **SLIDERS['FPS'],
+                                        **sliders['fps'],
                                         'max_value': 240,
                                         'min_value': 60,
                                         'initial_value': pygame.display.get_current_refresh_rate()
                               },
                               'brightness': {
-                                        **SLIDERS['BRIGHTNESS'],
+                                        **sliders['brightness'],
                                         'max_value': 100,
                                         'min_value': 0,
-                                        'initial_value': INITIAL_BRIGHTNESS
+                                        'initial_value': window_attributes['brightness'],
                               }
                     }
-
                     for name, config in slider_configs.items():
                               self.sliders[name] = Slider(
                                         self.game,
                                         Buttons[1],
-                                        config['POS'],
-                                        config['AXIS'],
-                                        config['AXISL'],
-                                        text_input=config['TEXT'],
-                                        text_pos=config['TEXT_POS'],
+                                        config['pos'],
+                                        config['axis'],
+                                        config['axisl'],
+                                        text_input=config['text'],
+                                        text_pos=config['text_pos'],
                                         max_value=config['max_value'],
                                         min_value=config['min_value'],
                                         initial_value=config['initial_value']

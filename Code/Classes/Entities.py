@@ -1,9 +1,8 @@
 import math
 
-from pygame.math import Vector2 as v2
-
 from Code.Utilities.Particles import Spark
 from Code.Variables.Initialize import *
+from pygame.math import Vector2 as v2
 
 
 class RectEntity:
@@ -18,8 +17,6 @@ class RectEntity:
                               self.vel_vector = v2(self.vel * math.sin(math.radians(angle)),
                                                    self.vel * math.cos(math.radians(angle)))
                               self.angle = angle
-                    if name == "Player":
-                              self.stamina = PLAYER_STAMINA
 
           def calc_angle(self):
                     return v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - self.pos.x - 0.5 * self.res[0],
@@ -28,7 +25,7 @@ class RectEntity:
 
 
 class AnimatedEntity:
-          def __init__(self, game, images, animation=ANIMATION_SPEED):
+          def __init__(self, game, images, animation=general_settings["animation_speed"]):
                     self.game = game
                     self.images = images
                     self.animation = animation
@@ -48,20 +45,21 @@ class AnimalEntity:
 
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, coordinates, name=PLAYER_NAME, images=Player_Running,
-                       angle=None,
-                       animation=ANIMATION_SPEED, acceleration=PLAYER_ACCELERATION):
+          def __init__(self, game, health, res, vel, damage, coordinates, name=player_attributes['name'], images=Player_Running,
+                       angle=None, animation=player_attributes['animation_speed'], acceleration=player_attributes['acceleration'], gun=None):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.max_health = health
-                    self.gun = Gun(game, AK_47, PLAYER_GUN_RES, Bullets, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
+                    if gun is None:
+                              self.gun = Gun(game, AK_47, PLAYER_GUN_RES, Bullets, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
                                    PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION,
                                    PLAYER_BULLET_DAMAGE)
                     AnimatedEntity.__init__(self, game, images, animation)
                     self.pos.x -= self.res[0] / 2
                     self.pos.y -= self.res[1] / 2
+                    self.stamina = player_attributes['stamina']
 
           def update(self):
                     dx, dy = 0, 0
@@ -84,12 +82,12 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if PLAYER_OFFSET_X1 < new_x < self.game.big_window[0] - self.res[0] + PLAYER_OFFSET_X2:
+                              if player_attributes['offset_x1'] < new_x < self.game.big_window[0] - self.res[0] + player_attributes['offset_x2']:
                                         self.pos.x = new_x
                                         self.rect.x = self.pos.x
                                         move_hor = True
-                              if PLAYER_OFFSET_Y1 < new_y < self.game.big_window[1] - self.res[
-                                        1] + PLAYER_OFFSET_Y2 + 23:
+                              if player_attributes['offset_y1'] < new_y < self.game.big_window[1] - self.res[
+                                        1] + player_attributes['offset_y2'] + 23:
                                         self.pos.y = new_y
                                         self.rect.y = self.pos.y
                                         move_vert = True
@@ -102,7 +100,6 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                                             False)
                     else:
                               image = self.images[int(self.frame) % len(self.images) - 1]
-                    image = pygame.transform.scale(image, PLAYER_RES)
                     self.game.display_screen.blit(image, (self.rect.x - self.game.window.offset_rect.x,
                                                           self.rect.y - self.game.window.offset_rect.y))
 
@@ -114,10 +111,10 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:
-                              if self.current_vel + self.acceleration * self.game.dt < PLAYER_VEL:
+                              if self.current_vel + self.acceleration * self.game.dt < player_attributes['vel']:
                                         self.current_vel += self.acceleration * self.game.dt
                               else:
-                                        self.current_vel = PLAYER_VEL
+                                        self.current_vel = player_attributes['vel']
                     else:
                               if self.current_vel - self.acceleration * self.game.dt > 0:
                                         self.current_vel -= self.acceleration * self.game.dt
@@ -130,14 +127,14 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
 
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
           def __init__(self, game, coordinates, res, max_vel, name, health, damage, images, angle=None,
-                       animation=ANIMATION_SPEED):
+                       animation=enemy_attributes["animation_speed"]):
                     super().__init__(game, coordinates, res, max_vel, name, angle)
                     AnimatedEntity.__init__(self, game, images, animation)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.max_vel = max_vel
                     self.acceleration = v2(0, 0)
                     self.vel_vector = v2(0, 0)
-                    self.friction = ENEMY_FRICTION
+                    self.friction = enemy_attributes["friction"]
                     self.facing = "right"
 
           def apply_force(self, force):
@@ -154,7 +151,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
 
           def should_move(self):
                     distance = self.distance_to_player()
-                    return distance > ENEMY_STOPPING_DISTANCE
+                    return distance > enemy_attributes["stopping_distance"]
 
           def move(self):
                     direction = self.game.player.rect.center - self.pos
@@ -162,7 +159,7 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
                               direction = direction.normalize()
 
                     desired_velocity = direction * self.max_vel
-                    steering = (desired_velocity - self.vel_vector) * ENEMY_STEERING_STRENGTH
+                    steering = (desired_velocity - self.vel_vector) * enemy_attributes["steering_strength"]
                     self.apply_force(steering)
 
                     self.vel_vector += self.acceleration * self.game.dt
@@ -274,14 +271,14 @@ class Gun:
                     return start_x, start_y
 
           def create_gun_sparks(self, start_x, start_y):
-                    for _ in range(GUN_SPARK_AMOUNT):
+                    for _ in range(sparks['gun']['amount']):
                               spark_angle = math.radians(random.randint(
-                                        int(270 - self.angle) - GUN_SPARK_SPREAD,
-                                        int(270 - self.angle) + GUN_SPARK_SPREAD
+                                        int(270 - self.angle) - sparks['gun']['spread'],
+                                        int(270 - self.angle) + sparks['gun']['spread']
                               ))
                               self.game.particle_manager.sparks.add(Spark(
                                         self.game, [start_x, start_y], spark_angle,
-                                        random.randint(3, 6), GUN_SPARK_COLOUR, GUN_SPARK_SIZE
+                                        random.randint(3, 6), sparks['gun']['colour'], sparks['gun']['size']
                               ))
 
           def create_bullet(self, start_x, start_y, spread_factor):
@@ -294,9 +291,9 @@ class Gun:
 
 
 class Bullet(RectEntity):
-          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name=PLAYER_NAME, damage=10,
+          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name="dunno", damage=10,
                        health=1, spread_factor=0):
-                    noise_value = perlin([game.game_time * 0.1, 0])
+                    noise_value = perlin_noise["perlin"]([game.game_time * 0.1, 0])
                     spread_angle = noise_value * PLAYER_GUN_SPREAD * spread_factor
                     final_angle = angle + spread_angle
                     self.image = pygame.transform.rotate(image, final_angle + 90)
@@ -329,7 +326,7 @@ class Bullet(RectEntity):
           def reset(self, start_x, start_y, angle, vel, life, friction, name, damage, spread, health):
                     self.pos = v2(start_x, start_y)
                     self.rect.center = (start_x, start_y)
-                    noise_value = perlin([self.game.game_time * 0.1, 0])
+                    noise_value = perlin_noise["perlin"]([self.game.game_time * 0.1, 0])
                     spread_angle = noise_value * PLAYER_GUN_SPREAD * spread
                     final_angle = angle + spread_angle + 180
                     self.vel_vector = v2(vel * math.sin(math.radians(final_angle)),

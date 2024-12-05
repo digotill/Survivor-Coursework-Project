@@ -18,37 +18,35 @@ class MainMenu:
                     self.loading_screen = Green_Waterfall if random.random() < 0.5 else Orange_Pond
                     self.current_frame = 0
                     self.in_menu = True
-                    self.difficulty = STARTING_DIFFICULTY
+                    self.difficulty = general_settings['difficulty']
                     self.return_value = None
-                    self.player_health_multiplier = 1
-                    self.player_damage_multiplier = 1
-                    self.animation_speed = MAIN_MENU_ANIMATION_SPEED
+                    self.animation_speed = general_settings["main_menu_animation_speed"]
 
           def _create_buttons(self):
                     button_configs = {
-                              'play': BUTTONS['PLAY'],
-                              'quit': BUTTONS['QUIT'],
-                              'easy': BUTTONS['EASY'],
-                              'medium': BUTTONS['MEDIUM'],
-                              'hard': BUTTONS['HARD'],
-                              'ak_47': {
-                                        'image': perfect_outline_2(AK_47),
-                                        'POS': (140, 240),
-                                        'AXIS': "x",
-                                        'AXISL': "min",
-                                        'NAME': ""
+                              'play': buttons['play'],
+                              'quit': buttons['quit'],
+                              'easy': buttons['easy'],
+                              'medium': buttons['medium'],
+                              'hard': buttons['hard'],
+                              'ak_47': buttons['ak47'],
+                              "shotgun": buttons['shotgun'],
+                              "minigun": buttons['minigun']
                               }
-                    }
+                    button_configs["ak_47"]["image"] = perfect_outline(AK_47)
+                    button_configs["shotgun"]["image"] = perfect_outline(Shotgun)
+                    button_configs["minigun"]["image"] = perfect_outline(Minigun)
 
                     for name, config in button_configs.items():
-                              button_class = StoreButton if name in ['easy', 'medium', 'hard'] else Button
+                              button_class = Switch if name in ['easy', 'medium', 'hard'] else Button
                               self.buttons[name] = button_class(
                                         self.game,
                                         config.get('image', Buttons[0]),
-                                        config['POS'],
-                                        config['AXIS'],
-                                        config['AXISL'],
-                                        text_input=config['NAME']
+                                        config['pos'],
+                                        config['axis'],
+                                        config['axisl'],
+                                        text_input=config['name'],
+                                        text_pos=config['text_pos']
                               )
 
                     # Set medium difficulty as default
@@ -72,6 +70,7 @@ class MainMenu:
                                                   self.in_menu = False
                                         if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
+                                                  self.game.immidiate_quit = True
                                         for button in self.difficulty_buttons:
                                                   if button.can_change():
                                                             self.difficulty = button.text_input
@@ -89,13 +88,9 @@ class MainMenu:
                     new_stat = pd.DataFrame({'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
-                    self.game.enemy_manager.enemy_multiplier = eval(str(self.difficulty) + "_ENEMY_MULTIPLYER")
-                    self.player_health_multiplier = eval(str(self.difficulty) + "_PLAYER_HEALTH_MULTIPLYER")
-                    self.player_damage_multiplier = eval(str(self.difficulty) + "_PLAYER_DAMAGE_MULTIPLYER")
+                    self.game.player = Player(self.game, player_attributes['health'] * general_settings[self.difficulty + "_difficulty"], player_attributes['res'], player_attributes['vel'],
+                                              player_attributes['damage'] * general_settings[self.difficulty + "_difficulty"], self.game.window.rect.center)
 
-                    self.game.player = Player(self.game, PLAYER_HEALTH * self.player_health_multiplier, PLAYER_RES, PLAYER_VEL,
-                                              PLAYER_DAMAGE * self.player_damage_multiplier, self.game.window.rect.center)
-                    self.game.enemy_manager.enemy_multiplier = eval(str(self.difficulty) + "_ENEMY_MULTIPLYER")
 
           def draw_and_update_background(self):
                     self.game.display_screen.blit(pygame.transform.scale(

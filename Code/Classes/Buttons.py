@@ -4,8 +4,8 @@ from Code.Variables.Variables import *
 
 
 class Button:
-          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
-                       text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0),
+          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'], speed=general_settings["buttons_speed"],
+                       text_input=None, font=general_settings['font'], base_colour=(255, 255, 255), hovering_colour=(255, 0, 0),
                        text_pos="center"):
                     self.game = game
                     self.image = pygame.transform.scale(image, res)
@@ -38,7 +38,7 @@ class Button:
                               return self.original_pos.x, y
 
           def setup_text(self):
-                    self.font_size = int(self.rect.height / BUTTONS_SIZE / 1.2)
+                    self.font_size = int(self.rect.height / general_settings['font_size'])
                     self.font = pygame.font.Font(self.font_path, self.font_size)
                     self.text = self.font.render(self.text_input, False, self.base_color)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
@@ -68,7 +68,7 @@ class Button:
           def update(self):
                     target = self.original_pos if self.active else v2(self.starting_pos)
                     distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / SETTINGS_BUTTON_FRICTION, 1)
+                    speed_factor = min(distance / general_settings["buttons_friction"], 1)
 
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
@@ -95,10 +95,10 @@ class Button:
 
 
 class Slider(Button):
-          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, circle_radius=None,
-                       speed=SETTINGS_BUTTON_SPEED, initial_value=0.5, min_value=0,
+          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'], circle_radius=None,
+                       speed=general_settings["buttons_speed"], initial_value=0.5, min_value=0,
                        max_value=1, circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0),
-                       text_input=None, font=FONT, text_base_color=(255, 255, 255),
+                       text_input=None, font=general_settings['font'], text_base_color=(255, 255, 255),
                        text_pos="center"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=text_base_color,
@@ -184,14 +184,14 @@ class Slider(Button):
                     self.update_value = True
 
 
-class StoreButton(Button):
-          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
-                       text_input=None, font=FONT, base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False, text_pos="center"):
+class Switch(Button):
+          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'], speed=general_settings["buttons_speed"],
+                       text_input=None, font=general_settings['font'], base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False, text_pos="center"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=base_color,
                                      hovering_colour=hovering_color, text_pos=text_pos)
                     self.on = on
-                    self.cooldown = STORE_BUTTON_COOLDOWN
+                    self.cooldown = cooldowns['buttons']
                     self.last_pressed_time = 0
 
           def update(self):

@@ -18,7 +18,7 @@ class Game:
 
                     self.running = True
                     self.game_time = 0
-                    self.fps = pygame.display.get_current_refresh_rate()
+                    self.fps = 500
                     self.dt = 0
                     self.changing_settings = False
                     self.immidiate_quit = False

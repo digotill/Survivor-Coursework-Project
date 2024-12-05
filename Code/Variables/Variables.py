@@ -1,10 +1,13 @@
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
+from pygame.math import Vector2 as v2
+
 
 pygame.init()
 
-# Display and Window Settings
+
 START_FULLSCREEN = False
+PEACEFUL_MODE = True
 STARTING_DIFFICULTY = "MEDIUM"
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
@@ -13,56 +16,174 @@ WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 PLAYABLE_AREA_SIZE = 3840, 2160
 REN_RES = 640, 360
 
-# Player Settings
-PLAYER_RES = 64, 64
-PLAYER_VEL = 200
-PLAYER_DAMAGE = 30
-PLAYER_HEALTH = 100
-PLAYER_STAMINA = 100
-PLAYER_ACCELERATION = 600
-PLAYER_OFFSET_X1, PLAYER_OFFSET_X2 = 0, 0
-PLAYER_OFFSET_Y1, PLAYER_OFFSET_Y2 = 0, 0
-PLAYER_NAME = "Player"
 
-# Weapon Settings
-AK47_RES = 50, 18
-AK47_VEL = 700
-AK47_SPREAD = 3
-AK47_RELOAD_TIME = 2
-AK47_FIRE_RATE = 0.1
-AK47_CLIP_SIZE = 30
-AK47_LIFETIME = 3
-AK47_LIFETIME_RANDOMNESS = 0.2
-AK47_DAMAGE_DROP_OFF = 2
-AK47_DAMAGE = 30
-AK47_DISTANCE = -2
-AK47_HEALTH = 1
+player_attributes = {
+          'name': 'Player',
+          'health': 100,
+          'res': (64, 64),
+          'vel': 200,
+          'damage': 30,
+          'stamina': 100,
+          'acceleration': 600,
+          'offset_x1': 0,
+          'offset_x2': 0,
+          'offset_y1': 0,
+          'offset_y2': 0,
+          'animation_speed': 5,
+}
 
-SHOTGUN_RES = 32, 32
-SHOTGUN_VEL = 700
-SHOTGUN_SPREAD = 15
-SHOTGUN_RELOAD_TIME = 1.5
-SHOTGUN_FIRE_RATE = 0.8
-SHOTGUN_CLIP_SIZE = 8
-SHOTGUN_LIFETIME = 0.5
-SHOTGUN_LIFETIME_RANDOMNESS = 0.2
-SHOTGUN_DAMAGE_DROP_OFF = 5
-SHOTGUN_DAMAGE = 50
-SHOTGUN_DISTANCE = -2
 
-MINIGUN_RES = 38, 20
-MINIGUN_VEL = 800
-MINIGUN_SPREAD = 10
-MINIGUN_RELOAD_TIME = 10
-MINIGUN_FIRE_RATE = 0.01
-MINIGUN_CLIP_SIZE = 100
-MINIGUN_LIFETIME = 2
-MINIGUN_LIFETIME_RANDOMNESS = 0.2
-MINIGUN_DAMAGE_DROP_OFF = 1
-MINIGUN_DAMAGE = 15
-MINIGUN_DISTANCE = -10
+enemy_attributes = {
+          'name': "Enemy",
+          'health': 100,
+          'res': (32, 36),
+          'vel': 320,
+          'damage': 20,
+          'spawn_rate': 1,
+          'bullet_res': (10, 10),
+          'bullet_damage': 10,
+          'bullet_lifetime': 1000,
+          'bullet_speed': 700,
+          'stopping_distance': 25,
+          'steering_strength': 0.8,
+          'friction': 0.2,
+          'max_enemies': 50,
+          'animation_speed': 5,
+}
 
-# Player Gun Settings
+
+screen_shake = {
+          'bullet_impact_shake_duration': 0.5,
+          'bullet_impact_shake_magnitude': 4,
+}
+
+
+general_settings = {
+          'difficulty': "MEDIUM",
+          'volume': 0.5,
+          'animation_speed': 5,
+          'main_menu_animation_speed': 15,
+          'mouse_res': (13, 13),
+          'font': "Assets/Font/font2.ttf",
+          'font_size': 1.4,
+          'EASY_difficulty': 1.3,
+          'MEDIUM_difficulty': 1,
+          'HARD_difficulty': 0.6,
+          'buttons_res': (46, 15),
+          'buttons_speed': 900,
+          'buttons_friction': 300,
+          'fps_size': 15,
+}
+
+
+window_attributes = {
+          'lerp_speed': 5,
+          'mouse_smoothing': v2(10, 10),
+          'deadzone': 3,
+          'mouse_smoothing_amount': 50,
+          'max_offset': 0.3,
+          'shake_speed': 200,
+          'shake_seed': random.random() * 1000,
+          'shake_directions': v2(1, 1),
+          'reduced_screen_shake': 1,
+          'brightness': 50,
+          'max_brightness': 2.5,
+          'min_brightness': 0.5,
+          'spatial_hash_map_size': 100,
+          'tilemap_size': 16,
+          'darkness': (12, 12, 12)
+}
+
+
+cooldowns = {
+          'fps': 0.5,
+          'fullscreen': 0.5,
+          'settings': 0.5,
+          'buttons': 0.5,
+}
+
+
+keys = {
+          'fullscreen': pygame.K_F11,
+          'fps': pygame.K_F12,
+          'escape': pygame.K_F10,
+          'ungrab': pygame.K_ESCAPE,
+}
+
+
+ui = {
+          "health_bar": (135, 95),
+          "stamina_bar": (170, 95),
+          "bar_res": (94, 8),
+          "outside_bar_res": (106, 19),
+          "fps": (150, 70),
+          "time": (150, 70),
+}
+
+
+sparks = {
+          "bullet": create_spark_settings(
+                    spread=10,
+                    size=0.6,
+                    colour=(255, 0, 0),
+                    amount=3
+          ),
+          "gun": create_spark_settings(
+                    spread=5,
+                    size=0.3,
+                    colour=(255, 255, 255),
+                    amount=3
+          )
+}
+
+
+perlin_noise = {
+          "perlin_octaves": 3,
+          "perlin_seed": random.randint(0, 100000)
+}
+perlin_noise["perlin"] = PerlinNoise(octaves=perlin_noise["perlin_octaves"], seed=perlin_noise["perlin_seed"])
+
+
+buttons = {
+          "play": create_button_settings("PLAY", (200, 240)),
+          "quit": create_button_settings("QUIT", (280, 240)),
+          "easy": create_button_settings("EASY", (200, 190)),
+          "medium": create_button_settings("MEDIUM", (200, 150)),
+          "hard": create_button_settings("HARD", (280, 190)),
+          "fullscreen": create_button_settings("Fullscreen", (240, 170)),
+          "new_quit": create_button_settings("Quit", (240, 215)),
+          "resume": create_button_settings("Resume", (240, 135)),
+          "ak47": create_button_settings("", (140, 240)),
+          "shotgun": create_button_settings("", (140, 215)),
+          "minigun": create_button_settings("", (140, 180)),
+}
+
+
+sliders = {
+          "brightness": {
+                    "pos": (360, 235),
+                    "text": "Brightness: ",
+                    "axis": "y",
+                    "axisl": "max",
+                    "text_pos": "right"
+          },
+          "fps": {
+                    "pos": (360, 180),
+                    "text": "Max FPS: ",
+                    "axis": "y",
+                    "axisl": "max",
+                    "text_pos": "right"
+          }
+}
+
+
+weapons = {
+          "AK47": create_weapon_settings((50, 18), 700, 3, 2, 0.1, 30, 3, 0.2, 2, 30, -2),
+          "Shotgun": create_weapon_settings((32, 32), 700, 15, 1.5, 0.8, 8, 0.5, 0.2, 5, 50, -2),
+          "Minigun": create_weapon_settings((38, 20), 800, 10, 10, 0.01, 100, 2, 0.2, 1, 15, -10)
+}
+
+
 PLAYER_GUN_DISTANCE = -2
 PLAYER_GUN_RES = 40, 40
 PLAYER_GUN_SPREAD = 20
@@ -75,143 +196,3 @@ PLAYER_BULLET_SPEED = 700
 PLAYER_BULLET_RATE = 0.1
 PLAYER_BULLET_ANIMATION = 15
 PLAYER_GUN_SPREAD_TIME = 2
-
-# Enemy Settings
-ENEMIES_SPAWNING = False
-ENEMY_RES = 32, 36
-ENEMY_VEL = 320
-ENEMY_DAMAGE = 20
-ENEMY_HEALTH = 100
-ENEMY_SPAWN_RATE = 1
-ENEMY_BULLET_RES = 10, 10
-ENEMY_BULLET_DAMAGE = 10
-ENEMY_BULLET_LIFETIME = 1000
-ENEMY_BULLET_SPEED = 700
-ENEMY_STOPPING_DISTANCE = 25
-ENEMY_NAME = "Enemy"
-ENEMY_SCREEN_SHAKE_DURATION = 0.5
-ENEMY_SCREEN_SHAKE_MAGNITUDE = 4
-ENEMY_STEERING_STRENGTH = 0.8
-ENEMY_FRICTION = 0.2
-MAX_ENEMIES = 50
-
-# Animation Settings
-ANIMATION_SPEED = 5
-MAIN_MENU_ANIMATION_SPEED = 15
-BORDER_ANIMATION_SPEED = 10
-
-# UI Settings
-BUTTONS_SIZE = 1.1
-FONT = "Assets/Font/font2.ttf"
-MOUSE_RES = 13, 13
-
-# Window Settings
-WINDOW_MAX_OFFSET = 0.3
-WINDOW_LERP_SPEED = 5
-WINDOW_DEADZONE = 3
-WINDOW_SHAKE_SPEED = 200
-WINDOW_MOUSE_SMOOTHING = 10, 10
-WINDOW_SHAKE_DIRECTIONS = 1, 1
-WINDOW_MOUSE_SMOOTHING_AMOUNT = 50
-
-STORE_BUTTON_COOLDOWN = 0.5
-
-SETTINGS_BUTTON_SPEED = 900
-SETTINGS_BUTTON_FRICTION = 300
-
-# HUD Settings
-HEALTH_BAR_POS = 135, 95
-STAMINA_BAR_POS = 170, 95
-OUSTIDE_BARS_RES = 106, 19
-FPS_POS = 150, 74
-TIME_POS = 150, 74
-FPS_AND_TIME_SIZE = 15
-
-# Key Bindings
-FULLSCREEN_KEY = pygame.K_F11
-TOGGLE_FPS_KEY = pygame.K_F12
-ESCAPE_KEY = pygame.K_F10
-UNGRAB_KEY = pygame.K_ESCAPE
-
-# Misc Settings
-START_WITH_FPS_AND_TIME = False
-FPS_AND_TIME_COOLDOWN = 0.5
-FULLSCREEN_COOLDOWN = 0.5
-SETTINGS_COOLDOWN = 0.5
-SETTINGS_DARKENING = (12, 12, 12)
-
-MAX_DARKNESS = 2.5
-MAX_BRIGHTNESS = 0.5
-INITIAL_BRIGHTNESS = 50
-
-# Difficulty Multipliers
-EASY_PLAYER_HEALTH_MULTIPLYER = 1.5
-HARD_PLAYER_HEALTH_MULTIPLYER = 0.7
-MEDIUM_PLAYER_HEALTH_MULTIPLYER = 1
-
-EASY_PLAYER_DAMAGE_MULTIPLYER = 1.1
-HARD_PLAYER_DAMAGE_MULTIPLYER = 0.9
-MEDIUM_PLAYER_DAMAGE_MULTIPLYER = 1
-
-EASY_ENEMY_MULTIPLYER = 0.7
-HARD_ENEMY_MULTIPLYER = 1.3
-MEDIUM_ENEMY_MULTIPLYER = 1
-
-# Particle Effects
-BULLET_SPARK_SPREAD = 10
-BULLET_SPARK_SIZE = 0.6
-BULLET_SPARK_COLOUR = (255, 0, 0)
-BULLET_SPARK_AMOUNT = 3
-
-GUN_SPARK_SPREAD = 5
-GUN_SPARK_SIZE = 0.3
-GUN_SPARK_COLOUR = (255, 255, 255)
-GUN_SPARK_AMOUNT = 3
-
-# Tilemap Settings
-TILEMAP_SIZE = 16
-SPATIAL_GRID_SIZE = 300
-BUTTON_RES = 46, 15
-
-# Perlin Noise Settings
-PERLIN_OCTAVES = 3
-PERLIN_SEED = random.randint(0, 100000)
-perlin = PerlinNoise(octaves=PERLIN_OCTAVES, seed=PERLIN_SEED)
-
-
-# Button Settings
-BUTTONS = {
-          "PLAY": create_button_settings("PLAY", (200, 240)),
-          "QUIT": create_button_settings("QUIT", (280, 240)),
-          "EASY": create_button_settings("EASY", (200, 190)),
-          "MEDIUM": create_button_settings("MEDIUM", (200, 150)),
-          "HARD": create_button_settings("HARD", (280, 190)),
-          "FULLSCREEN": create_button_settings("Fullscreen", (240, 170)),
-          "NEW_QUIT": create_button_settings("Quit", (240, 215)),
-          "RESUME": create_button_settings("Resume", (240, 135))
-}
-
-# Slider Settings
-SLIDERS = {
-          "BRIGHTNESS": {
-                    "POS": (360, 235),
-                    "TEXT": "Brightness: ",
-                    "AXIS": "y",
-                    "AXISL": "max",
-                    "TEXT_POS": "right"
-          },
-          "FPS": {
-                    "POS": (360, 180),
-                    "TEXT": "Max FPS: ",
-                    "AXIS": "y",
-                    "AXISL": "max",
-                    "TEXT_POS": "right"
-          }
-}
-
-# Weapon Settings
-WEAPONS = {
-          "AK47": create_weapon_settings((50, 18), 700, 3, 2, 0.1, 30, 3, 0.2, 2, 30, -2),
-          "SHOTGUN": create_weapon_settings((32, 32), 700, 15, 1.5, 0.8, 8, 0.5, 0.2, 5, 50, -2),
-          "MINIGUN": create_weapon_settings((38, 20), 800, 10, 10, 0.01, 100, 2, 0.2, 1, 15, -10)
-}
