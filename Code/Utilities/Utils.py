@@ -76,3 +76,29 @@ def perfect_outline_2(img):
           copy_img.blit(mask_surf, (0, + 1))
           copy_img.blit(img)
           return copy_img
+
+def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
+                           damage_drop_off, damage, distance):
+          return {
+                    "RES": res,
+                    "VEL": vel,
+                    "SPREAD": spread,
+                    "RELOAD_TIME": reload_time,
+                    "FIRE_RATE": fire_rate,
+                    "CLIP_SIZE": clip_size,
+                    "LIFETIME": lifetime,
+                    "LIFETIME_RANDOMNESS": lifetime_randomness,
+                    "DAMAGE_DROP_OFF": damage_drop_off,
+                    "DAMAGE": damage,
+                    "DISTANCE": distance
+          }
+
+
+def create_button_settings(name, pos, res=(46, 15), axis="y", axisl="max"):
+          return {
+                    "NAME": name,
+                    "POS": pos,
+                    "RES": res,
+                    "AXIS": axis,
+                    "AXISL": axisl
+          }

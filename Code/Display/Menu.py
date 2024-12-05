@@ -8,29 +8,51 @@ from Code.Utilities.Utils import *
 class MainMenu:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = Button(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, PLAY_BUTTON_AXIS,
-                                        PLAY_BUTTON_AXISL, text_input=PLAY_BUTTON_NAME)
-                    self.quit_button = Button(self.game, Buttons[0], QUIT_BUTTON_POS, QUIT_BUTTON_AXIS,
-                                        QUIT_BUTTON_AXISL, text_input=QUIT_BUTTON_NAME)
-                    self.easy_button = StoreButton(self.game, Buttons[0], HARD_BUTTON_POS, EASY_BUTTON_AXIS,
-                                        EASY_BUTTON_AXISL, text_input=EASY_BUTTON_NAME)
-                    self.medium_button = StoreButton(self.game, Buttons[0], MEDIUM_BUTTON_POS, MEDIUM_BUTTON_AXIS,
-                                                  MEDIUM_BUTTON_AXISL, text_input=MEDIUM_BUTTON_NAME, on=True)
-                    self.hard_button = StoreButton(self.game, Buttons[0], EASY_BUTTON_POS, HARD_BUTTON_AXIS,
-                                        HARD_BUTTON_AXISL, text_input=HARD_BUTTON_NAME)
-                    self.ak_47_button = StoreButton(self.game, perfect_outline_2(AK_47), (140, 240), "x", "min")
-                    self.buttons = [self.play_button, self.quit_button, self.easy_button, self.medium_button, self.hard_button, self.ak_47_button]
-                    self.difficulty_buttons = [self.easy_button, self.medium_button, self.hard_button]
-                    for button in self.buttons:
+                    self.buttons = {}
+                    self._create_buttons()
+                    self.difficulty_buttons = [self.buttons['easy'], self.buttons['medium'], self.buttons['hard']]
+
+                    for button in self.buttons.values():
                               button.active = True
+
                     self.loading_screen = Green_Waterfall if random.random() < 0.5 else Orange_Pond
                     self.current_frame = 0
                     self.in_menu = True
-                    self.difficulty = 'MEDIUM'
+                    self.difficulty = STARTING_DIFFICULTY
                     self.return_value = None
                     self.player_health_multiplier = 1
                     self.player_damage_multiplier = 1
                     self.animation_speed = MAIN_MENU_ANIMATION_SPEED
+
+          def _create_buttons(self):
+                    button_configs = {
+                              'play': BUTTONS['PLAY'],
+                              'quit': BUTTONS['QUIT'],
+                              'easy': BUTTONS['EASY'],
+                              'medium': BUTTONS['MEDIUM'],
+                              'hard': BUTTONS['HARD'],
+                              'ak_47': {
+                                        'image': perfect_outline_2(AK_47),
+                                        'POS': (140, 240),
+                                        'AXIS': "x",
+                                        'AXISL': "min",
+                                        'NAME': ""
+                              }
+                    }
+
+                    for name, config in button_configs.items():
+                              button_class = StoreButton if name in ['easy', 'medium', 'hard'] else Button
+                              self.buttons[name] = button_class(
+                                        self.game,
+                                        config.get('image', Buttons[0]),
+                                        config['POS'],
+                                        config['AXIS'],
+                                        config['AXISL'],
+                                        text_input=config['NAME']
+                              )
+
+                    # Set medium difficulty as default
+                    self.buttons['medium'].on = True
 
           def loop(self):
                     while self.in_menu and self.game.running:
@@ -40,23 +62,23 @@ class MainMenu:
                               self.game.manage_events()
                               self.game.update_game_variables()
 
-                              for button in self.buttons:
+                              for button in self.buttons.values():
                                         button.update()
                                         button.changeColor()
                                         button.draw()
 
                               if pygame.mouse.get_pressed()[0]:
-                                        if self.play_button.check_for_input():
+                                        if self.buttons['play'].check_for_input():
                                                   self.in_menu = False
-                                        if self.quit_button.check_for_input():
+                                        if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
-                                        for button1 in self.difficulty_buttons:
-                                                  if button1.can_change():
-                                                            self.difficulty = button1.text_input
-                                                            button1.change_on()
-                                                            for button2 in self.difficulty_buttons:
-                                                                      if button2 != button1:
-                                                                                button2.on = False
+                                        for button in self.difficulty_buttons:
+                                                  if button.can_change():
+                                                            self.difficulty = button.text_input
+                                                            button.change_on()
+                                                            for other_button in self.difficulty_buttons:
+                                                                      if other_button != button:
+                                                                                other_button.on = False
 
                               self.game.update_display()
 

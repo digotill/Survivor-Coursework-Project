@@ -1,11 +1,11 @@
-import pygame
-import random
 from perlin_noise import PerlinNoise
+from Code.Utilities.Utils import *
 
 pygame.init()
 
 # Display and Window Settings
 START_FULLSCREEN = False
+STARTING_DIFFICULTY = "MEDIUM"
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 MAX_WIN_RES = 2560, 1440
@@ -114,45 +114,7 @@ WINDOW_MOUSE_SMOOTHING = 10, 10
 WINDOW_SHAKE_DIRECTIONS = 1, 1
 WINDOW_MOUSE_SMOOTHING_AMOUNT = 50
 
-# Button Settings
-PLAY_BUTTON_NAME = "PLAY"
-PLAY_BUTTON_POS = 200, 240
-PLAY_BUTTON_RES = 46, 15
-PLAY_BUTTON_AXIS = "y"
-PLAY_BUTTON_AXISL = "max"
-
-QUIT_BUTTON_NAME = "QUIT"
-QUIT_BUTTON_POS = 280, 240
-QUIT_BUTTON_RES = 46, 15
-QUIT_BUTTON_AXIS = "y"
-QUIT_BUTTON_AXISL = "max"
-
-EASY_BUTTON_NAME = "EASY"
-EASY_BUTTON_POS = 200, 190
-EASY_BUTTON_RES = 46, 15
-EASY_BUTTON_AXIS = "y"
-EASY_BUTTON_AXISL = "max"
-
-MEDIUM_BUTTON_NAME = "MEDIUM"
-MEDIUM_BUTTON_POS = 200, 150
-MEDIUM_BUTTON_RES = 46, 15
-MEDIUM_BUTTON_AXIS = "y"
-MEDIUM_BUTTON_AXISL = "max"
-
-HARD_BUTTON_NAME = "HARD"
-HARD_BUTTON_POS = 280, 190
-HARD_BUTTON_RES = 46, 15
-HARD_BUTTON_AXIS = "y"
-HARD_BUTTON_AXISL = "max"
-
 STORE_BUTTON_COOLDOWN = 0.5
-
-# Settings UI
-FULLSCREEN_BUTTON_POS = 240, 170
-BRIGHTNESS_SLIDER_POS = 360, 235
-NEW_QUIT_BUTTON_POS = 240, 215
-RESUME_BUTTON_POS = 240, 135
-FPS_SLIDER_POS = 360, 180
 
 SETTINGS_BUTTON_SPEED = 900
 SETTINGS_BUTTON_FRICTION = 300
@@ -209,8 +171,47 @@ GUN_SPARK_AMOUNT = 3
 # Tilemap Settings
 TILEMAP_SIZE = 16
 SPATIAL_GRID_SIZE = 300
+BUTTON_RES = 46, 15
 
 # Perlin Noise Settings
 PERLIN_OCTAVES = 3
 PERLIN_SEED = random.randint(0, 100000)
 perlin = PerlinNoise(octaves=PERLIN_OCTAVES, seed=PERLIN_SEED)
+
+
+# Button Settings
+BUTTONS = {
+          "PLAY": create_button_settings("PLAY", (200, 240)),
+          "QUIT": create_button_settings("QUIT", (280, 240)),
+          "EASY": create_button_settings("EASY", (200, 190)),
+          "MEDIUM": create_button_settings("MEDIUM", (200, 150)),
+          "HARD": create_button_settings("HARD", (280, 190)),
+          "FULLSCREEN": create_button_settings("Fullscreen", (240, 170)),
+          "NEW_QUIT": create_button_settings("Quit", (240, 215)),
+          "RESUME": create_button_settings("Resume", (240, 135))
+}
+
+# Slider Settings
+SLIDERS = {
+          "BRIGHTNESS": {
+                    "POS": (360, 235),
+                    "TEXT": "Brightness: ",
+                    "AXIS": "y",
+                    "AXISL": "max",
+                    "TEXT_POS": "right"
+          },
+          "FPS": {
+                    "POS": (360, 180),
+                    "TEXT": "Max FPS: ",
+                    "AXIS": "y",
+                    "AXISL": "max",
+                    "TEXT_POS": "right"
+          }
+}
+
+# Weapon Settings
+WEAPONS = {
+          "AK47": create_weapon_settings((50, 18), 700, 3, 2, 0.1, 30, 3, 0.2, 2, 30, -2),
+          "SHOTGUN": create_weapon_settings((32, 32), 700, 15, 1.5, 0.8, 8, 0.5, 0.2, 5, 50, -2),
+          "MINIGUN": create_weapon_settings((38, 20), 800, 10, 10, 0.01, 100, 2, 0.2, 1, 15, -10)
+}

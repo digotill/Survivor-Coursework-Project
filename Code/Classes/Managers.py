@@ -195,40 +195,77 @@ class SoundManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
-                    self.resume_button = Button(self.game, Buttons[0], RESUME_BUTTON_POS, "y", "max",
-                                                text_input="Resume")
-                    self.fps_slider = Slider(self.game, Buttons[1], FPS_SLIDER_POS, "x", "max",
-                                             text_input="Max FPS: ",
-                                             text_pos="right", max_value=240, min_value=60,
-                                             initial_value=pygame.display.get_current_refresh_rate())
-                    self.brightness_slider = Slider(self.game, Buttons[1], BRIGHTNESS_SLIDER_POS, "x", "max",
-                                                    text_input="Brightness: ",
-                                                    text_pos="right", max_value=100, min_value=0,
-                                                    initial_value=INITIAL_BRIGHTNESS)
-                    self.fullscreen_button = Button(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max",
-                                                    text_input="Fullscreen")
-                    self.quit_button = Button(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max",
-                                              text_input="Quit")
-                    self.buttons = [self.resume_button, self.fps_slider, self.brightness_slider, self.fullscreen_button,
-                                    self.quit_button]
+                    self.buttons = {}
+                    self.sliders = {}
+                    self._create_buttons()
+                    self._create_sliders()
+
+          def _create_buttons(self):
+                    button_configs = {
+                              'resume': BUTTONS['RESUME'],
+                              'fullscreen': BUTTONS['FULLSCREEN'],
+                              'quit': BUTTONS['NEW_QUIT']
+                    }
+
+                    for name, config in button_configs.items():
+                              self.buttons[name] = Button(
+                                        self.game,
+                                        Buttons[0],
+                                        config['POS'],
+                                        config['AXIS'],
+                                        config['AXISL'],
+                                        text_input=config['NAME']
+                              )
+
+          def _create_sliders(self):
+                    slider_configs = {
+                              'fps': {
+                                        **SLIDERS['FPS'],
+                                        'max_value': 240,
+                                        'min_value': 60,
+                                        'initial_value': pygame.display.get_current_refresh_rate()
+                              },
+                              'brightness': {
+                                        **SLIDERS['BRIGHTNESS'],
+                                        'max_value': 100,
+                                        'min_value': 0,
+                                        'initial_value': INITIAL_BRIGHTNESS
+                              }
+                    }
+
+                    for name, config in slider_configs.items():
+                              self.sliders[name] = Slider(
+                                        self.game,
+                                        Buttons[1],
+                                        config['POS'],
+                                        config['AXIS'],
+                                        config['AXISL'],
+                                        text_input=config['TEXT'],
+                                        text_pos=config['TEXT_POS'],
+                                        max_value=config['max_value'],
+                                        min_value=config['min_value'],
+                                        initial_value=config['initial_value']
+                              )
 
           def update_buttons(self):
-                    for button in self.buttons:
-                              button.active = self.game.changing_settings
-                              button.update()
-                              button.changeColor()
+                    all_elements = list(self.buttons.values()) + list(self.sliders.values())
+                    for element in all_elements:
+                              element.active = self.game.changing_settings
+                              element.update()
+                              element.changeColor()
+
                     if self.game.mouse_state[0]:
-                              if self.resume_button.check_for_input():
+                              if self.buttons['resume'].check_for_input():
                                         self.game.changing_settings = False
-                              elif self.fps_slider.update_value:
-                                        self.game.fps = self.fps_slider.value
-                              elif self.brightness_slider.update_value:
-                                        self.game.ui.brightness = self.brightness_slider.value
-                              elif self.fullscreen_button.check_for_input():
+                              elif self.sliders['fps'].update_value:
+                                        self.game.fps = self.sliders['fps'].value
+                              elif self.sliders['brightness'].update_value:
+                                        self.game.ui.brightness = self.sliders['brightness'].value
+                              elif self.buttons['fullscreen'].check_for_input():
                                         self.game.event_manager.update_size(True)
-                              elif self.quit_button.check_for_input():
+                              elif self.buttons['quit'].check_for_input():
                                         self.game.immidiate_quit = True
 
           def draw_buttons(self):
-                    for button in self.buttons:
-                              button.draw()
+                    for element in list(self.buttons.values()) + list(self.sliders.values()):
+                              element.draw()

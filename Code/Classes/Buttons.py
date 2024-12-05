@@ -4,8 +4,9 @@ from Code.Variables.Variables import *
 
 
 class Button:
-          def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
-                       text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0)):
+          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
+                       text_input=None, font=FONT, base_colour=(255, 255, 255), hovering_colour=(255, 0, 0),
+                       text_pos="center"):
                     self.game = game
                     self.image = pygame.transform.scale(image, res)
                     self.rect = self.image.get_rect(center=pos)
@@ -17,14 +18,12 @@ class Button:
                     self.starting_pos = self.calculate_starting_position()
                     self.current_pos = v2(self.starting_pos)
                     self.rect.center = self.current_pos
-                    if text_input is not None:
-                              self.has_text = True
-                    else:
-                              self.has_text = False
+                    self.has_text = text_input is not None
                     self.text_input = text_input
                     self.font_path = font
                     self.base_color = base_colour
                     self.hovering_color = hovering_colour
+                    self.text_pos = text_pos
                     if self.has_text:
                               self.setup_text()
 
@@ -43,6 +42,18 @@ class Button:
                     self.font = pygame.font.Font(self.font_path, self.font_size)
                     self.text = self.font.render(self.text_input, False, self.base_color)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
+
+          def update_text_position(self):
+                    if self.text_pos == "top":
+                              self.text_rect = self.text.get_rect(midbottom=(self.rect.centerx, self.rect.top - 5))
+                    elif self.text_pos == "bottom":
+                              self.text_rect = self.text.get_rect(midtop=(self.rect.centerx, self.rect.bottom + 5))
+                    elif self.text_pos == "left":
+                              self.text_rect = self.text.get_rect(midright=(self.rect.left - 5, self.rect.centery))
+                    elif self.text_pos == "right":
+                              self.text_rect = self.text.get_rect(midleft=(self.rect.right + 5, self.rect.centery))
+                    else:
+                              self.text_rect = self.text.get_rect(center=self.rect.center)
 
           def draw(self):
                     if self.is_visible_on_screen():
@@ -67,8 +78,10 @@ class Button:
                               self.current_pos += movement
 
                     self.rect.center = self.current_pos
+
                     if self.has_text:
-                              self.text_rect.center = self.rect.center
+                              self.update_text_position()
+
 
           def check_for_input(self):
                     return self.rect.collidepoint(self.game.correct_mouse_pos)
@@ -82,14 +95,14 @@ class Button:
 
 
 class Slider(Button):
-          def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, circle_radius=None,
+          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, circle_radius=None,
                        speed=SETTINGS_BUTTON_SPEED, initial_value=0.5, min_value=0,
                        max_value=1, circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0),
                        text_input=None, font=FONT, text_base_color=(255, 255, 255),
-                       text_pos="up"):
+                       text_pos="center"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=text_base_color,
-                                     hovering_colour=text_base_color)
+                                     hovering_colour=text_base_color, text_pos=text_pos)
 
                     self.circle_radius = circle_radius if circle_radius is not None else 0.3 * self.rect.height
                     self.circle_base_colour = circle_base_colour
@@ -108,7 +121,6 @@ class Slider(Button):
                                                    self.circle_radius * 2, self.circle_radius * 2)
                     self.line_color = (100, 100, 100)
                     self.line_thickness = 2
-                    self.text_pos = text_pos
                     self.update_value = False
                     self.is_dragging = False
                     self.update_text()
@@ -129,17 +141,7 @@ class Slider(Button):
 
           def update_text(self):
                     self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_color)
-                    self.text_rect = self.text.get_rect(center=self.rect.center)
-                    if self.text_pos == "top":
-                              self.text_rect = self.text.get_rect(midbottom=(self.rect.centerx, self.rect.top - 5))
-                    elif self.text_pos == "bottom":
-                              self.text_rect = self.text.get_rect(midtop=(self.rect.centerx, self.rect.bottom + 5))
-                    elif self.text_pos == "left":
-                              self.text_rect = self.text.get_rect(midright=(self.rect.left - 5, self.rect.centery))
-                    elif self.text_pos == "right":
-                              self.text_rect = self.text.get_rect(midleft=(self.rect.right + 5, self.rect.centery))
-                    else:
-                              self.text_rect = self.text.get_rect(center=self.rect.center)
+                    self.update_text_position()
 
           def update(self):
                     super().update()
@@ -183,11 +185,11 @@ class Slider(Button):
 
 
 class StoreButton(Button):
-          def __init__(self, game, image, pos, axis, axisl, res=PLAY_BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
-                       text_input=None, font=FONT, base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False):
+          def __init__(self, game, image, pos, axis, axisl, res=BUTTON_RES, speed=SETTINGS_BUTTON_SPEED,
+                       text_input=None, font=FONT, base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False, text_pos="center"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=base_color,
-                                     hovering_colour=hovering_color)
+                                     hovering_colour=hovering_color, text_pos=text_pos)
                     self.on = on
                     self.cooldown = STORE_BUTTON_COOLDOWN
                     self.last_pressed_time = 0
