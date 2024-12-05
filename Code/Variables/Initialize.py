@@ -28,5 +28,7 @@ Outside_Health_bar = load_image("Assets/Misc/Bars/health_bar.png", OUSTIDE_BARS_
 Slash_Effect = cached_import_gif("Assets/VFX/Slash")
 
 AK_47 = load_image("Assets/Objects/Weapons/rifle.png", AK47_RES)
-AK_47_Bullet = load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
-Minigun = load_image("Assets/Objects/Weapons/Mini gun.png", MINIGUN_RES)
+SHOTGUN = load_image("Assets/Objects/Weapons/Shotgun.png", SHOTGUN_RES)
+MINIGUN = load_image("Assets/Objects/Weapons/Mini gun.png", MINIGUN_RES)
+Bullets = load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
+

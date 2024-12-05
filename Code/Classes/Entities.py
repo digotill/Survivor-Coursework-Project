@@ -56,7 +56,7 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.max_health = health
-                    self.gun = Gun(game, AK_47, PLAYER_GUN_RES, AK_47_Bullet, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
+                    self.gun = Gun(game, AK_47, PLAYER_GUN_RES, Bullets, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
                                    PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION,
                                    PLAYER_BULLET_DAMAGE)
                     AnimatedEntity.__init__(self, game, images, animation)

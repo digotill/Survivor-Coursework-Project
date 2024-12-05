@@ -2,22 +2,24 @@ import pandas as pd
 
 from Code.Classes.Buttons import *
 from Code.Classes.Entities import *
+from Code.Utilities.Utils import *
 
 
 class MainMenu:
           def __init__(self, game):
                     self.game = game
-                    self.play_button = SlidingButtons(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, "y", "max",
-                                                      text_input="Play")
-                    self.quit_button = SlidingButtons(self.game, Buttons[0], NEW_QUIT_BUTTON_POS, "y", "max",
-                                                      text_input="Quit")
-                    self.easy_button = SwitchButton(self.game, Buttons[0], HARD_BUTTON_POS, "y", "max",
-                                                      text_input="EASY")
-                    self.medium_button = SwitchButton(self.game, Buttons[0], MEDIUM_BUTTON_POS, "y", "max",
-                                                      text_input="MEDIUM")
-                    self.hard_button = SwitchButton(self.game, Buttons[0], EASY_BUTTON_POS, "y", "max",
-                                                     text_input="HARD")
-                    self.buttons = [self.play_button, self.quit_button, self.easy_button, self.medium_button, self.hard_button]
+                    self.play_button = Button(self.game, Buttons[0], FULLSCREEN_BUTTON_POS, PLAY_BUTTON_AXIS,
+                                        PLAY_BUTTON_AXISL, text_input=PLAY_BUTTON_NAME)
+                    self.quit_button = Button(self.game, Buttons[0], QUIT_BUTTON_POS, QUIT_BUTTON_AXIS,
+                                        QUIT_BUTTON_AXISL, text_input=QUIT_BUTTON_NAME)
+                    self.easy_button = StoreButton(self.game, Buttons[0], HARD_BUTTON_POS, EASY_BUTTON_AXIS,
+                                        EASY_BUTTON_AXISL, text_input=EASY_BUTTON_NAME)
+                    self.medium_button = StoreButton(self.game, Buttons[0], MEDIUM_BUTTON_POS, MEDIUM_BUTTON_AXIS,
+                                                  MEDIUM_BUTTON_AXISL, text_input=MEDIUM_BUTTON_NAME, on=True)
+                    self.hard_button = StoreButton(self.game, Buttons[0], EASY_BUTTON_POS, HARD_BUTTON_AXIS,
+                                        HARD_BUTTON_AXISL, text_input=HARD_BUTTON_NAME)
+                    self.ak_47_button = StoreButton(self.game, perfect_outline_2(AK_47), (140, 240), "x", "min")
+                    self.buttons = [self.play_button, self.quit_button, self.easy_button, self.medium_button, self.hard_button, self.ak_47_button]
                     self.difficulty_buttons = [self.easy_button, self.medium_button, self.hard_button]
                     for button in self.buttons:
                               button.active = True
