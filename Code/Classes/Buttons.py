@@ -92,7 +92,6 @@ class Button:
                               color = self.hovering_color if self.rect.collidepoint(
                                         self.game.correct_mouse_pos) else self.base_color
                               self.text = self.font.render(self.text_input, False, color)
-                              self.text_rect = self.text.get_rect(center=self.rect.center)
 
 
 class Slider(Button):
@@ -189,7 +188,7 @@ class Switch(Button):
           def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'],
                        speed=general_settings["buttons_speed"],
                        text_input=None, font=general_settings['font'], base_color=(255, 255, 255),
-                       hovering_color=(255, 0, 0), on=False, text_pos="center"):
+                       hovering_color=(255, 0, 0), on=False, text_pos="left"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=base_color,
                                      hovering_colour=hovering_color, text_pos=text_pos)
@@ -197,14 +196,10 @@ class Switch(Button):
                     self.cooldown = cooldowns['buttons']
                     self.last_pressed_time = 0
 
-          def update(self):
-                    super().update()
-
           def changeColor(self):
                     if self.has_text:
                               color = self.hovering_color if self.on else self.base_color
                               self.text = self.font.render(self.text_input, False, color)
-                              self.update_text_position()
 
           def can_change(self):
                     return self.rect.collidepoint(

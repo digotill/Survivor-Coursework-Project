@@ -6,7 +6,6 @@ pygame.init()
 
 START_FULLSCREEN = False
 PEACEFUL_MODE = True
-STARTING_DIFFICULTY = "MEDIUM"
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 MAX_WIN_RES = 2560, 1440
@@ -140,9 +139,9 @@ buttons = {
           "fullscreen": create_button_settings("Fullscreen", (240, 170)),
           "new_quit": create_button_settings("Quit", (240, 215)),
           "resume": create_button_settings("Resume", (240, 135)),
-          "AK47": create_button_settings("0", (140, 240)),
-          "Shotgun": create_button_settings("0", (140, 215)),
-          "Minigun": create_button_settings("0", (140, 180)),
+          "AK47": create_button_settings("AK47", (140, 240), text_pos="left"),
+          "Shotgun": create_button_settings("Shotgun", (140, 215), text_pos="left"),
+          "Minigun": create_button_settings("Minigun", (140, 180), text_pos="left"),
           "Return": create_button_settings("Return", (240, 90)),
 }
 
