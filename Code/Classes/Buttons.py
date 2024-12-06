@@ -137,7 +137,7 @@ class Slider(Button):
                               self.game.ui_surface.blit(self.circle_surface,
                                                         (self.circle_rect.x, self.circle_rect.y + 1))
                               self.game.ui_surface.blit(self.text,
-                                                        self.text_rect)  # This line remains the same, but text_rect is now correctly positioned
+                                                        self.text_rect)
 
           def update_text(self):
                     self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_color)
@@ -201,7 +201,7 @@ class Switch(Button):
                     if self.has_text:
                               color = self.hovering_color if self.on else self.base_color
                               self.text = self.font.render(self.text_input, False, color)
-                              self.text_rect = self.text.get_rect(center=self.rect.center)
+                              self.update_text_position()
 
           def can_change(self):
                     return self.rect.collidepoint(

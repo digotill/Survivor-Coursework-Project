@@ -83,7 +83,6 @@ class MainMenu:
                                         text_pos=config['text_pos']
                               )
 
-                    # Set medium difficulty as default
                     self.buttons['medium'].on = True
                     self.buttons['AK47'].on = True
 

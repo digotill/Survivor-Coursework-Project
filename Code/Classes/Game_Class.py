@@ -22,6 +22,7 @@ class Game:
                     self.dt = 0
                     self.changing_settings = False
                     self.immidiate_quit = False
+                    self.return_to_menu = False
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
 
                     self.event_manager = EventManager(self)
@@ -109,5 +110,6 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.update_display()
+                              if self.return_to_menu: self.refresh()
                               if self.immidiate_quit: return None
                     pygame.quit()

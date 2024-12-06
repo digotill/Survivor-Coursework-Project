@@ -156,6 +156,7 @@ buttons = {
           "AK47": create_button_settings("0", (140, 240)),
           "Shotgun": create_button_settings("0", (140, 215)),
           "Minigun": create_button_settings("0", (140, 180)),
+          "Return": create_button_settings("Return", (240, 90)),
 }
 
 
@@ -186,16 +187,3 @@ weapons = {
                     0.2, 1, -10, 0, 0.1, 5, 2, 1, 2, 1)
 }
 
-
-PLAYER_GUN_DISTANCE = -2
-PLAYER_GUN_RES = 40, 40
-PLAYER_GUN_SPREAD = 20
-PLAYER_BULLET_RES = 24, 24
-PLAYER_BULLET_FRICTION = 2
-PLAYER_BULLET_DAMAGE = 20
-PLAYER_BULLET_LIFETIME = 0.8
-BULLET_LIFETIME_RANDOMNESS = 0.2
-PLAYER_BULLET_SPEED = 700
-PLAYER_BULLET_RATE = 0.1
-PLAYER_BULLET_ANIMATION = 15
-PLAYER_GUN_SPREAD_TIME = 2

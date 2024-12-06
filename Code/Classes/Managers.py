@@ -203,7 +203,8 @@ class ButtonManager:
                     button_configs = {
                               'resume': buttons['resume'],
                               'fullscreen': buttons['fullscreen'],
-                              'quit': buttons['quit']
+                              'quit': buttons['quit'],
+                              'return': buttons['Return'],
                     }
                     for name, config in button_configs.items():
                               self.buttons[name] = Button(
@@ -262,6 +263,8 @@ class ButtonManager:
                                         self.game.event_manager.update_size(True)
                               elif self.buttons['quit'].check_for_input():
                                         self.game.immidiate_quit = True
+                              elif self.buttons['return'].check_for_input():
+                                        self.game.return_to_menu = True
 
           def draw_buttons(self):
                     for element in list(self.buttons.values()) + list(self.sliders.values()):
