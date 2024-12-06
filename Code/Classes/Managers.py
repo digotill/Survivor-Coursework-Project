@@ -48,7 +48,7 @@ class EnemyManager:
 
           def remove_dead_enemies(self):
                     for enemy in self.grid.items.copy():
-                              if enemy.health <= 0:
+                              if enemy.pierce <= 0:
                                         enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
@@ -84,7 +84,7 @@ class EnemyManager:
                     enemy.rect.center = coordinates
                     enemy.vel_vector = v2(0, 0)
                     enemy.acceleration = v2(0, 0)
-                    enemy.health = enemy_attributes["health"] * self.enemy_multiplier
+                    enemy.pierce = enemy_attributes["health"] * self.enemy_multiplier
                     enemy.dead = False
 
           def create_new_enemy(self, coordinates):
@@ -117,13 +117,12 @@ class BulletManager:
                               self.game.display_screen.blit(bullet.image,
                                                             (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
 
-          def add_bullet(self, start_x, start_y, angle, vel, img, life, friction, name, damage, spread, health):
+          def add_bullet(self, start_x, start_y, angle, name, spread):
                     if self.bullet_pool:
                               bullet = self.bullet_pool.pop()
-                              bullet.reset(start_x, start_y, angle, vel, life, friction, name, damage, spread, health)
+                              bullet.reset(start_x, start_y, angle, spread)
                     else:
-                              bullet = Bullet(self.game, (start_x, start_y), angle, vel, img, life, friction, name,
-                                              damage, spread_factor=spread, health=health)
+                              bullet = Bullet(self.game, self.game.player.gun, (start_x, start_y), angle, name, spread)
                     self.grid.insert(bullet)
                     bullet_set = self.player_bullets if name == "Player Bullet" else self.enemy_bullets
                     bullet_set.add(bullet)

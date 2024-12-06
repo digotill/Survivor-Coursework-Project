@@ -45,17 +45,14 @@ class AnimalEntity:
 
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, coordinates, name=player_attributes['name'], images=Player_Running,
-                       angle=None, animation=player_attributes['animation_speed'], acceleration=player_attributes['acceleration'], gun=None):
+          def __init__(self, game, health, res, vel, damage, gun, coordinates, name=player_attributes['name'], images=Player_Running,
+                       angle=None, animation=player_attributes['animation_speed'], acceleration=player_attributes['acceleration']):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.max_health = health
-                    if gun is None:
-                              self.gun = Gun(game, AK_47, PLAYER_GUN_RES, Bullets, PLAYER_GUN_DISTANCE, PLAYER_BULLET_SPEED,
-                                   PLAYER_BULLET_LIFETIME, PLAYER_BULLET_RATE, PLAYER_BULLET_FRICTION,
-                                   PLAYER_BULLET_DAMAGE)
+                    self.gun = gun
                     AnimatedEntity.__init__(self, game, images, animation)
                     self.pos.x -= self.res[0] / 2
                     self.pos.y -= self.res[1] / 2
@@ -194,23 +191,34 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
 
 
 class Gun:
-          def __init__(self, game, gunImage, gun_res, bullet_image, distance, velocity, lifetime, fire_rate, friction=0,
-                       damage=30):
+          def __init__(self, game, gunImage, gun_res, bullet_image, velocity, lifetime, lifetime_randomness, fire_rate, friction, damage, spread,
+                       distance_perpendicular, distance_parrallel, animation_speed, shake_mag, shake_duration, spread_time, clip_size, reload_time, pierce):
                     self.game = game
                     self.res = gun_res
                     self.gunImage = gunImage
-                    self.distance = distance
+                    self.spread = spread
+                    self.distance_perpendicular = distance_perpendicular
+                    self.distance_parrallel = distance_parrallel
                     self.damage = damage
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
                     self.angle = 0
                     self.initial_vel = velocity
                     self.bullet_image = bullet_image
-                    self.bullet_velocity = velocity
-                    self.bullet_lifetime = lifetime
-                    self.bullet_friction = friction
+                    self.vel = velocity
+                    self.lifetime = lifetime
+                    self.lifetime_randomness = lifetime_randomness
+                    self.friction = friction
                     self.last_shot_time = 0
                     self.fire_rate = fire_rate
                     self.continuous_fire_start = None
+                    self.animation_speed = animation_speed
+                    self.shake_mag = shake_mag
+                    self.shake_duration = shake_duration
+                    self.spread_time = spread_time
+                    self.clip_size = clip_size
+                    self.reload_time = reload_time
+                    self.pierce = pierce
+
 
           def update(self):
                     self.calc_angle()
@@ -223,9 +231,9 @@ class Gun:
                               self.rotated_image = pygame.transform.flip(
                                         pygame.transform.rotate(self.gunImage, -self.angle + 90), True, False)
 
-                    pos_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * self.distance -
+                    pos_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * self.distance_perpendicular -
                              self.game.window.offset_rect.x)
-                    pos_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * self.distance -
+                    pos_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * self.distance_perpendicular -
                              self.game.window.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
                     self.game.display_screen.blit(self.rotated_image, self.rect)
@@ -254,20 +262,20 @@ class Gun:
                               self.continuous_fire_start = current_time
 
                     firing_duration = current_time - self.continuous_fire_start
-                    max_spread_time = PLAYER_GUN_SPREAD_TIME
+                    max_spread_time = self.spread_time
                     spread_factor = min(firing_duration / max_spread_time, 1.0)
 
                     self.last_shot_time = current_time
 
                     start_x, start_y = self.calculate_bullet_start_position()
                     self.create_gun_sparks(start_x, start_y)
-                    self.create_bullet(start_x, start_y, spread_factor)
+                    self.game.bullet_manager.add_bullet(start_x, start_y, self.angle, "Player Bullet", spread_factor)
 
           def calculate_bullet_start_position(self):
                     start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 1.4)
+                              self.distance_perpendicular - self.res[0] / 1.4)
                     start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 1.4)
+                              self.distance_perpendicular - self.res[0] / 1.4)
                     return start_x, start_y
 
           def create_gun_sparks(self, start_x, start_y):
@@ -281,30 +289,22 @@ class Gun:
                                         random.randint(3, 6), sparks['gun']['colour'], sparks['gun']['size']
                               ))
 
-          def create_bullet(self, start_x, start_y, spread_factor):
-                    self.game.bullet_manager.add_bullet(
-                              start_x, start_y, self.angle, self.initial_vel,
-                              self.bullet_image, self.bullet_lifetime,
-                              self.bullet_friction, "Player Bullet", self.damage,
-                              spread_factor, 1  # Assuming bullet health is 1
-                    )
-
 
 class Bullet(RectEntity):
-          def __init__(self, game, pos, angle, velocity, image, lifetime, friction, name="dunno", damage=10,
-                       health=1, spread_factor=0):
+          def __init__(self, game, gun, pos, angle, name, spread_factor=0):
                     noise_value = perlin_noise["perlin"]([game.game_time * 0.1, 0])
-                    spread_angle = noise_value * PLAYER_GUN_SPREAD * spread_factor
+                    spread_angle = noise_value * gun.spread * spread_factor
                     final_angle = angle + spread_angle
-                    self.image = pygame.transform.rotate(image, final_angle + 90)
-                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, velocity, name, final_angle + 180)
-                    self.original_image = image
-                    self.lifetime = change_random(lifetime, BULLET_LIFETIME_RANDOMNESS)
+                    self.gun = gun
+                    self.image = pygame.transform.rotate(gun.bullet_image, final_angle + 90)
+                    RectEntity.__init__(self, game, pos, self.image.get_rect().size, gun.vel, name, final_angle + 180)
+                    self.original_image = gun.bullet_image
+                    self.lifetime = change_random(self.gun.lifetime, self.gun.lifetime_randomness)
                     self.dead = False
                     self.creation_time = game.game_time
-                    self.friction = friction
-                    self.damage = damage
-                    self.health = health
+                    self.friction = self.gun.friction
+                    self.damage = self.gun.damage
+                    self.pierce = self.gun.pierce
                     self.rect.center = self.pos
 
           def update(self):
@@ -317,27 +317,26 @@ class Bullet(RectEntity):
           def check_collision(self, target):
                     if self.rect.colliderect(target.rect):
                               target.health -= self.damage
-                              self.health -= 1
-                              if self.health <= 0:
+                              self.pierce -= 1
+                              if self.pierce <= 0:
                                         self.dead = True
                               return True
                     return False
 
-          def reset(self, start_x, start_y, angle, vel, life, friction, name, damage, spread, health):
+          def reset(self, start_x, start_y, angle, spread):
                     self.pos = v2(start_x, start_y)
                     self.rect.center = (start_x, start_y)
                     noise_value = perlin_noise["perlin"]([self.game.game_time * 0.1, 0])
-                    spread_angle = noise_value * PLAYER_GUN_SPREAD * spread
+                    spread_angle = noise_value * self.gun.spread * spread
                     final_angle = angle + spread_angle + 180
-                    self.vel_vector = v2(vel * math.sin(math.radians(final_angle)),
-                                         vel * math.cos(math.radians(final_angle)))
+                    self.vel_vector = v2(self.gun.vel * math.sin(math.radians(final_angle)),
+                                         self.gun.vel * math.cos(math.radians(final_angle)))
                     self.creation_time = self.game.game_time
                     self.image = pygame.transform.rotate(self.original_image, final_angle + 90)
-                    self.lifetime = life
-                    self.friction = friction
-                    self.name = name
-                    self.damage = damage
-                    self.health = health
+                    self.lifetime = self.gun.lifetime
+                    self.friction = self.gun.friction
+                    self.damage = self.gun.damage
+                    self.pierce = self.gun.pierce
                     self.spread_factor = spread
                     self.dead = False
                     self.angle = angle

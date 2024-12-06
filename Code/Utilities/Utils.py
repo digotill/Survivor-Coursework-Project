@@ -78,7 +78,7 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
 
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
-                           damage_drop_off, damage, distance):
+                           damage, distance_parrallel, distance_perpendicular, friction, animation_speed, spread_time, pierce, shake_mag, shake_duration):
           return {
                     "res": res,
                     "vel": vel,
@@ -88,9 +88,15 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
                     "clip_size": clip_size,
                     "lifetime": lifetime,
                     "lifetime_randomness": lifetime_randomness,
-                    "damage_drop_off": damage_drop_off,
                     "damage": damage,
-                    "distance": distance
+                    "distance_parrallel": distance_parrallel,
+                    "distance_perpendicular": distance_perpendicular,
+                    "friction": friction,
+                    "animation_speed": animation_speed,
+                    "spread_time": spread_time,
+                    "pierce": pierce,
+                    "shake_mag": shake_mag,
+                    "shake_duration": shake_duration,
           }
 
 

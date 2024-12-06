@@ -153,9 +153,9 @@ buttons = {
           "fullscreen": create_button_settings("Fullscreen", (240, 170)),
           "new_quit": create_button_settings("Quit", (240, 215)),
           "resume": create_button_settings("Resume", (240, 135)),
-          "ak47": create_button_settings("", (140, 240)),
-          "shotgun": create_button_settings("", (140, 215)),
-          "minigun": create_button_settings("", (140, 180)),
+          "AK47": create_button_settings("0", (140, 240)),
+          "Shotgun": create_button_settings("0", (140, 215)),
+          "Minigun": create_button_settings("0", (140, 180)),
 }
 
 
@@ -178,9 +178,12 @@ sliders = {
 
 
 weapons = {
-          "AK47": create_weapon_settings((50, 18), 700, 3, 2, 0.1, 30, 3, 0.2, 2, 30, -2),
-          "Shotgun": create_weapon_settings((32, 32), 700, 15, 1.5, 0.8, 8, 0.5, 0.2, 5, 50, -2),
-          "Minigun": create_weapon_settings((38, 20), 800, 10, 10, 0.01, 100, 2, 0.2, 1, 15, -10)
+          "AK47": create_weapon_settings((32, 13), 750, 3, 2, 0.1, 30, 3,
+                    0.2, 2, -2, 0, 0.1, 5, 2, 2, 2, 1),
+          "Shotgun": create_weapon_settings((30, 13), 900, 15, 0.5, 0.8, 8, 0.5,
+                    0.2, 5, -2, 0, 0.1, 5, 2, 1, 2, 1),
+          "Minigun": create_weapon_settings((34, 16), 600, 10, 10, 0.01, 100, 2,
+                    0.2, 1, -10, 0, 0.1, 5, 2, 1, 2, 1)
 }
 
 
