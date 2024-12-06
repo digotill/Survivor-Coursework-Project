@@ -79,9 +79,9 @@ class UI:
                     if self.brightness == window_attributes['brightness']: return None
                     if self.brightness > window_attributes['brightness']:
                               self.game.display.fill([int(window_attributes['min_brightness'] * (
-                                                self.brightness - window_attributes['brightness'])) for _ in range(3)],
+                                      self.brightness - window_attributes['brightness'])) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < window_attributes['brightness']:
                               self.game.display.fill([int(window_attributes['max_brightness'] * (
-                                                window_attributes['brightness'] - self.brightness)) for _ in range(3)],
+                                      window_attributes['brightness'] - self.brightness)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_SUB)

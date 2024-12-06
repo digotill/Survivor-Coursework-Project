@@ -8,7 +8,8 @@ class Tile:
           def __init__(self, image, position):
                     self.image = image
                     self.position = Vector2(position)
-                    self.rect = pygame.Rect(self.position.x, self.position.y, window_attributes['tilemap_size'], window_attributes['tilemap_size'])
+                    self.rect = pygame.Rect(self.position.x, self.position.y, window_attributes['tilemap_size'],
+                                            window_attributes['tilemap_size'])
 
           def draw(self, surface, offset):
                     draw_position = self.position - offset
@@ -32,7 +33,6 @@ class TileMap:
                     tile = Tile(image, (grid_x * self.tile_size, grid_y * self.tile_size))
 
                     self.grid.insert(tile)
-
 
           def draw(self):
                     for tile in self.grid.window_query():

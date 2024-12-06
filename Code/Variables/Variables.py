@@ -2,9 +2,7 @@ from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
 
-
 pygame.init()
-
 
 START_FULLSCREEN = False
 PEACEFUL_MODE = True
@@ -15,7 +13,6 @@ MAX_WIN_RES = 2560, 1440
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 PLAYABLE_AREA_SIZE = 3840, 2160
 REN_RES = 640, 360
-
 
 player_attributes = {
           'name': 'Player',
@@ -31,7 +28,6 @@ player_attributes = {
           'offset_y2': 0,
           'animation_speed': 5,
 }
-
 
 enemy_attributes = {
           'name': "Enemy",
@@ -51,12 +47,10 @@ enemy_attributes = {
           'animation_speed': 5,
 }
 
-
 screen_shake = {
           'bullet_impact_shake_duration': 0.5,
           'bullet_impact_shake_magnitude': 4,
 }
-
 
 general_settings = {
           'difficulty': "MEDIUM",
@@ -74,7 +68,6 @@ general_settings = {
           'buttons_friction': 300,
           'fps_size': 15,
 }
-
 
 window_attributes = {
           'lerp_speed': 5,
@@ -94,7 +87,6 @@ window_attributes = {
           'darkness': (12, 12, 12)
 }
 
-
 cooldowns = {
           'fps': 0.5,
           'fullscreen': 0.5,
@@ -102,14 +94,12 @@ cooldowns = {
           'buttons': 0.5,
 }
 
-
 keys = {
           'fullscreen': pygame.K_F11,
           'fps': pygame.K_F12,
           'escape': pygame.K_F10,
           'ungrab': pygame.K_ESCAPE,
 }
-
 
 ui = {
           "health_bar": (135, 95),
@@ -119,7 +109,6 @@ ui = {
           "fps": (150, 70),
           "time": (150, 70),
 }
-
 
 sparks = {
           "bullet": create_spark_settings(
@@ -136,13 +125,11 @@ sparks = {
           )
 }
 
-
 perlin_noise = {
           "perlin_octaves": 3,
           "perlin_seed": random.randint(0, 100000)
 }
 perlin_noise["perlin"] = PerlinNoise(octaves=perlin_noise["perlin_octaves"], seed=perlin_noise["perlin_seed"])
-
 
 buttons = {
           "play": create_button_settings("PLAY", (200, 240)),
@@ -158,7 +145,6 @@ buttons = {
           "Minigun": create_button_settings("0", (140, 180)),
           "Return": create_button_settings("Return", (240, 90)),
 }
-
 
 sliders = {
           "brightness": {
@@ -177,13 +163,11 @@ sliders = {
           }
 }
 
-
 weapons = {
           "AK47": create_weapon_settings((32, 13), 750, 3, 2, 0.1, 30, 3,
-                    0.2, 2, -2, 0, 0.1, 5, 2, 2, 2, 1),
+                                         0.2, 2, -2, 0, 0.1, 5, 2, 2, 2, 1),
           "Shotgun": create_weapon_settings((30, 13), 900, 15, 0.5, 0.8, 8, 0.5,
-                    0.2, 5, -2, 0, 0.1, 5, 2, 1, 2, 1),
+                                            0.2, 5, -2, 0, 0.1, 5, 2, 1, 2, 1),
           "Minigun": create_weapon_settings((34, 16), 600, 10, 10, 0.01, 100, 2,
-                    0.2, 1, -10, 0, 0.1, 5, 2, 1, 2, 1)
+                                            0.2, 1, -10, 0, 0.1, 5, 2, 1, 2, 1)
 }
-

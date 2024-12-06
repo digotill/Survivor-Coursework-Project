@@ -4,8 +4,10 @@ from Code.Variables.Variables import *
 
 
 class Button:
-          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'], speed=general_settings["buttons_speed"],
-                       text_input=None, font=general_settings['font'], base_colour=(255, 255, 255), hovering_colour=(255, 0, 0),
+          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'],
+                       speed=general_settings["buttons_speed"],
+                       text_input=None, font=general_settings['font'], base_colour=(255, 255, 255),
+                       hovering_colour=(255, 0, 0),
                        text_pos="center"):
                     self.game = game
                     self.image = pygame.transform.scale(image, res)
@@ -81,7 +83,6 @@ class Button:
 
                     if self.has_text:
                               self.update_text_position()
-
 
           def check_for_input(self):
                     return self.rect.collidepoint(self.game.correct_mouse_pos)
@@ -185,8 +186,10 @@ class Slider(Button):
 
 
 class Switch(Button):
-          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'], speed=general_settings["buttons_speed"],
-                       text_input=None, font=general_settings['font'], base_color=(255, 255, 255), hovering_color=(255, 0, 0), on=False, text_pos="center"):
+          def __init__(self, game, image, pos, axis, axisl, res=general_settings['buttons_res'],
+                       speed=general_settings["buttons_speed"],
+                       text_input=None, font=general_settings['font'], base_color=(255, 255, 255),
+                       hovering_color=(255, 0, 0), on=False, text_pos="center"):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=base_color,
                                      hovering_colour=hovering_color, text_pos=text_pos)

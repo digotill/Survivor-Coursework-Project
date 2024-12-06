@@ -88,7 +88,8 @@ class EnemyManager:
                     enemy.dead = False
 
           def create_new_enemy(self, coordinates):
-                    return Enemy(self.game, coordinates, enemy_attributes["res"], enemy_attributes["vel"], enemy_attributes["name"],
+                    return Enemy(self.game, coordinates, enemy_attributes["res"], enemy_attributes["vel"],
+                                 enemy_attributes["name"],
                                  enemy_attributes["health"] * self.enemy_multiplier,
                                  enemy_attributes["damage"] * self.enemy_multiplier, Enemy_idle)
 

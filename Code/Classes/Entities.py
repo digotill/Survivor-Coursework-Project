@@ -45,8 +45,10 @@ class AnimalEntity:
 
 
 class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, gun, coordinates, name=player_attributes['name'], images=Player_Running,
-                       angle=None, animation=player_attributes['animation_speed'], acceleration=player_attributes['acceleration']):
+          def __init__(self, game, health, res, vel, damage, gun, coordinates, name=player_attributes['name'],
+                       images=Player_Running,
+                       angle=None, animation=player_attributes['animation_speed'],
+                       acceleration=player_attributes['acceleration']):
                     RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
                     AnimalEntity.__init__(self, game, health, damage)
                     self.acceleration = acceleration
@@ -79,7 +81,8 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if player_attributes['offset_x1'] < new_x < self.game.big_window[0] - self.res[0] + player_attributes['offset_x2']:
+                              if player_attributes['offset_x1'] < new_x < self.game.big_window[0] - self.res[0] + \
+                                      player_attributes['offset_x2']:
                                         self.pos.x = new_x
                                         self.rect.x = self.pos.x
                                         move_hor = True
@@ -191,8 +194,10 @@ class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
 
 
 class Gun:
-          def __init__(self, game, gunImage, gun_res, bullet_image, velocity, lifetime, lifetime_randomness, fire_rate, friction, damage, spread,
-                       distance_perpendicular, distance_parrallel, animation_speed, shake_mag, shake_duration, spread_time, clip_size, reload_time, pierce):
+          def __init__(self, game, gunImage, gun_res, bullet_image, velocity, lifetime, lifetime_randomness, fire_rate,
+                       friction, damage, spread,
+                       distance_perpendicular, distance_parrallel, animation_speed, shake_mag, shake_duration,
+                       spread_time, clip_size, reload_time, pierce):
                     self.game = game
                     self.res = gun_res
                     self.gunImage = gunImage
@@ -219,7 +224,6 @@ class Gun:
                     self.reload_time = reload_time
                     self.pierce = pierce
 
-
           def update(self):
                     self.calc_angle()
                     self.update_shooting()
@@ -231,9 +235,11 @@ class Gun:
                               self.rotated_image = pygame.transform.flip(
                                         pygame.transform.rotate(self.gunImage, -self.angle + 90), True, False)
 
-                    pos_x = (self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * self.distance_perpendicular -
+                    pos_x = (self.game.player.rect.centerx + math.sin(
+                              math.radians(self.angle)) * self.distance_perpendicular -
                              self.game.window.offset_rect.x)
-                    pos_y = (self.game.player.rect.centery + math.cos(math.radians(self.angle)) * self.distance_perpendicular -
+                    pos_y = (self.game.player.rect.centery + math.cos(
+                              math.radians(self.angle)) * self.distance_perpendicular -
                              self.game.window.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
                     self.game.display_screen.blit(self.rotated_image, self.rect)

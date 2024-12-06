@@ -1,5 +1,6 @@
 from Code.Classes.Entities import *
 
+
 class Window(RectEntity):
           def __init__(self, game, res, big_res, name=None, angle=0):
                     RectEntity.__init__(self, game, (big_res[0] / 2 - res[0] / 2, big_res[1] / 2 - res[1] / 2), res, 0,
@@ -74,14 +75,16 @@ class Window(RectEntity):
                     player_bottom = player_top + self.game.player.res[1]
 
                     if player_left < player_attributes['offset_x1']:
-                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - player_attributes['offset_x1'] + \
+                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - player_attributes[
+                                        'offset_x1'] + \
                                                    self.game.player.res[0]
                     elif player_right > self.res[0] + player_attributes['offset_x2']:
                               self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[
                                         0] - player_attributes['offset_x2']
 
                     if player_top < player_attributes['offset_y1']:
-                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - player_attributes['offset_y1'] + \
+                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - player_attributes[
+                                        'offset_y1'] + \
                                                    self.game.player.res[1]
                     elif player_bottom > self.res[1] + player_attributes['offset_y2']:
                               self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[
@@ -106,7 +109,7 @@ class Window(RectEntity):
                     noise_offset = v2(noise_x, noise_y)
 
                     direction = (
-                                      self.shake_direction + noise_offset * self.shake_noise_magnitude * self.reduced_screen_shake).normalize()
+                            self.shake_direction + noise_offset * self.shake_noise_magnitude * self.reduced_screen_shake).normalize()
 
                     shake_offset = direction * sin_value * self.shake_magnitude * fade_out
                     return v2(int(shake_offset.x), int(shake_offset.y))

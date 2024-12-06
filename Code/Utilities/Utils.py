@@ -78,7 +78,8 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
 
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
-                           damage, distance_parrallel, distance_perpendicular, friction, animation_speed, spread_time, pierce, shake_mag, shake_duration):
+                           damage, distance_parrallel, distance_perpendicular, friction, animation_speed, spread_time,
+                           pierce, shake_mag, shake_duration):
           return {
                     "res": res,
                     "vel": vel,

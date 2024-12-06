@@ -66,13 +66,14 @@ class MainMenu:
                               'AK47': buttons['AK47'],
                               "Shotgun": buttons['Shotgun'],
                               "Minigun": buttons['Minigun']
-                              }
+                    }
                     button_configs["AK47"]["image"] = perfect_outline(AK47)
                     button_configs["Shotgun"]["image"] = perfect_outline(Shotgun)
                     button_configs["Minigun"]["image"] = perfect_outline(Minigun)
 
                     for name, config in button_configs.items():
-                              button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun', 'Minigun'] else Button
+                              button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
+                                                                'Minigun'] else Button
                               self.buttons[name] = button_class(
                                         self.game,
                                         config.get('image', Buttons[0]),
@@ -126,20 +127,22 @@ class MainMenu:
                     return self.return_value
 
           def update_difficulty(self):
-                    new_stat = pd.DataFrame({'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
+                    new_stat = pd.DataFrame(
+                              {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
-
-
-                    self.game.player = Player(self.game, player_attributes['health'] * general_settings[self.difficulty + "_difficulty"], player_attributes['res'], player_attributes['vel'],
-                                              player_attributes['damage'] * general_settings[self.difficulty + "_difficulty"], self.gun, self.game.window.rect.center)
-
+                    self.game.player = Player(self.game, player_attributes['health'] * general_settings[
+                              self.difficulty + "_difficulty"], player_attributes['res'], player_attributes['vel'],
+                                              player_attributes['damage'] * general_settings[
+                                                        self.difficulty + "_difficulty"], self.gun,
+                                              self.game.window.rect.center)
 
           def draw_and_update_background(self):
                     self.game.display_screen.blit(pygame.transform.scale(
                               self.loading_screen[int(self.current_frame) % len(self.loading_screen)],
                               self.game.display_screen.size))
                     self.current_frame -= self.game.dt * self.animation_speed
+
 
 class GameOver:
           def __init__(self, game):
