@@ -141,3 +141,7 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'animation_speed': animation_speed,
                     "image": image
           }
+
+def lookup_colour(colour):
+          color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
+          for colour in color_list: print(colour)

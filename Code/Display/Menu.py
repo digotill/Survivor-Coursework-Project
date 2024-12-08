@@ -19,7 +19,6 @@ class MainMenu:
                     self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else Loading_Screens["Orange_Pond"]
                     self.current_frame = 0
                     self.in_menu = True
-                    self.return_value = None
                     self.difficulty = General_Settings['difficulty']
                     self.animation_speed = General_Settings["main_menu_animation_speed"]
                     self.create_weapons()
@@ -104,18 +103,16 @@ class MainMenu:
                               self.game.update_display()
 
                     self.update_difficulty()
-                    return self.return_value
 
           def update_difficulty(self):
                     new_stat = pd.DataFrame(
                               {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
-                    self.game.player = Player(self.game, Player_Attributes['health'] * General_Settings[
+                    self.game.player = Player(self.game, self.game.window.rect.center, Player_Attributes['health'] * General_Settings[
                               self.difficulty + "_difficulty"], Player_Attributes['res'], Player_Attributes['vel'],
                                               Player_Attributes['damage'] * General_Settings[
-                                                        self.difficulty + "_difficulty"], self.gun,
-                                              self.game.window.rect.center)
+                                                        self.difficulty + "_difficulty"], self.gun)
 
           def draw_and_update_background(self):
                     self.game.display_screen.blit(pygame.transform.scale(

@@ -18,7 +18,7 @@ class Game:
 
                     self.running = True
                     self.game_time = 0
-                    self.fps = 500
+                    self.fps = pygame.display.get_current_refresh_rate()
                     self.dt = 0
                     self.changing_settings = False
                     self.immidiate_quit = False
@@ -32,6 +32,7 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
+
                     self.ui = UI(self)
                     self.tilemap = TileMap(self)
 

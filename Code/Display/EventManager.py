@@ -35,7 +35,7 @@ class EventManager:
           def update_fps_toggle(self):
                     if self.game.keys[Keys[
                               'fps']] and self.Last_FPS_Toggle + self.FPS_Cooldown < pygame.time.get_ticks() / 1000:
-                              self.game.UI_Settings.fps_enabled = not self.game.UI_Settings.fps_enabled
+                              self.game.ui.fps_enabled = not self.game.ui.fps_enabled
                               self.Last_FPS_Toggle = pygame.time.get_ticks() / 1000
 
           def update_grab(self):

@@ -210,3 +210,7 @@ Button_Images = {
           "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
           "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
 }
+
+#lookup_colour("red")
+
+

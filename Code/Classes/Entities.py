@@ -18,11 +18,6 @@ class RectEntity:
                                                    self.vel * math.cos(math.radians(angle)))
                               self.angle = angle
 
-          def calc_angle(self):
-                    return v2(self.game.player.pos.x + 0.5 * self.game.player.res[0] - self.pos.x - 0.5 * self.res[0],
-                              self.game.player.pos.y + 0.5 * self.game.player.res[1] - self.pos.y - 0.5 * self.res[
-                                        1]).angle_to((0, 1))
-
 
 class AnimatedEntity:
           def __init__(self, game, images, animation=General_Settings["animation_speed"]):
@@ -44,21 +39,60 @@ class AnimalEntity:
                     self.dead = False
 
 
-class Player(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, health, res, vel, damage, gun, coordinates, name=Player_Attributes['name'],
+class main:
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
+                    self.frame = 0
+                    self.facing = "right"
+                    self.dead = False
+                    if self.angle is not None:
+                              self.vel_vector = v2(self.vel * math.sin(math.radians(self.angle)),
+                                                   self.vel * math.cos(math.radians(self.angle)))
+
+          def update_frame(self):
+                    self.frame += self.animation * self.game.dt
+
+          def set_rect(self):
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0], self.res[1])
+
+
+class Player(main):
+          def __init__(self, game, coordinates, health, res, vel, damage, gun, name=Player_Attributes['name'],
                        images=Player_Attributes["player_running"],
-                       angle=None, animation=Player_Attributes['animation_speed'],
-                       acceleration=Player_Attributes['acceleration']):
-                    RectEntity.__init__(self, game, coordinates, res, vel, name, angle)
-                    AnimalEntity.__init__(self, game, health, damage)
+                       angle=None, animation_speed=Player_Attributes['animation_speed'],
+                       acceleration=Player_Attributes['acceleration'], stamina=Player_Attributes['stamina']):
+
+                    self.game = game
+
+
+                    self.pos = v2(coordinates)
+                    self.name = name
+                    self.res = res
+                    self.vel = vel
+                    self.angle = angle
+
+                    self.health = health
+                    self.damage = damage
+                    self.dead = False
+                    self.images = images
+                    self.animation_speed = animation_speed
+                    self.frame = 0
+                    self.facing = "right"
+                    self.stamina = stamina
+
+                    self.rect = pygame.Rect(self.pos.x - res[0] / 2, self.pos.y - res[1] / 2, res[0], res[1])
+
                     self.acceleration = acceleration
                     self.current_vel = 0
                     self.max_health = health
                     self.gun = gun
-                    AnimatedEntity.__init__(self, game, images, animation)
-                    self.pos.x -= self.res[0] / 2
-                    self.pos.y -= self.res[1] / 2
-                    self.stamina = Player_Attributes['stamina']
+
+          def update_frame(self):
+                    self.frame += self.animation_speed * self.game.dt
+
+                    # Include other methods from the original Player class here
+                    # Such as update(), draw(), update_facing(), update_velocity(), etc.
 
           def update(self):
                     dx, dy = 0, 0
@@ -122,11 +156,12 @@ class Player(RectEntity, AnimatedEntity, AnimalEntity):
                                         self.current_vel = 0
 
           def update_frame(self):
-                    self.frame += self.animation * self.game.dt
+                    self.frame += self.animation_speed * self.game.dt
 
 
 class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
-          def __init__(self, game, coordinates, res, vel, name, health, damage, image, angle=None, animation_speed=5, friction=0.9, steering_strength=0.1, stopping_distance=50):
+          def __init__(self, game, coordinates, res, vel, name, health, damage, image, angle=None, animation_speed=5,
+                       friction=0.9, steering_strength=0.1, stopping_distance=50):
                     super().__init__(game, coordinates, res, vel, name, angle)
                     AnimatedEntity.__init__(self, game, image, animation_speed)
                     AnimalEntity.__init__(self, game, health, damage)
@@ -279,9 +314,12 @@ class Gun:
                     for _ in range(self.shots):
                               self.create_gun_sparks(start_x, start_y)
                               if self.shots == 1:
-                                        self.game.bullet_manager.add_bullet(start_x, start_y, self.angle, "Player Bullet", spread_factor)
+                                        self.game.bullet_manager.add_bullet(start_x, start_y, self.angle,
+                                                                            "Player Bullet", spread_factor)
                               else:
-                                        self.game.bullet_manager.add_bullet(start_x, start_y, change_random(self.angle, self.spread), "Player Bullet", spread_factor)
+                                        self.game.bullet_manager.add_bullet(start_x, start_y,
+                                                                            change_random(self.angle, self.spread),
+                                                                            "Player Bullet", spread_factor)
 
           def calculate_bullet_start_position(self):
                     start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
@@ -298,7 +336,8 @@ class Gun:
                               ))
                               self.game.particle_manager.sparks.add(Spark(
                                         self.game, [start_x, start_y], spark_angle,
-                                        random.randint(3, 6), Sparks_Settings['gun']['colour'], Sparks_Settings['gun']['size']
+                                        random.randint(3, 6), Sparks_Settings['gun']['colour'],
+                                        Sparks_Settings['gun']['size']
                               ))
 
 

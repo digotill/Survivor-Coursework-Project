@@ -91,7 +91,7 @@ class EnemyManager:
                     entity.dead = False
                     entity.facing = "right"
                     entity.frame = 0
-                    entity.animation = enemy['animation_speed']
+                    entity.animation_speed = enemy['animation_speed']
                     entity.stopping_distance = enemy['stopping_distance']
                     entity.steering_strength = enemy['steering_strength']
                     entity.friction = enemy['friction']
