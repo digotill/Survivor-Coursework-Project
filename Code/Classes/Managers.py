@@ -13,8 +13,8 @@ class EnemyManager:
                     self.spawn_cooldown = 1
                     self.last_spawn = 0
                     self.enemy_multiplier = 1
-                    self.separation_radius = 15
-                    self.separation_strength = 0.4
+                    self.separation_radius = General_Settings["enemy_separation_radius"]
+                    self.separation_strength = General_Settings["enemy_separation_strength"]
 
           def update_enemies(self):
                     for enemy in self.grid.items:
@@ -31,7 +31,7 @@ class EnemyManager:
 
           def add_enemies(self, enemy):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < 50 and not PEACEFUL_MODE):
+                            len(self.grid.items) < General_Settings["max_enemies"] and not PEACEFUL_MODE):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
@@ -41,7 +41,7 @@ class EnemyManager:
                                         entity = self.enemy_pool.pop()
                                         self.reset_enemy(entity, coordinates, enemy)
                               else:
-                                        entity = self.create_enemy(coordinates, enemy)
+                                        entity = Enemy(self.game, coordinates, **enemy)
                               self.grid.insert(entity)
 
           def remove_dead_enemies(self):
@@ -97,9 +97,6 @@ class EnemyManager:
                     entity.friction = enemy['friction']
                     if 'image' in enemy:
                               entity.images = enemy['image']
-
-          def create_enemy(self, coordinates, enemy):
-                    return Enemy(self.game, coordinates, **enemy)
 
 
 class BulletManager:

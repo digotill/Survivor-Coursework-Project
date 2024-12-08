@@ -8,7 +8,6 @@ START_FULLSCREEN = False
 PEACEFUL_MODE = False
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
-MAX_WIN_RES = 2560, 1440
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 PLAYABLE_AREA_SIZE = 3840, 2160
 REN_RES = 640, 360
@@ -62,6 +61,9 @@ General_Settings = {
           'buttons_speed': 900,
           'buttons_friction': 300,
           'fps_size': 15,
+          'enemy_separation_radius': 15,
+          'enemy_separation_strength': 0.4,
+          'max_enemies': 100,
 }
 
 Window_Attributes = {

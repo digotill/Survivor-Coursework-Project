@@ -82,7 +82,7 @@ class Game:
                     pygame.display.flip()
 
           def manage_events(self):
-                    self.event_manager.update_window_events()
+                    self.event_manager.handle_events()
                     self.event_manager.update_size()
                     self.event_manager.update_fps_toggle()
                     self.event_manager.update_grab()

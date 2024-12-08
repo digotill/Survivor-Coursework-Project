@@ -146,7 +146,7 @@ class Player(main):
 
 
 class Enemy(main):
-          def __init__(self, game, coordinates, res, vel, name, health, damage, image, angle=None, animation_speed=5,
+          def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None, animation_speed=5,
                        friction=0.9, steering_strength=0.1, stopping_distance=50):
                     self.game = game
 
@@ -160,7 +160,7 @@ class Enemy(main):
                     self.vel = vel
                     self.health = health
                     self.damage = damage
-                    self.images = image
+                    self.images = images
                     self.animation_speed = animation_speed
                     self.frame = 0
                     self.max_vel = vel
