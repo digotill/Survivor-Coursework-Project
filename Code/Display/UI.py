@@ -8,7 +8,7 @@ class UI:
                     self.fps_enabled = False
                     self.health_bar_rect = Bar_Images["Health_bar"].get_rect()
                     self.stamina_bar_rect = Bar_Images["Stamina_bar"].get_rect()
-                    self.brightness = Window_Attributes['brightness']
+                    self.brightness = General_Settings['brightness']
 
           def draw_bars(self):
                     if self.game.player.health > 0:
@@ -72,16 +72,16 @@ class UI:
 
           def darken_screen(self):
                     if self.game.changing_settings:
-                              self.game.display_screen.fill(Window_Attributes['darkness'],
+                              self.game.display_screen.fill(General_Settings['darkness'],
                                                             special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
-                    if self.brightness == Window_Attributes['brightness']: return None
-                    if self.brightness > Window_Attributes['brightness']:
-                              self.game.display.fill([int(Window_Attributes['min_brightness'] * (
-                                      self.brightness - Window_Attributes['brightness'])) for _ in range(3)],
+                    if self.brightness == General_Settings['brightness']: return None
+                    if self.brightness > General_Settings['brightness']:
+                              self.game.display.fill([int(General_Settings['min_brightness'] * (
+                                      self.brightness - General_Settings['brightness'])) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_ADD)
-                    elif self.brightness < Window_Attributes['brightness']:
-                              self.game.display.fill([int(Window_Attributes['max_brightness'] * (
-                                      Window_Attributes['brightness'] - self.brightness)) for _ in range(3)],
+                    elif self.brightness < General_Settings['brightness']:
+                              self.game.display.fill([int(General_Settings['max_brightness'] * (
+                                      General_Settings['brightness'] - self.brightness)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_SUB)

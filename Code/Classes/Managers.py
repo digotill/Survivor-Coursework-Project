@@ -29,20 +29,20 @@ class EnemyManager:
                     for enemy in self.grid.window_query():
                               enemy.blit()
 
-          def add_enemies(self, enemy):
+          def add_enemies(self, enemy_dict):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
                             len(self.grid.items) < General_Settings["max_enemies"] and not PEACEFUL_MODE):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                        self.game.window.rect, enemy["res"][0], enemy["res"][1]
+                                        self.game.window.rect, enemy_dict["res"][0], enemy_dict["res"][1]
                               )
                               if self.enemy_pool:
-                                        entity = self.enemy_pool.pop()
-                                        self.reset_enemy(entity, coordinates, enemy)
+                                        enemy = self.enemy_pool.pop()
+                                        enemy.reset(coordinates, enemy_dict)
                               else:
-                                        entity = Enemy(self.game, coordinates, enemy)
-                              self.grid.insert(entity)
+                                        enemy = Enemy(self.game, coordinates, enemy_dict)
+                              self.grid.insert(enemy)
 
           def remove_dead_enemies(self):
                     for enemy in self.grid.items.copy():
@@ -77,34 +77,11 @@ class EnemyManager:
 
                     return steering * self.separation_strength
 
-          @staticmethod
-          def reset_enemy(entity, coordinates, enemy):
-                    entity.pos = v2(coordinates)
-                    entity.rect.center = coordinates
-                    entity.vel_vector = v2(0, 0)
-                    entity.acceleration = v2(0, 0)
-                    entity.health = enemy['health']
-                    entity.res = enemy['res']
-                    entity.max_vel = enemy['vel']
-                    entity.name = enemy['name']
-                    entity.damage = enemy['damage']
-                    entity.dead = False
-                    entity.facing = "right"
-                    entity.frame = 0
-                    entity.animation_speed = enemy['animation_speed']
-                    entity.stopping_distance = enemy['stopping_distance']
-                    entity.steering_strength = enemy['steering_strength']
-                    entity.friction = enemy['friction']
-                    if 'image' in enemy:
-                              entity.images = enemy['image']
-
 
 class BulletManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
-                    self.player_bullets = set()
-                    self.enemy_bullets = set()
                     self.bullet_pool = set()
 
           def update(self):
@@ -130,19 +107,15 @@ class BulletManager:
                     else:
                               bullet = Bullet(self.game, self.game.player.gun, (start_x, start_y), angle, name, spread)
                     self.grid.insert(bullet)
-                    bullet_set = self.player_bullets if name == "Player Bullet" else self.enemy_bullets
-                    bullet_set.add(bullet)
 
           def check_dead_bullets(self):
                     for bullet in self.grid.items.copy():
                               if bullet.dead:
                                         self.grid.items.remove(bullet)
-                                        bullet_set = self.player_bullets if bullet.name == "Player Bullet" else self.enemy_bullets
-                                        bullet_set.remove(bullet)
                                         self.bullet_pool.add(bullet)
 
           def check_for_collisions(self):
-                    for bullet in self.player_bullets:
+                    for bullet in self.grid.items:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
                                                   self.create_bullet_sparks(bullet)
@@ -234,7 +207,7 @@ class ButtonManager:
                                         **Sliders['brightness'],
                                         'max_value': 100,
                                         'min_value': 0,
-                                        'initial_value': Window_Attributes['brightness'],
+                                        'initial_value': General_Settings['brightness'],
                               }
                     }
                     for name, config in slider_configs.items():
@@ -270,7 +243,7 @@ class ButtonManager:
                               elif self.buttons['quit'].check_for_input():
                                         self.game.immidiate_quit = True
                               elif self.buttons['return'].check_for_input():
-                                        self.game.return_to_menu = True
+                                        self.game.restart = True
 
           def draw_buttons(self):
                     for element in list(self.buttons.values()) + list(self.sliders.values()):

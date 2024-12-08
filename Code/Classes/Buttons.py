@@ -2,7 +2,7 @@ from Code.Utilities.Utils import *
 from Code.Variables.Variables import *
 
 
-class Button:
+class Button(main):
           def __init__(self, game, image, pos, axis, axisl, res=General_Settings['buttons_res'],
                        speed=General_Settings["buttons_speed"],
                        text_input=None, font=General_Settings['font'], base_colour=(255, 255, 255),

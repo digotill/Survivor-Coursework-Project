@@ -64,24 +64,29 @@ General_Settings = {
           'enemy_separation_radius': 15,
           'enemy_separation_strength': 0.4,
           'max_enemies': 100,
-}
-
-Window_Attributes = {
-          'lerp_speed': 5,
-          'mouse_smoothing': v2(10, 10),
-          'deadzone': 3,
-          'mouse_smoothing_amount': 50,
-          'max_offset': 0.3,
-          'shake_speed': 200,
-          'shake_seed': random.random() * 1000,
-          'shake_directions': v2(1, 1),
-          'reduced_screen_shake': 1,
           'brightness': 50,
           'max_brightness': 2.5,
           'min_brightness': 0.5,
           'spatial_hash_map_size': 100,
           'tilemap_size': 16,
           'darkness': (12, 12, 12)
+}
+
+Window_Attributes = {
+          'lerp_speed': 5,
+          'mouse_smoothing': v2(10, 10),
+          'deadzone': 3,
+          'window_mouse_smoothing_amount': 50,
+          'window_max_offset': 0.3,
+          'shake_speed': 200,
+          'shake_seed': random.random() * 1000,
+          'shake_directions': v2(1, 1),
+          'reduced_screen_shake': 1,
+          'target_offset': v2(0, 0),
+          'current_offset': v2(0, 0),
+          'shake_duration': 0,
+          'shake_start_time': 0,
+          'shake_magnitude': 0,
 }
 
 Cooldowns = {
@@ -189,7 +194,7 @@ Loading_Screens = {
 
 Tile_Images = {
           "Grass_Tile": load_image("Assets/Misc/Grass/grass.png",
-                                   (Window_Attributes['tilemap_size'], Window_Attributes['tilemap_size']))
+                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
 }
 
 Cursor_Images = {

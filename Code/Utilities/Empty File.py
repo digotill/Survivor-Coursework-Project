@@ -6,6 +6,8 @@
 # SHIFT + F6 to rename
 # CTRL + ALT + L to reformat code
 
+
+
 def deal_damage(attacker: Entity, defender: Entity, amount: int) -> None:
     defender.health -= amount
 

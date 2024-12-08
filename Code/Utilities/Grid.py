@@ -15,11 +15,11 @@ class SpatialHash:
           @staticmethod
           def _rect_cells(rect):
                     x1, y1 = rect.topleft
-                    x1 //= Window_Attributes['spatial_hash_map_size']
-                    y1 //= Window_Attributes['spatial_hash_map_size']
+                    x1 //= General_Settings['spatial_hash_map_size']
+                    y1 //= General_Settings['spatial_hash_map_size']
                     x2, y2 = rect.bottomright
-                    x2 = x2 // Window_Attributes['spatial_hash_map_size'] + 1
-                    y2 = y2 // Window_Attributes['spatial_hash_map_size'] + 1
+                    x2 = x2 // General_Settings['spatial_hash_map_size'] + 1
+                    y2 = y2 // General_Settings['spatial_hash_map_size'] + 1
                     return product(range(x1, x2), range(y1, y2))
 
           def insert(self, entity):

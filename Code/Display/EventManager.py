@@ -70,13 +70,13 @@ class EventManager:
                               self.Last_FPS_Toggle = pygame.time.get_ticks() / 1000
 
           def update_grab(self):
-                    if self.game.mouse_state[0] and not self.game.changing_settings:
+                    if self.game.mouse_state[0] and not self.game.changing_settings and not self.game.in_menu:
                               pygame.event.set_grab(True)
                     elif self.game.keys[Keys['ungrab']]:
                               pygame.event.set_grab(False)
 
           def update_changing_settings(self):
                     if self.game.keys[Keys[
-                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.mainmenu.in_menu:
+                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.in_menu:
                               self.game.changing_settings = not self.game.changing_settings
                               self.Last_Changing_settings = pygame.time.get_ticks() / 1000

@@ -18,7 +18,6 @@ class MainMenu:
 
                     self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else Loading_Screens["Orange_Pond"]
                     self.current_frame = 0
-                    self.in_menu = True
                     self.difficulty = General_Settings['difficulty']
                     self.animation_speed = General_Settings["main_menu_animation_speed"]
                     self.create_weapons()
@@ -29,8 +28,7 @@ class MainMenu:
                     for weapon_type in ["AK47", "Shotgun", "Minigun"]:
                               weapon_settings = Weapons[weapon_type]
                               self.weapons[weapon_type] = Gun(
-                                        self.game,
-                                        **weapon_settings
+                                        self.game, weapon_settings
                               )
 
                     self.gun = self.weapons["AK47"]
@@ -67,7 +65,7 @@ class MainMenu:
                     self.buttons['AK47'].on = True
 
           def loop(self):
-                    while self.in_menu and self.game.running:
+                    while self.game.in_menu and self.game.running:
                               self.game.clock.tick(self.game.fps)
                               self.draw_and_update_background()
 
@@ -81,7 +79,7 @@ class MainMenu:
 
                               if pygame.mouse.get_pressed()[0]:
                                         if self.buttons['play'].check_for_input():
-                                                  self.in_menu = False
+                                                  self.game.in_menu = False
                                         if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
                                                   self.game.immidiate_quit = True
