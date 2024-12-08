@@ -10,7 +10,7 @@ class EnemyManager:
                     self.game = game
                     self.grid = SpatialHash(game)
                     self.enemy_pool = set()
-                    self.spawn_cooldown = enemy_attributes["spawn_rate"]
+                    self.spawn_cooldown = 1
                     self.last_spawn = 0
                     self.enemy_multiplier = 1
                     self.separation_radius = 15
@@ -22,39 +22,37 @@ class EnemyManager:
                               enemy.apply_force(separation_force)
                               enemy.update()
                     self.remove_dead_enemies()
-                    self.add_enemies()
+                    self.add_enemies(Enemies["enemy1"])
                     self.grid.rebuild()
 
           def draw_enemies(self):
                     for enemy in self.grid.window_query():
                               enemy.blit()
 
-          def add_enemies(self):
+          def add_enemies(self, enemy):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < enemy_attributes["max_enemies"] and not PEACEFUL_MODE):
+                            len(self.grid.items) < 50 and not PEACEFUL_MODE):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
-                                        self.game.window.rect, enemy_attributes["res"][0], enemy_attributes["res"][1]
+                                        self.game.window.rect, enemy["res"][0], enemy["res"][1]
                               )
-
                               if self.enemy_pool:
-                                        enemy = self.enemy_pool.pop()
-                                        self.reset_enemy(enemy, coordinates)
+                                        entity = self.enemy_pool.pop()
+                                        self.reset_enemy(entity, coordinates, enemy)
                               else:
-                                        enemy = self.create_new_enemy(coordinates)
-
-                              self.grid.insert(enemy)
+                                        entity = self.create_enemy(coordinates, enemy)
+                              self.grid.insert(entity)
 
           def remove_dead_enemies(self):
                     for enemy in self.grid.items.copy():
-                              if enemy.pierce <= 0:
+                              if enemy.health <= 0:
                                         enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
                                         self.game.window.add_screen_shake(
-                                                  duration=screen_shake["bullet_impact_shake_duration"],
-                                                  magnitude=screen_shake['bullet_impact_shake_magnitude']
+                                                  duration=Screen_Shake["bullet_impact_shake_duration"],
+                                                  magnitude=Screen_Shake['bullet_impact_shake_magnitude']
                                         )
                                         self.enemy_pool.add(enemy)
 
@@ -79,19 +77,29 @@ class EnemyManager:
 
                     return steering * self.separation_strength
 
-          def reset_enemy(self, enemy, coordinates):
-                    enemy.pos = v2(coordinates)
-                    enemy.rect.center = coordinates
-                    enemy.vel_vector = v2(0, 0)
-                    enemy.acceleration = v2(0, 0)
-                    enemy.pierce = enemy_attributes["health"] * self.enemy_multiplier
-                    enemy.dead = False
+          @staticmethod
+          def reset_enemy(entity, coordinates, enemy):
+                    entity.pos = v2(coordinates)
+                    entity.rect.center = coordinates
+                    entity.vel_vector = v2(0, 0)
+                    entity.acceleration = v2(0, 0)
+                    entity.health = enemy['health']
+                    entity.res = enemy['res']
+                    entity.max_vel = enemy['vel']
+                    entity.name = enemy['name']
+                    entity.damage = enemy['damage']
+                    entity.dead = False
+                    entity.facing = "right"
+                    entity.frame = 0
+                    entity.animation = enemy['animation_speed']
+                    entity.stopping_distance = enemy['stopping_distance']
+                    entity.steering_strength = enemy['steering_strength']
+                    entity.friction = enemy['friction']
+                    if 'image' in enemy:
+                              entity.images = enemy['image']
 
-          def create_new_enemy(self, coordinates):
-                    return Enemy(self.game, coordinates, enemy_attributes["res"], enemy_attributes["vel"],
-                                 enemy_attributes["name"],
-                                 enemy_attributes["health"] * self.enemy_multiplier,
-                                 enemy_attributes["damage"] * self.enemy_multiplier, Enemy_idle)
+          def create_enemy(self, coordinates, enemy):
+                    return Enemy(self.game, coordinates, **enemy)
 
 
 class BulletManager:
@@ -145,14 +153,14 @@ class BulletManager:
 
           def create_bullet_sparks(self, bullet):
                     spark_angle = math.radians(random.randint(
-                              int(270 - bullet.angle) - sparks['bullet']['spread'],
-                              int(270 - bullet.angle) + sparks['bullet']['spread']
+                              int(270 - bullet.angle) - Sparks_Settings['bullet']['spread'],
+                              int(270 - bullet.angle) + Sparks_Settings['bullet']['spread']
                     ))
-                    for _ in range(sparks['bullet']['amount']):
+                    for _ in range(Sparks_Settings['bullet']['amount']):
                               self.game.particle_manager.sparks.add(
                                         Spark(self.game, bullet.pos, spark_angle,
-                                              random.randint(3, 6), sparks['bullet']['colour'],
-                                              sparks['bullet']['size'])
+                                              random.randint(3, 6), Sparks_Settings['bullet']['colour'],
+                                              Sparks_Settings['bullet']['size'])
                               )
 
 
@@ -202,15 +210,15 @@ class ButtonManager:
 
           def _create_buttons(self):
                     button_configs = {
-                              'resume': buttons['resume'],
-                              'fullscreen': buttons['fullscreen'],
-                              'quit': buttons['quit'],
-                              'return': buttons['Return'],
+                              'resume': Buttons['resume'],
+                              'fullscreen': Buttons['fullscreen'],
+                              'quit': Buttons['quit'],
+                              'return': Buttons['Return'],
                     }
                     for name, config in button_configs.items():
                               self.buttons[name] = Button(
                                         self.game,
-                                        Buttons[0],
+                                        Button_Images["Button1"],
                                         config['pos'],
                                         config['axis'],
                                         config['axisl'],
@@ -220,22 +228,22 @@ class ButtonManager:
           def _create_sliders(self):
                     slider_configs = {
                               'fps': {
-                                        **sliders['fps'],
+                                        **Sliders['fps'],
                                         'max_value': 240,
                                         'min_value': 60,
                                         'initial_value': pygame.display.get_current_refresh_rate()
                               },
                               'brightness': {
-                                        **sliders['brightness'],
+                                        **Sliders['brightness'],
                                         'max_value': 100,
                                         'min_value': 0,
-                                        'initial_value': window_attributes['brightness'],
+                                        'initial_value': Window_Attributes['brightness'],
                               }
                     }
                     for name, config in slider_configs.items():
                               self.sliders[name] = Slider(
                                         self.game,
-                                        Buttons[1],
+                                        Button_Images["Button2"],
                                         config['pos'],
                                         config['axis'],
                                         config['axisl'],
@@ -259,7 +267,7 @@ class ButtonManager:
                               elif self.sliders['fps'].update_value:
                                         self.game.fps = self.sliders['fps'].value
                               elif self.sliders['brightness'].update_value:
-                                        self.game.ui.brightness = self.sliders['brightness'].value
+                                        self.game.UI_Settings.brightness = self.sliders['brightness'].value
                               elif self.buttons['fullscreen'].check_for_input():
                                         self.game.event_manager.update_size(True)
                               elif self.buttons['quit'].check_for_input():

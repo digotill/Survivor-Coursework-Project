@@ -8,17 +8,17 @@ class Window(RectEntity):
                     self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)
-                    self.lerp_speed = window_attributes['lerp_speed']
-                    self.mouse_smoothing = window_attributes['mouse_smoothing']
-                    self.deadzone = window_attributes['deadzone']
-                    self.window_mouse_smoothing_amount = window_attributes['mouse_smoothing_amount']
-                    self.window_max_offset = window_attributes['max_offset']
+                    self.lerp_speed = Window_Attributes['lerp_speed']
+                    self.mouse_smoothing = Window_Attributes['mouse_smoothing']
+                    self.deadzone = Window_Attributes['deadzone']
+                    self.window_mouse_smoothing_amount = Window_Attributes['mouse_smoothing_amount']
+                    self.window_max_offset = Window_Attributes['max_offset']
                     self.shake_duration = 0
                     self.shake_start_time = 0
                     self.shake_magnitude = 0
-                    self.shake_speed = window_attributes['shake_speed']
-                    self.shake_seed = window_attributes['shake_seed']
-                    self.shake_direction = window_attributes['shake_directions']
+                    self.shake_speed = Window_Attributes['shake_speed']
+                    self.shake_seed = Window_Attributes['shake_seed']
+                    self.shake_direction = Window_Attributes['shake_directions']
                     self.shake_noise_magnitude = 0
                     self.reduced_screen_shake = 1
 
@@ -74,21 +74,21 @@ class Window(RectEntity):
                     player_top = self.game.player.pos.y - self.offset_rect.y
                     player_bottom = player_top + self.game.player.res[1]
 
-                    if player_left < player_attributes['offset_x1']:
-                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - player_attributes[
+                    if player_left < Player_Attributes['offset_x1']:
+                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - Player_Attributes[
                                         'offset_x1'] + \
                                                    self.game.player.res[0]
-                    elif player_right > self.res[0] + player_attributes['offset_x2']:
+                    elif player_right > self.res[0] + Player_Attributes['offset_x2']:
                               self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[
-                                        0] - player_attributes['offset_x2']
+                                        0] - Player_Attributes['offset_x2']
 
-                    if player_top < player_attributes['offset_y1']:
-                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - player_attributes[
+                    if player_top < Player_Attributes['offset_y1']:
+                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - Player_Attributes[
                                         'offset_y1'] + \
                                                    self.game.player.res[1]
-                    elif player_bottom > self.res[1] + player_attributes['offset_y2']:
+                    elif player_bottom > self.res[1] + Player_Attributes['offset_y2']:
                               self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[
-                                        1] - player_attributes['offset_y2'] - 1
+                                        1] - Player_Attributes['offset_y2'] - 1
 
                     self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
@@ -117,7 +117,7 @@ class Window(RectEntity):
           @staticmethod
           def get_2d_noise(x, y):
                     scaled_x, scaled_y = x * 0.1, y * 0.1
-                    return perlin_noise["perlin"]([scaled_x, scaled_y])
+                    return Perlin_Noise["perlin"]([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):
                     self.shake_duration = duration

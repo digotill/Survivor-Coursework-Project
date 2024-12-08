@@ -5,7 +5,7 @@ from pygame.math import Vector2 as v2
 pygame.init()
 
 START_FULLSCREEN = False
-PEACEFUL_MODE = True
+PEACEFUL_MODE = False
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 MAX_WIN_RES = 2560, 1440
@@ -13,7 +13,12 @@ WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 PLAYABLE_AREA_SIZE = 3840, 2160
 REN_RES = 640, 360
 
-player_attributes = {
+display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
+pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
+pygame.display.set_icon(load_image("Assets/Misc/Cover/cover.png"))
+pygame.display.set_caption("Vampire Survivor")
+
+Player_Attributes = {
           'name': 'Player',
           'health': 100,
           'res': (64, 64),
@@ -26,32 +31,22 @@ player_attributes = {
           'offset_y1': 0,
           'offset_y2': 0,
           'animation_speed': 5,
+          "player_running": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64))
 }
 
-enemy_attributes = {
-          'name': "Enemy",
-          'health': 100,
-          'res': (32, 36),
-          'vel': 320,
-          'damage': 20,
-          'spawn_rate': 1,
-          'bullet_res': (10, 10),
-          'bullet_damage': 10,
-          'bullet_lifetime': 1000,
-          'bullet_speed': 700,
-          'stopping_distance': 25,
-          'steering_strength': 0.8,
-          'friction': 0.2,
-          'max_enemies': 50,
-          'animation_speed': 5,
+Enemies = {
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=(32, 36), vel=320, damage=20,
+                                          stopping_distance=25, steering_strength=0.8, friction=0.2,
+                                          image=cached_import_gif("Assets/Entities/Enemy1", (32, 36))
+                                          )
 }
 
-screen_shake = {
+Screen_Shake = {
           'bullet_impact_shake_duration': 0.5,
           'bullet_impact_shake_magnitude': 4,
 }
 
-general_settings = {
+General_Settings = {
           'difficulty': "MEDIUM",
           'volume': 0.5,
           'animation_speed': 5,
@@ -68,7 +63,7 @@ general_settings = {
           'fps_size': 15,
 }
 
-window_attributes = {
+Window_Attributes = {
           'lerp_speed': 5,
           'mouse_smoothing': v2(10, 10),
           'deadzone': 3,
@@ -86,21 +81,21 @@ window_attributes = {
           'darkness': (12, 12, 12)
 }
 
-cooldowns = {
+Cooldowns = {
           'fps': 0.5,
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
 }
 
-keys = {
+Keys = {
           'fullscreen': pygame.K_F11,
           'fps': pygame.K_F12,
           'escape': pygame.K_F10,
           'ungrab': pygame.K_ESCAPE,
 }
 
-ui = {
+UI_Settings = {
           "health_bar": (135, 95),
           "stamina_bar": (170, 95),
           "bar_res": (94, 8),
@@ -109,28 +104,19 @@ ui = {
           "time": (150, 70),
 }
 
-sparks = {
-          "bullet": create_spark_settings(
-                    spread=10,
-                    size=0.6,
-                    colour=(255, 0, 0),
-                    amount=3
-          ),
-          "gun": create_spark_settings(
-                    spread=5,
-                    size=0.3,
-                    colour=(255, 255, 255),
-                    amount=3
-          )
+Sparks_Settings = {
+          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3
+                                          ),
+          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3
+                                       )
 }
 
-perlin_noise = {
+Perlin_Noise = {
           "perlin_octaves": 3,
-          "perlin_seed": random.randint(0, 100000)
+          "perlin": PerlinNoise(3, random.randint(0, 100000))
 }
-perlin_noise["perlin"] = PerlinNoise(octaves=perlin_noise["perlin_octaves"], seed=perlin_noise["perlin_seed"])
 
-buttons = {
+Buttons = {
           "play": create_button_settings("PLAY", (200, 240)),
           "quit": create_button_settings("QUIT", (280, 240)),
           "easy": create_button_settings("EASY", (200, 190)),
@@ -145,7 +131,7 @@ buttons = {
           "Return": create_button_settings("Return", (240, 90)),
 }
 
-sliders = {
+Sliders = {
           "brightness": {
                     "pos": (360, 235),
                     "text": "Brightness: ",
@@ -162,11 +148,65 @@ sliders = {
           }
 }
 
-weapons = {
-          "AK47": create_weapon_settings((32, 13), 750, 3, 2, 0.1, 30, 3,
-                                         0.2, 2, -2, 0, 0.1, 5, 2, 2, 2, 1),
-          "Shotgun": create_weapon_settings((30, 13), 900, 15, 0.5, 0.8, 8, 0.5,
-                                            0.2, 5, -2, 0, 0.1, 5, 2, 1, 2, 1),
-          "Minigun": create_weapon_settings((34, 16), 600, 10, 10, 0.01, 100, 2,
-                                            0.2, 1, -10, 0, 0.1, 5, 2, 1, 2, 1)
+Bullet_Images = {
+          "bullet1": load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
+}
+
+Weapons = {
+          "AK47": create_weapon_settings(
+                    res=(32, 13), vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
+                    lifetime=3, lifetime_randomness=0.2, damage=2, distance_parrallel=-2,
+                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    pierce=2, shake_mag=2, shake_duration=1, shots=1,
+                    gun_image=load_image("Assets/Objects/Weapons/rifle.png", (32, 13)),
+                    bullet_image=Bullet_Images["bullet1"]
+          ),
+          "Shotgun": create_weapon_settings(
+                    res=(30, 13), vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
+                    lifetime=0.5, lifetime_randomness=0.2, damage=5, distance_parrallel=-2,
+                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    pierce=1, shake_mag=2, shake_duration=1, shots=4,
+                    gun_image=load_image("Assets/Objects/Weapons/Shotgun.png", (30, 13)),
+                    bullet_image=Bullet_Images["bullet1"]
+          ),
+          "Minigun": create_weapon_settings(
+                    res=(34, 16), vel=600, spread=10, reload_time=10, fire_rate=0.01, clip_size=100,
+                    lifetime=2, lifetime_randomness=0.2, damage=1, distance_parrallel=-10,
+                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    pierce=1, shake_mag=2, shake_duration=1, shots=1,
+                    gun_image=load_image("Assets/Objects/Weapons/Mini gun.png", (34, 16)),
+                    bullet_image=Bullet_Images["bullet1"]
+          )
+}
+
+Loading_Screens = {
+          "Green_Waterfall": cached_import_gif("Assets/LoadingScreens/1", WIN_RES),
+          "Orange_Pond": cached_import_gif("Assets/LoadingScreens/2", WIN_RES)
+}
+
+Tile_Images = {
+          "Grass_Tile": load_image("Assets/Misc/Grass/grass.png",
+                                   (Window_Attributes['tilemap_size'], Window_Attributes['tilemap_size']))
+}
+
+Cursor_Images = {
+          "Cursor_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0002.png", General_Settings['mouse_res']),
+          "Cursor_Not_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0001.png", General_Settings['mouse_res'])
+}
+
+Bar_Images = {
+          "Health_bar": load_image("Assets/Misc/Bars/health.png"),
+          "Stamina_bar": load_image("Assets/Misc/Bars/Sprite-0005.png"),
+          "Outside_Health_bar": load_image("Assets/Misc/Bars/health_bar.png", UI_Settings["outside_bar_res"])
+}
+
+Effect_Images = {
+          "Slash_Effect": cached_import_gif("Assets/VFX/Slash")
+}
+
+Button_Images = {
+          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
+          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
+          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
+          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
 }

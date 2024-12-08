@@ -1,4 +1,5 @@
 import functools
+import math
 import os
 import random
 import numpy as np
@@ -79,7 +80,7 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance_parrallel, distance_perpendicular, friction, animation_speed, spread_time,
-                           pierce, shake_mag, shake_duration):
+                           pierce, shake_mag, shake_duration, shots, gun_image, bullet_image):
           return {
                     "res": res,
                     "vel": vel,
@@ -98,6 +99,9 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
                     "pierce": pierce,
                     "shake_mag": shake_mag,
                     "shake_duration": shake_duration,
+                    "shots": shots,
+                    "gun_image": gun_image,
+                    "bullet_image": bullet_image
           }
 
 
@@ -120,4 +124,20 @@ def create_spark_settings(spread, size, colour, amount):
                     "size": size,
                     "colour": colour,
                     "amount": amount
+          }
+
+
+def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
+                          steering_strength, friction, image, animation_speed=5):
+          return {
+                    'name': name,
+                    'health': health,
+                    'res': res,
+                    'vel': vel,
+                    'damage': damage,
+                    'stopping_distance': stopping_distance,
+                    'steering_strength': steering_strength,
+                    'friction': friction,
+                    'animation_speed': animation_speed,
+                    "image": image
           }

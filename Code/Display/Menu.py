@@ -16,67 +16,47 @@ class MainMenu:
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = Green_Waterfall if random.random() < 0.5 else Orange_Pond
+                    self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else Loading_Screens["Orange_Pond"]
                     self.current_frame = 0
                     self.in_menu = True
-                    self.difficulty = general_settings['difficulty']
                     self.return_value = None
-                    self.animation_speed = general_settings["main_menu_animation_speed"]
+                    self.difficulty = General_Settings['difficulty']
+                    self.animation_speed = General_Settings["main_menu_animation_speed"]
                     self.create_weapons()
 
           def create_weapons(self):
                     self.weapons = {}
-                    weapon_types = ["AK47", "Shotgun", "Minigun"]
-                    weapon_images = {"AK47": AK47, "Shotgun": Shotgun, "Minigun": Minigun}
 
-                    for weapon_type in weapon_types:
-                              weapon_settings = weapons[weapon_type]
+                    for weapon_type in ["AK47", "Shotgun", "Minigun"]:
+                              weapon_settings = Weapons[weapon_type]
                               self.weapons[weapon_type] = Gun(
                                         self.game,
-                                        weapon_images[weapon_type],
-                                        weapon_settings["res"],
-                                        Bullets,
-                                        weapon_settings["vel"],
-                                        weapon_settings["lifetime"],
-                                        weapon_settings["lifetime_randomness"],
-                                        weapon_settings["fire_rate"],
-                                        weapon_settings["friction"],
-                                        weapon_settings["damage"],
-                                        weapon_settings["spread"],
-                                        weapon_settings["distance_perpendicular"],
-                                        weapon_settings["distance_parrallel"],
-                                        weapon_settings["animation_speed"],
-                                        weapon_settings["shake_mag"],
-                                        weapon_settings["shake_duration"],
-                                        weapon_settings["spread_time"],
-                                        weapon_settings["clip_size"],
-                                        weapon_settings["reload_time"],
-                                        weapon_settings["pierce"],
+                                        **weapon_settings
                               )
 
                     self.gun = self.weapons["AK47"]
 
           def _create_buttons(self):
                     button_configs = {
-                              'play': buttons['play'],
-                              'quit': buttons['quit'],
-                              'easy': buttons['easy'],
-                              'medium': buttons['medium'],
-                              'hard': buttons['hard'],
-                              'AK47': buttons['AK47'],
-                              "Shotgun": buttons['Shotgun'],
-                              "Minigun": buttons['Minigun']
+                              'play': Buttons['play'],
+                              'quit': Buttons['quit'],
+                              'easy': Buttons['easy'],
+                              'medium': Buttons['medium'],
+                              'hard': Buttons['hard'],
+                              'AK47': Buttons['AK47'],
+                              "Shotgun": Buttons['Shotgun'],
+                              "Minigun": Buttons['Minigun']
                     }
-                    button_configs["AK47"]["image"] = perfect_outline(AK47)
-                    button_configs["Shotgun"]["image"] = perfect_outline(Shotgun)
-                    button_configs["Minigun"]["image"] = perfect_outline(Minigun)
+                    button_configs["AK47"]["image"] = perfect_outline(Weapons["AK47"]["gun_image"])
+                    button_configs["Shotgun"]["image"] = perfect_outline(Weapons["Shotgun"]["gun_image"])
+                    button_configs["Minigun"]["image"] = perfect_outline(Weapons["Minigun"]["gun_image"])
 
                     for name, config in button_configs.items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
                                                                 'Minigun'] else Button
                               self.buttons[name] = button_class(
                                         self.game,
-                                        config.get('image', Buttons[0]),
+                                        config.get('image', Button_Images["Button1"]),
                                         config['pos'],
                                         config['axis'],
                                         config['axisl'],
@@ -131,9 +111,9 @@ class MainMenu:
                               {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
-                    self.game.player = Player(self.game, player_attributes['health'] * general_settings[
-                              self.difficulty + "_difficulty"], player_attributes['res'], player_attributes['vel'],
-                                              player_attributes['damage'] * general_settings[
+                    self.game.player = Player(self.game, Player_Attributes['health'] * General_Settings[
+                              self.difficulty + "_difficulty"], Player_Attributes['res'], Player_Attributes['vel'],
+                                              Player_Attributes['damage'] * General_Settings[
                                                         self.difficulty + "_difficulty"], self.gun,
                                               self.game.window.rect.center)
 
