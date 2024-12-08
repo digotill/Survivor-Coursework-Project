@@ -41,7 +41,6 @@ class Game:
                     self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
                     self.big_window = PLAYABLE_AREA_SIZE
 
-                    self.player = None
                     self.mainmenu = MainMenu(self)
                     self.mainmenu.loop()
 

@@ -38,61 +38,51 @@ class AnimalEntity:
                     self.damage = damage
                     self.dead = False
 
+                    try:
+                              self.vel
+                    except AttributeError:
+                              self.max_vel = self.vel
+                              self.current_vel = 0
+                    try:
+                              self.health
+                    except AttributeError:
+                              self.max_health = self.health
+
+
 
 class main:
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
                               setattr(self, key, value)
+
                     self.frame = 0
                     self.facing = "right"
                     self.dead = False
-                    if self.angle is not None:
-                              self.vel_vector = v2(self.vel * math.sin(math.radians(self.angle)),
-                                                   self.vel * math.cos(math.radians(self.angle)))
-
-          def update_frame(self):
-                    self.frame += self.animation * self.game.dt
-
-          def set_rect(self):
-                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0], self.res[1])
-
-
-class Player(main):
-          def __init__(self, game, coordinates, health, res, vel, damage, gun, name=Player_Attributes['name'],
-                       images=Player_Attributes["player_running"],
-                       angle=None, animation_speed=Player_Attributes['animation_speed'],
-                       acceleration=Player_Attributes['acceleration'], stamina=Player_Attributes['stamina']):
-
-                    self.game = game
-
-
-                    self.pos = v2(coordinates)
-                    self.name = name
-                    self.res = res
-                    self.vel = vel
-                    self.angle = angle
-
-                    self.health = health
-                    self.damage = damage
-                    self.dead = False
-                    self.images = images
-                    self.animation_speed = animation_speed
-                    self.frame = 0
-                    self.facing = "right"
-                    self.stamina = stamina
-
-                    self.rect = pygame.Rect(self.pos.x - res[0] / 2, self.pos.y - res[1] / 2, res[0], res[1])
-
-                    self.acceleration = acceleration
-                    self.current_vel = 0
-                    self.max_health = health
-                    self.gun = gun
 
           def update_frame(self):
                     self.frame += self.animation_speed * self.game.dt
 
-                    # Include other methods from the original Player class here
-                    # Such as update(), draw(), update_facing(), update_velocity(), etc.
+          def set_rect(self):
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
+                                            self.res[1])
+
+          def get_position(self):
+                    return self.rect.x - self.game.window.offset_rect.x, self.rect.y - self.game.window.offset_rect.y
+
+          def get_mid_position(self):
+                    return self.rect.centerx - self.game.window.offset_rect.x, self.rect.centery - self.game.window.offset_rect.y
+
+
+class Player(main):
+          def __init__(self, game, position, gun, dictionary):
+                    self.game = game
+                    self.set_attributes(dictionary)
+                    self.pos = v2(position)
+                    self.set_rect()
+                    self.current_vel = 0
+                    self.max_health = self.health
+                    self.max_vel = self.vel
+                    self.gun = gun
 
           def update(self):
                     dx, dy = 0, 0
@@ -115,13 +105,13 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if Player_Attributes['offset_x1'] < new_x < self.game.big_window[0] - self.res[0] + \
-                                      Player_Attributes['offset_x2']:
+                              if self.offset_x1 < new_x < self.game.big_window[0] - self.res[0] + \
+                                      self.offset_x2:
                                         self.pos.x = new_x
                                         self.rect.x = self.pos.x
                                         move_hor = True
-                              if Player_Attributes['offset_y1'] < new_y < self.game.big_window[1] - self.res[
-                                        1] + Player_Attributes['offset_y2'] + 23:
+                              if self.offset_y1 < new_y < self.game.big_window[1] - self.res[
+                                        1] + self.offset_y2 + 23:
                                         self.pos.y = new_y
                                         self.rect.y = self.pos.y
                                         move_vert = True
@@ -134,44 +124,52 @@ class Player(main):
                                                             False)
                     else:
                               image = self.images[int(self.frame) % len(self.images) - 1]
-                    self.game.display_screen.blit(image, (self.rect.x - self.game.window.offset_rect.x,
-                                                          self.rect.y - self.game.window.offset_rect.y))
+                    self.game.display_screen.blit(image, self.get_position())
 
           def update_facing(self):
-                    if self.game.correct_mouse_pos[0] < self.game.player.rect.centerx - self.game.window.offset_rect.x:
+                    if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
                               self.facing = "left"
                     else:
                               self.facing = "right"
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:
-                              if self.current_vel + self.acceleration * self.game.dt < Player_Attributes['vel']:
+                              if self.current_vel + self.acceleration * self.game.dt < self.max_vel:
                                         self.current_vel += self.acceleration * self.game.dt
                               else:
-                                        self.current_vel = Player_Attributes['vel']
+                                        self.current_vel = self.max_vel
                     else:
                               if self.current_vel - self.acceleration * self.game.dt > 0:
                                         self.current_vel -= self.acceleration * self.game.dt
                               else:
                                         self.current_vel = 0
 
-          def update_frame(self):
-                    self.frame += self.animation_speed * self.game.dt
 
-
-class Enemy(RectEntity, AnimatedEntity, AnimalEntity):
+class Enemy(main):
           def __init__(self, game, coordinates, res, vel, name, health, damage, image, angle=None, animation_speed=5,
                        friction=0.9, steering_strength=0.1, stopping_distance=50):
-                    super().__init__(game, coordinates, res, vel, name, angle)
-                    AnimatedEntity.__init__(self, game, image, animation_speed)
-                    AnimalEntity.__init__(self, game, health, damage)
-                    self.max_vel = vel
-                    self.acceleration = v2(0, 0)
-                    self.vel_vector = v2(0, 0)
+                    self.game = game
+
                     self.friction = friction
                     self.facing = "right"
                     self.stopping_distance = stopping_distance
                     self.steering_strength = steering_strength
+                    self.dead = False
+                    self.name = name
+                    self.res = res
+                    self.vel = vel
+                    self.health = health
+                    self.damage = damage
+                    self.images = image
+                    self.animation_speed = animation_speed
+                    self.frame = 0
+                    self.max_vel = vel
+
+                    self.pos = v2(coordinates)
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0], self.res[1])
+
+                    self.acceleration = v2(0, 0)
+                    self.vel_vector = v2(0, 0)
 
           def apply_force(self, force):
                     self.vel_vector += force

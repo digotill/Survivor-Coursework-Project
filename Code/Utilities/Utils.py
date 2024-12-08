@@ -128,7 +128,7 @@ def create_spark_settings(spread, size, colour, amount):
 
 
 def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
-                          steering_strength, friction, image, animation_speed=5):
+                          steering_strength, friction, images, animation_speed=5, angle=None):
           return {
                     'name': name,
                     'health': health,
@@ -139,7 +139,8 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'steering_strength': steering_strength,
                     'friction': friction,
                     'animation_speed': animation_speed,
-                    "image": image
+                    "images": images,
+                    "angle": angle
           }
 
 def lookup_colour(colour):

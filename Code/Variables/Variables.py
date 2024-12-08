@@ -31,13 +31,14 @@ Player_Attributes = {
           'offset_y1': 0,
           'offset_y2': 0,
           'animation_speed': 5,
-          "player_running": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64))
+          "images": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
+          "angle": None
 }
 
 Enemies = {
           "enemy1": create_enemy_settings(name="Enemy", health=100, res=(32, 36), vel=320, damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
-                                          image=cached_import_gif("Assets/Entities/Enemy1", (32, 36))
+                                          images=cached_import_gif("Assets/Entities/Enemy1", (32, 36))
                                           )
 }
 
