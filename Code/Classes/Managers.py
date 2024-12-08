@@ -41,7 +41,7 @@ class EnemyManager:
                                         entity = self.enemy_pool.pop()
                                         self.reset_enemy(entity, coordinates, enemy)
                               else:
-                                        entity = Enemy(self.game, coordinates, **enemy)
+                                        entity = Enemy(self.game, coordinates, enemy)
                               self.grid.insert(entity)
 
           def remove_dead_enemies(self):

@@ -38,16 +38,6 @@ class AnimalEntity:
                     self.damage = damage
                     self.dead = False
 
-                    try:
-                              self.vel
-                    except AttributeError:
-                              self.max_vel = self.vel
-                              self.current_vel = 0
-                    try:
-                              self.health
-                    except AttributeError:
-                              self.max_health = self.health
-
 
 
 class main:
@@ -58,6 +48,12 @@ class main:
                     self.frame = 0
                     self.facing = "right"
                     self.dead = False
+
+                    if hasattr(self, 'vel'):
+                              self.max_vel = self.vel
+                              self.current_vel = 0
+                    if hasattr(self, 'health'):
+                              self.max_health = self.health
 
           def update_frame(self):
                     self.frame += self.animation_speed * self.game.dt
@@ -80,8 +76,6 @@ class Player(main):
                     self.pos = v2(position)
                     self.set_rect()
                     self.current_vel = 0
-                    self.max_health = self.health
-                    self.max_vel = self.vel
                     self.gun = gun
 
           def update(self):
@@ -146,27 +140,13 @@ class Player(main):
 
 
 class Enemy(main):
-          def __init__(self, game, coordinates, res, vel, name, health, damage, images, angle=None, animation_speed=5,
-                       friction=0.9, steering_strength=0.1, stopping_distance=50):
+          def __init__(self, game, coordinates, dictionary):
                     self.game = game
 
-                    self.friction = friction
-                    self.facing = "right"
-                    self.stopping_distance = stopping_distance
-                    self.steering_strength = steering_strength
-                    self.dead = False
-                    self.name = name
-                    self.res = res
-                    self.vel = vel
-                    self.health = health
-                    self.damage = damage
-                    self.images = images
-                    self.animation_speed = animation_speed
-                    self.frame = 0
-                    self.max_vel = vel
+                    self.set_attributes(dictionary)
 
                     self.pos = v2(coordinates)
-                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0], self.res[1])
+                    self.set_rect()
 
                     self.acceleration = v2(0, 0)
                     self.vel_vector = v2(0, 0)
@@ -215,10 +195,7 @@ class Enemy(main):
                     return (self.game.player.rect.center - self.pos).length()
 
           def blit(self):
-                    sprite = self.get_current_sprite()
-                    draw_pos = (self.rect.x - self.game.window.offset_rect.x,
-                                self.rect.y - self.game.window.offset_rect.y)
-                    self.game.display_screen.blit(sprite, draw_pos)
+                    self.game.display_screen.blit(self.get_current_sprite(), self.get_position())
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]
@@ -227,28 +204,25 @@ class Enemy(main):
                     return sprite
 
 
-class Gun:
+class Gun(main):
           def __init__(self, game, gun_image, res, bullet_image, vel, lifetime, lifetime_randomness, fire_rate,
                        friction, damage, spread,
                        distance_perpendicular, distance_parrallel, animation_speed, shake_mag, shake_duration,
                        spread_time, clip_size, reload_time, pierce, shots):
                     self.game = game
+
                     self.res = res
                     self.gunImage = gun_image
                     self.spread = spread
                     self.distance_perpendicular = distance_perpendicular
                     self.distance_parrallel = distance_parrallel
                     self.damage = damage
-                    self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
-                    self.angle = 0
-                    self.initial_vel = vel
                     self.bullet_image = bullet_image
                     self.vel = vel
                     self.lifetime = lifetime
                     self.shots = shots
                     self.lifetime_randomness = lifetime_randomness
                     self.friction = friction
-                    self.last_shot_time = 0
                     self.fire_rate = fire_rate
                     self.continuous_fire_start = None
                     self.animation_speed = animation_speed
@@ -258,6 +232,12 @@ class Gun:
                     self.clip_size = clip_size
                     self.reload_time = reload_time
                     self.pierce = pierce
+
+                    self.pos = v2(0, 0)
+                    self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
+
+                    self.last_shot_time = 0
+                    self.initial_vel = self.vel
 
           def update(self):
                     self.calc_angle()
