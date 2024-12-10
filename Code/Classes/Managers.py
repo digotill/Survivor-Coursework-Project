@@ -34,7 +34,7 @@ class EnemyManager:
                             len(self.grid.items) < General_Settings["max_enemies"] and not PEACEFUL_MODE):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
-                                        pygame.Rect(0, 0, self.game.big_window[0], self.game.big_window[1]),
+                                        pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
                                         self.game.window.rect, enemy_dict["res"][0], enemy_dict["res"][1]
                               )
                               if self.enemy_pool:
@@ -179,49 +179,17 @@ class ButtonManager:
                     self._create_sliders()
 
           def _create_buttons(self):
-                    button_configs = {
-                              'resume': Buttons['resume'],
-                              'fullscreen': Buttons['fullscreen'],
-                              'quit': Buttons['quit'],
-                              'return': Buttons['Return'],
-                    }
-                    for name, config in button_configs.items():
+                    for name, config in All_Buttons["In_Game"].items():
                               self.buttons[name] = Button(
                                         self.game,
-                                        Button_Images["Button1"],
-                                        config['pos'],
-                                        config['axis'],
-                                        config['axisl'],
-                                        text_input=config['name']
+                                        **config
                               )
 
           def _create_sliders(self):
-                    slider_configs = {
-                              'fps': {
-                                        **Sliders['fps'],
-                                        'max_value': 240,
-                                        'min_value': 60,
-                                        'initial_value': pygame.display.get_current_refresh_rate()
-                              },
-                              'brightness': {
-                                        **Sliders['brightness'],
-                                        'max_value': 100,
-                                        'min_value': 0,
-                                        'initial_value': General_Settings['brightness'],
-                              }
-                    }
-                    for name, config in slider_configs.items():
+                    for name, config in All_Buttons["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,
-                                        Button_Images["Button2"],
-                                        config['pos'],
-                                        config['axis'],
-                                        config['axisl'],
-                                        text_input=config['text'],
-                                        text_pos=config['text_pos'],
-                                        max_value=config['max_value'],
-                                        min_value=config['min_value'],
-                                        initial_value=config['initial_value']
+                                        **config
                               )
 
           def update_buttons(self):
@@ -237,7 +205,7 @@ class ButtonManager:
                               elif self.sliders['fps'].update_value:
                                         self.game.fps = self.sliders['fps'].value
                               elif self.sliders['brightness'].update_value:
-                                        self.game.UI_Settings.brightness = self.sliders['brightness'].value
+                                        self.game.ui.brightness = self.sliders['brightness'].value
                               elif self.buttons['fullscreen'].check_for_input():
                                         self.game.event_manager.update_size(True)
                               elif self.buttons['quit'].check_for_input():

@@ -39,7 +39,6 @@ class AnimalEntity:
                     self.dead = False
 
 
-
 class main:
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
@@ -72,6 +71,7 @@ class main:
 class Player(main):
           def __init__(self, game, position, gun, dictionary):
                     self.game = game
+
                     self.set_attributes(dictionary)
                     self.pos = v2(position)
                     self.set_rect()
@@ -99,13 +99,11 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if self.offset_x1 < new_x < self.game.big_window[0] - self.res[0] + \
-                                      self.offset_x2:
+                              if self.offset_x1 + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset_x2:
                                         self.pos.x = new_x
                                         self.rect.centerx = self.pos.x
                                         move_hor = True
-                              if self.offset_y1 < new_y < self.game.big_window[1] - self.res[
-                                        1] + self.offset_y2:
+                              if self.offset_y1 + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset_y2:
                                         self.pos.y = new_y
                                         self.rect.centery = self.pos.y
                                         move_vert = True

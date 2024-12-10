@@ -39,8 +39,7 @@ class Game:
 
                     self.update_game_variables()
 
-                    self.window = Window(self, REN_RES, PLAYABLE_AREA_SIZE)
-                    self.big_window = PLAYABLE_AREA_SIZE
+                    self.window = Window(self)
 
                     self.mainmenu = MainMenu(self)
                     self.mainmenu.loop()

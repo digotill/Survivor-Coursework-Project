@@ -1,5 +1,6 @@
 from Code.Utilities.Utils import *
 from Code.Variables.Variables import *
+from Code.Classes.Entities import *
 
 
 class Button(main):

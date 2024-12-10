@@ -2,13 +2,13 @@ from Code.Classes.Entities import *
 
 
 class Window(main):
-          def __init__(self, game, res, big_res):
+          def __init__(self, game):
                     self.game = game
-                    self.res = res
+                    self.res = REN_RES
 
                     self.set_attributes(Window_Attributes)
 
-                    self.pos = v2(big_res[0] / 2 - self.res[0] / 2, big_res[1] / 2 - self.res[1] / 2)
+                    self.pos = v2(GAME_SIZE[0] / 2 - self.res[0] / 2, GAME_SIZE[1] / 2 - self.res[1] / 2)
                     self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.offset_rect = self.rect.copy()
 
@@ -41,46 +41,42 @@ class Window(main):
 
                     rounded_offset = v2(round(self.current_offset.x), round(self.current_offset.y))
 
-                    if (move_horizontally and 0 < new_x < self.game.big_window[0] - self.res[0] and
-                            0 + self.res[0] / 2 < self.game.player.pos.x < self.game.big_window[0] - self.res[0] / 2):
+                    if (move_horizontally and 0 < new_x < GAME_SIZE[0] - self.res[0] and
+                            self.res[0] / 2 < self.game.player.pos.x < GAME_SIZE[0] - self.res[0] / 2):
                               self.pos.x = new_x
-                    if (move_vertically and 0 < new_y < self.game.big_window[1] - self.res[1] and
-                            0 + self.res[1] / 2 < self.game.player.pos.y < self.game.big_window[1] - self.res[1] / 2):
+                    if (move_vertically and 0 < new_y < GAME_SIZE[1] - self.res[1] and
+                            self.res[1] / 2 < self.game.player.pos.y < GAME_SIZE[1] - self.res[1] / 2):
                               self.pos.y = new_y
 
-                    if 0 < self.pos.x + rounded_offset.x < self.game.big_window[0] - self.res[0]:
+                    if 0 < self.pos.x + rounded_offset.x < GAME_SIZE[0] - self.res[0]:
                               self.offset_rect.x = self.pos.x + rounded_offset.x
-                    if 0 < self.pos.y + rounded_offset.y < self.game.big_window[1] - self.res[1]:
+                    if 0 < self.pos.y + rounded_offset.y < GAME_SIZE[1] - self.res[1]:
                               self.offset_rect.y = self.pos.y + rounded_offset.y
 
                     shake_offset = self.calculate_shake()
 
                     self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
-                                                    self.game.big_window[0] - self.res[0]))
+                                                    GAME_SIZE[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
-                                                    self.game.big_window[1] - self.res[1]))
+                                                    GAME_SIZE[1] - self.res[1]))
 
-                    player_left = self.game.player.pos.x - self.offset_rect.x
+                    player_left = self.game.player.pos.x - self.offset_rect.x - self.game.player.res[0] / 2
                     player_right = player_left + self.game.player.res[0]
-                    player_top = self.game.player.pos.y - self.offset_rect.y
+                    player_top = self.game.player.pos.y - self.offset_rect.y - self.game.player.res[1] / 2
                     player_bottom = player_top + self.game.player.res[1]
 
                     if player_left < self.game.player.offset_x1:
-                              self.offset_rect.x = self.game.player.pos.x - self.game.player.res[0] - self.game.player.offset_x1 + \
-                                                   self.game.player.res[0]
-                    elif player_right > self.res[0] + self.game.player.offset_x2:
-                              self.offset_rect.x = self.game.player.pos.x + self.game.player.res[0] - self.res[
-                                        0] - self.game.player.offset_x2
+                              self.offset_rect.x += player_left - self.game.player.offset_x1
+                    elif player_right > self.res[0] - self.game.player.offset_x2:
+                              self.offset_rect.x += player_right - (self.res[0] - self.game.player.offset_x2)
 
                     if player_top < self.game.player.offset_y1:
-                              self.offset_rect.y = self.game.player.pos.y - self.game.player.res[1] - self.game.player.offset_y1 + \
-                                                   self.game.player.res[1]
-                    elif player_bottom > self.res[1] + self.game.player.offset_y2:
-                              self.offset_rect.y = self.game.player.pos.y + self.game.player.res[1] - self.res[
-                                        1] - self.game.player.offset_y2 - 1
+                              self.offset_rect.y += player_top - self.game.player.offset_y1
+                    elif player_bottom > self.res[1] - self.game.player.offset_y2:
+                              self.offset_rect.y += player_bottom - (self.res[1] - self.game.player.offset_y2)
 
-                    self.offset_rect.x = max(0, min(self.offset_rect.x, self.game.big_window[0] - self.res[0]))
-                    self.offset_rect.y = max(0, min(self.offset_rect.y, self.game.big_window[1] - self.res[1]))
+                    self.offset_rect.x = max(0, min(self.offset_rect.x, GAME_SIZE[0] - self.res[0]))
+                    self.offset_rect.y = max(0, min(self.offset_rect.y, GAME_SIZE[1] - self.res[1]))
 
           def calculate_shake(self):
                     current_time = pygame.time.get_ticks()

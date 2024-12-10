@@ -105,17 +105,16 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
           }
 
 
-def create_button_settings(name, pos, res=(46, 15), axis="y", axisl="max", text_pos="center", image=None):
-          dictionary = {
-                    "name": name,
+def create_button_settings(name, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center"):
+          return {
+                    "text_input": name,
                     "pos": pos,
                     "res": res,
                     "axis": axis,
                     "axisl": axisl,
-                    "text_pos": text_pos
+                    "text_pos": text_pos,
+                    "image": image
           }
-          if image is not None: dict["image"] = image
-          return dictionary
 
 
 def create_spark_settings(spread, size, colour, amount):
@@ -146,3 +145,16 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
 def lookup_colour(colour):
           color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
           for colour in color_list: print(colour)
+
+def create_slider_settings(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right"):
+          return {
+                    "text_input": text_input,
+                    "pos": pos,
+                    "image": image,
+                    "min_value": min_value,
+                    "max_value": max_value,
+                    "initial_value": initial_value,
+                    "axis": axis,
+                    "axisl": axisl,
+                    "text_pos": text_pos
+          }

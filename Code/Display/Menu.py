@@ -34,31 +34,12 @@ class MainMenu:
                     self.gun = self.weapons["AK47"]
 
           def _create_buttons(self):
-                    button_configs = {
-                              'play': Buttons['play'],
-                              'quit': Buttons['quit'],
-                              'easy': Buttons['easy'],
-                              'medium': Buttons['medium'],
-                              'hard': Buttons['hard'],
-                              'AK47': Buttons['AK47'],
-                              "Shotgun": Buttons['Shotgun'],
-                              "Minigun": Buttons['Minigun']
-                    }
-                    button_configs["AK47"]["image"] = perfect_outline(Weapons["AK47"]["gun_image"])
-                    button_configs["Shotgun"]["image"] = perfect_outline(Weapons["Shotgun"]["gun_image"])
-                    button_configs["Minigun"]["image"] = perfect_outline(Weapons["Minigun"]["gun_image"])
-
-                    for name, config in button_configs.items():
+                    for name, config in (All_Buttons["Weapons"] | All_Buttons["Menu_Buttons"]).items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
                                                                 'Minigun'] else Button
                               self.buttons[name] = button_class(
                                         self.game,
-                                        config.get('image', Button_Images["Button1"]),
-                                        config['pos'],
-                                        config['axis'],
-                                        config['axisl'],
-                                        text_input=config['name'],
-                                        text_pos=config['text_pos']
+                                        **config
                               )
 
                     self.buttons['medium'].on = True

@@ -20,8 +20,8 @@ class TileMap:
                     self.game = game
                     self.grid = SpatialHash(game)
                     self.tile_size = General_Settings['tilemap_size']
-                    for x in range(PLAYABLE_AREA_SIZE[0] // self.tile_size):
-                              for y in range(PLAYABLE_AREA_SIZE[1] // self.tile_size):
+                    for x in range(GAME_SIZE[0] // self.tile_size):
+                              for y in range(GAME_SIZE[1] // self.tile_size):
                                         self.add_tile(Tile_Images["Grass_Tile"], (x * self.tile_size, y * self.tile_size))
                     self.grid.rebuild()
 

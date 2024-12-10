@@ -9,13 +9,13 @@ PEACEFUL_MODE = False
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
-PLAYABLE_AREA_SIZE = 3840, 2160
+GAME_SIZE = 3840, 2160
 REN_RES = 640, 360
 
 display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/Misc/Cover/cover.png"))
-pygame.display.set_caption("Vampire Survivor")
+pygame.display.set_caption("Survivor Game")
 
 Player_Attributes = {
           'name': 'Player',
@@ -113,47 +113,19 @@ UI_Settings = {
 }
 
 Sparks_Settings = {
-          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3
-                                          ),
-          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3
-                                       )
+          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3),
+          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3)
 }
 
 Perlin_Noise = {
-          "perlin_octaves": 3,
           "perlin": PerlinNoise(3, random.randint(0, 100000))
 }
 
-Buttons = {
-          "play": create_button_settings("PLAY", (200, 240)),
-          "quit": create_button_settings("QUIT", (280, 240)),
-          "easy": create_button_settings("EASY", (200, 190)),
-          "medium": create_button_settings("MEDIUM", (200, 150)),
-          "hard": create_button_settings("HARD", (280, 190)),
-          "fullscreen": create_button_settings("Fullscreen", (240, 170)),
-          "new_quit": create_button_settings("Quit", (240, 215)),
-          "resume": create_button_settings("Resume", (240, 135)),
-          "AK47": create_button_settings("AK47", (140, 240), text_pos="left"),
-          "Shotgun": create_button_settings("Shotgun", (140, 215), text_pos="left"),
-          "Minigun": create_button_settings("Minigun", (140, 180), text_pos="left"),
-          "Return": create_button_settings("Return", (240, 90)),
-}
-
-Sliders = {
-          "brightness": {
-                    "pos": (360, 235),
-                    "text": "Brightness: ",
-                    "axis": "y",
-                    "axisl": "max",
-                    "text_pos": "right"
-          },
-          "fps": {
-                    "pos": (360, 180),
-                    "text": "Max FPS: ",
-                    "axis": "y",
-                    "axisl": "max",
-                    "text_pos": "right"
-          }
+Button_Images = {
+          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
+          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
+          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
+          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
 }
 
 Bullet_Images = {
@@ -187,6 +159,38 @@ Weapons = {
           )
 }
 
+All_Buttons = {
+          "In_Game": {
+                    "resume": create_button_settings("Resume", (240, 135), Button_Images["Button1"]),
+                    "fullscreen": create_button_settings("Fullscreen", (240, 170), Button_Images["Button1"]),
+                    "quit": create_button_settings("QUIT", (240, 240), Button_Images["Button1"]),
+                    "return": create_button_settings("Return", (240, 90), Button_Images["Button1"])
+          },
+          "Weapons": {
+                    "AK47": create_button_settings("AK47", (140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
+                                                   text_pos="left"),
+                    "Shotgun": create_button_settings("Shotgun", (140, 215),
+                                                      perfect_outline(Weapons["Shotgun"]["gun_image"]),
+                                                      text_pos="left"),
+                    "Minigun": create_button_settings("Minigun", (140, 180),
+                                                      perfect_outline(Weapons["Minigun"]["gun_image"]),
+                                                      text_pos="left"),
+          },
+          "Sliders": {
+                    "brightness": create_slider_settings((360, 235), Button_Images["Button2"], "Brightness", 0, 100,
+                                                         General_Settings['brightness']),
+                    "fps": create_slider_settings((360, 180), Button_Images["Button2"], "Max FPS", 60, 240,
+                                                  pygame.display.get_current_refresh_rate())
+          },
+          "Menu_Buttons": {
+                    "play": create_button_settings("PLAY", (200, 240), Button_Images["Button1"]),
+                    "quit": create_button_settings("QUIT", (280, 240), Button_Images["Button1"]),
+                    "easy": create_button_settings("EASY", (200, 190), Button_Images["Button1"]),
+                    "medium": create_button_settings("MEDIUM", (200, 150), Button_Images["Button1"]),
+                    "hard": create_button_settings("HARD", (280, 190), Button_Images["Button1"]),
+          }
+}
+
 Loading_Screens = {
           "Green_Waterfall": cached_import_gif("Assets/LoadingScreens/1", WIN_RES),
           "Orange_Pond": cached_import_gif("Assets/LoadingScreens/2", WIN_RES)
@@ -212,13 +216,4 @@ Effect_Images = {
           "Slash_Effect": cached_import_gif("Assets/VFX/Slash")
 }
 
-Button_Images = {
-          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
-          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
-          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
-          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
-}
-
-#lookup_colour("red")
-
-
+# lookup_colour("red")
