@@ -105,15 +105,36 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
           }
 
 
-def create_button_settings(name, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center"):
+def create_button_settings(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900, base_colour=(255, 255, 255),
+                       hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20):
           return {
-                    "text_input": name,
+                    "text_input": text_input,
                     "pos": pos,
                     "res": res,
                     "axis": axis,
                     "axisl": axisl,
                     "text_pos": text_pos,
-                    "image": image
+                    "image": image,
+                    "speed": speed,
+                    "base_colour": base_colour,
+                    "hovering_colour": hovering_colour,
+                    "hover_slide": hover_slide,
+                    "hover_offset": hover_offset,
+                    "hover_speed": hover_speed
+          }
+
+
+def create_slider_settings(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right"):
+          return {
+                    "text_input": text_input,
+                    "pos": pos,
+                    "image": image,
+                    "min_value": min_value,
+                    "max_value": max_value,
+                    "initial_value": initial_value,
+                    "axis": axis,
+                    "axisl": axisl,
+                    "text_pos": text_pos
           }
 
 
@@ -146,15 +167,4 @@ def lookup_colour(colour):
           color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
           for colour in color_list: print(colour)
 
-def create_slider_settings(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right"):
-          return {
-                    "text_input": text_input,
-                    "pos": pos,
-                    "image": image,
-                    "min_value": min_value,
-                    "max_value": max_value,
-                    "initial_value": initial_value,
-                    "axis": axis,
-                    "axisl": axisl,
-                    "text_pos": text_pos
-          }
+

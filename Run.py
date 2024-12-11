@@ -2,6 +2,7 @@ import sys
 import logging
 from pstats import Stats
 from Code.Classes.Game_Class import *
+from Code.Variables.Variables import PROFILE
 import cProfile, os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -12,8 +13,6 @@ if sys.version_info < (3, 7):
           sys.exit(1)
 
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
-
-PROFILE = False
 
 
 def main():

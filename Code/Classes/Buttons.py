@@ -10,6 +10,7 @@ class Button(main):
                        hovering_colour=(255, 0, 0),
                        text_pos="center", hover_slide=True, hover_offset=10, hover_speed=20):
                     self.game = game
+
                     self.image = pygame.transform.scale(image, res)
                     self.rect = self.image.get_rect(center=pos)
                     self.original_pos = v2(pos)
@@ -203,11 +204,11 @@ class Slider(Button):
 class Switch(Button):
           def __init__(self, game, image, pos, axis, axisl, res=General_Settings['buttons_res'],
                        speed=General_Settings["buttons_speed"],
-                       text_input=None, font=General_Settings['font'], base_color=(255, 255, 255),
-                       hovering_color=(255, 0, 0), on=False, text_pos="left"):
+                       text_input=None, font=General_Settings['font'], base_colour=(255, 255, 255),
+                       hovering_colour=(255, 0, 0), on=False, text_pos="left", hover_slide=True, hover_offset=10, hover_speed=20):
                     super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
-                                     text_input=text_input, font=font, base_colour=base_color,
-                                     hovering_colour=hovering_color, text_pos=text_pos)
+                                     text_input=text_input, font=font, base_colour=base_colour,
+                                     hovering_colour=hovering_colour, text_pos=text_pos, hover_slide=hover_slide, hover_offset=hover_offset, hover_speed=hover_speed)
                     self.on = on
                     self.cooldown = Cooldowns['buttons']
                     self.last_pressed_time = 0

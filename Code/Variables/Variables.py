@@ -6,6 +6,8 @@ pygame.init()
 
 START_FULLSCREEN = False
 PEACEFUL_MODE = False
+PROFILE = True
+
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES

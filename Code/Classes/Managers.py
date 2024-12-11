@@ -152,10 +152,10 @@ class ParticleManager:
 
 class ObjectManager:
           def __init__(self, game):
-                    self.current_objects = []
+                    self.objects = set()
+                    self.object_pool = set()
                     self.game = game
-                    self.interaction = True
-                    self.position = 0
+                    self.grid = SpatialHash(game)
 
           def update(self):
                     pass
@@ -194,10 +194,10 @@ class ButtonManager:
 
           def update_buttons(self):
                     all_elements = list(self.buttons.values()) + list(self.sliders.values())
-                    for element in all_elements:
-                              element.active = self.game.changing_settings
-                              element.update()
-                              element.changeColor()
+                    for buttons in all_elements:
+                              buttons.active = self.game.changing_settings
+                              buttons.update()
+                              buttons.changeColor()
 
                     if self.game.mouse_state[0]:
                               if self.buttons['resume'].check_for_input():
@@ -214,5 +214,5 @@ class ButtonManager:
                                         self.game.restart = True
 
           def draw_buttons(self):
-                    for element in list(self.buttons.values()) + list(self.sliders.values()):
-                              element.draw()
+                    for button in list(self.buttons.values()) + list(self.sliders.values()):
+                              button.draw()
