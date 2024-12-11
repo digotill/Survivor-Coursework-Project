@@ -16,7 +16,8 @@ class MainMenu:
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else Loading_Screens["Orange_Pond"]
+                    self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else \
+                              Loading_Screens["Orange_Pond"]
                     self.current_frame = 0
                     self.difficulty = General_Settings['difficulty']
                     self.animation_speed = General_Settings["main_menu_animation_speed"]
@@ -37,10 +38,9 @@ class MainMenu:
                     for name, config in (All_Buttons["Weapons"] | All_Buttons["Menu_Buttons"]).items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
                                                                 'Minigun'] else Button
-                              self.buttons[name] = button_class(
-                                        self.game,
-                                        config
-                              )
+                              self.buttons[name] = button_class(self.game,
+                                                                config
+                                                                )
 
                     self.buttons['medium'].on = True
                     self.buttons['AK47'].on = True
@@ -61,6 +61,7 @@ class MainMenu:
                               if pygame.mouse.get_pressed()[0]:
                                         if self.buttons['play'].check_for_input():
                                                   self.game.in_menu = False
+                                                  self.buttons['play'].reset_position()
                                         if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
                                                   self.game.immidiate_quit = True
