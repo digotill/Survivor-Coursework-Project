@@ -106,7 +106,7 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
 
 
 def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900, base_colour=(255, 255, 255),
-                  hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False):
+                  hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False, on=False):
           return {
                     "text_input": text_input,
                     "pos": pos,
@@ -122,32 +122,38 @@ def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", t
                     "hover_offset": hover_offset,
                     "hover_speed": hover_speed,
                     "current_hover_offset": current_hover_offset,
-                    "active": active
+                    "active": active,
+                    "on": on
           }
 
 
 def create_slider(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right",
-                  circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), circle_radius=None, speed=900,
-                  hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False):
+                  circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), speed=900,
+                  hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False, res=(46, 15), base_colour=(255, 255, 255),
+                  is_dragging=False, line_colour=(120, 120, 120), line_thickness=2):
           return {
                     "text_input": text_input,
                     "pos": pos,
                     "image": image,
                     "min_value": min_value,
                     "max_value": max_value,
-                    "initial_value": initial_value,
+                    "value": initial_value,
                     "axis": axis,
                     "axisl": axisl,
                     "text_pos": text_pos,
                     "circle_base_colour": circle_base_colour,
-                    "circle_hovering_color": circle_hovering_color,
-                    "circle_radius": circle_radius,
+                    "circle_hovering_colour": circle_hovering_color,
                     "speed": speed,
                     "hover_slide": hover_slide,
                     "hover_offset": hover_offset,
                     "hover_speed": hover_speed,
                     "current_hover_offset": current_hover_offset,
-                    "active": active
+                    "active": active,
+                    "res": res,
+                    "base_colour": base_colour,
+                    "is_dragging": is_dragging,
+                    "line_colour": line_colour,
+                    "line_thickness": line_thickness
           }
 
 

@@ -39,7 +39,7 @@ class MainMenu:
                                                                 'Minigun'] else Button
                               self.buttons[name] = button_class(
                                         self.game,
-                                        **config
+                                        config
                               )
 
                     self.buttons['medium'].on = True

@@ -182,14 +182,14 @@ class ButtonManager:
                     for name, config in All_Buttons["In_Game"].items():
                               self.buttons[name] = Button(
                                         self.game,
-                                        **config
+                                        config
                               )
 
           def _create_sliders(self):
                     for name, config in All_Buttons["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,
-                                        **config
+                                        config
                               )
 
           def update_buttons(self):
