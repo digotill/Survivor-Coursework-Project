@@ -4,24 +4,21 @@ from Code.Classes.Entities import *
 
 
 class Button(main):
-          def __init__(self, game, image, pos, axis, axisl, res=General_Settings['buttons_res'],
+          def __init__(self, game, pos, image, axis, axisl, res=General_Settings['buttons_res'],
                        speed=General_Settings["buttons_speed"],
                        text_input=None, font=General_Settings['font'], base_colour=(255, 255, 255),
                        hovering_colour=(255, 0, 0),
                        text_pos="center", hover_slide=True, hover_offset=10, hover_speed=20):
+
                     self.game = game
 
-                    self.image = pygame.transform.scale(image, res)
-                    self.rect = self.image.get_rect(center=pos)
-                    self.original_pos = v2(pos)
-                    self.active = False
+                    self.pos = v2(pos)
+
+                    self.image = image
                     self.speed = speed
                     self.axis = axis
+                    self.res = res
                     self.axis_location = axisl
-                    self.starting_pos = self.calculate_starting_position()
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
-                    self.has_text = text_input is not None
                     self.text_input = text_input
                     self.font_path = font
                     self.base_color = base_colour
@@ -29,8 +26,18 @@ class Button(main):
                     self.text_pos = text_pos
                     self.hover_offset = hover_offset
                     self.hover_speed = hover_speed
-                    self.current_hover_offset = 0
                     self.hover_slide = hover_slide
+
+                    self.set_rect()
+
+                    self.current_hover_offset = 0
+                    self.starting_pos = self.calculate_starting_position()
+                    self.current_pos = v2(self.starting_pos)
+                    self.rect.center = self.current_pos
+                    self.active = False
+                    self.has_text = text_input is not None
+
+
                     if self.has_text:
                               self.setup_text()
 
@@ -38,11 +45,11 @@ class Button(main):
                     if self.axis == "x":
                               x = REN_RES[
                                             0] + self.rect.width / 2 + 1 if self.axis_location == "max" else -self.rect.width / 2 - 1
-                              return x, self.original_pos.y
+                              return x, self.pos.y
                     else:
                               y = REN_RES[
                                             1] + self.rect.height / 2 + 1 if self.axis_location == "max" else -self.rect.height / 2 - 1
-                              return self.original_pos.x, y
+                              return self.pos.x, y
 
           def setup_text(self):
                     self.font_size = int(self.rect.height / General_Settings['font_size'])
@@ -73,7 +80,7 @@ class Button(main):
                     return self.rect.colliderect(screen_rect)
 
           def update(self):
-                    target = self.original_pos if self.active else v2(self.starting_pos)
+                    target = self.pos if self.active else v2(self.starting_pos)
 
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / General_Settings["buttons_friction"], 1)
@@ -117,7 +124,7 @@ class Slider(Button):
                        max_value=1, circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0),
                        text_input=None, font=General_Settings['font'], text_base_color=(255, 255, 255),
                        text_pos="center", hover_slide=False):
-                    super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
+                    super().__init__(game, pos, image, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=text_base_color,
                                      hovering_colour=text_base_color, text_pos=text_pos)
 
@@ -206,7 +213,7 @@ class Switch(Button):
                        speed=General_Settings["buttons_speed"],
                        text_input=None, font=General_Settings['font'], base_colour=(255, 255, 255),
                        hovering_colour=(255, 0, 0), on=False, text_pos="left", hover_slide=True, hover_offset=10, hover_speed=20):
-                    super().__init__(game, image, pos, axis, axisl, res=res, speed=speed,
+                    super().__init__(game, pos, image, axis, axisl, res=res, speed=speed,
                                      text_input=text_input, font=font, base_colour=base_colour,
                                      hovering_colour=hovering_colour, text_pos=text_pos, hover_slide=hover_slide, hover_offset=hover_offset, hover_speed=hover_speed)
                     self.on = on

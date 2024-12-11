@@ -4,6 +4,7 @@ import os
 import random
 import numpy as np
 import pygame
+from pygame.math import Vector2 as v2
 
 
 def random_xy(rect1, rect2, sprite_width, sprite_height):
