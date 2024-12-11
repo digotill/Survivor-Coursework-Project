@@ -4,7 +4,6 @@ import os
 import random
 import numpy as np
 import pygame
-from pygame.math import Vector2 as v2
 
 
 def random_xy(rect1, rect2, sprite_width, sprite_height):
@@ -106,8 +105,8 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
           }
 
 
-def create_button_settings(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900, base_colour=(255, 255, 255),
-                       hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20):
+def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900, base_colour=(255, 255, 255),
+                  hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False):
           return {
                     "text_input": text_input,
                     "pos": pos,
@@ -121,11 +120,15 @@ def create_button_settings(text_input, pos, image, res=(46, 15), axis="y", axisl
                     "hovering_colour": hovering_colour,
                     "hover_slide": hover_slide,
                     "hover_offset": hover_offset,
-                    "hover_speed": hover_speed
+                    "hover_speed": hover_speed,
+                    "current_hover_offset": current_hover_offset,
+                    "active": active
           }
 
 
-def create_slider_settings(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right"):
+def create_slider(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right",
+                  circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), circle_radius=None, speed=900,
+                  hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False):
           return {
                     "text_input": text_input,
                     "pos": pos,
@@ -135,7 +138,16 @@ def create_slider_settings(pos, image, text_input, min_value, max_value, initial
                     "initial_value": initial_value,
                     "axis": axis,
                     "axisl": axisl,
-                    "text_pos": text_pos
+                    "text_pos": text_pos,
+                    "circle_base_colour": circle_base_colour,
+                    "circle_hovering_color": circle_hovering_color,
+                    "circle_radius": circle_radius,
+                    "speed": speed,
+                    "hover_slide": hover_slide,
+                    "hover_offset": hover_offset,
+                    "hover_speed": hover_speed,
+                    "current_hover_offset": current_hover_offset,
+                    "active": active
           }
 
 
