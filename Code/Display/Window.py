@@ -16,7 +16,6 @@ class Window(main):
                     self.offset_rect = self.rect.copy()
 
           def move(self, dx, dy, move_horizontally, move_vertically):
-                    # Update window position
                     if move_horizontally:
                               self.pos.x += dx * self.game.player.current_vel * self.game.dt
                     if move_vertically:
@@ -107,7 +106,7 @@ class Window(main):
           @staticmethod
           def get_2d_noise(x, y):
                     scaled_x, scaled_y = x * 0.1, y * 0.1
-                    return Perlin_Noise["perlin"]([scaled_x, scaled_y])
+                    return Perlin_Noise["3 octaves"]([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):
                     self.shake_duration = duration

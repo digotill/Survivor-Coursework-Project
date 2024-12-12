@@ -43,6 +43,8 @@ class Player(main):
                     self.pos = v2(position)
                     self.set_rect()
                     self.current_vel = 0
+                    self.i_frames = Cooldowns["player i frames"]
+                    self.last_hit = 0
                     self.gun = gun
 
           def update(self):
@@ -93,16 +95,9 @@ class Player(main):
 
           def update_velocity(self, dy, dx):
                     if dy != 0 or dx != 0:
-                              if self.current_vel + self.acceleration * self.game.dt < self.max_vel:
-                                        self.current_vel += self.acceleration * self.game.dt
-                              else:
-                                        self.current_vel = self.max_vel
+                              self.current_vel = min(self.current_vel + self.acceleration * self.game.dt, self.max_vel)
                     else:
-                              if self.current_vel - self.acceleration * self.game.dt > 0:
-                                        self.current_vel -= self.acceleration * self.game.dt
-                              else:
-                                        self.current_vel = 0
-
+                              self.current_vel = max(self.current_vel - self.acceleration * self.game.dt, 0)
 
 class Enemy(main):
           def __init__(self, game, coordinates, dictionary):
@@ -112,6 +107,9 @@ class Enemy(main):
 
                     self.pos = v2(coordinates)
                     self.set_rect()
+
+                    self.i_frames = Cooldowns["player i frames"]
+                    self.last_hit = 0
 
                     self.acceleration = v2(0, 0)
                     self.vel_vector = v2(0, 0)
@@ -197,10 +195,10 @@ class Gun(main):
                                         pygame.transform.rotate(self.gun_image, -self.angle + 90), True, False)
 
                     pos_x = (self.game.player.rect.centerx + math.sin(
-                              math.radians(self.angle)) * self.distance_perpendicular -
+                              math.radians(self.angle)) * self.distance -
                              self.game.window.offset_rect.x)
                     pos_y = (self.game.player.rect.centery + math.cos(
-                              math.radians(self.angle)) * self.distance_perpendicular -
+                              math.radians(self.angle)) * self.distance -
                              self.game.window.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
                     self.game.display_screen.blit(self.rotated_image, self.rect)
@@ -247,9 +245,9 @@ class Gun(main):
 
           def calculate_bullet_start_position(self):
                     start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance_perpendicular - self.res[0] / 1.4)
+                              self.distance - self.res[0])
                     start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance_perpendicular - self.res[0] / 1.4)
+                              self.distance - self.res[0])
                     return start_x, start_y
 
 
@@ -259,7 +257,7 @@ class Bullet(main):
                     self.gun = gun
                     self.name = name
 
-                    noise_value = Perlin_Noise["perlin"]([game.game_time * 0.1, 0])
+                    noise_value = Perlin_Noise["2 octaves"]([game.game_time * 0.1, 0])
                     spread_angle = noise_value * gun.spread * spread_factor
                     self.angle = angle + spread_angle
                     self.image = pygame.transform.rotate(gun.bullet_image, self.angle + 90)

@@ -80,7 +80,6 @@ Player_Attributes = {
           'offset_y2': -10,
           'animation_speed': 5,
           "images": Entity_Images["player"],
-          "invincibility cooldown": 0.5
 }
 
 Enemies = {
@@ -95,6 +94,8 @@ Cooldowns = {
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
+          'player i frames': 1,
+          'enemy i frames': 1,
 }
 
 Keys = {
@@ -131,8 +132,9 @@ General_Spark_Settings = {
 }
 
 Perlin_Noise = {
-          "perlin": PerlinNoise(3, random.randint(0, 100000)),
-          "terrain_generation": PerlinNoise(1, random.randint(0, 100000))
+          "1 octave": PerlinNoise(1, random.randint(0, 100000)),
+          "2 octaves": PerlinNoise(2, random.randint(0, 100000)),
+          "3 octaves": PerlinNoise(3, random.randint(0, 100000))
 }
 
 Bullet_Images = {
@@ -148,24 +150,24 @@ Weapon_Images = {
 Weapons = {
           "AK47": create_weapon_settings(
                     vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
-                    lifetime=3, lifetime_randomness=0.2, damage=8, distance_parrallel=-2,
-                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    lifetime=3, lifetime_randomness=0.2, damage=8,
+                    distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=5, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
                     bullet_image=Bullet_Images["bullet1"]
           ),
           "Shotgun": create_weapon_settings(
                     vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
-                    lifetime=0.5, lifetime_randomness=0.2, damage=5, distance_parrallel=-2,
-                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    lifetime=0.5, lifetime_randomness=0.2, damage=5,
+                    distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=20,
                     gun_image=Weapon_Images["Shotgun"], res=Weapon_Images["Shotgun"].size,
                     bullet_image=Bullet_Images["bullet1"]
           ),
           "Minigun": create_weapon_settings(
                     vel=600, spread=10, reload_time=10, fire_rate=0.01, clip_size=100,
-                    lifetime=2, lifetime_randomness=0.2, damage=1, distance_parrallel=-10,
-                    distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
+                    lifetime=2, lifetime_randomness=0.2, damage=1,
+                    distance=-12, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
                     bullet_image=Bullet_Images["bullet1"]

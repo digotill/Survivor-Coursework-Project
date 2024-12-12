@@ -45,7 +45,7 @@ class TileMap:
 
           @staticmethod
           def get_tile_type(x, y):
-                    noise_value = Perlin_Noise["terrain_generation"]([x * 0.05, y * 0.05])
+                    noise_value = Perlin_Noise["1 octave"]([x * 0.05, y * 0.05])
                     if noise_value < Tile_Ranges["Water_Tile"]:
                               return "Water_Tile"
                     elif noise_value < Tile_Ranges["Sand_Tile"]:
