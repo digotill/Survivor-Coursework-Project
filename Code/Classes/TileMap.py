@@ -76,3 +76,13 @@ class TileMap:
                               for y in range(self.height):
                                         tile_type = self.get_tile_type(x, y)
                                         self.add_tile(tile_type, (x, y))
+
+          def place_grass(self):
+                    for x in range(self.width):
+                              for y in range(self.height):
+                                        world_x = x * self.tile_size
+                                        world_y = y * self.tile_size
+                                        tile = self.get_tile_at((world_x, world_y))
+                                        v = random.random()
+                                        if tile and tile.tile_type == "Grass_Tile" and v > 0.1:
+                                                  self.game.grass_manager.place_tile((world_x, world_y), int(v * 12), [0, 1, 2, 3, 4])

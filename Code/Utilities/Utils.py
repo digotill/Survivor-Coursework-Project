@@ -192,3 +192,12 @@ def flip_image(image):
 
 def flip_images(images):
           return [flip_image(image) for image in images]
+
+def normalize(val, amt, target):
+          if val > target + amt:
+                    val -= amt
+          elif val < target - amt:
+                    val += amt
+          else:
+                    val = target
+          return val
