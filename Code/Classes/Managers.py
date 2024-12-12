@@ -117,9 +117,15 @@ class BulletManager:
           def check_for_collisions(self):
                     for bullet in self.grid.items:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
-                                        if bullet.check_collision(enemy):
-                                                  self.game.particle_manager.create_spark(270 - bullet.angle, bullet.pos, Sparks_Settings['bullet'])
-                                                  break
+                                        if bullet.rect.colliderect(enemy.rect) and not bullet.dead:
+                                                  enemy.health -= bullet.damage
+                                                  bullet.health -= 1
+                                                  if bullet.health <= 0:
+                                                            bullet.dead = True
+                                                  self.game.particle_manager.create_spark(270 - bullet.angle,
+                                                                                          bullet.pos,
+                                                                                          Sparks_Settings[
+                                                                                                    'bullet'])
 
 
 class ParticleManager:
@@ -129,32 +135,36 @@ class ParticleManager:
                     self.spark_pool = set()
 
           def update(self):
-                    for _, spark in sorted(enumerate(self.sparks), reverse=True):
+                    for spark in self.sparks:
                               spark.move()
-                              self.check_if_remove(spark)
+                    self.check_if_remove()
 
           def draw(self):
-                    for _, spark in sorted(enumerate(self.sparks), reverse=True):
+                    for spark in self.sparks:
                               spark.draw()
 
-          def create_spark(self, angle, pos, dictioary):
-                    for _ in range(dictioary['amount']):
+          def create_spark(self, angle, pos, dictionary):
+                    for _ in range(dictionary['amount']):
                               spark_angle = math.radians(random.randint(
-                                        int(angle) - dictioary['spread'],
-                                        int(angle) + dictioary['spread']
+                                        int(angle) - dictionary['spread'],
+                                        int(angle) + dictionary['spread']
                               ))
-                              spark_velocity = random.randint(dictioary["min_vel"], dictioary["max_vel"])
-                              for _ in range(dictioary['amount']):
+                              spark_velocity = random.randint(dictionary["min_vel"], dictionary["max_vel"])
+                              if len(self.spark_pool) == 0:
                                         self.sparks.add(
                                                   Spark(self.game, pos, spark_angle, spark_velocity,
-                                                        dictioary['colour'], dictioary['size']))
+                                                        dictionary['colour'], dictionary['scale']))
+                              else:
+                                        spark = self.spark_pool.pop()
+                                        spark.reset(pos, spark_angle, spark_velocity, dictionary["colour"],
+                                                    dictionary['scale'])
+                                        self.sparks.add(spark)
 
-          def check_if_remove(self, spark):
-                    if spark.alive:
-                              return None
-
-                    self.sparks.remove(spark)
-                    self.spark_pool.add(spark)
+          def check_if_remove(self):
+                    for spark in self.sparks.copy():
+                              if not spark.alive:
+                                        self.sparks.remove(spark)
+                                        self.spark_pool.add(spark)
 
 
 class ObjectManager:

@@ -321,8 +321,8 @@ class Bullet(main):
           def check_collision(self, target):
                     if self.rect.colliderect(target.rect):
                               target.health -= self.damage
-                              self.pierce -= 1
-                              if self.pierce <= 0:
+                              self.health -= 1
+                              if self.health <= 0:
                                         self.dead = True
                               return True
                     return False

@@ -92,8 +92,9 @@ class Game:
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
-                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
+                    self.window_ratio = REN_RES[0] / self.display.width
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * self.window_ratio),
+                                              int(self.mouse_pos[1] * self.window_ratio))
                     self.mouse_state = pygame.mouse.get_pressed()
                     if not self.changing_settings:
                               self.game_time += self.dt

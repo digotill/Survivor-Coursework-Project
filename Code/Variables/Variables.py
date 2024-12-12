@@ -56,8 +56,6 @@ Window_Attributes = {
           'shake_seed': random.random() * 1000,
           'shake_directions': v2(1, 1),
           'reduced_screen_shake': 1,
-          'target_offset': v2(0, 0),
-          'current_offset': v2(0, 0),
           'shake_duration': 0,
           'shake_start_time': 0,
           'shake_magnitude': 0,
@@ -82,6 +80,7 @@ Player_Attributes = {
           'offset_y2': 0,
           'animation_speed': 5,
           "images": Entity_Images["player"],
+          "invincibility cooldown": 0.5
 }
 
 Enemies = {
@@ -120,15 +119,15 @@ Screen_Shake = {
 }
 
 Sparks_Settings = {
-          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3, min_vel=3, max_vel=10),
-          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3, min_vel=3, max_vel=10)
+          "bullet": create_spark_settings(spread=10, scale=0.6, colour=(255, 0, 0), amount=3, min_vel=3, max_vel=10),
+          "gun": create_spark_settings(spread=5, scale=0.3, colour=(255, 255, 255), amount=3, min_vel=3, max_vel=10)
 }
 
 General_Spark_Settings = {
           "friction": 20,
           "width": 0.3,
           "height": 3.5,
-          "min_vel": 1,
+          "min_vel": 0.1,
 }
 
 Perlin_Noise = {
@@ -150,7 +149,7 @@ Weapons = {
                     vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
                     lifetime=3, lifetime_randomness=0.2, damage=8, distance_parrallel=-2,
                     distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
-                    pierce=2, shake_mag=2, shake_duration=1, shots=1,
+                    pierce=5, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
                     bullet_image=Bullet_Images["bullet1"]
           ),

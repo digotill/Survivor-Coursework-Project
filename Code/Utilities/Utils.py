@@ -157,10 +157,10 @@ def create_slider(pos, image, text_input, min_value, max_value, initial_value, a
           }
 
 
-def create_spark_settings(spread, size, colour, amount, min_vel, max_vel):
+def create_spark_settings(spread, scale, colour, amount, min_vel, max_vel):
           return {
                     "spread": spread,
-                    "size": size,
+                    "scale": scale,
                     "colour": colour,
                     "amount": amount,
                     "min_vel": min_vel,
@@ -169,7 +169,7 @@ def create_spark_settings(spread, size, colour, amount, min_vel, max_vel):
 
 
 def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
-                          steering_strength, friction, images, animation_speed=5, angle=None):
+                          steering_strength, friction, images, animation_speed=5, invincibility_cooldown=0.3):
           return {
                     'name': name,
                     'health': health,
@@ -181,11 +181,15 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'friction': friction,
                     'animation_speed': animation_speed,
                     "images": images,
-                    "angle": angle
+                    "invincibility_cooldown": invincibility_cooldown,
           }
 
 def lookup_colour(colour):
           color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
           for colour in color_list: print(colour)
 
+def flip_image(image):
+          return pygame.transform.flip(image, True, False)
 
+def flip_images(images):
+          return [flip_image(image) for image in images]

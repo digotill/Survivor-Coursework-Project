@@ -45,8 +45,7 @@ class UI:
                     if self.fps_enabled:
                               text = self.font.render(str(int(self.game.clock.get_fps())) + "  FPS", False,
                                                       pygame.Color("orange"))
-                              center = UI_Settings["fps"][0], UI_Settings["fps"][1]
-                              text_rect = text.get_rect(center=center)
+                              text_rect = text.get_rect(center=UI_Settings["fps"])
                               self.game.ui_surface.blit(text, text_rect)
 
           def draw_time(self):
@@ -64,8 +63,8 @@ class UI:
                               else:
                                         image = Cursor_Images["Cursor_Not_Clicking"]
                               new_image = pygame.transform.scale(image, (
-                                        image.get_rect().width * self.game.display.width / REN_RES[0],
-                                        image.get_rect().height * self.game.display.height / REN_RES[1]))
+                                        image.get_rect().width * 1 / self.game.window_ratio,
+                                        image.get_rect().height * 1 / self.game.window_ratio))
                               self.game.display.blit(new_image,
                                                      (self.game.mouse_pos[0] - new_image.get_rect().width / 2,
                                                       self.game.mouse_pos[1] - new_image.get_rect().height / 2))

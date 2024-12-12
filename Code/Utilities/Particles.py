@@ -4,8 +4,12 @@ from Code.Variables.Variables import *
 
 pygame.init()
 
+class main:
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
 
-class Spark:
+class Spark(main):
           def __init__(self, game, pos, angle, speed, color, scale=1):
                     self.game = game
                     self.pos = v2(pos)
@@ -14,10 +18,8 @@ class Spark:
                     self.scale = scale
                     self.color = color
                     self.alive = True
-                    self.friction = General_Spark_Settings["friction"]
-                    self.width = General_Spark_Settings["width"]
-                    self.height = General_Spark_Settings["height"]
-                    self.min_vel = General_Spark_Settings["min_vel"]
+
+                    self.set_attributes(General_Spark_Settings)
 
           def calculate_movement(self):
                     return [math.cos(self.angle) * self.speed * self.game.dt,
@@ -38,8 +40,6 @@ class Spark:
                               self.alive = False
 
           def draw(self):
-                    if not self.alive:
-                              return
 
                     offset = self.game.window.offset_rect.topleft
                     front_point = self.calculate_point(self.angle, self.speed * self.scale, offset)
@@ -55,3 +55,11 @@ class Spark:
                               self.pos.x + math.cos(angle) * distance - offset[0],
                               self.pos.y + math.sin(angle) * distance - offset[1]
                     )
+
+          def reset(self, pos, angle, speed, color, scale=1):
+                    self.pos = v2(pos)
+                    self.angle = angle
+                    self.speed = speed
+                    self.scale = scale
+                    self.color = color
+                    self.alive = True
