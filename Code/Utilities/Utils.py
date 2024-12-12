@@ -100,7 +100,7 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
                     "shake_mag": shake_mag,
                     "shake_duration": shake_duration,
                     "shots": shots,
-                    "gun_image": gun_image,
+                    "gun_image": pygame.transform.scale(gun_image, res),
                     "bullet_image": bullet_image
           }
 

@@ -309,6 +309,7 @@ class Bullet(main):
                     self.friction = self.gun.friction
                     self.damage = self.gun.damage
                     self.pierce = self.gun.pierce
+                    self.health = self.pierce
 
           def update(self):
                     if self.friction > 0:

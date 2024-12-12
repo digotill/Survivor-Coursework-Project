@@ -142,29 +142,35 @@ Bullet_Images = {
           "bullet1": load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
 }
 
+Weapon_Images = {
+          "AK47": load_image("Assets/Objects/Weapons/rifle.png", (32, 13)),
+          "Shotgun": load_image("Assets/Objects/Weapons/Shotgun.png", (30, 13)),
+          "Minigun": load_image("Assets/Objects/Weapons/Mini gun.png", (34, 16))
+}
+
 Weapons = {
           "AK47": create_weapon_settings(
-                    res=(32, 13), vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
+                    vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
                     lifetime=3, lifetime_randomness=0.2, damage=8, distance_parrallel=-2,
                     distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=2, shake_mag=2, shake_duration=1, shots=1,
-                    gun_image=load_image("Assets/Objects/Weapons/rifle.png", (32, 13)),
+                    gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
                     bullet_image=Bullet_Images["bullet1"]
           ),
           "Shotgun": create_weapon_settings(
-                    res=(30, 13), vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
+                    vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
                     lifetime=0.5, lifetime_randomness=0.2, damage=5, distance_parrallel=-2,
                     distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=20,
-                    gun_image=load_image("Assets/Objects/Weapons/Shotgun.png", (30, 13)),
+                    gun_image=Weapon_Images["Shotgun"], res=Weapon_Images["Shotgun"].size,
                     bullet_image=Bullet_Images["bullet1"]
           ),
           "Minigun": create_weapon_settings(
-                    res=(34, 16), vel=600, spread=10, reload_time=10, fire_rate=0.01, clip_size=100,
+                    vel=600, spread=10, reload_time=10, fire_rate=0.01, clip_size=100,
                     lifetime=2, lifetime_randomness=0.2, damage=1, distance_parrallel=-10,
                     distance_perpendicular=0, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=1,
-                    gun_image=load_image("Assets/Objects/Weapons/Mini gun.png", (34, 16)),
+                    gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
                     bullet_image=Bullet_Images["bullet1"]
           )
 }
