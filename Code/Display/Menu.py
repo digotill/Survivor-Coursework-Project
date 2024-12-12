@@ -35,11 +35,12 @@ class MainMenu:
                     self.gun = self.weapons["AK47"]
 
           def _create_buttons(self):
-                    for name, config in (All_Buttons["Weapons"] | All_Buttons["Menu_Buttons"]).items():
+                    button_configs = All_Buttons()
+                    for name, config in (button_configs["Weapons"] | button_configs["Menu_Buttons"]).items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
                                                                 'Minigun'] else Button
                               self.buttons[name] = button_class(self.game,
-                                                                config
+                                                                copy.deepcopy(config)
                                                                 )
 
                     self.buttons['medium'].on = True

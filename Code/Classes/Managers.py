@@ -179,17 +179,19 @@ class ButtonManager:
                     self._create_sliders()
 
           def _create_buttons(self):
-                    for name, config in All_Buttons["In_Game"].items():
+                    button_configs = All_Buttons()
+                    for name, config in button_configs["In_Game"].items():
                               self.buttons[name] = Button(
                                         self.game,
-                                        config
+                                        copy.deepcopy(config)
                               )
 
           def _create_sliders(self):
-                    for name, config in All_Buttons["Sliders"].items():
+                    button_configs = All_Buttons()
+                    for name, config in button_configs["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,
-                                        config
+                                        copy.deepcopy(config)
                               )
 
           def update_buttons(self):

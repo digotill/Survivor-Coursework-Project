@@ -1,3 +1,4 @@
+import copy
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
@@ -161,37 +162,42 @@ Weapons = {
           )
 }
 
-All_Buttons = {
-          "In_Game": {
-                    "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
-                    "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
-                    "quit": create_button("QUIT", v2(240, 240), Button_Images["Button1"]),
-                    "return": create_button("Return", v2(240, 90), Button_Images["Button1"])
-          },
-          "Weapons": {
-                    "AK47": create_button("AK47", v2(140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
-                                          text_pos="left"),
-                    "Shotgun": create_button("Shotgun", v2(140, 215),
-                                             perfect_outline(Weapons["Shotgun"]["gun_image"]),
-                                             text_pos="left"),
-                    "Minigun": create_button("Minigun", v2(140, 180),
-                                             perfect_outline(Weapons["Minigun"]["gun_image"]),
-                                             text_pos="left"),
-          },
-          "Sliders": {
-                    "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness", 0, 100,
-                                                General_Settings['brightness']),
-                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 60, 240,
-                                         pygame.display.get_current_refresh_rate())
-          },
-          "Menu_Buttons": {
-                    "play": create_button("PLAY", v2(200, 240), Button_Images["Button1"]),
-                    "quit": create_button("QUIT", v2(280, 240), Button_Images["Button1"]),
-                    "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
-                    "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
-                    "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
+
+def get_button_config():
+          return {
+                    "In_Game": {
+                              "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
+                              "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
+                              "quit": create_button("QUIT", v2(240, 240), Button_Images["Button1"]),
+                              "return": create_button("Return", v2(240, 90), Button_Images["Button1"])
+                    },
+                    "Weapons": {
+                              "AK47": create_button("AK47", v2(140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
+                                                    text_pos="left"),
+                              "Shotgun": create_button("Shotgun", v2(140, 215),
+                                                       perfect_outline(Weapons["Shotgun"]["gun_image"]),
+                                                       text_pos="left"),
+                              "Minigun": create_button("Minigun", v2(140, 180),
+                                                       perfect_outline(Weapons["Minigun"]["gun_image"]),
+                                                       text_pos="left"),
+                    },
+                    "Sliders": {
+                              "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness", 0, 100,
+                                                          General_Settings['brightness']),
+                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 60, 240,
+                                                   pygame.display.get_current_refresh_rate())
+                    },
+                    "Menu_Buttons": {
+                              "play": create_button("PLAY", v2(200, 240), Button_Images["Button1"]),
+                              "quit": create_button("QUIT", v2(280, 240), Button_Images["Button1"]),
+                              "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
+                              "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
+                              "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
+                    }
           }
-}
+
+
+All_Buttons = get_button_config
 
 Loading_Screens = {
           "Green_Waterfall": cached_import_gif("Assets/LoadingScreens/1", WIN_RES),
