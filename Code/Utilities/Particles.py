@@ -20,6 +20,7 @@ class Spark(main):
                     self.alive = True
 
                     self.set_attributes(General_Spark_Settings)
+                    self.update_rect()
 
           def calculate_movement(self):
                     return [math.cos(self.angle) * self.speed * self.game.dt,
@@ -40,15 +41,30 @@ class Spark(main):
                               self.alive = False
 
           def draw(self):
-
                     offset = self.game.window.offset_rect.topleft
-                    front_point = self.calculate_point(self.angle, self.speed * self.scale, offset)
-                    back_point = self.calculate_point(self.angle + math.pi, self.speed * self.scale * self.height, offset)
-                    left_point = self.calculate_point(self.angle + math.pi / 2, self.speed * self.scale * self.width, offset)
-                    right_point = self.calculate_point(self.angle - math.pi / 2, self.speed * self.scale * self.width, offset)
-
-                    points = [front_point, left_point, back_point, right_point]
+                    points = self.calculate_points(offset)
                     pygame.draw.polygon(self.game.display_screen, self.color, points)
+
+          def update_rect(self):
+                    points = self.calculate_points(offset=(0, 0))
+                    min_x = min(point[0] for point in points)
+                    max_x = max(point[0] for point in points)
+                    min_y = min(point[1] for point in points)
+                    max_y = max(point[1] for point in points)
+
+                    width = max_x - min_x
+                    height = max_y - min_y
+                    self.rect = pygame.Rect(min_x, min_y, width, height)
+
+          def calculate_points(self, offset):
+                    front_point = self.calculate_point(self.angle, self.speed * self.scale, offset)
+                    back_point = self.calculate_point(self.angle + math.pi, self.speed * self.scale * self.height,
+                                                      offset)
+                    left_point = self.calculate_point(self.angle + math.pi / 2, self.speed * self.scale * self.width,
+                                                      offset)
+                    right_point = self.calculate_point(self.angle - math.pi / 2, self.speed * self.scale * self.width,
+                                                       offset)
+                    return [front_point, left_point, back_point, right_point]
 
           def calculate_point(self, angle, distance, offset):
                     return (

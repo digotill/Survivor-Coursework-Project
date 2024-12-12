@@ -18,9 +18,9 @@ class EnemyManager:
 
           def update_enemies(self):
                     for enemy in self.grid.items:
+                              enemy.update()
                               separation_force = self.calculate_separation(enemy)
                               enemy.apply_force(separation_force)
-                              enemy.update()
                     self.remove_dead_enemies()
                     self.add_enemies(Enemies["enemy1"])
                     self.grid.rebuild()
@@ -131,6 +131,7 @@ class BulletManager:
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
+                    self.grid = SpatialHash(game)
                     self.sparks = set()
                     self.spark_pool = set()
 
