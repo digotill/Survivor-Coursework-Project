@@ -6,13 +6,13 @@ from pygame.math import Vector2 as v2
 pygame.init()
 
 START_FULLSCREEN = False
-PEACEFUL_MODE = False
+PEACEFUL_MODE = True
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
-GAME_SIZE = 3840, 2160
+GAME_SIZE = 8000, 8000
 REN_RES = 640, 360
 
 Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
@@ -131,7 +131,8 @@ General_Spark_Settings = {
 }
 
 Perlin_Noise = {
-          "perlin": PerlinNoise(3, random.randint(0, 100000))
+          "perlin": PerlinNoise(3, random.randint(0, 100000)),
+          "terrain_generation": PerlinNoise(1, random.randint(0, 100000))
 }
 
 Bullet_Images = {
@@ -217,10 +218,15 @@ Loading_Screens = {
 }
 
 Tile_Images = {
-          "Grass_Tile": load_image("Assets/Misc/Tiles/grass.png",
+          "Grass_Tile": cached_import_gif("Assets/Misc/Tiles/grass",
                                    (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Water_Tile": load_image("Assets/Misc/Tiles/water.png",
-                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
+          "Water_Tile": cached_import_gif("Assets/Misc/Tiles/water",
+                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
+          "Mountain_Tile": cached_import_gif("Assets/Misc/Tiles/mountain",
+                                      (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
+          "Sand_Tile": cached_import_gif("Assets/Misc/Tiles/sand",
+                                  (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
+
 }
 
 Cursor_Images = {
