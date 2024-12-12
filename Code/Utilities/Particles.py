@@ -40,6 +40,8 @@ class Spark(main):
                     if self.speed <= self.min_vel:
                               self.alive = False
 
+                    self.update_rect()
+
           def draw(self):
                     offset = self.game.window.offset_rect.topleft
                     points = self.calculate_points(offset)

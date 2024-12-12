@@ -132,16 +132,15 @@ class ParticleManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = SpatialHash(game)
-                    self.sparks = set()
                     self.spark_pool = set()
 
           def update(self):
-                    for spark in self.sparks:
+                    for spark in self.grid.items:
                               spark.move()
                     self.check_if_remove()
 
           def draw(self):
-                    for spark in self.sparks:
+                    for spark in self.grid.window_query():
                               spark.draw()
 
           def create_spark(self, angle, pos, dictionary):
@@ -152,33 +151,36 @@ class ParticleManager:
                               ))
                               spark_velocity = random.randint(dictionary["min_vel"], dictionary["max_vel"])
                               if len(self.spark_pool) == 0:
-                                        self.sparks.add(
+                                        self.grid.insert(
                                                   Spark(self.game, pos, spark_angle, spark_velocity,
                                                         dictionary['colour'], dictionary['scale']))
                               else:
                                         spark = self.spark_pool.pop()
                                         spark.reset(pos, spark_angle, spark_velocity, dictionary["colour"],
                                                     dictionary['scale'])
-                                        self.sparks.add(spark)
+                                        self.grid.insert(spark)
 
           def check_if_remove(self):
-                    for spark in self.sparks.copy():
+                    for spark in self.grid.items.copy():
                               if not spark.alive:
-                                        self.sparks.remove(spark)
+                                        self.grid.items.remove(spark)
                                         self.spark_pool.add(spark)
 
 
 class ObjectManager:
           def __init__(self, game):
-                    self.objects = set()
-                    self.object_pool = set()
                     self.game = game
                     self.grid = SpatialHash(game)
+
+                    self.object_pool = set()
 
           def update(self):
                     pass
 
           def draw(self):
+                    pass
+
+          def add_object(self, obj):
                     pass
 
 
@@ -197,6 +199,9 @@ class ButtonManager:
 
                     self._create_buttons()
                     self._create_sliders()
+
+                    self.cooldown = Cooldowns['buttons']
+                    self.last_pressed_time = 0
 
           def _create_buttons(self):
                     button_configs = AllButtons
@@ -221,7 +226,9 @@ class ButtonManager:
                               buttons.update()
                               buttons.changeColor()
 
-                    if self.game.mouse_state[0]:
+                    if self.game.mouse_state[0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
+                              temp_time = self.last_pressed_time
+                              self.last_pressed_time = pygame.time.get_ticks() / 1000
                               if self.buttons['resume'].check_for_input():
                                         self.game.changing_settings = False
                               elif self.sliders['fps'].update_value:
@@ -234,6 +241,7 @@ class ButtonManager:
                                         self.game.immidiate_quit = True
                               elif self.buttons['return'].check_for_input():
                                         self.game.restart = True
+                              else: self.last_pressed_time = temp_time
 
           def draw_buttons(self):
                     for button in list(self.buttons.values()) + list(self.sliders.values()):

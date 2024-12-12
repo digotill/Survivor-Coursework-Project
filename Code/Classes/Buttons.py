@@ -93,7 +93,6 @@ class Button(UIElement, main):
                     self.game = game
 
                     self.set_attributes(dictionary)
-
                     self.init_positions()
 
           def changeColor(self):
