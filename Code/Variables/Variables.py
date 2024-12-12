@@ -15,39 +15,10 @@ WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 GAME_SIZE = 3840, 2160
 REN_RES = 640, 360
 
-display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
+Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/Misc/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
-
-Player_Attributes = {
-          'name': 'Player',
-          'health': 100,
-          'res': (64, 64),
-          'vel': 200,
-          'damage': 30,
-          'stamina': 100,
-          'acceleration': 600,
-          'offset_x1': 0,
-          'offset_x2': 0,
-          'offset_y1': 0,
-          'offset_y2': 0,
-          'animation_speed': 5,
-          "images": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
-          "angle": None
-}
-
-Enemies = {
-          "enemy1": create_enemy_settings(name="Enemy", health=100, res=(32, 36), vel=320, damage=20,
-                                          stopping_distance=25, steering_strength=0.8, friction=0.2,
-                                          images=cached_import_gif("Assets/Entities/Enemy1", (32, 36))
-                                          )
-}
-
-Screen_Shake = {
-          'bullet_impact_shake_duration': 0.5,
-          'bullet_impact_shake_magnitude': 4,
-}
 
 General_Settings = {
           'difficulty': "MEDIUM",
@@ -92,6 +63,34 @@ Window_Attributes = {
           'shake_magnitude': 0,
 }
 
+Entity_Images = {
+          "player": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
+          "enemy1": cached_import_gif("Assets/Entities/Enemy1", (32, 36)),
+}
+
+Player_Attributes = {
+          'name': 'Player',
+          'health': 100,
+          'res': Entity_Images["player"][0].size,
+          'vel': 200,
+          'damage': 30,
+          'stamina': 100,
+          'acceleration': 600,
+          'offset_x1': 0,
+          'offset_x2': 0,
+          'offset_y1': 0,
+          'offset_y2': 0,
+          'animation_speed': 5,
+          "images": Entity_Images["player"],
+}
+
+Enemies = {
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320, damage=20,
+                                          stopping_distance=25, steering_strength=0.8, friction=0.2,
+                                          images=Entity_Images["enemy1"]
+                                          )
+}
+
 Cooldowns = {
           'fps': 0.5,
           'fullscreen': 0.5,
@@ -115,6 +114,11 @@ UI_Settings = {
           "time": (150, 70),
 }
 
+Screen_Shake = {
+          'bullet_impact_shake_duration': 0.5,
+          'bullet_impact_shake_magnitude': 4,
+}
+
 Sparks_Settings = {
           "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3, min_vel=3, max_vel=10),
           "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3, min_vel=3, max_vel=10)
@@ -129,13 +133,6 @@ General_Spark_Settings = {
 
 Perlin_Noise = {
           "perlin": PerlinNoise(3, random.randint(0, 100000))
-}
-
-Button_Images = {
-          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
-          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
-          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
-          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
 }
 
 Bullet_Images = {
@@ -175,9 +172,14 @@ Weapons = {
           )
 }
 
+Button_Images = {
+          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
+          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
+          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
+          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
+}
 
-def get_button_config():
-          return {
+AllButtons = {
                     "In_Game": {
                               "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
                               "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
@@ -197,7 +199,7 @@ def get_button_config():
                     "Sliders": {
                               "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness", 0, 100,
                                                           General_Settings['brightness']),
-                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 60, 240,
+                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 60, 500,
                                                    pygame.display.get_current_refresh_rate())
                     },
                     "Menu_Buttons": {

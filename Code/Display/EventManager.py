@@ -20,7 +20,7 @@ class EventManager:
                               elif event.type == pygame.VIDEORESIZE:
                                         self.handle_resize(event.size)
                               elif event.type in (
-                                        pygame.WINDOWMAXIMIZED, pygame.WINDOWMINIMIZED, pygame.WINDOWRESTORED):
+                                      pygame.WINDOWMAXIMIZED, pygame.WINDOWMINIMIZED, pygame.WINDOWRESTORED):
                                         self.handle_window_state(event)
 
           def update_size(self, always_toggle=False):
@@ -74,9 +74,11 @@ class EventManager:
                               pygame.event.set_grab(True)
                     elif self.game.keys[Keys['ungrab']]:
                               pygame.event.set_grab(False)
+                    elif self.game.in_menu:
+                              pygame.event.set_grab(False)
 
           def update_changing_settings(self):
                     if self.game.keys[Keys[
-                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.in_menu:
+                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000:
                               self.game.changing_settings = not self.game.changing_settings
                               self.Last_Changing_settings = pygame.time.get_ticks() / 1000

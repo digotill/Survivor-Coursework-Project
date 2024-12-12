@@ -180,13 +180,15 @@ class SoundManager:
 class ButtonManager:
           def __init__(self, game):
                     self.game = game
+
                     self.buttons = {}
                     self.sliders = {}
+
                     self._create_buttons()
                     self._create_sliders()
 
           def _create_buttons(self):
-                    button_configs = get_button_config()
+                    button_configs = AllButtons
                     for name, config in button_configs["In_Game"].items():
                               self.buttons[name] = Button(
                                         self.game,
@@ -194,7 +196,7 @@ class ButtonManager:
                               )
 
           def _create_sliders(self):
-                    button_configs = get_button_config()
+                    button_configs = AllButtons
                     for name, config in button_configs["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,

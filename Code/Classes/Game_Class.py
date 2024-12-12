@@ -10,9 +10,9 @@ class Game:
           def __init__(self):
                     pygame.init()
 
-                    self.display = display
+                    self.display = Display
                     self.display_screen = pygame.Surface(REN_RES).convert()
-                    self.ui_surface = pygame.Surface((640, 360)).convert()
+                    self.ui_surface = pygame.Surface(REN_RES).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
 
@@ -36,12 +36,12 @@ class Game:
 
                     self.ui = UI(self)
                     self.tilemap = TileMap(self)
+                    self.window = Window(self)
 
                     self.update_game_variables()
 
-                    self.window = Window(self)
-
                     self.mainmenu = MainMenu(self)
+                    self.gameover = GameOver(self)
                     self.mainmenu.loop()
 
           def refresh(self):
@@ -84,9 +84,10 @@ class Game:
           def manage_events(self):
                     self.event_manager.handle_events()
                     self.event_manager.update_size()
-                    self.event_manager.update_fps_toggle()
                     self.event_manager.update_grab()
-                    self.event_manager.update_changing_settings()
+                    if not self.in_menu:
+                              self.event_manager.update_changing_settings()
+                              self.event_manager.update_fps_toggle()
 
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()

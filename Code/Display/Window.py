@@ -8,7 +8,8 @@ class Window(main):
 
                     self.set_attributes(Window_Attributes)
 
-                    self.pos = v2(GAME_SIZE[0] / 2 - self.res[0] / 2, GAME_SIZE[1] / 2 - self.res[1] / 2)
+                    self.v_ = v2(GAME_SIZE[0] / 2 - self.res[0] / 2, GAME_SIZE[1] / 2 - self.res[1] / 2)
+                    self.pos = self.v_
                     self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.offset_rect = self.rect.copy()
 

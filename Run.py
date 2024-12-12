@@ -15,7 +15,7 @@ if sys.version_info < (3, 7):
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
 
-def main():
+if __name__ == "__main__":
           profiler = None
           if PROFILE:
                     profiler = cProfile.Profile()
@@ -30,7 +30,3 @@ def main():
                               profiler.disable()
                               stats = Stats(profiler)
                               stats.sort_stats('time').reverse_order().print_stats()
-
-
-if __name__ == "__main__":
-          main()
