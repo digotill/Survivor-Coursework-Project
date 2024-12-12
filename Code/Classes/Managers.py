@@ -100,12 +100,12 @@ class BulletManager:
                               self.game.display_screen.blit(bullet.image,
                                                             (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
 
-          def add_bullet(self, start_x, start_y, angle, name, spread):
+          def add_bullet(self, pos, angle, name, spread):
                     if self.bullet_pool:
                               bullet = self.bullet_pool.pop()
-                              bullet.reset(start_x, start_y, angle, spread)
+                              bullet.reset(pos, angle, spread)
                     else:
-                              bullet = Bullet(self.game, self.game.player.gun, (start_x, start_y), angle, name, spread)
+                              bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread)
                     self.grid.insert(bullet)
 
           def check_dead_bullets(self):
@@ -118,36 +118,43 @@ class BulletManager:
                     for bullet in self.grid.items:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.check_collision(enemy):
-                                                  self.create_bullet_sparks(bullet)
+                                                  self.game.particle_manager.create_spark(270 - bullet.angle, bullet.pos, Sparks_Settings['bullet'])
                                                   break
-
-          def create_bullet_sparks(self, bullet):
-                    spark_angle = math.radians(random.randint(
-                              int(270 - bullet.angle) - Sparks_Settings['bullet']['spread'],
-                              int(270 - bullet.angle) + Sparks_Settings['bullet']['spread']
-                    ))
-                    for _ in range(Sparks_Settings['bullet']['amount']):
-                              self.game.particle_manager.sparks.add(
-                                        Spark(self.game, bullet.pos, spark_angle,
-                                              random.randint(3, 6), Sparks_Settings['bullet']['colour'],
-                                              Sparks_Settings['bullet']['size'])
-                              )
 
 
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
                     self.sparks = set()
+                    self.spark_pool = set()
 
           def update(self):
                     for _, spark in sorted(enumerate(self.sparks), reverse=True):
                               spark.move()
-                              if not spark.alive:
-                                        self.sparks.remove(spark)
+                              self.check_if_remove(spark)
 
           def draw(self):
                     for _, spark in sorted(enumerate(self.sparks), reverse=True):
                               spark.draw()
+
+          def create_spark(self, angle, pos, dictioary):
+                    for _ in range(dictioary['amount']):
+                              spark_angle = math.radians(random.randint(
+                                        int(angle) - dictioary['spread'],
+                                        int(angle) + dictioary['spread']
+                              ))
+                              spark_velocity = random.randint(dictioary["min_vel"], dictioary["max_vel"])
+                              for _ in range(dictioary['amount']):
+                                        self.sparks.add(
+                                                  Spark(self.game, pos, spark_angle, spark_velocity,
+                                                        dictioary['colour'], dictioary['size']))
+
+          def check_if_remove(self, spark):
+                    if spark.alive:
+                              return None
+
+                    self.sparks.remove(spark)
+                    self.spark_pool.add(spark)
 
 
 class ObjectManager:
@@ -179,7 +186,7 @@ class ButtonManager:
                     self._create_sliders()
 
           def _create_buttons(self):
-                    button_configs = All_Buttons()
+                    button_configs = get_button_config()
                     for name, config in button_configs["In_Game"].items():
                               self.buttons[name] = Button(
                                         self.game,
@@ -187,7 +194,7 @@ class ButtonManager:
                               )
 
           def _create_sliders(self):
-                    button_configs = All_Buttons()
+                    button_configs = get_button_config()
                     for name, config in button_configs["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,

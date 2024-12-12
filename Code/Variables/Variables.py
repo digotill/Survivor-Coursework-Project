@@ -116,8 +116,15 @@ UI_Settings = {
 }
 
 Sparks_Settings = {
-          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3),
-          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3)
+          "bullet": create_spark_settings(spread=10, size=0.6, colour=(255, 0, 0), amount=3, min_vel=3, max_vel=10),
+          "gun": create_spark_settings(spread=5, size=0.3, colour=(255, 255, 255), amount=3, min_vel=3, max_vel=10)
+}
+
+General_Spark_Settings = {
+          "friction": 20,
+          "width": 0.3,
+          "height": 3.5,
+          "min_vel": 1,
 }
 
 Perlin_Noise = {
@@ -197,8 +204,6 @@ def get_button_config():
           }
 
 
-All_Buttons = get_button_config
-
 Loading_Screens = {
           "Green_Waterfall": cached_import_gif("Assets/LoadingScreens/1", WIN_RES),
           "Orange_Pond": cached_import_gif("Assets/LoadingScreens/2", WIN_RES)
@@ -206,6 +211,8 @@ Loading_Screens = {
 
 Tile_Images = {
           "Grass_Tile": load_image("Assets/Misc/Tiles/grass.png",
+                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
+          "Water_Tile": load_image("Assets/Misc/Tiles/water.png",
                                    (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
 }
 

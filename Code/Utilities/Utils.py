@@ -157,12 +157,14 @@ def create_slider(pos, image, text_input, min_value, max_value, initial_value, a
           }
 
 
-def create_spark_settings(spread, size, colour, amount):
+def create_spark_settings(spread, size, colour, amount, min_vel, max_vel):
           return {
                     "spread": spread,
                     "size": size,
                     "colour": colour,
-                    "amount": amount
+                    "amount": amount,
+                    "min_vel": min_vel,
+                    "max_vel": max_vel,
           }
 
 

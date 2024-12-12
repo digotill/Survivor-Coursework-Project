@@ -267,14 +267,14 @@ class Gun(main):
 
                     self.last_shot_time = current_time
 
-                    start_x, start_y = self.calculate_bullet_start_position()
+                    start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
-                              self.create_gun_sparks(start_x, start_y)
+                              self.game.particle_manager.create_spark(270 - self.angle, start_coordinates, Sparks_Settings['gun'])
                               if self.shots == 1:
-                                        self.game.bullet_manager.add_bullet(start_x, start_y, self.angle,
+                                        self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
                                                                             "Player Bullet", spread_factor)
                               else:
-                                        self.game.bullet_manager.add_bullet(start_x, start_y,
+                                        self.game.bullet_manager.add_bullet(start_coordinates,
                                                                             change_random(self.angle, self.spread),
                                                                             "Player Bullet", spread_factor)
 
@@ -284,18 +284,6 @@ class Gun(main):
                     start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
                               self.distance_perpendicular - self.res[0] / 1.4)
                     return start_x, start_y
-
-          def create_gun_sparks(self, start_x, start_y):
-                    for _ in range(Sparks_Settings['gun']['amount']):
-                              spark_angle = math.radians(random.randint(
-                                        int(270 - self.angle) - Sparks_Settings['gun']['spread'],
-                                        int(270 - self.angle) + Sparks_Settings['gun']['spread']
-                              ))
-                              self.game.particle_manager.sparks.add(Spark(
-                                        self.game, [start_x, start_y], spark_angle,
-                                        random.randint(3, 6), Sparks_Settings['gun']['colour'],
-                                        Sparks_Settings['gun']['size']
-                              ))
 
 
 class Bullet(main):
@@ -338,5 +326,5 @@ class Bullet(main):
                               return True
                     return False
 
-          def reset(self, start_x, start_y, angle, spread):
-                    self.__init__(self.game, self.gun, (start_x, start_y), angle, self.name, spread)
+          def reset(self, pos, angle, spread):
+                    self.__init__(self.game, self.gun, pos, angle, self.name, spread)
