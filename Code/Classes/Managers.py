@@ -86,7 +86,7 @@ class BulletManager:
 
           def update(self):
                     current_time = self.game.game_time
-                    for bullet in list(self.grid.items):
+                    for bullet in self.grid.items:
                               bullet.update()
                               if current_time - bullet.creation_time > bullet.lifetime:
                                         bullet.dead = True
