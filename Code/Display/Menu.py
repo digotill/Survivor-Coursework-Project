@@ -61,7 +61,6 @@ class MainMenu:
                               if pygame.mouse.get_pressed()[0]:
                                         if self.buttons['play'].check_for_input():
                                                   self.game.in_menu = False
-                                                  self.buttons['play'].reset_position()
                                         if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
                                                   self.game.immidiate_quit = True

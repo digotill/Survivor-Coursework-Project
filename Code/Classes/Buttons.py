@@ -23,6 +23,7 @@ class UIElement:
                     self.font = pygame.font.Font(self.font, self.font_size)
                     self.text = self.font.render(self.text_input, False, self.base_colour)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
+                    self.has_text = True
 
           def update_text_position(self):
                     if self.text_pos == "top":
@@ -48,25 +49,6 @@ class UIElement:
                               self.game.ui_surface.blit(self.image, self.rect)
                               if self.has_text:
                                         self.game.ui_surface.blit(self.text, self.text_rect)
-
-          def reset_position(self):
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
-                    self.current_hover_offset = 0
-                    self.just_reset = True
-
-
-class Button(UIElement, main):
-          def __init__(self, game, dictionary):
-                    self.game = game
-                    self.set_attributes(dictionary)
-                    self.font = General_Settings['font']
-                    self.set_rect()
-                    self.starting_pos = self.calculate_starting_position()
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
-                    self.has_text = self.text_input is not None
-                    if self.has_text: self.setup_text()
 
           def update(self):
                     target = self.pos if self.active else v2(self.starting_pos)
@@ -97,10 +79,26 @@ class Button(UIElement, main):
                     if self.has_text:
                               self.update_text_position()
 
+          def init_positions(self):
+                    self.font = General_Settings['font']
+                    self.set_rect()
+                    self.starting_pos = self.calculate_starting_position()
+                    self.current_pos = v2(self.starting_pos)
+                    self.rect.center = self.current_pos
+                    self.setup_text()
+
+
+class Button(UIElement, main):
+          def __init__(self, game, dictionary):
+                    self.game = game
+
+                    self.set_attributes(dictionary)
+
+                    self.init_positions()
+
           def changeColor(self):
                     if self.has_text:
-                              colour = self.hovering_colour if self.rect.collidepoint(
-                                        self.game.correct_mouse_pos) else self.base_colour
+                              colour = self.hovering_colour if self.rect.collidepoint(self.game.correct_mouse_pos) else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
 
 
@@ -110,11 +108,7 @@ class Slider(UIElement, main):
 
                     self.set_attributes(dictionary)
 
-                    self.set_rect()
-                    self.font = General_Settings['font']
-                    self.starting_pos = self.calculate_starting_position()
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
+                    self.init_positions()
 
                     self.circle_radius = 0.3 * self.rect.height
                     self.padding = self.circle_radius * 2
@@ -126,9 +120,6 @@ class Slider(UIElement, main):
                     self.circle_rect = pygame.Rect(self.rect.x + self.value * self.rect.width - self.circle_radius,
                                                    self.rect.y - self.circle_radius + 0.5 * self.rect.height,
                                                    self.circle_radius * 2, self.circle_radius * 2)
-
-                    if self.text_input is not None:
-                              self.setup_text()
 
           def draw(self):
                     if self.is_visible_on_screen():
@@ -207,22 +198,11 @@ class Switch(UIElement, main):
                     self.game = game
 
                     self.set_attributes(dictionary)
-                    self.font = General_Settings['font']
+
+                    self.init_positions()
 
                     self.cooldown = Cooldowns['buttons']
                     self.last_pressed_time = 0
-
-                    self.set_rect()
-                    self.starting_pos = self.calculate_starting_position()
-                    self.current_pos = v2(self.starting_pos)
-                    self.rect.center = self.current_pos
-
-                    if self.text_input is not None:
-                              self.setup_text()
-                              self.has_text = True
-                    else:
-                              self.has_text = False
-                    self.update_text_position()
 
           def changeColor(self):
                     if self.has_text:
@@ -231,38 +211,8 @@ class Switch(UIElement, main):
 
           def can_change(self):
                     return self.rect.collidepoint(
-                              self.game.correct_mouse_pos) and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown
+                              self.game.correct_mouse_pos) and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown and not self.on
 
           def change_on(self):
                     self.on = not self.on
                     self.last_pressed_time = pygame.time.get_ticks() / 1000
-
-          def update(self):
-                    target = self.pos if self.active else v2(self.starting_pos)
-
-                    distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / General_Settings["buttons_friction"], 1)
-
-                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide:
-                              self.current_hover_offset = min(
-                                        self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
-                              target.x = min(self.current_pos.x + self.current_hover_offset,
-                                             self.starting_pos[0] + self.hover_offset)
-                    else:
-                              self.current_hover_offset = max(
-                                        self.current_hover_offset - self.hover_speed * self.game.dt, 0)
-                              target.x = max(self.current_pos.x - self.current_hover_offset,
-                                             self.starting_pos[0])
-
-                    direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
-                    movement = direction * self.speed * speed_factor * self.game.dt
-                    if movement.length() > distance:
-                              self.current_pos = target
-                    else:
-                              self.current_pos += movement
-
-                    self.rect.center = self.current_pos
-
-                    if self.has_text:
-                              self.update_text_position()
-
