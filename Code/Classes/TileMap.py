@@ -37,19 +37,20 @@ class TileMap:
                     self.grid.insert(tile)
 
           def draw(self):
-                    for tile_type in self.frames:
-                              self.frames[tile_type] += self.game.dt * self.animation_speed
+                    if not self.game.changing_settings:
+                              for tile_type in self.frames:
+                                        self.frames[tile_type] += self.game.dt * self.animation_speed
                     for tile in self.grid.window_query():
                               tile.draw(self.game.display_screen, self.game.window.offset_rect.topleft, self.frames[tile.tile_type])
 
           @staticmethod
           def get_tile_type(x, y):
                     noise_value = Perlin_Noise["terrain_generation"]([x * 0.05, y * 0.05])
-                    if noise_value < -0.2:
+                    if noise_value < Tile_Ranges["Water_Tile"]:
                               return "Water_Tile"
-                    elif noise_value < 0:
+                    elif noise_value < Tile_Ranges["Sand_Tile"]:
                               return "Sand_Tile"
-                    elif noise_value < 0.3:
+                    elif noise_value < Tile_Ranges["Grass_Tile"]:
                               return "Grass_Tile"
                     else:
                               return "Mountain_Tile"

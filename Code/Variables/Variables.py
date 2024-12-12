@@ -229,6 +229,13 @@ Tile_Images = {
 
 }
 
+Tile_Ranges = {
+          "Grass_Tile": 0.3,
+          "Water_Tile": -0.2,
+          "Mountain_Tile": 1,
+          "Sand_Tile": -0.1
+}
+
 Cursor_Images = {
           "Cursor_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0002.png", General_Settings['mouse_res']),
           "Cursor_Not_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0001.png", General_Settings['mouse_res'])

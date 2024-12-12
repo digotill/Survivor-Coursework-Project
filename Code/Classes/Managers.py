@@ -138,6 +138,7 @@ class ParticleManager:
                     for spark in self.grid.items:
                               spark.move()
                     self.check_if_remove()
+                    self.grid.rebuild()
 
           def draw(self):
                     for spark in self.grid.window_query():

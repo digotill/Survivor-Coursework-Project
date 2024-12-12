@@ -5,40 +5,6 @@ from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
 
 
-class RectEntity:
-          def __init__(self, game, coordinates, res, vel, name, angle=None):
-                    self.game = game
-                    self.pos = v2(coordinates)
-                    self.name = name
-                    self.res = res
-                    self.rect = pygame.Rect(self.pos.x, self.pos.y, res[0], res[1])
-                    self.vel = vel
-                    if angle is not None:
-                              self.vel_vector = v2(self.vel * math.sin(math.radians(angle)),
-                                                   self.vel * math.cos(math.radians(angle)))
-                              self.angle = angle
-
-
-class AnimatedEntity:
-          def __init__(self, game, images, animation=General_Settings["animation_speed"]):
-                    self.game = game
-                    self.images = images
-                    self.animation = animation
-                    self.frame = 0
-                    self.facing = "right"
-
-          def update_frame(self):
-                    self.frame += self.animation * self.game.dt
-
-
-class AnimalEntity:
-          def __init__(self, game, health, damage):
-                    self.game = game
-                    self.health = health
-                    self.damage = damage
-                    self.dead = False
-
-
 class main:
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
@@ -47,6 +13,7 @@ class main:
                     self.frame = 0
                     self.facing = "right"
                     self.dead = False
+                    self.creation_time = self.game.game_time
 
                     if hasattr(self, 'vel'):
                               self.max_vel = self.vel
