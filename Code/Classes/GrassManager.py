@@ -97,22 +97,38 @@ class GrassManager:
                               int(offset[1] // self.tile_size) - buffer_tiles
                     )
 
-                    # get list of grass tiles to render based on visible area plus buffer
-                    render_list = []
+                    # Get player's bottom position
+                    player_bottom = self.game.player.rect.bottom + offset[1]
+
+                    # Get list of grass tiles to render based on visible area plus buffer
+                    render_list_before = []
+                    render_list_after = []
                     for y in range(visible_tile_range[1]):
                               for x in range(visible_tile_range[0]):
                                         pos = (base_pos[0] + x, base_pos[1] + y)
                                         if pos in self.grass_tiles:
-                                                  render_list.append(pos)
+                                                  tile = self.grass_tiles[pos]
+                                                  if tile.loc[1] + self.tile_size <= player_bottom:
+                                                            render_list_before.append(pos)
+                                                  else:
+                                                            render_list_after.append(pos)
 
-                    # render shadow if applicable
+                    # Render shadows if applicable
                     if self.ground_shadow[0]:
-                              for pos in render_list:
+                              for pos in render_list_before + render_list_after:
                                         self.grass_tiles[pos].render_shadow(surf, offset=(
                                                   offset[0] - self.ground_shadow[3][0],
                                                   offset[1] - self.ground_shadow[3][1]))
 
-                    # render the grass tiles
+                    # Render grass tiles before player
+                    self._render_grass_list(surf, render_list_before, offset, rot_function)
+
+                    self.game.player.draw()
+
+                    # Render grass tiles after player
+                    self._render_grass_list(surf, render_list_after, offset, rot_function)
+
+          def _render_grass_list(self, surf, render_list, offset, rot_function):
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
                               tile.render(surf, self.game.dt, offset=offset)

@@ -64,7 +64,6 @@ class Game:
           def draw_groups(self):
                     self.tilemap.draw()
                     self.grass_manager.draw()
-                    self.player.draw()
                     self.player.gun.draw()
                     self.enemy_manager.draw_enemies()
                     self.object_manager.draw()

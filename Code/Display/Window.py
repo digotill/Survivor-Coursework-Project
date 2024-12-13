@@ -31,47 +31,28 @@ class Window(main):
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
                                       self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
 
-                    # Clamp dt to prevent large jumps
-                    clamped_dt = min(self.game.dt, 0.1)
-
                     self.mouse_smoothing = v2(
                               self.lerp(self.mouse_smoothing.x, mouse_target.x,
-                                        min(1, self.window_mouse_smoothing_amount * clamped_dt)),
+                                        self.window_mouse_smoothing_amount * self.game.dt),
                               self.lerp(self.mouse_smoothing.y, mouse_target.y,
-                                        min(1, self.window_mouse_smoothing_amount * clamped_dt))
+                                        self.window_mouse_smoothing_amount * self.game.dt)
                     )
 
-                    # Apply deadzone
                     self.mouse_smoothing.x = 0 if abs(
                               self.mouse_smoothing.x) < self.deadzone else self.mouse_smoothing.x
                     self.mouse_smoothing.y = 0 if abs(
                               self.mouse_smoothing.y) < self.deadzone else self.mouse_smoothing.y
 
-                    # Clamp mouse_smoothing to prevent extreme values
-                    max_smoothing = self.window_max_offset
-                    self.mouse_smoothing.x = max(-max_smoothing, min(max_smoothing, self.mouse_smoothing.x))
-                    self.mouse_smoothing.y = max(-max_smoothing, min(max_smoothing, self.mouse_smoothing.y))
-
           def calculate_offset(self):
                     self.target_offset = v2(
-                              self.window_max_offset * self.mouse_smoothing.x / max(abs(self.mouse_smoothing.x), 1),
-                              self.window_max_offset * self.mouse_smoothing.y / max(abs(self.mouse_smoothing.y), 1)
+                              self.window_max_offset * int(self.mouse_smoothing.x),
+                              self.window_max_offset * int(self.mouse_smoothing.y)
                     )
-
-                    # Clamp dt to prevent large jumps
-                    clamped_dt = min(self.game.dt, 0.1)
 
                     self.current_offset = v2(
-                              self.lerp(self.current_offset.x, self.target_offset.x,
-                                        min(1, self.lerp_speed * clamped_dt)),
-                              self.lerp(self.current_offset.y, self.target_offset.y,
-                                        min(1, self.lerp_speed * clamped_dt))
+                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
+                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt)
                     )
-
-                    # Clamp current_offset to prevent extreme values
-                    max_offset = self.window_max_offset
-                    self.current_offset.x = max(-max_offset, min(max_offset, self.current_offset.x))
-                    self.current_offset.y = max(-max_offset, min(max_offset, self.current_offset.y))
 
                     return v2(round(self.current_offset.x), round(self.current_offset.y))
 
