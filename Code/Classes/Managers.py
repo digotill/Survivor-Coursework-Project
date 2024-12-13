@@ -25,7 +25,7 @@ class EnemyManager:
                     self.add_enemies(Enemies["enemy1"])
                     self.grid.rebuild()
 
-          def draw_enemies(self):
+          def draw(self):
                     for enemy in self.grid.window_query():
                               enemy.blit()
 
@@ -244,6 +244,6 @@ class ButtonManager:
                                         self.game.restart = True
                               else: self.last_pressed_time = temp_time
 
-          def draw_buttons(self):
+          def draw(self):
                     for button in list(self.buttons.values()) + list(self.sliders.values()):
                               button.draw()

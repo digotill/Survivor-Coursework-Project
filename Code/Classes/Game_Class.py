@@ -4,7 +4,7 @@ from Code.Display.Menu import *
 from Code.Display.UI import *
 from Code.Display.Window import *
 from Code.Classes.TileMap import TileMap
-from Code.Classes.grass import *
+from Code.Classes.GrassManager import *
 
 
 class Game:
@@ -34,8 +34,7 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
-                    self.grass_manager = GrassManager(self, "Assets/Misc/Grass", tile_size=16, stiffness=600, max_unique=5, place_range=[0, 1])
-                    self.grass_manager.enable_ground_shadows(shadow_radius=4, shadow_color=(0, 0, 1), shadow_shift=(1, 2))
+                    self.grass_manager = GrassManager(self)
 
                     self.ui = UI(self)
                     self.window = Window(self)
@@ -64,10 +63,10 @@ class Game:
 
           def draw_groups(self):
                     self.tilemap.draw()
-                    self.grass_manager.update_render(self.display_screen, self.dt, offset=self.window.offset_rect.topleft)
+                    self.grass_manager.draw()
                     self.player.draw()
                     self.player.gun.draw()
-                    self.enemy_manager.draw_enemies()
+                    self.enemy_manager.draw()
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
@@ -75,7 +74,7 @@ class Game:
                     self.ui.draw_bars()
                     self.ui.draw_fps()
                     self.ui.draw_time()
-                    self.button_manager.draw_buttons()
+                    self.button_manager.draw()
 
           def update_display(self):
                     self.display_screen.blit(self.ui_surface)
