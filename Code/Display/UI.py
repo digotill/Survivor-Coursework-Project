@@ -43,7 +43,8 @@ class UI:
 
           def draw_fps(self):
                     if self.fps_enabled:
-                              text = self.font.render(str(int(self.game.clock.get_fps())) + "  FPS", False,
+                              fps = str(int(max(min(AllButtons["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()), AllButtons["Sliders"]["fps"]["min_value"])))
+                              text = self.font.render(fps + "  FPS", False,
                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=UI_Settings["fps"])
                               self.game.ui_surface.blit(text, text_rect)

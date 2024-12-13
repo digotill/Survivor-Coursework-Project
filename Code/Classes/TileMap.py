@@ -60,15 +60,16 @@ class TileMap:
           def get_tile_at(self, world_position):
                     grid_x = int(world_position[0] // self.tile_size)
                     grid_y = int(world_position[1] // self.tile_size)
-                    rect = pygame.Rect(grid_x, grid_y, self.tile_size, self.tile_size)
-                    for tile in self.grid.query(rect):
-                                        return tile
-                    return None
+                    rect = pygame.Rect(grid_x * self.tile_size, grid_y * self.tile_size, self.tile_size, self.tile_size)
+                    tiles = self.grid.query(rect)
+                    tile = next(iter(tiles), None)
+                    print(f"Querying at {(grid_x, grid_y)}, found tile: {tile.tile_type if tile else None}")
+                    return tile
 
-          def tile_collision(self, rect, *args):
+          def tile_collision(self, rect, *tile_types):
                     for tile in self.grid.query(rect):
-                              for a in args:
-                                        if tile.tile_type == a:
+                              for tile_type in tile_types:
+                                        if tile.tile_type == tile_type:
                                                   return True
                     return False
 
@@ -90,6 +91,10 @@ class TileMap:
                               x += 5
                               for y in range(20):
                                         y += 5
-                                        v = random.random()
-                                        if v > 0.1:
-                                                  self.game.grass_manager.place_tile((x, y), int(v * 20), [0, 1, 2, 3, 4])
+                                        world_pos = (x * self.tile_size, y * self.tile_size)
+                                        tile = self.get_tile_at(world_pos)
+                                        if tile and tile.tile_type == "Grass_Tile":
+                                                  v = random.random()
+                                                  if v > 0.1:
+                                                            self.game.grass_manager.place_tile((x, y), int(v * 20),
+                                                                                               [0, 1, 2, 3, 4])
