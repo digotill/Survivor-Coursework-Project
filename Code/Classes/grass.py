@@ -4,20 +4,18 @@ import math
 from copy import deepcopy
 
 from Code.Utilities.Utils import *
-from Code.Variables.Variables import *
 
 import pygame
 
 
 # the main object that manages the grass system
 class GrassManager:
-          def __init__(self, game, grass_path="Assets/Misc/Grass", tile_size=16, shade_amount=100, stiffness=600,
-                       max_unique=10,
+          def __init__(self, game, grass_path, tile_size=15, shade_amount=100, stiffness=360, max_unique=10,
                        place_range=None, padding=13):
                     self.game = game
                     # asset manager
                     if place_range is None:
-                              place_range = [0, 1]
+                              place_range = [1, 1]
                     self.ga = GrassAssets(grass_path, self)
 
                     # caching variables
@@ -37,16 +35,10 @@ class GrassManager:
                     self.vertical_place_range = place_range
                     self.ground_shadow = [0, (0, 0, 0), 100, (0, 0)]
                     self.padding = padding
-                    self.time_offset = random.uniform(0, 100)
-                    self.random_offsets = [random.uniform(-0.2, 0.2) for _ in range(10)]  # Reduced range
-                    self.frequency_offsets = [random.uniform(0.9, 1.1) for _ in range(5)]  # Narrower range
-                    self.amplitude_offsets = [random.uniform(0.3, 0.7) for _ in range(5)]  # Reduced amplitude range
-
-                    self.enable_ground_shadows()
 
           # enables circular shadows that appear below each blade of grass
-          def enable_ground_shadows(self, shadow_strength=40, shadow_radius=4, shadow_color=(0, 0, 1),
-                                    shadow_shift=(1, 2)):
+          def enable_ground_shadows(self, shadow_strength=40, shadow_radius=2, shadow_color=(0, 0, 1),
+                                    shadow_shift=(0, 0)):
                     # don't interfere with colorkey
                     if shadow_color == (0, 0, 0):
                               shadow_color = (0, 0, 1)
@@ -86,31 +78,7 @@ class GrassManager:
                                                   self.grass_tiles[pos].apply_force(location, radius, dropoff)
 
           # an update and render combination function
-          def draw(self):
-                    offset = self.game.window.offset_rect.topleft
-                    surf = self.game.display_screen
-
-                    def rot_function(x_val, y_val):
-                              time = self.game.game_time + self.time_offset
-
-                              # Base oscillation
-                              base_rotation = math.sin(time * 2 + x_val / 100) * 10
-
-                              # Add multiple sine waves with different frequencies and amplitudes
-                              for i in range(5):
-                                        freq = self.frequency_offsets[i]
-                                        amp = self.amplitude_offsets[i]
-                                        base_rotation += math.sin(time * freq + x_val / (50 + i * 10)) * 5 * amp
-
-                              # Add some noise
-                              noise_index = (int(x_val / 50) + int(y_val / 50)) % len(self.random_offsets)
-                              random_factor = self.random_offsets[noise_index] * 10
-
-                              # Add a slow-changing offset based on position
-                              position_offset = math.sin(x_val / 200 + y_val / 200 + time / 10) * 5
-
-                              return int(base_rotation + random_factor + position_offset)
-
+          def update_render(self, surf, dt, offset=(0, 0), rot_function=None):
                     visible_tile_range = (
                               int(surf.get_width() // self.tile_size) + 1, int(surf.get_height() // self.tile_size) + 1)
                     base_pos = (int(offset[0] // self.tile_size), int(offset[1] // self.tile_size))
@@ -133,7 +101,7 @@ class GrassManager:
                     # render the grass tiles
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
-                              tile.render(surf, self.game.dt, offset=offset)
+                              tile.render(surf, dt, offset=offset)
                               if rot_function:
                                         tile.set_rotation(rot_function(tile.loc[0], tile.loc[1]))
 
