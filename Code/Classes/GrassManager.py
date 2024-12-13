@@ -10,12 +10,12 @@ import pygame
 
 # the main object that manages the grass system
 class GrassManager:
-          def __init__(self, game, grass_path, tile_size=15, shade_amount=100, stiffness=360, max_unique=10,
+          def __init__(self, game, grass_path="Assets/Misc/Grass", tile_size=16, shade_amount=100, stiffness=600, max_unique=5,
                        place_range=None, padding=13):
                     self.game = game
                     # asset manager
                     if place_range is None:
-                              place_range = [1, 1]
+                              place_range = [0, 1]
                     self.ga = GrassAssets(grass_path, self)
 
                     # caching variables
@@ -35,10 +35,11 @@ class GrassManager:
                     self.vertical_place_range = place_range
                     self.ground_shadow = [0, (0, 0, 0), 100, (0, 0)]
                     self.padding = padding
+                    self.enable_ground_shadows()
 
           # enables circular shadows that appear below each blade of grass
           def enable_ground_shadows(self, shadow_strength=40, shadow_radius=2, shadow_color=(0, 0, 1),
-                                    shadow_shift=(0, 0)):
+                                    shadow_shift=(1, 2)):
                     # don't interfere with colorkey
                     if shadow_color == (0, 0, 0):
                               shadow_color = (0, 0, 1)
@@ -78,12 +79,25 @@ class GrassManager:
                                                   self.grass_tiles[pos].apply_force(location, radius, dropoff)
 
           # an update and render combination function
-          def update_render(self, surf, dt, offset=(0, 0), rot_function=None):
-                    visible_tile_range = (
-                              int(surf.get_width() // self.tile_size) + 1, int(surf.get_height() // self.tile_size) + 1)
-                    base_pos = (int(offset[0] // self.tile_size), int(offset[1] // self.tile_size))
+          def draw(self):
+                    surf = self.game.display_screen
+                    offset = self.game.window.offset_rect.topleft
+                    game_time = self.game.game_time
+                    rot_function = lambda x, y: int(math.sin(game_time * 2 + x / 100 + y / 150) * 15 +
+                                                    math.cos(game_time * 1.5 + y / 120 + x / 180) * 5)
 
-                    # get list of grass tiles to render based on visible area
+                    # Increase the rendering area by adding a buffer
+                    buffer_tiles = 2  # Adjust this value as needed
+                    visible_tile_range = (
+                              int(surf.get_width() // self.tile_size) + 1 + buffer_tiles * 2,
+                              int(surf.get_height() // self.tile_size) + 1 + buffer_tiles * 2
+                    )
+                    base_pos = (
+                              int(offset[0] // self.tile_size) - buffer_tiles,
+                              int(offset[1] // self.tile_size) - buffer_tiles
+                    )
+
+                    # get list of grass tiles to render based on visible area plus buffer
                     render_list = []
                     for y in range(visible_tile_range[1]):
                               for x in range(visible_tile_range[0]):
@@ -101,7 +115,7 @@ class GrassManager:
                     # render the grass tiles
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
-                              tile.render(surf, dt, offset=offset)
+                              tile.render(surf, self.game.dt, offset=offset)
                               if rot_function:
                                         tile.set_rotation(rot_function(tile.loc[0], tile.loc[1]))
 
