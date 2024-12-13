@@ -34,12 +34,12 @@ class Game:
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
-                    self.grass_manager = GrassManager(self, "Assets/Misc/Grass", tile_size=10, stiffness=600, max_unique=5, place_range=[0, 1])
+                    self.grass_manager = GrassManager(self, "Assets/Misc/Grass", tile_size=1, stiffness=600, max_unique=5, place_range=[0, 1])
                     self.grass_manager.enable_ground_shadows(shadow_radius=4, shadow_color=(0, 0, 1), shadow_shift=(1, 2))
 
                     self.ui = UI(self)
-                    self.tilemap = TileMap(self)
                     self.window = Window(self)
+                    self.tilemap = TileMap(self)
 
                     self.update_game_variables()
 

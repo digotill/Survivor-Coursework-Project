@@ -12,6 +12,7 @@ import pygame
 class GrassManager:
           def __init__(self, game, grass_path, tile_size=15, shade_amount=100, stiffness=360, max_unique=10,
                        place_range=None, padding=13):
+                    self.game = game
                     # asset manager
                     if place_range is None:
                               place_range = [1, 1]
@@ -250,7 +251,6 @@ class GrassTile:
           # draw the grass itself
           def render(self, surf, dt, offset=(0, 0)):
                     # render a new grass tile image if using custom uncached data otherwise use cached data if possible
-                    print("heelloo")
                     if self.custom_blade_data:
                               surf.blit(self.render_tile(), (
                                         self.loc[0] - offset[0] - self.padding, self.loc[1] - offset[1] - self.padding))

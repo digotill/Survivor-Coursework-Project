@@ -12,7 +12,7 @@ PROFILE = False
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
-GAME_SIZE = 4000, 4000
+GAME_SIZE = 2000, 2000
 REN_RES = 640, 360
 
 Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)

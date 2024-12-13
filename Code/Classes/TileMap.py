@@ -29,6 +29,7 @@ class TileMap:
                     self.frames = {tile_type: 0 for tile_type in Tile_Images.keys()}
 
                     self.terrain_generator()
+                    self.place_grass()
 
                     self.grid.rebuild()
 
@@ -41,7 +42,8 @@ class TileMap:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
                     for tile in self.grid.window_query():
-                              tile.draw(self.game.display_screen, self.game.window.offset_rect.topleft, self.frames[tile.tile_type])
+                              tile.draw(self.game.display_screen, self.game.window.offset_rect.topleft,
+                                        self.frames[tile.tile_type])
 
           @staticmethod
           def get_tile_type(x, y):
@@ -58,11 +60,17 @@ class TileMap:
           def get_tile_at(self, world_position):
                     grid_x = int(world_position[0] // self.tile_size)
                     grid_y = int(world_position[1] // self.tile_size)
-                    rect = pygame.Rect(world_position[0] , world_position[1], self.tile_size, self.tile_size)
+                    rect = pygame.Rect(grid_x, grid_y, self.tile_size, self.tile_size)
                     for tile in self.grid.query(rect):
-                              if tile.position.x == grid_x * self.tile_size and tile.position.y == grid_y * self.tile_size:
                                         return tile
                     return None
+
+          def tile_collision(self, rect, tile_type):
+                    for tile in self.grid.query(rect):
+                              if tile.tile_type == tile_type:
+                                        return True
+
+
 
           def update_tile(self, world_position, new_tile_type):
                     tile = self.get_tile_at(world_position)
@@ -80,9 +88,10 @@ class TileMap:
           def place_grass(self):
                     for x in range(self.width):
                               for y in range(self.height):
-                                        world_x = x * self.tile_size
-                                        world_y = y * self.tile_size
-                                        tile = self.get_tile_at((world_x, world_y))
-                                        v = random.random()
-                                        if tile and tile.tile_type == "Grass_Tile" and v > 0.1:
-                                                  self.game.grass_manager.place_tile((world_x, world_y), int(v * 12), [0, 1, 2, 3, 4])
+                                        world_x = x * self.tile_size + 8
+                                        world_y = y * self.tile_size + 8
+                                        density = int(10)
+                                        grass_options = [0, 1, 2, 3, 4]
+                                        if self.tile_collision(pygame.Rect(world_x - 8, world_y - 8, 16, 16), "Grass_Tile"):
+                                                  self.game.grass_manager.place_tile((world_x, world_y), density,
+                                                                                     grass_options)
