@@ -1,7 +1,12 @@
 from Code.Classes.Entities import *
 
 
-class Camera(main):
+class main_camera:
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
+
+class Camera(main_camera):
           def __init__(self, game):
                     self.game = game
                     self.res = REN_RES

@@ -83,6 +83,25 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
           outlined_img.blit(img)
           return outlined_img
 
+def lookup_colour(colour):
+          color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
+          for colour in color_list: print(colour)
+
+def flip_image(image):
+          return pygame.transform.flip(image, True, False)
+
+def flip_images(images):
+          return [flip_image(image) for image in images]
+
+def normalize(val, amt, target):
+          if val > target + amt:
+                    val -= amt
+          elif val < target - amt:
+                    val += amt
+          else:
+                    val = target
+          return val
+
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
@@ -190,22 +209,3 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     "separation_radius": res[0] / 2,
                     "separation_strength": 0.5,
           }
-
-def lookup_colour(colour):
-          color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
-          for colour in color_list: print(colour)
-
-def flip_image(image):
-          return pygame.transform.flip(image, True, False)
-
-def flip_images(images):
-          return [flip_image(image) for image in images]
-
-def normalize(val, amt, target):
-          if val > target + amt:
-                    val -= amt
-          elif val < target - amt:
-                    val += amt
-          else:
-                    val = target
-          return val
