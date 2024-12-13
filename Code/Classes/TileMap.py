@@ -86,13 +86,10 @@ class TileMap:
                                         self.add_tile(tile_type, (x, y))
 
           def place_grass(self):
-                    for x in range(self.width):
-                              for y in range(self.height):
-                                        number_of_grass = random.randint(1, 1)
-                                        for _ in range(number_of_grass):
-                                                  world_x = x * self.tile_size + change_by(8, 20)
-                                                  world_y = y * self.tile_size + change_by(8, 8)
-                                                  density = random.randint(5, 15)
-                                                  grass_option = random.choice([0, 1, 2, 3, 4])
-                                                  if not self.tile_collision(pygame.Rect(world_x, world_y, 1, 1), "Water_Tile", "Mountain_Tile"):
-                                                            self.game.grass_manager.place_tile((world_x, world_y), density, [grass_option])
+                    for x in range(20):
+                              x += 5
+                              for y in range(20):
+                                        y += 5
+                                        v = random.random()
+                                        if v > 0.1:
+                                                  self.game.grass_manager.place_tile((x, y), int(v * 20), [0, 1, 2, 3, 4])

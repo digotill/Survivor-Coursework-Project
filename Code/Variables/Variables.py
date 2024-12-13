@@ -6,7 +6,7 @@ from pygame.math import Vector2 as v2
 pygame.init()
 
 START_FULLSCREEN = False
-PEACEFUL_MODE = True
+PEACEFUL_MODE = False
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -201,7 +201,7 @@ AllButtons = {
                     "Sliders": {
                               "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness", 0, 100,
                                                           General_Settings['brightness']),
-                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 60, 500,
+                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS", 20, 500,
                                                    pygame.display.get_current_refresh_rate())
                     },
                     "Menu_Buttons": {
