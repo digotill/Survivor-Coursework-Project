@@ -65,12 +65,12 @@ class TileMap:
                                         return tile
                     return None
 
-          def tile_collision(self, rect, tile_type):
+          def tile_collision(self, rect, *args):
                     for tile in self.grid.query(rect):
-                              if tile.tile_type == tile_type:
-                                        return True
-
-
+                              for a in args:
+                                        if tile.tile_type == a:
+                                                  return True
+                    return False
 
           def update_tile(self, world_position, new_tile_type):
                     tile = self.get_tile_at(world_position)
@@ -88,10 +88,11 @@ class TileMap:
           def place_grass(self):
                     for x in range(self.width):
                               for y in range(self.height):
-                                        world_x = x * self.tile_size + 8
-                                        world_y = y * self.tile_size + 8
-                                        density = int(10)
-                                        grass_options = [0, 1, 2, 3, 4]
-                                        if self.tile_collision(pygame.Rect(world_x - 8, world_y - 8, 16, 16), "Grass_Tile"):
-                                                  self.game.grass_manager.place_tile((world_x, world_y), density,
-                                                                                     grass_options)
+                                        number_of_grass = random.randint(1, 1)
+                                        for _ in range(number_of_grass):
+                                                  world_x = x * self.tile_size + change_by(8, 20)
+                                                  world_y = y * self.tile_size + change_by(8, 8)
+                                                  density = random.randint(5, 15)
+                                                  grass_option = random.choice([0, 1, 2, 3, 4])
+                                                  if not self.tile_collision(pygame.Rect(world_x, world_y, 1, 1), "Water_Tile", "Mountain_Tile"):
+                                                            self.game.grass_manager.place_tile((world_x, world_y), density, [grass_option])

@@ -20,6 +20,12 @@ def change_random(number, diff):
           else:
                     return number + diff
 
+def change_by(number, amount):
+          if random.random() < 0.5:
+                    return number - random.randint(0, amount)
+          else:
+                    return number + random.randint(0, amount)
+
 
 def calculate_distances(player_pos, enemy_positions):
           return np.linalg.norm(enemy_positions - player_pos, axis=1)
