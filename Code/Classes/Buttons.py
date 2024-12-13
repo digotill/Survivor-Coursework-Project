@@ -19,7 +19,7 @@ class UIElement:
                               return self.pos.x, y
 
           def setup_text(self):
-                    self.font_size = int(self.rect.height / General_Settings['font_size'])
+                    self.font_size = int(self.rect.height / Font_Config['font_size'])
                     self.font = pygame.font.Font(self.font, self.font_size)
                     self.text = self.font.render(self.text_input, False, self.base_colour)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
@@ -54,7 +54,7 @@ class UIElement:
                     target = self.pos if self.active else v2(self.starting_pos)
 
                     distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / General_Settings["buttons_friction"], 1)
+                    speed_factor = min(distance / AllButtons["speed"], 1)
 
                     if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide:
                               self.current_hover_offset = min(
@@ -80,7 +80,7 @@ class UIElement:
                               self.update_text_position()
 
           def init_positions(self):
-                    self.font = General_Settings['font']
+                    self.font = Font_Config['font']
                     self.set_rect()
                     self.starting_pos = self.calculate_starting_position()
                     self.current_pos = v2(self.starting_pos)
@@ -138,7 +138,7 @@ class Slider(UIElement, main):
                     target = self.pos if self.active else v2(self.starting_pos)
 
                     distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / General_Settings["buttons_friction"], 1)
+                    speed_factor = min(distance / AllButtons["speed"], 1)
 
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt

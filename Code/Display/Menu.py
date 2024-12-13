@@ -19,7 +19,7 @@ class MainMenu:
                     self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else \
                               Loading_Screens["Orange_Pond"]
                     self.current_frame = 0
-                    self.difficulty = General_Settings['difficulty']
+                    self.difficulty = "MEDIUM"
                     self.animation_speed = General_Settings["main_menu_animation_speed"]
                     self.create_weapons()
 

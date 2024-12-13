@@ -4,19 +4,22 @@ import math
 from copy import deepcopy
 
 from Code.Utilities.Utils import *
+from Code.Variables.Variables import *
 
 import pygame
 
 
+class main_grass:
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
+
 # the main object that manages the grass system
-class GrassManager:
-          def __init__(self, game, grass_path="Assets/Misc/Grass", tile_size=16, shade_amount=100, stiffness=600, max_unique=5,
-                       place_range=None, padding=13):
+class GrassManager(main_grass):
+          def __init__(self, game):
                     self.game = game
                     # asset manager
-                    if place_range is None:
-                              place_range = [0, 1]
-                    self.ga = GrassAssets(grass_path, self)
+                    self.ga = GrassAssets(Grass["Grass_Path"], self)
 
                     # caching variables
                     self.grass_id = 0
@@ -27,24 +30,7 @@ class GrassManager:
                     # tile data
                     self.grass_tiles = {}
 
-                    # config
-                    self.tile_size = tile_size
-                    self.shade_amount = shade_amount
-                    self.stiffness = stiffness
-                    self.max_unique = max_unique
-                    self.vertical_place_range = place_range
-                    self.ground_shadow = [0, (0, 0, 0), 100, (0, 0)]
-                    self.padding = padding
-                    self.enable_ground_shadows()
-
-          # enables circular shadows that appear below each blade of grass
-          def enable_ground_shadows(self, shadow_strength=40, shadow_radius=2, shadow_color=(0, 0, 1),
-                                    shadow_shift=(1, 2)):
-                    # don't interfere with colorkey
-                    if shadow_color == (0, 0, 0):
-                              shadow_color = (0, 0, 1)
-
-                    self.ground_shadow = [shadow_radius, shadow_color, shadow_strength, shadow_shift]
+                    self.set_attributes(Grass["Grass_Settings"])
 
           # either creates a new grass tile layout or returns an existing one if the cap has been hit
           def get_format(self, format_id, data, tile_id):
@@ -82,12 +68,9 @@ class GrassManager:
           def draw(self):
                     surf = self.game.display_screen
                     offset = self.game.window.offset_rect.topleft
-                    game_time = self.game.game_time
-                    rot_function = lambda x, y: int(math.sin(game_time * 2 + x / 100 + y / 150) * 15 +
-                                                    math.cos(game_time * 1.5 + y / 120 + x / 180) * 5)
 
                     # Increase the rendering area by adding a buffer
-                    buffer_tiles = 2  # Adjust this value as needed
+                    buffer_tiles = Grass["Buffer_Size"]  # Adjust this value as needed
                     visible_tile_range = (
                               int(surf.get_width() // self.tile_size) + 1 + buffer_tiles * 2,
                               int(surf.get_height() // self.tile_size) + 1 + buffer_tiles * 2
@@ -97,43 +80,26 @@ class GrassManager:
                               int(offset[1] // self.tile_size) - buffer_tiles
                     )
 
-                    # Get player's bottom position
-                    player_bottom = self.game.player.rect.bottom + offset[1]
-
-                    # Get list of grass tiles to render based on visible area plus buffer
-                    render_list_before = []
-                    render_list_after = []
+                    # get list of grass tiles to render based on visible area plus buffer
+                    render_list = []
                     for y in range(visible_tile_range[1]):
                               for x in range(visible_tile_range[0]):
                                         pos = (base_pos[0] + x, base_pos[1] + y)
                                         if pos in self.grass_tiles:
-                                                  tile = self.grass_tiles[pos]
-                                                  if tile.loc[1] + self.tile_size <= player_bottom:
-                                                            render_list_before.append(pos)
-                                                  else:
-                                                            render_list_after.append(pos)
+                                                  render_list.append(pos)
 
-                    # Render shadows if applicable
+                    # render shadow if applicable
                     if self.ground_shadow[0]:
-                              for pos in render_list_before + render_list_after:
+                              for pos in render_list:
                                         self.grass_tiles[pos].render_shadow(surf, offset=(
                                                   offset[0] - self.ground_shadow[3][0],
                                                   offset[1] - self.ground_shadow[3][1]))
 
-                    # Render grass tiles before player
-                    self._render_grass_list(surf, render_list_before, offset, rot_function)
-
-                    self.game.player.draw()
-
-                    # Render grass tiles after player
-                    self._render_grass_list(surf, render_list_after, offset, rot_function)
-
-          def _render_grass_list(self, surf, render_list, offset, rot_function):
+                    # render the grass tiles
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
                               tile.render(surf, self.game.dt, offset=offset)
-                              if rot_function:
-                                        tile.set_rotation(rot_function(tile.loc[0], tile.loc[1]))
+                              tile.set_rotation(Grass["Rot_Function"](tile.loc[0], tile.loc[1], self.game.game_time))
 
 
 # an asset manager that contains functionality for rendering blades of grass
@@ -172,7 +138,7 @@ class GrassTile:
                     self.size = tile_size
                     self.blades = []
                     self.master_rotation = 0
-                    self.precision = 30
+                    self.precision = Grass["Precision"]
                     self.padding = self.gm.padding
                     self.inc = 90 / self.precision
 
@@ -213,20 +179,18 @@ class GrassTile:
                               self.custom_blade_data = [None] * len(self.blades)
 
                     for i, blade in enumerate(self.blades):
-                              orig_data = self.custom_blade_data[i]
                               dis = math.sqrt((self.loc[0] + blade[0][0] - force_point[0]) ** 2 + (
                                       self.loc[1] + blade[0][1] - force_point[1]) ** 2)
-                              max_force = False
                               if dis < force_radius:
                                         force = 2
                               else:
                                         dis = max(0, dis - force_radius)
                                         force = 1 - min(dis / force_dropoff, 1)
-                              dir = 1 if force_point[0] > (self.loc[0] + blade[0][0]) else -1
+                              dir_ = 1 if force_point[0] > (self.loc[0] + blade[0][0]) else -1
                               # don't update unless force is greater
                               if not self.custom_blade_data[i] or abs(
                                       self.custom_blade_data[i][2] - self.blades[i][2]) <= abs(force) * 90:
-                                        self.custom_blade_data[i] = [blade[0], blade[1], blade[2] + dir * force * 90]
+                                        self.custom_blade_data[i] = [blade[0], blade[1], blade[2] + dir_ * force * 90]
 
           # update the identifier used to find a valid cached image
           def update_render_data(self):

@@ -8,15 +8,13 @@ import pygame, math, random
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = SpatialHash(game)
+                    self.grid = HashMap(game)
                     self.enemy_pool = set()
                     self.spawn_cooldown = 1
                     self.last_spawn = 0
                     self.enemy_multiplier = 1
-                    self.separation_radius = General_Settings["enemy_separation_radius"]
-                    self.separation_strength = General_Settings["enemy_separation_strength"]
 
-          def update_enemies(self):
+          def update(self):
                     for enemy in self.grid.items:
                               enemy.update()
                               separation_force = self.calculate_separation(enemy)
@@ -25,7 +23,7 @@ class EnemyManager:
                     self.add_enemies(Enemies["enemy1"])
                     self.grid.rebuild()
 
-          def draw_enemies(self):
+          def draw(self):
                     for enemy in self.grid.window_query():
                               enemy.blit()
 
@@ -60,12 +58,12 @@ class EnemyManager:
                     steering = v2(0, 0)
                     total = 0
                     nearby_enemies = self.grid.query(
-                              enemy.rect.inflate(self.separation_radius * 2, self.separation_radius * 2))
+                              enemy.rect.inflate(enemy.separation_radius * 2, enemy.separation_radius * 2))
 
                     for other in nearby_enemies:
                               if other != enemy:
                                         distance = enemy.pos.distance_to(other.pos)
-                                        if distance < self.separation_radius:
+                                        if distance < enemy.separation_radius:
                                                   diff = (enemy.pos - other.pos).normalize() / distance
                                                   steering += diff
                                                   total += 1
@@ -75,13 +73,13 @@ class EnemyManager:
                               if steering.length() > enemy.vel:
                                         steering = steering.normalize() * enemy.vel
 
-                    return steering * self.separation_strength
+                    return steering * enemy.separation_strength
 
 
 class BulletManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = SpatialHash(game)
+                    self.grid = HashMap(game)
                     self.bullet_pool = set()
 
           def update(self):
@@ -131,7 +129,7 @@ class BulletManager:
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = SpatialHash(game)
+                    self.grid = HashMap(game)
                     self.spark_pool = set()
 
           def update(self):
@@ -171,7 +169,7 @@ class ParticleManager:
 class ObjectManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = SpatialHash(game)
+                    self.grid = HashMap(game)
 
                     self.object_pool = set()
 
@@ -204,6 +202,9 @@ class ButtonManager:
                     self.cooldown = Cooldowns['buttons']
                     self.last_pressed_time = 0
 
+                    self.value_cooldown = 0.1
+                    self.last_value_set = 0
+
           def _create_buttons(self):
                     button_configs = AllButtons
                     for name, config in button_configs["In_Game"].items():
@@ -220,14 +221,14 @@ class ButtonManager:
                                         copy.deepcopy(config)
                               )
 
-          def update_buttons(self):
+          def update(self):
                     all_elements = list(self.buttons.values()) + list(self.sliders.values())
                     for buttons in all_elements:
                               buttons.active = self.game.changing_settings
                               buttons.update()
                               buttons.changeColor()
 
-                    if self.game.mouse_state[0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
+                    if self.game.changing_settings and self.game.mouse_state[0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
                               temp_time = self.last_pressed_time
                               self.last_pressed_time = pygame.time.get_ticks() / 1000
                               if self.buttons['resume'].check_for_input():
@@ -244,6 +245,11 @@ class ButtonManager:
                                         self.game.restart = True
                               else: self.last_pressed_time = temp_time
 
-          def draw_buttons(self):
+                    if self.game.changing_settings and pygame.time.get_ticks() / 1000 - self.last_value_set > self.value_cooldown:
+                              self.game.fps = self.sliders['fps'].value
+                              self.game.ui.brightness = self.sliders['brightness'].value
+                              self.last_value_set = pygame.time.get_ticks() / 1000
+
+          def draw(self):
                     for button in list(self.buttons.values()) + list(self.sliders.values()):
                               button.draw()

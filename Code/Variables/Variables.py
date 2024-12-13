@@ -6,13 +6,13 @@ from pygame.math import Vector2 as v2
 pygame.init()
 
 START_FULLSCREEN = False
-PEACEFUL_MODE = True
+PEACEFUL_MODE = False
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MIN_WIN_RES = 1280, 720
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
-GAME_SIZE = 2000, 2000
+GAME_SIZE = 3000, 3000
 REN_RES = 640, 360
 
 Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
@@ -21,26 +21,16 @@ pygame.display.set_icon(load_image("Assets/Misc/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
-          'difficulty': "MEDIUM",
           'volume': 0.5,
           'animation_speed': 5,
           'main_menu_animation_speed': 15,
-          'mouse_res': (13, 13),
-          'font': "Assets/Font/font2.ttf",
-          'font_size': 1.4,
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
-          'buttons_res': (46, 15),
-          'buttons_speed': 900,
-          'buttons_friction': 300,
-          'fps_size': 15,
-          'enemy_separation_radius': 15,
-          'enemy_separation_strength': 0.4,
           'max_enemies': 100,
           'brightness': 50,
-          'max_brightness': 2.5,
-          'min_brightness': 0.5,
+          'max_brightness': 5,
+          'min_brightness': 5,
           'spatial_hash_map_size': 100,
           'tilemap_size': 16,
           'darkness': (12, 12, 12)
@@ -61,9 +51,26 @@ Window_Attributes = {
           'shake_magnitude': 0,
 }
 
+Grass = {
+          "Grass_Settings": {
+                    "tile_size": 16,
+                    "shade_amount": 100,
+                    "stiffness": 600,
+                    "max_unique": 5,
+                    "vertical_place_range": [0, 1],
+                    "padding": 13,
+                    "ground_shadow": [2, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
+          },
+          "Grass_Path": "Assets/Misc/Grass",
+          "Buffer_Size": 2,
+          "Precision": 30,
+          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
+                                                            math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
+}
+
 Entity_Images = {
-          "player": cached_import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
-          "enemy1": cached_import_gif("Assets/Entities/Enemy1", (32, 36)),
+          "player": import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
+          "enemy1": import_gif("Assets/Entities/Enemy1", (32, 36)),
 }
 
 Player_Attributes = {
@@ -112,6 +119,7 @@ UI_Settings = {
           "outside_bar_res": (106, 19),
           "fps": (150, 70),
           "time": (150, 70),
+          "fps_time_size": 14,
 }
 
 Screen_Shake = {
@@ -210,25 +218,25 @@ AllButtons = {
                               "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
                               "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
                               "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
-                    }
+                    },
+                    'speed': 300,
           }
 
 
 Loading_Screens = {
-          "Green_Waterfall": cached_import_gif("Assets/LoadingScreens/1", WIN_RES),
-          "Orange_Pond": cached_import_gif("Assets/LoadingScreens/2", WIN_RES)
+          "Green_Waterfall": import_gif("Assets/LoadingScreens/1", WIN_RES),
+          "Orange_Pond": import_gif("Assets/LoadingScreens/2", WIN_RES)
 }
 
 Tile_Images = {
-          "Grass_Tile": cached_import_gif("Assets/Misc/Tiles/grass",
+          "Grass_Tile": import_gif("Assets/Misc/Tiles/grass",
                                    (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Water_Tile": cached_import_gif("Assets/Misc/Tiles/water",
+          "Water_Tile": import_gif("Assets/Misc/Tiles/water",
                                    (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Mountain_Tile": cached_import_gif("Assets/Misc/Tiles/mountain",
+          "Mountain_Tile": import_gif("Assets/Misc/Tiles/mountain",
                                       (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Sand_Tile": cached_import_gif("Assets/Misc/Tiles/sand",
+          "Sand_Tile": import_gif("Assets/Misc/Tiles/sand",
                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
-
 }
 
 Tile_Ranges = {
@@ -238,9 +246,8 @@ Tile_Ranges = {
           "Sand_Tile": -0.1
 }
 
-Cursor_Images = {
-          "Cursor_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0002.png", General_Settings['mouse_res']),
-          "Cursor_Not_Clicking": load_image("Assets/Misc/Mouse/Mouse3/Sprite-0001.png", General_Settings['mouse_res'])
+Cursor_Config = {
+          "Cursor_Images": import_gif("Assets/Misc/Mouse/Mouse3", (13, 13))
 }
 
 Bar_Images = {
@@ -250,7 +257,12 @@ Bar_Images = {
 }
 
 Effect_Images = {
-          "Slash_Effect": cached_import_gif("Assets/VFX/Slash")
+          "Slash_Effect": import_gif("Assets/VFX/Slash")
+}
+
+Font_Config = {
+          'font': "Assets/Font/font2.ttf",
+          'font_size': 1.4,
 }
 
 # lookup_colour("red")

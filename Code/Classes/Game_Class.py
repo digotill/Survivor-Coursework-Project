@@ -53,19 +53,20 @@ class Game:
 
           def update_groups(self):
                     if not self.changing_settings:
-                              self.enemy_manager.update_enemies()
+                              self.enemy_manager.update()
                               self.particle_manager.update()
                               self.bullet_manager.update()
                               self.object_manager.update()
                     self.player.update()
                     self.player.gun.update()
-                    self.button_manager.update_buttons()
+                    self.button_manager.update()
 
           def draw_groups(self):
                     self.tilemap.draw()
                     self.grass_manager.draw()
+                    self.player.draw()
                     self.player.gun.draw()
-                    self.enemy_manager.draw_enemies()
+                    self.enemy_manager.draw()
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
@@ -73,7 +74,7 @@ class Game:
                     self.ui.draw_bars()
                     self.ui.draw_fps()
                     self.ui.draw_time()
-                    self.button_manager.draw_buttons()
+                    self.button_manager.draw()
 
           def update_display(self):
                     self.display_screen.blit(self.ui_surface)
@@ -115,5 +116,5 @@ class Game:
                               self.draw_groups()
                               self.update_display()
                               if self.restart: self.refresh()
-                              if self.immidiate_quit: return None
+                              elif self.immidiate_quit: break
                     pygame.quit()

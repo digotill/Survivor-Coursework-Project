@@ -31,9 +31,9 @@ def calculate_distances(player_pos, enemy_positions):
           return np.linalg.norm(enemy_positions - player_pos, axis=1)
 
 
-def check_collisions(player_rect, object_rects):
-          player_array = np.array([player_rect.left, player_rect.top, player_rect.right, player_rect.bottom])
-          objects_array = np.array([[rect.left, rect.top, rect.right, rect.bottom] for rect in object_rects])
+def check_collisions(rect1, other_rects):
+          player_array = np.array([rect1.left, rect1.top, rect1.right, rect1.bottom])
+          objects_array = np.array([[rect.left, rect.top, rect.right, rect.bottom] for rect in other_rects])
 
           collisions = np.all((player_array[:2] < objects_array[:, 2:]) &
                               (player_array[2:] > objects_array[:, :2]), axis=1)
@@ -53,13 +53,13 @@ def cached_load(file_path, res=None, *color_keys):
           return load_image(file_path, res, *color_keys)
 
 
-def cached_import_gif(file_name, res=None, *color_keys):
+def import_gif(file_name, res=None, *color_keys):
           file_paths = [os.path.join(file_name, f) for f in os.listdir(file_name) if f.endswith(('.jpg', '.png'))]
           return [cached_load(file_path, res, *color_keys) for file_path in file_paths]
 
 
 def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
-          sheet = load_image(filename, None, *color_keys)
+          sheet = cached_load(filename, None, *color_keys)
           array = []
           for i in range(tiles):
                     cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
@@ -187,6 +187,8 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'animation_speed': animation_speed,
                     "images": images,
                     "invincibility_cooldown": invincibility_cooldown,
+                    "separation_radius": res[0] / 2,
+                    "separation_strength": 0.5,
           }
 
 def lookup_colour(colour):

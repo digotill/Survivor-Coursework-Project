@@ -2,7 +2,7 @@ from itertools import product
 from Code.Variables.Variables import *
 
 
-class SpatialHash:
+class HashMap:
           def __init__(self, game):
                     self.grid = {}
                     self.items = set()

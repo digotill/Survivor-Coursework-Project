@@ -19,11 +19,11 @@ class Tile:
 class TileMap:
           def __init__(self, game):
                     self.game = game
-                    self.grid = SpatialHash(game)
+                    self.grid = HashMap(game)
 
                     self.tile_size = General_Settings['tilemap_size']
-                    self.width = GAME_SIZE[0] // self.tile_size
-                    self.height = GAME_SIZE[1] // self.tile_size
+                    self.width = GAME_SIZE[0] // self.tile_size + 1
+                    self.height = GAME_SIZE[1] // self.tile_size + 1
 
                     self.animation_speed = General_Settings["animation_speed"]
                     self.frames = {tile_type: 0 for tile_type in Tile_Images.keys()}
