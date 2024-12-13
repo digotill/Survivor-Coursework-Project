@@ -87,14 +87,9 @@ class TileMap:
                                         self.add_tile(tile_type, (x, y))
 
           def place_grass(self):
-                    for x in range(20):
-                              x += 5
-                              for y in range(20):
-                                        y += 5
-                                        world_pos = (x * self.tile_size, y * self.tile_size)
-                                        tile = self.get_tile_at(world_pos)
-                                        if tile and tile.tile_type == "Grass_Tile":
-                                                  v = random.random()
-                                                  if v > 0.1:
-                                                            self.game.grass_manager.place_tile((x, y), int(v * 20),
-                                                                                               [0, 1, 2, 3, 4])
+                    for tile in self.grid.items:
+                              if tile.tile_type == "Grass_Tile":
+                                        v = random.random()
+                                        if v > 0.1:
+                                                  self.game.grass_manager.place_tile((tile.position.x // 16, tile.position.y // 16), int(v * 20),
+                                                                           [0, 1, 2, 3, 4])
