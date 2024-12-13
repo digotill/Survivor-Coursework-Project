@@ -25,7 +25,7 @@ class TileMap:
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
-                    self.animation_speed = General_Settings["animation_speed"]
+                    self.animation_speed = Tile_Images["animation_speed"]
                     self.frames = {tile_type: 0 for tile_type in Tile_Images.keys()}
 
                     self.terrain_generator()

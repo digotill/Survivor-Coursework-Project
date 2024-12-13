@@ -8,7 +8,7 @@ class UI:
                     self.fps_enabled = False
                     self.health_bar_rect = Bar_Images["Health_bar"].get_rect()
                     self.stamina_bar_rect = Bar_Images["Stamina_bar"].get_rect()
-                    self.brightness = General_Settings['brightness']
+                    self.brightness = 50
 
           def draw_bars(self):
                     # Draw Health Bar
@@ -92,7 +92,7 @@ class UI:
                                                             special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
-                    if self.brightness == General_Settings['brightness']: return None
+                    if self.brightness == 50: return None
                     if self.brightness > General_Settings['brightness']:
                               self.game.display.fill([int(General_Settings['min_brightness'] * (
                                       self.brightness - General_Settings['brightness'])) for _ in range(3)],

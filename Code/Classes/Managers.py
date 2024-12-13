@@ -29,7 +29,7 @@ class EnemyManager:
 
           def add_enemies(self, enemy_dict):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < General_Settings["max_enemies"] and not PEACEFUL_MODE):
+                            len(self.grid.items) < General_Settings["max_enemies"] and not General_Settings["peaceful_mode"]):
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),

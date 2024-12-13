@@ -6,7 +6,6 @@ from pygame.math import Vector2 as v2
 pygame.init()
 
 START_FULLSCREEN = False
-PEACEFUL_MODE = False
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -22,13 +21,11 @@ pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
           'volume': 0.5,
-          'animation_speed': 5,
-          'main_menu_animation_speed': 15,
+          'peaceful_mode': True,
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
           'max_enemies': 100,
-          'brightness': 50,
           'max_brightness': 5,
           'min_brightness': 5,
           'spatial_hash_map_size': 100,
@@ -65,7 +62,7 @@ Grass = {
           "Buffer_Size": 2,
           "Precision": 30,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
-                                                            math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
+                                                              math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
 
 Entity_Images = {
@@ -90,7 +87,8 @@ Player_Attributes = {
 }
 
 Enemies = {
-          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320, damage=20,
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320,
+                                          damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
                                           images=Entity_Images["enemy1"]
                                           )
@@ -190,42 +188,42 @@ Button_Images = {
 }
 
 AllButtons = {
-                    "In_Game": {
-                              "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
-                              "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
-                              "quit": create_button("QUIT", v2(240, 240), Button_Images["Button1"]),
-                              "return": create_button("Return", v2(240, 90), Button_Images["Button1"])
-                    },
-                    "Weapons": {
-                              "AK47": create_button("AK47", v2(140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
-                                                    text_pos="left"),
-                              "Shotgun": create_button("Shotgun", v2(140, 215),
-                                                       perfect_outline(Weapons["Shotgun"]["gun_image"]),
-                                                       text_pos="left"),
-                              "Minigun": create_button("Minigun", v2(140, 180),
-                                                       perfect_outline(Weapons["Minigun"]["gun_image"]),
-                                                       text_pos="left"),
-                    },
-                    "Sliders": {
-                              "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness:  ", 0, 100,
-                                                          General_Settings['brightness']),
-                              "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 30, 240,
-                                                   pygame.display.get_current_refresh_rate())
-                    },
-                    "Menu_Buttons": {
-                              "play": create_button("PLAY", v2(200, 240), Button_Images["Button1"]),
-                              "quit": create_button("QUIT", v2(280, 240), Button_Images["Button1"]),
-                              "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
-                              "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
-                              "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
-                    },
-                    'speed': 300,
-          }
-
+          "In_Game": {
+                    "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
+                    "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
+                    "quit": create_button("QUIT", v2(240, 240), Button_Images["Button1"]),
+                    "return": create_button("Return", v2(240, 90), Button_Images["Button1"])
+          },
+          "Weapons": {
+                    "AK47": create_button("AK47", v2(140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
+                                          text_pos="left"),
+                    "Shotgun": create_button("Shotgun", v2(140, 215),
+                                             perfect_outline(Weapons["Shotgun"]["gun_image"]),
+                                             text_pos="left"),
+                    "Minigun": create_button("Minigun", v2(140, 180),
+                                             perfect_outline(Weapons["Minigun"]["gun_image"]),
+                                             text_pos="left"),
+          },
+          "Sliders": {
+                    "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness:  ", 0, 100,
+                                                50),
+                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 20, 240,
+                                         pygame.display.get_current_refresh_rate())
+          },
+          "Menu_Buttons": {
+                    "play": create_button("PLAY", v2(200, 240), Button_Images["Button1"]),
+                    "quit": create_button("QUIT", v2(280, 240), Button_Images["Button1"]),
+                    "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
+                    "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
+                    "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
+          },
+          'speed': 300,
+}
 
 Loading_Screens = {
           "Green_Waterfall": import_gif("Assets/LoadingScreens/1", WIN_RES),
-          "Orange_Pond": import_gif("Assets/LoadingScreens/2", WIN_RES)
+          "Orange_Pond": import_gif("Assets/LoadingScreens/2", WIN_RES),
+          "animation_speed": 15,
 }
 
 Tile_Images = {
@@ -236,7 +234,8 @@ Tile_Images = {
           "Mountain_Tile": import_gif("Assets/Misc/Tiles/mountain",
                                       (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
           "Sand_Tile": import_gif("Assets/Misc/Tiles/sand",
-                                  (General_Settings['tilemap_size'], General_Settings['tilemap_size']))
+                                  (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
+          "animation_speed": 5,
 }
 
 Tile_Ranges = {
