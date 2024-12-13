@@ -1,8 +1,8 @@
 from Code.Classes.Managers import *
 from Code.Display.EventManager import *
 from Code.Display.Menu import *
-from Code.Display.UI import *
-from Code.Display.Window import *
+from Code.Display.UIManager import *
+from Code.Display.Camera import *
 from Code.Classes.TileMap import TileMap
 from Code.Classes.GrassManager import *
 
@@ -35,9 +35,9 @@ class Game:
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
                     self.grass_manager = GrassManager(self)
+                    self.ui_manager = UIManager(self)
 
-                    self.ui = UI(self)
-                    self.window = Window(self)
+                    self.camera = Camera(self)
                     self.tilemap = TileMap(self)
 
                     self.update_game_variables()
@@ -47,8 +47,8 @@ class Game:
                     self.mainmenu.loop()
 
           def refresh(self):
-                    self.__init__()
                     pygame.display.flip()
+                    self.__init__()
                     self.run_game()
 
           def update_groups(self):
@@ -70,18 +70,18 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
-                    self.ui.darken_screen()
-                    self.ui.draw_bars()
-                    self.ui.draw_fps()
-                    self.ui.draw_time()
+                    self.ui_manager.darken_screen()
+                    self.ui_manager.draw_bars()
+                    self.ui_manager.draw_fps()
+                    self.ui_manager.draw_time()
                     self.button_manager.draw()
 
           def update_display(self):
                     self.display_screen.blit(self.ui_surface)
                     self.ui_surface.fill((0, 0, 0, 0))
                     self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
-                    self.ui.display_mouse()
-                    self.ui.draw_brightness()
+                    self.ui_manager.display_mouse()
+                    self.ui_manager.draw_brightness()
                     pygame.display.flip()
 
           def manage_events(self):

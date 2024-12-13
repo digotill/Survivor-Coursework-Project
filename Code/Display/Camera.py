@@ -1,7 +1,7 @@
 from Code.Classes.Entities import *
 
 
-class Window(main):
+class Camera(main):
           def __init__(self, game):
                     self.game = game
                     self.res = REN_RES

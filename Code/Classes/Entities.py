@@ -29,10 +29,10 @@ class main:
                                             self.res[1])
 
           def get_position(self):
-                    return self.rect.x - self.game.window.offset_rect.x, self.rect.y - self.game.window.offset_rect.y
+                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
 
           def get_mid_position(self):
-                    return self.rect.centerx - self.game.window.offset_rect.x, self.rect.centery - self.game.window.offset_rect.y
+                    return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y
 
 
 class Player(main):
@@ -77,7 +77,7 @@ class Player(main):
                                         self.rect.centery = self.pos.y
                                         move_vert = True
 
-                    self.game.window.move(dx, dy, move_hor, move_vert)
+                    self.game.camera.move(dx, dy, move_hor, move_vert)
 
           def draw(self):
                     if self.facing == "left":
@@ -196,17 +196,17 @@ class Gun(main):
 
                     pos_x = (self.game.player.rect.centerx + math.sin(
                               math.radians(self.angle)) * self.distance -
-                             self.game.window.offset_rect.x)
+                             self.game.camera.offset_rect.x)
                     pos_y = (self.game.player.rect.centery + math.cos(
                               math.radians(self.angle)) * self.distance -
-                             self.game.window.offset_rect.y)
+                             self.game.camera.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
                     self.game.display_screen.blit(self.rotated_image, self.rect)
 
           def calc_angle(self):
-                    change_in_x = self.game.player.rect.centerx - self.game.window.offset_rect.x - \
+                    change_in_x = self.game.player.rect.centerx - self.game.camera.offset_rect.x - \
                                   self.game.correct_mouse_pos[0]
-                    change_in_y = self.game.player.rect.centery - self.game.window.offset_rect.y - \
+                    change_in_y = self.game.player.rect.centery - self.game.camera.offset_rect.y - \
                                   self.game.correct_mouse_pos[1]
                     self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))
 

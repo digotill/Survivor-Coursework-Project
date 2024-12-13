@@ -67,7 +67,7 @@ class GrassManager(main_grass):
           # an update and render combination function
           def draw(self):
                     surf = self.game.display_screen
-                    offset = self.game.window.offset_rect.topleft
+                    offset = self.game.camera.offset_rect.topleft
 
                     # Increase the rendering area by adding a buffer
                     buffer_tiles = Grass["Buffer_Size"]  # Adjust this value as needed

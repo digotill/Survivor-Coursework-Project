@@ -1,7 +1,7 @@
 from Code.Classes.Entities import *
 
 
-class UI:
+class UIManager:
           def __init__(self, game):
                     self.game = game
                     self.font = pygame.font.Font(Font_Config['font'], UI_Settings["fps_time_size"])

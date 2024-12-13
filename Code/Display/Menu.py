@@ -88,7 +88,7 @@ class MainMenu:
                               {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
-                    self.game.player = Player(self.game, self.game.window.rect.center, self.gun, Player_Attributes)
+                    self.game.player = Player(self.game, self.game.camera.rect.center, self.gun, Player_Attributes)
 
           def draw_and_update_background(self):
                     self.game.display_screen.blit(pygame.transform.scale(

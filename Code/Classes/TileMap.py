@@ -42,7 +42,7 @@ class TileMap:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
                     for tile in self.grid.window_query():
-                              tile.draw(self.game.display_screen, self.game.window.offset_rect.topleft,
+                              tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft,
                                         self.frames[tile.tile_type])
 
           @staticmethod

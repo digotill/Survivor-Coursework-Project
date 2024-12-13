@@ -33,7 +33,7 @@ class EnemyManager:
                               self.last_spawn = self.game.game_time
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
-                                        self.game.window.rect, enemy_dict["res"][0], enemy_dict["res"][1]
+                                        self.game.camera.rect, enemy_dict["res"][0], enemy_dict["res"][1]
                               )
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()
@@ -48,7 +48,7 @@ class EnemyManager:
                                         enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
-                                        self.game.window.add_screen_shake(
+                                        self.game.camera.add_screen_shake(
                                                   duration=Screen_Shake["bullet_impact_shake_duration"],
                                                   magnitude=Screen_Shake['bullet_impact_shake_magnitude']
                                         )
@@ -93,7 +93,7 @@ class BulletManager:
                     self.grid.rebuild()
 
           def draw(self):
-                    offset_x, offset_y = self.game.window.offset_rect.topleft
+                    offset_x, offset_y = self.game.camera.offset_rect.topleft
                     for bullet in self.grid.window_query():
                               self.game.display_screen.blit(bullet.image,
                                                             (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
@@ -236,7 +236,7 @@ class ButtonManager:
                               elif self.sliders['fps'].update_value:
                                         self.game.fps = self.sliders['fps'].value
                               elif self.sliders['brightness'].update_value:
-                                        self.game.ui.brightness = self.sliders['brightness'].value
+                                        self.game.ui_manager.brightness = self.sliders['brightness'].value
                               elif self.buttons['fullscreen'].check_for_input():
                                         self.game.event_manager.update_size(True)
                               elif self.buttons['quit'].check_for_input():
@@ -247,7 +247,7 @@ class ButtonManager:
 
                     if self.game.changing_settings and pygame.time.get_ticks() / 1000 - self.last_value_set > self.value_cooldown:
                               self.game.fps = self.sliders['fps'].value
-                              self.game.ui.brightness = self.sliders['brightness'].value
+                              self.game.ui_manager.brightness = self.sliders['brightness'].value
                               self.last_value_set = pygame.time.get_ticks() / 1000
 
           def draw(self):
