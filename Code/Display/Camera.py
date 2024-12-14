@@ -74,15 +74,15 @@ class Camera(main_camera):
                     player_top = player.pos.y - self.offset_rect.y - player.res[1] / 2
                     player_bottom = player_top + player.res[1]
 
-                    if player_left < player.offset_x1:
-                              self.offset_rect.x += player_left - player.offset_x1
-                    elif player_right > self.res[0] - player.offset_x2:
-                              self.offset_rect.x += player_right - (self.res[0] - player.offset_x2)
+                    if player_left < player.offset[0]:
+                              self.offset_rect.x += player_left - player.offset[0]
+                    elif player_right > self.res[0] - player.offset[2]:
+                              self.offset_rect.x += player_right - (self.res[0] - player.offset[2])
 
-                    if player_top < player.offset_y1:
-                              self.offset_rect.y += player_top - player.offset_y1
-                    elif player_bottom > self.res[1] - player.offset_y2:
-                              self.offset_rect.y += player_bottom - (self.res[1] - player.offset_y2)
+                    if player_top < player.offset[1]:
+                              self.offset_rect.y += player_top - player.offset[1]
+                    elif player_bottom > self.res[1] - player.offset[3]:
+                              self.offset_rect.y += player_bottom - (self.res[1] - player.offset[3])
 
                     self.offset_rect.x = max(0, min(self.offset_rect.x, GAME_SIZE[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.offset_rect.y, GAME_SIZE[1] - self.res[1]))

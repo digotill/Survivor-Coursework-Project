@@ -66,31 +66,30 @@ Grass = {
 }
 
 Entity_Images = {
-          "player": import_gif("Assets/Entities/Player/new player/idle", (64, 64)),
+          "player_idle": import_gif("Assets/Entities/newplayer/idle", (16, 16)),
+          "player_running": import_gif("Assets/Entities/newplayer/running", (16, 16)),
           "enemy1": import_gif("Assets/Entities/Enemy1", (32, 36)),
 }
 
 Player_Attributes = {
           'name': 'Player',
           'health': 100,
-          'res': Entity_Images["player"][0].size,
+          'res': Entity_Images["player_idle"][0].size,
+          "idle_animation": Entity_Images["player_idle"],
+          "running_animation": Entity_Images["player_running"],
           'vel': 200,
           'damage': 30,
           'stamina': 100,
           'acceleration': 600,
-          'offset_x1': 10,
-          'offset_x2': -10,
-          'offset_y1': 10,
-          'offset_y2': -10,
-          'animation_speed': 5,
-          "images": Entity_Images["player"],
+          "offset": (10, 10, -10, -10),
+          'animation_speed': 10,
+          "hit_cooldown": 0.5
 }
 
 Enemies = {
-          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320,
-                                          damage=20,
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320, damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
-                                          images=Entity_Images["enemy1"]
+                                          images=Entity_Images["enemy1"], animation_speed=5, hit_cooldown=0.1,
                                           )
 }
 
@@ -99,8 +98,6 @@ Cooldowns = {
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
-          'player i frames': 1,
-          'enemy i frames': 1,
 }
 
 Keys = {
@@ -144,7 +141,7 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png")
+          "bullet1": load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png", (16, 16))
 }
 
 Weapon_Images = {

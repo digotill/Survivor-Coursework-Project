@@ -116,10 +116,8 @@ class BulletManager:
                     for bullet in self.grid.items:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
                                         if bullet.rect.colliderect(enemy.rect) and not bullet.dead:
-                                                  enemy.health -= bullet.damage
-                                                  bullet.health -= 1
-                                                  if bullet.health <= 0:
-                                                            bullet.dead = True
+                                                  enemy.deal_damage(bullet.damage)
+                                                  bullet.check_if_alive()
                                                   self.game.particle_manager.create_spark(270 - bullet.angle,
                                                                                           bullet.pos,
                                                                                           Sparks_Settings[

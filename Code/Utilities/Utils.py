@@ -193,7 +193,7 @@ def create_spark_settings(spread, scale, colour, amount, min_vel, max_vel):
 
 
 def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
-                          steering_strength, friction, images, animation_speed=5, invincibility_cooldown=0.3):
+                          steering_strength, friction, images, animation_speed, hit_cooldown):
           return {
                     'name': name,
                     'health': health,
@@ -205,7 +205,7 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'friction': friction,
                     'animation_speed': animation_speed,
                     "images": images,
-                    "invincibility_cooldown": invincibility_cooldown,
+                    "hit_cooldown": hit_cooldown,
                     "separation_radius": res[0] / 2,
                     "separation_strength": 0.5,
           }

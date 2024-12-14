@@ -34,6 +34,17 @@ class main:
           def get_mid_position(self):
                     return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y
 
+          def deal_damage(self, damage):
+                    if self.game.game_time - self.last_hit > self.hit_cooldown:
+                              self.health -= damage
+                              self.check_if_alive()
+                              self.last_hit = self.game.game_time
+
+          def check_if_alive(self):
+                    if self.health <= 0:
+                              self.dead = True
+                              self.health = 0
+
 
 class Player(main):
           def __init__(self, game, position, gun, dictionary):
@@ -43,7 +54,6 @@ class Player(main):
                     self.pos = v2(position)
                     self.set_rect()
                     self.current_vel = 0
-                    self.i_frames = Cooldowns["player i frames"]
                     self.last_hit = 0
                     self.gun = gun
 
@@ -68,11 +78,11 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if self.offset_x1 + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset_x2:
+                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2]:
                                         self.pos.x = new_x
                                         self.rect.centerx = self.pos.x
                                         move_hor = True
-                              if self.offset_y1 + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset_y2:
+                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3]:
                                         self.pos.y = new_y
                                         self.rect.centery = self.pos.y
                                         move_vert = True
@@ -81,10 +91,10 @@ class Player(main):
 
           def draw(self):
                     if self.facing == "left":
-                              image = pygame.transform.flip(self.images[int(self.frame) % len(self.images) - 1], True,
+                              image = pygame.transform.flip(self.idle_animation[int(self.frame) % len(self.idle_animation) - 1], True,
                                                             False)
                     else:
-                              image = self.images[int(self.frame) % len(self.images) - 1]
+                              image = self.idle_animation[int(self.frame) % len(self.idle_animation) - 1]
                     self.game.display_screen.blit(image, self.get_position())
 
           def update_facing(self):
@@ -107,8 +117,6 @@ class Enemy(main):
 
                     self.pos = v2(coordinates)
                     self.set_rect()
-
-                    self.i_frames = Cooldowns["player i frames"]
                     self.last_hit = 0
 
                     self.acceleration = v2(0, 0)
