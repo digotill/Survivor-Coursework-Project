@@ -66,17 +66,18 @@ Grass = {
 }
 
 Entity_Images = {
-          "player_idle": import_gif("Assets/Entities/newplayer/idle", (16, 16)),
-          "player_running": import_gif("Assets/Entities/newplayer/running", (16, 16)),
+          "player": {
+                    "idle": import_gif("Assets/Entities/newplayer/idle", (16, 16)),
+                    "run": import_gif("Assets/Entities/newplayer/running", (16, 16)),
+          },
           "enemy1": import_gif("Assets/Entities/Enemy1", (32, 36)),
 }
 
 Player_Attributes = {
           'name': 'Player',
           'health': 100,
-          'res': Entity_Images["player_idle"][0].size,
-          "idle_animation": Entity_Images["player_idle"],
-          "running_animation": Entity_Images["player_running"],
+          'res': Entity_Images["player"]["idle"][0].size,
+          "animations": Entity_Images["player"],
           'vel': 200,
           'damage': 30,
           'stamina': 100,
@@ -98,6 +99,7 @@ Cooldowns = {
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
+          "rain": 0.05
 }
 
 Keys = {
@@ -204,7 +206,7 @@ AllButtons = {
           "Sliders": {
                     "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness:  ", 0, 100,
                                                 50),
-                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 20, 240,
+                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 30, 240,
                                          pygame.display.get_current_refresh_rate())
           },
           "Menu_Buttons": {
@@ -253,7 +255,19 @@ Bar_Images = {
 }
 
 Effect_Images = {
-          "Slash_Effect": import_gif("Assets/VFX/Slash")
+          "Slash_Effect": import_gif("Assets/VFX/Slash"),
+          "Rain": import_gif("Assets/VFX/Rain")
+}
+
+Rain_Config = {
+          "animation": Effect_Images["Rain"],
+          "animation_speed": 10,
+          "vel": 600,
+          "vel_randomness": 50,
+          "lifetime": 3,
+          "lifetime_randomness": 0.2,
+          "angle": 40,
+          "res": Effect_Images["Rain"][0].size
 }
 
 Font_Config = {

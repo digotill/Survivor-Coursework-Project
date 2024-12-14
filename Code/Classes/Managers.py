@@ -251,3 +251,48 @@ class ButtonManager:
           def draw(self):
                     for button in list(self.buttons.values()) + list(self.sliders.values()):
                               button.draw()
+
+class RainManager:
+          def __init__(self, game):
+                    self.game = game
+                    self.grid = HashMap(game)
+                    self.rain_pool = set()
+                    self.cooldown = Cooldowns['rain']
+                    self.last_spawn = - Cooldowns['rain']
+
+                    self.grid.rebuild()
+
+          def update(self):
+                    for rain in self.grid.items:
+                              rain.update()
+                    self.create()
+                    self.check_dead()
+                    self.grid.rebuild()
+
+          def draw(self):
+                    for rain in self.grid.window_query():
+                              pos = rain.rect.x - self.game.camera.offset_rect.x, rain.rect.y - self.game.camera.offset_rect.y
+                              if not rain.hit_ground:
+                                        self.game.display_screen.blit(rain.animation[0], pos)
+                              else:
+                                        self.game.display_screen.blit(
+                                                  rain.animation[int(rain.frame % len(rain.animation))], pos)
+                                        rain.update_frame()
+
+          def create(self):
+                    if self.game.game_time - self.last_spawn > self.cooldown:
+                              if len(self.rain_pool) == 0:
+                                        self.grid.insert(Rain(self.game, Rain_Config))
+                              else:
+                                        rain = self.rain_pool.pop()
+                                        rain.reset()
+                                        self.grid.insert(rain)
+                              self.last_spawn = self.game.game_time
+
+          def check_dead(self):
+                    for rain in self.grid.items.copy():
+                              if rain.frame >= len(rain.animation):
+                                        self.grid.items.remove(rain)
+                                        self.rain_pool.add(rain)
+
+

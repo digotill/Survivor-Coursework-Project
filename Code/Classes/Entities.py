@@ -45,7 +45,6 @@ class main:
                               self.dead = True
                               self.health = 0
 
-
 class Player(main):
           def __init__(self, game, position, gun, dictionary):
                     self.game = game
@@ -56,6 +55,19 @@ class Player(main):
                     self.current_vel = 0
                     self.last_hit = 0
                     self.gun = gun
+                    self.current_animation = 'idle'
+
+          def change_animation(self, animation_name):
+                    if animation_name in self.animations and animation_name != self.current_animation:
+                              self.current_animation = animation_name
+                              self.frame = 0
+
+          def update_animation(self):
+                    if (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
+                            self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]):
+                              self.change_animation('run')
+                    else:
+                              self.change_animation('idle')
 
           def update(self):
                     dx, dy = 0, 0
@@ -88,13 +100,16 @@ class Player(main):
                                         move_vert = True
 
                     self.game.camera.move(dx, dy, move_hor, move_vert)
+                    self.update_animation()
 
           def draw(self):
+                    current_animation = self.animations[self.current_animation]
+                    frame_index = int(self.frame) % len(current_animation)
+                    image = current_animation[frame_index]
+
                     if self.facing == "left":
-                              image = pygame.transform.flip(self.idle_animation[int(self.frame) % len(self.idle_animation) - 1], True,
-                                                            False)
-                    else:
-                              image = self.idle_animation[int(self.frame) % len(self.idle_animation) - 1]
+                              image = pygame.transform.flip(image, True, False)
+
                     self.game.display_screen.blit(image, self.get_position())
 
           def update_facing(self):
@@ -302,3 +317,50 @@ class Bullet(main):
 
           def reset(self, pos, angle, spread):
                     self.__init__(self.game, self.gun, pos, angle, self.name, spread)
+
+
+import math
+from pygame.math import Vector2 as v2
+
+
+class Rain(main):
+          def __init__(self, game, dictionary):
+                    self.game = game
+                    self.set_attributes(dictionary)
+                    self.pos = v2(change_random(self.game.camera.rect.centerx, self.game.camera.rect.width / 2), self.game.camera.rect.y - 30)
+
+                    self.spawn_time = self.game.game_time
+                    self.initial_vel = self.vel
+                    self.hit_ground = False
+                    self.lifetime = change_random(self.lifetime, self.lifetime_randomness)
+                    self.vel = change_random(self.vel, self.vel_randomness)
+                    self.vel_vector = self.calculate_vel_vector()
+                    self.set_rect()
+
+          def calculate_vel_vector(self):
+                    angle_rad = math.radians(self.angle)
+
+                    vel_x = self.vel * math.sin(angle_rad)
+                    vel_y = self.vel * math.cos(angle_rad)
+
+                    return v2(vel_x, vel_y)
+
+          def update(self):
+                    self.lifetime -= self.game.dt
+
+                    if self.lifetime <= 0:
+                              self.hit_ground = True
+
+                    if not self.hit_ground:
+                              self.pos += self.vel_vector * self.game.dt
+                              self.rect.center = self.pos
+
+          def reset(self):
+                    self.frame = 0
+                    self.hit_ground = False
+                    self.pos = v2(change_random(self.game.camera.rect.centerx, self.game.camera.rect.width / 2), self.game.camera.rect.y - 30)
+                    self.spawn_time = self.game.game_time
+                    self.vel = change_random(self.initial_vel, self.vel_randomness)
+                    self.vel_vector = self.calculate_vel_vector()
+                    self.set_rect()
+                    self.lifetime = change_random(self.lifetime, self.lifetime_randomness)

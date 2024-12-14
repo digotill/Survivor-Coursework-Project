@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
           try:
                     Game().run_game()
+                    pygame.quit()
           except Exception as e:
                     logger.exception(f"An error occurred during game execution: {e}")
           finally:

@@ -35,6 +35,7 @@ class Game:
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
                     self.grass_manager = GrassManager(self)
+                    self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
 
                     self.camera = Camera(self)
@@ -57,6 +58,7 @@ class Game:
                               self.particle_manager.update()
                               self.bullet_manager.update()
                               self.object_manager.update()
+                              self.rain_manager.update()
                     self.player.update()
                     self.player.gun.update()
                     self.button_manager.update()
@@ -70,6 +72,7 @@ class Game:
                     self.object_manager.draw()
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
+                    self.rain_manager.draw()
                     self.ui_manager.darken_screen()
                     self.ui_manager.draw_bars()
                     self.ui_manager.draw_fps()
@@ -116,5 +119,4 @@ class Game:
                               self.draw_groups()
                               self.update_display()
                               if self.restart: self.refresh()
-                              elif self.immidiate_quit: break
-                    pygame.quit()
+                              elif self.immidiate_quit: return None
