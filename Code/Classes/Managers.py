@@ -262,21 +262,21 @@ class RainManager:
                     self.grid.rebuild()
 
           def update(self):
-                    for rain in self.grid.items:
-                              rain.update()
-                              if rain.hit_ground: rain.update_frame()
+                    for rain_droplet in self.grid.items:
+                              rain_droplet.update()
+                              if rain_droplet.hit_ground: rain_droplet.update_frame()
                     self.create()
                     self.check_dead()
                     self.grid.rebuild()
 
           def draw(self):
-                    for rain in self.grid.window_query():
-                              pos = rain.rect.x - self.game.camera.offset_rect.x, rain.rect.y - self.game.camera.offset_rect.y
-                              if not rain.hit_ground:
-                                        self.game.display_screen.blit(rain.animation[0], pos)
+                    for rain_droplet in self.grid.window_query():
+                              pos = rain_droplet.rect.x - self.game.camera.offset_rect.x, rain_droplet.rect.y - self.game.camera.offset_rect.y
+                              if not rain_droplet.hit_ground:
+                                        self.game.display_screen.blit(rain_droplet.animation[0], pos)
                               else:
                                         self.game.display_screen.blit(
-                                                  rain.animation[int(rain.frame % len(rain.animation))], pos)
+                                                  rain_droplet.animation[int(rain_droplet.frame % len(rain_droplet.animation))], pos)
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
@@ -284,8 +284,8 @@ class RainManager:
                               self.last_spawn = self.game.game_time
 
           def check_dead(self):
-                    for rain in self.grid.items.copy():
-                              if rain.frame >= len(rain.animation):
-                                        self.grid.items.remove(rain)
+                    for rain_droplet in self.grid.items.copy():
+                              if rain_droplet.frame >= len(rain_droplet.animation):
+                                        self.grid.items.remove(rain_droplet)
 
 

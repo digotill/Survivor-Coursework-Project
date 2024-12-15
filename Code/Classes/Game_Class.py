@@ -20,7 +20,6 @@ class Game:
                     self.running = True
                     self.game_time = 0
                     self.fps = AllButtons["Sliders"]["fps"]["value"]
-                    self.dt = 0
                     self.changing_settings = False
                     self.immidiate_quit = False
                     self.in_menu = True
@@ -102,13 +101,13 @@ class Game:
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * self.window_ratio),
                                               int(self.mouse_pos[1] * self.window_ratio))
                     self.mouse_state = pygame.mouse.get_pressed()
-                    if not self.changing_settings:
-                              self.game_time += self.dt
                     if self.clock.get_fps() == 0:
                               fps = 200
                     else:
                               fps = self.clock.get_fps()
                     self.dt = 1 / fps
+                    if not self.changing_settings:
+                              self.game_time += self.dt
 
           def run_game(self):
                     while self.running:
