@@ -10,8 +10,8 @@ class EnemyManager:
                     self.game = game
                     self.grid = HashMap(game)
                     self.enemy_pool = set()
-                    self.spawn_cooldown = 1
-                    self.last_spawn = 0
+                    self.spawn_cooldown = General_Settings["enemy_spawn_rate"]
+                    self.last_spawn = - General_Settings["enemy_spawn_rate"]
                     self.enemy_multiplier = 1
 
           def update(self):
@@ -198,7 +198,7 @@ class ButtonManager:
                     self._create_sliders()
 
                     self.cooldown = Cooldowns['buttons']
-                    self.last_pressed_time = 0
+                    self.last_pressed_time = - Cooldowns['buttons']
 
                     self.value_cooldown = 0.1
                     self.last_value_set = 0
@@ -256,7 +256,6 @@ class RainManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game)
-                    self.rain_pool = set()
                     self.cooldown = Cooldowns['rain']
                     self.last_spawn = - Cooldowns['rain']
 
@@ -265,6 +264,7 @@ class RainManager:
           def update(self):
                     for rain in self.grid.items:
                               rain.update()
+                              if rain.hit_ground: rain.update_frame()
                     self.create()
                     self.check_dead()
                     self.grid.rebuild()
@@ -277,22 +277,15 @@ class RainManager:
                               else:
                                         self.game.display_screen.blit(
                                                   rain.animation[int(rain.frame % len(rain.animation))], pos)
-                                        rain.update_frame()
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
-                              if len(self.rain_pool) == 0:
-                                        self.grid.insert(Rain(self.game, Rain_Config))
-                              else:
-                                        rain = self.rain_pool.pop()
-                                        rain.reset()
-                                        self.grid.insert(rain)
+                              self.grid.insert(Rain(self.game, Rain_Config))
                               self.last_spawn = self.game.game_time
 
           def check_dead(self):
                     for rain in self.grid.items.copy():
                               if rain.frame >= len(rain.animation):
                                         self.grid.items.remove(rain)
-                                        self.rain_pool.add(rain)
 
 

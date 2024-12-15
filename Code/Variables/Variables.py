@@ -26,6 +26,7 @@ General_Settings = {
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
           'max_enemies': 100,
+          'enemy_spawn_rate': 1,
           'max_brightness': 5,
           'min_brightness': 5,
           'spatial_hash_map_size': 100,
@@ -52,7 +53,7 @@ Grass = {
           "Grass_Settings": {
                     "tile_size": 16,
                     "shade_amount": 100,
-                    "stiffness": 600,
+                    "stiffness": 300,
                     "max_unique": 5,
                     "vertical_place_range": [0, 1],
                     "padding": 13,
@@ -61,6 +62,7 @@ Grass = {
           "Grass_Path": "Assets/Misc/Grass",
           "Buffer_Size": 2,
           "Precision": 30,
+          "Density": 0.9,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
                                                               math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
@@ -237,11 +239,14 @@ Tile_Images = {
           "animation_speed": 5,
 }
 
-Tile_Ranges = {
-          "Grass_Tile": 0.3,
-          "Water_Tile": -0.2,
-          "Mountain_Tile": 1,
-          "Sand_Tile": -0.1
+Tiles_Congifig = {
+          "Tile_Ranges": {
+                    "Water_Tile": -0.2,
+                    "Sand_Tile": -0.1,
+                    "Grass_Tile": 0.3,
+                    "Mountain_Tile": 1,
+          },
+          "tile_map_size": 16,
 }
 
 Cursor_Config = {
@@ -261,11 +266,11 @@ Effect_Images = {
 
 Rain_Config = {
           "animation": Effect_Images["Rain"],
-          "animation_speed": 10,
+          "animation_speed": 20,
           "vel": 600,
           "vel_randomness": 50,
-          "lifetime": 3,
-          "lifetime_randomness": 0.2,
+          "lifetime": 0.9,
+          "lifetime_randomness": 0.8,
           "angle": 40,
           "res": Effect_Images["Rain"][0].size
 }

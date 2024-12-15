@@ -29,7 +29,7 @@ class TileMap:
                     self.frames = {tile_type: 0 for tile_type in Tile_Images.keys()}
 
                     self.terrain_generator()
-                    self.place_grass()
+                    self.grass_generator()
 
                     self.grid.rebuild()
 
@@ -48,23 +48,9 @@ class TileMap:
           @staticmethod
           def get_tile_type(x, y):
                     noise_value = Perlin_Noise["1 octave"]([x * 0.05, y * 0.05])
-                    if noise_value < Tile_Ranges["Water_Tile"]:
-                              return "Water_Tile"
-                    elif noise_value < Tile_Ranges["Sand_Tile"]:
-                              return "Sand_Tile"
-                    elif noise_value < Tile_Ranges["Grass_Tile"]:
-                              return "Grass_Tile"
-                    else:
-                              return "Mountain_Tile"
-
-          def get_tile_at(self, world_position):
-                    grid_x = int(world_position[0] // self.tile_size)
-                    grid_y = int(world_position[1] // self.tile_size)
-                    rect = pygame.Rect(grid_x * self.tile_size, grid_y * self.tile_size, self.tile_size, self.tile_size)
-                    tiles = self.grid.query(rect)
-                    tile = next(iter(tiles), None)
-                    print(f"Querying at {(grid_x, grid_y)}, found tile: {tile.tile_type if tile else None}")
-                    return tile
+                    for tile in Tiles_Congifig["Tile_Ranges"].keys():
+                              if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
+                                        return tile
 
           def tile_collision(self, rect, *tile_types):
                     for tile in self.grid.query(rect):
@@ -73,23 +59,17 @@ class TileMap:
                                                   return True
                     return False
 
-          def update_tile(self, world_position, new_tile_type):
-                    tile = self.get_tile_at(world_position)
-                    if tile:
-                              self.grid.remove(tile)
-                              self.add_tile(new_tile_type,
-                                            (tile.position.x // self.tile_size, tile.position.y // self.tile_size))
-
           def terrain_generator(self):
                     for x in range(self.width):
                               for y in range(self.height):
                                         tile_type = self.get_tile_type(x, y)
                                         self.add_tile(tile_type, (x, y))
 
-          def place_grass(self):
+          def grass_generator(self):
                     for tile in self.grid.items:
                               if tile.tile_type == "Grass_Tile":
                                         v = random.random()
-                                        if v > 0.1:
-                                                  self.game.grass_manager.place_tile((tile.position.x // 16, tile.position.y // 16), int(v * 20),
+                                        if v < Grass["Density"]:
+                                                  self.game.grass_manager.place_tile((tile.position.x // Grass["Grass_Settings"]["tile_size"],
+                                                                                      tile.position.y // Grass["Grass_Settings"]["tile_size"]), int(v * 12),
                                                                            [0, 1, 2, 3, 4])

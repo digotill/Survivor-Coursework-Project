@@ -10,7 +10,6 @@ class main:
                     for key, value in attributes.items():
                               setattr(self, key, value)
 
-                    self.frame = 0
                     self.facing = "right"
                     self.dead = False
                     self.creation_time = self.game.game_time
@@ -20,6 +19,10 @@ class main:
                               self.current_vel = 0
                     if hasattr(self, 'health'):
                               self.max_health = self.health
+                    if hasattr(self, 'animation_speed'):
+                              self.frame = 0
+                    if hasattr(self, 'hit_cooldown'):
+                              self.last_hit = - self.hit_cooldown
 
           def update_frame(self):
                     self.frame += self.animation_speed * self.game.dt
@@ -53,7 +56,6 @@ class Player(main):
                     self.pos = v2(position)
                     self.set_rect()
                     self.current_vel = 0
-                    self.last_hit = 0
                     self.gun = gun
                     self.current_animation = 'idle'
 
@@ -90,11 +92,19 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2]:
+                              x_rect = self.rect.copy()
+                              x_rect.centerx = new_x
+                              x_water_collision = self.game.tilemap.tile_collision(x_rect, "Water_Tile")
+
+                              y_rect = self.rect.copy()
+                              y_rect.centery = new_y
+                              y_water_collision = self.game.tilemap.tile_collision(y_rect, "Water_Tile")
+
+                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2] and not x_water_collision:
                                         self.pos.x = new_x
                                         self.rect.centerx = self.pos.x
                                         move_hor = True
-                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3]:
+                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3] and not y_water_collision:
                                         self.pos.y = new_y
                                         self.rect.centery = self.pos.y
                                         move_vert = True
@@ -132,7 +142,6 @@ class Enemy(main):
 
                     self.pos = v2(coordinates)
                     self.set_rect()
-                    self.last_hit = 0
 
                     self.acceleration = v2(0, 0)
                     self.vel_vector = v2(0, 0)
@@ -202,7 +211,7 @@ class Gun(main):
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
 
-                    self.last_shot_time = 0
+                    self.last_shot = - self.fire_rate
                     self.initial_vel = self.vel
                     self.continuous_fire_start = 0
 
@@ -241,7 +250,7 @@ class Gun(main):
                               self.continuous_fire_start = None
 
           def can_shoot(self, current_time):
-                    return (self.fire_rate + self.last_shot_time < current_time and
+                    return (self.fire_rate + self.last_shot < current_time and
                             self.game.mouse_state[0] and
                             not self.game.changing_settings)
 
@@ -253,7 +262,7 @@ class Gun(main):
                     max_spread_time = self.spread_time
                     spread_factor = min(firing_duration / max_spread_time, 1.0)
 
-                    self.last_shot_time = current_time
+                    self.last_shot = current_time
 
                     start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
@@ -327,7 +336,7 @@ class Rain(main):
           def __init__(self, game, dictionary):
                     self.game = game
                     self.set_attributes(dictionary)
-                    self.pos = v2(change_random(self.game.camera.rect.centerx, self.game.camera.rect.width / 2), self.game.camera.rect.y - 30)
+                    self.pos = v2(change_random(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width), self.game.camera.offset_rect.y)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
@@ -354,13 +363,3 @@ class Rain(main):
                     if not self.hit_ground:
                               self.pos += self.vel_vector * self.game.dt
                               self.rect.center = self.pos
-
-          def reset(self):
-                    self.frame = 0
-                    self.hit_ground = False
-                    self.pos = v2(change_random(self.game.camera.rect.centerx, self.game.camera.rect.width / 2), self.game.camera.rect.y - 30)
-                    self.spawn_time = self.game.game_time
-                    self.vel = change_random(self.initial_vel, self.vel_randomness)
-                    self.vel_vector = self.calculate_vel_vector()
-                    self.set_rect()
-                    self.lifetime = change_random(self.lifetime, self.lifetime_randomness)
