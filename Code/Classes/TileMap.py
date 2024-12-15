@@ -26,7 +26,7 @@ class TileMap:
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
                     self.animation_speed = Tile_Images["animation_speed"]
-                    self.frames = {tile_type: 0 for tile_type in Tile_Images.keys()}
+                    self.frames = {tile_type: 0 for tile_type in ["Water_Tile"]}
 
                     self.terrain_generator()
                     self.grass_generator()
@@ -42,8 +42,11 @@ class TileMap:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
                     for tile in self.grid.window_query():
-                              tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft,
-                                        self.frames[tile.tile_type])
+                              if tile.tile_type in self.frames:
+                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft,
+                                                  self.frames[tile.tile_type])
+                              else:
+                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, 0)
 
           @staticmethod
           def get_tile_type(x, y):

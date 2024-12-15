@@ -53,13 +53,14 @@ def cached_load(file_path, res=None, *color_keys):
           return load_image(file_path, res, *color_keys)
 
 
-def import_gif(file_name, res=None, *color_keys):
+def import_gif(file_name, res=None, *colour_keys):
           file_paths = [os.path.join(file_name, f) for f in os.listdir(file_name) if f.endswith(('.jpg', '.png'))]
-          return [cached_load(file_path, res, *color_keys) for file_path in file_paths]
+          return [cached_load(file_path, res, *colour_keys) for file_path in file_paths]
 
 
-def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
-          sheet = cached_load(filename, None, *color_keys)
+def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *colour_keys):
+          if image is None: sheet = cached_load(filename, None, *colour_keys)
+          else: sheet = image
           array = []
           for i in range(tiles):
                     cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
@@ -68,6 +69,23 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, *color_keys):
                     array.append(cropped)
           return array
 
+def import_tilemap(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
+          array = []
+          sheet = cached_load(filename, None, *colour_keys)
+          for y in range(y_tiles):
+                    cropped = pygame.Surface((tile_size, tile_size * y_tiles), pygame.SRCALPHA)
+                    cropped.blit(sheet, (0, 0), (0, tile_size * y, tile_size, tile_size))
+                    array.append(import_SpriteSheet(filename, 0, 0, tile_size, tile_size, x_tiles, res, cropped, *colour_keys))
+          return {
+                    "topleft": array[0][0],
+                    "topright": array[0][- 1],
+                    "bottomleft": array[-1][0],
+                    "bottomright": array[-1][- 1],
+                    "top": [array[0][i] for i in range(1, x_tiles - 1)],
+                    "right": [array[i][- 1] for i in range(1, y_tiles - 1)],
+                    "bottom": [array[-1][i] for i in range(1, x_tiles - 1)],
+                    "left": [array[i][0] for i in range(1, y_tiles - 1)],
+          }
 
 def perfect_outline(img, outline_color=(255, 255, 255)):
           mask = pygame.mask.from_surface(img)

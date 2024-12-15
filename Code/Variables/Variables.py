@@ -237,12 +237,13 @@ Tile_Images = {
           "Sand_Tile": import_gif("Assets/Misc/Tiles/sand",
                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
           "animation_speed": 5,
+          "Grass_Tile_Water_Tile": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16)
 }
+
 
 Tiles_Congifig = {
           "Tile_Ranges": {
                     "Water_Tile": -0.2,
-                    "Sand_Tile": -0.1,
                     "Grass_Tile": 0.3,
                     "Mountain_Tile": 1,
           },
