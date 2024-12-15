@@ -3,23 +3,23 @@ from Code.Variables.Variables import *
 
 
 class HashMap:
-          def __init__(self, game):
+          def __init__(self, game, size=General_Settings['spatial_hash_map_size']):
                     self.grid = {}
                     self.items = set()
                     self.game = game
+                    self.size = size
 
           def rebuild(self):
                     self.grid = {}
                     for item in self.items: self.insert(item)
 
-          @staticmethod
-          def _rect_cells(rect):
+          def _rect_cells(self, rect):
                     x1, y1 = rect.topleft
-                    x1 //= General_Settings['spatial_hash_map_size']
-                    y1 //= General_Settings['spatial_hash_map_size']
+                    x1 //= self.size
+                    y1 //= self.size
                     x2, y2 = rect.bottomright
-                    x2 = x2 // General_Settings['spatial_hash_map_size'] + 1
-                    y2 = y2 // General_Settings['spatial_hash_map_size'] + 1
+                    x2 = x2 // self.size + 1
+                    y2 = y2 // self.size + 1
                     return product(range(x1, x2), range(y1, y2))
 
           def insert(self, entity):

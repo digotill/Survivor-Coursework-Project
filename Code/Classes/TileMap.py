@@ -19,7 +19,7 @@ class Tile:
 class TileMap:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
+                    self.grid = HashMap(game, General_Settings['tilemap_size'])
 
                     self.tile_size = General_Settings['tilemap_size']
                     self.width = GAME_SIZE[0] // self.tile_size + 1
