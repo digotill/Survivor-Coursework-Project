@@ -20,6 +20,7 @@ def change_random(number, diff):
           else:
                     return number + diff
 
+
 def change_by(number, amount):
           if random.random() < 0.5:
                     return number - random.randint(0, amount)
@@ -59,8 +60,10 @@ def import_gif(file_name, res=None, *colour_keys):
 
 
 def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *colour_keys):
-          if image is None: sheet = cached_load(filename, None, *colour_keys)
-          else: sheet = image
+          if image is None:
+                    sheet = cached_load(filename, None, *colour_keys)
+          else:
+                    sheet = image
           array = []
           for i in range(tiles):
                     cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
@@ -69,23 +72,28 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *c
                     array.append(cropped)
           return array
 
+
 def import_tilemap(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
-          array = []
           sheet = cached_load(filename, None, *colour_keys)
+          tiles = []
           for y in range(y_tiles):
-                    cropped = pygame.Surface((tile_size, tile_size * y_tiles), pygame.SRCALPHA)
-                    cropped.blit(sheet, (0, 0), (0, tile_size * y, tile_size, tile_size))
-                    array.append(import_SpriteSheet(filename, 0, 0, tile_size, tile_size, x_tiles, res, cropped, *colour_keys))
+                    for x in range(x_tiles):
+                              tile = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
+                              tile.blit(sheet, (0, 0), (x * tile_size, y * tile_size, tile_size, tile_size))
+                              if res:
+                                        tile = pygame.transform.scale(tile, res)
+                              tiles.append(tile)
           return {
-                    "topleft": array[0][0],
-                    "topright": array[0][- 1],
-                    "bottomleft": array[-1][0],
-                    "bottomright": array[-1][- 1],
-                    "top": [array[0][i] for i in range(1, x_tiles - 1)],
-                    "right": [array[i][- 1] for i in range(1, y_tiles - 1)],
-                    "bottom": [array[-1][i] for i in range(1, x_tiles - 1)],
-                    "left": [array[i][0] for i in range(1, y_tiles - 1)],
+                    "topleft": tiles[0],
+                    "topright": tiles[x_tiles - 1],
+                    "bottomleft": tiles[x_tiles * (y_tiles - 1)],
+                    "bottomright": tiles[-1],
+                    "top": tiles[1:x_tiles - 1],
+                    "right": [tiles[i * x_tiles + x_tiles - 1] for i in range(1, y_tiles - 1)],
+                    "bottom": tiles[x_tiles * (y_tiles - 1) + 1: -1],
+                    "left": [tiles[i * x_tiles] for i in range(1, y_tiles - 1)],
           }
+
 
 def perfect_outline(img, outline_color=(255, 255, 255)):
           mask = pygame.mask.from_surface(img)
@@ -101,15 +109,19 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
           outlined_img.blit(img)
           return outlined_img
 
+
 def lookup_colour(colour):
           color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
           for colour in color_list: print(colour)
 
+
 def flip_image(image):
           return pygame.transform.flip(image, True, False)
 
+
 def flip_images(images):
           return [flip_image(image) for image in images]
+
 
 def normalize(val, amt, target):
           if val > target + amt:
@@ -147,8 +159,10 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
           }
 
 
-def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900, base_colour=(255, 255, 255),
-                  hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False, on=False):
+def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900,
+                  base_colour=(255, 255, 255),
+                  hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20,
+                  current_hover_offset=0, active=False, on=False):
           return {
                     "text_input": text_input,
                     "pos": pos,
@@ -171,7 +185,8 @@ def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", t
 
 def create_slider(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right",
                   circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), speed=900,
-                  hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False, res=(46, 15), base_colour=(255, 255, 255),
+                  hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False,
+                  res=(46, 15), base_colour=(255, 255, 255),
                   is_dragging=False, line_colour=(120, 120, 120), line_thickness=2):
           return {
                     "text_input": text_input,

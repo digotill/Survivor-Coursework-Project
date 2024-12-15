@@ -62,17 +62,52 @@ class TileMap:
                                                   return True
                     return False
 
+          def get(self, position):
+                    tile = self.grid.grid.get(position, None)
+                    if tile: print(f"Tile at {position} is {tile[0].tile_type}")
+                    else: print(f"No tile at position {position}")
+                    return tile[0] if isinstance(tile, list) and tile else tile
+
+          def apply_transition_tiles(self):
+                    directions = ["top", "right", "bottom", "left"]
+                    for tile in self.grid.items:
+                              x, y = tile.position.x, tile.position.y
+                              current_tile = tile
+                              if current_tile and current_tile.tile_type == "Water_Tile":
+                                        neighbors = [
+                                                  self.get((int(x + dx * self.tile_size),
+                                                            int(y + dy * self.tile_size)))
+                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0)]
+                                        ]
+
+                                        # Check if the current tile is Water and has a Grass neighbor
+                                        if any(
+                                                neighbor and neighbor.tile_type == "Grass_Tile" for neighbor
+                                                in neighbors):
+                                                  # Create a black image of the same size as the original tile
+                                                  black_image = pygame.Surface(
+                                                            (self.tile_size, self.tile_size))
+                                                  black_image.fill((0, 0, 0))  # RGB for black
+
+                                                  # Replace all images of this tile with the black image
+                                                  current_tile.images = [black_image] * len(
+                                                            current_tile.images)
+
           def terrain_generator(self):
                     for x in range(self.width):
                               for y in range(self.height):
                                         tile_type = self.get_tile_type(x, y)
                                         self.add_tile(tile_type, (x, y))
 
+                    self.apply_transition_tiles()
+
           def grass_generator(self):
                     for tile in self.grid.items:
                               if tile.tile_type == "Grass_Tile":
                                         v = random.random()
                                         if v < Grass["Density"]:
-                                                  self.game.grass_manager.place_tile((tile.position.x // Grass["Grass_Settings"]["tile_size"],
-                                                                                      tile.position.y // Grass["Grass_Settings"]["tile_size"]), int(v * 12),
-                                                                           [0, 1, 2, 3, 4])
+                                                  self.game.grass_manager.place_tile(
+                                                            (tile.position.x // Grass["Grass_Settings"]["tile_size"],
+                                                             tile.position.y // Grass["Grass_Settings"]["tile_size"]),
+                                                            int(v * 12),
+                                                            [0, 1, 2, 3, 4])
