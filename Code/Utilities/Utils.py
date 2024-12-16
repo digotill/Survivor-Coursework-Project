@@ -73,7 +73,7 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *c
           return array
 
 
-def import_tilemap(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
+def import_9x9_spritesheet(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
           sheet = cached_load(filename, None, *colour_keys)
           tiles = []
           for y in range(y_tiles):

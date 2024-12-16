@@ -256,8 +256,8 @@ class RainManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game)
-                    self.cooldown = Cooldowns['rain']
-                    self.last_spawn = - Cooldowns['rain']
+                    self.cooldown = Rain_Config['rate']
+                    self.last_spawn = - Rain_Config['rate']
 
                     self.grid.rebuild()
 

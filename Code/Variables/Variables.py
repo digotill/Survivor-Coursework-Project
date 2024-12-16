@@ -102,7 +102,6 @@ Cooldowns = {
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
-          "rain": 0.05
 }
 
 Keys = {
@@ -231,7 +230,7 @@ Loading_Screens = {
 Tile_Images = {
           "Grass_Tile": import_2d_spritesheet("Assets/Misc/Tiles/grass/Sprite-0001.png", 2, 2),
           "Water_Tile": import_2d_spritesheet("Assets/Misc/Tiles/water/Sprite-0001.png", 2, 2),
-          "Grass_Tile_Water_Tile9x9": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
+          "Grass_Tile_Water_Tile9x9": import_9x9_spritesheet("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
           "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Misc/Tiles/Grass_Water/Sprite-0002.png")
 }
 
@@ -262,6 +261,7 @@ Effect_Images = {
 
 Rain_Config = {
           "animation": Effect_Images["Rain"],
+          "rate": 0.001,
           "animation_speed": 20,
           "vel": 600,
           "vel_randomness": 50,
