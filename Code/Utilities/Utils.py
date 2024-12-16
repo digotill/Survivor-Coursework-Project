@@ -106,6 +106,23 @@ def import_2d_spritesheet(filename, x_tiles, y_tiles, tile_size=16, res=None, *c
                               tiles.append(tile)
           return tiles
 
+def import_2x2_spritesheet(filename, tile_size=16, res=None, *colour_keys):
+          sheet = cached_load(filename, None, *colour_keys)
+          tiles = []
+          for y in range(2):
+                    for x in range(2):
+                              tile = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
+                              tile.blit(sheet, (0, 0), (x * tile_size, y * tile_size, tile_size, tile_size))
+                              if res:
+                                        tile = pygame.transform.scale(tile, res)
+                              tiles.append(tile)
+          return {
+                    "bottomright": [tiles[0]],
+                    "bottomleft": [tiles[1]],
+                    "topright": [tiles[2]],
+                    "topleft": [tiles[3]],
+          }
+
 
 def perfect_outline(img, outline_color=(255, 255, 255)):
           mask = pygame.mask.from_surface(img)
