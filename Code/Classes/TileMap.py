@@ -79,20 +79,32 @@ class TileMap:
                     return None
 
           def apply_transition_tiles(self):
-                    directions = ["top", "right", "bottom", "left"]
+                    directions = ["top", "bottom", "right",  "left"]
+                    solo_tiles = 0
                     for tile in self.grid.items:
                               if tile.tile_type == "Water_Tile":
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(
                                                   tile.position.y // self.tile_size)
                                         neighbours = [
                                                   self.get((grid_x + dx, grid_y + dy))
-                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0)]
+                                                  for dx, dy in [(0, -1), (0, 1), (1, 0),  (-1, 0)]
                                         ]
 
+                                        number_of_trans = 0
+                                        current_transition = ""
                                         for i, neighbour in enumerate(neighbours):
                                                   if neighbour and neighbour.tile_type == "Grass_Tile":
-                                                            tile.images = [random.choice(Tile_Images["Grass_Tile_Water_Tile"][directions[i]])]
-                                                            tile.transition = directions[i]
+                                                            number_of_trans += 1
+                                                            current_transition += directions[i]
+
+                                        if 0 < number_of_trans < 3:
+                                                  tile.images = [random.choice(Tile_Images["Grass_Tile_Water_Tile"][current_transition])]
+                                                  tile.transition = current_transition
+                                        if number_of_trans == 3:
+                                                  tile.__init__("Grass_Tile", (tile.position.x, tile.position.y))
+                                                  solo_tiles += 1
+                    if solo_tiles != 0:
+                              self.apply_transition_tiles()
 
           def terrain_generator(self):
                     for x in range(self.width):
