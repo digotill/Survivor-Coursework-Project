@@ -29,8 +29,8 @@ class TileMap:
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
-                    self.animation_speed = Tile_Images["animation_speed"]
-                    self.frames = {tile_type: 0 for tile_type in Tile_Images["animated_tiles"]}
+                    self.animation_speed = Tiles_Congifig["animation_speed"]
+                    self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
 
                     self.terrain_generator()
                     self.grass_generator()
@@ -103,7 +103,7 @@ class TileMap:
                                         if 0 < number_of_trans <= 2:
                                                   if not current_transition in ["topbottom", "rightleft"]:
                                                             tile.images = [random.choice(
-                                                                      Tile_Images["Grass_Tile_Water_Tile"][
+                                                                      Tile_Images["Grass_Tile_Water_Tile9x9"][
                                                                                 current_transition])]
                                                             tile.transition = current_transition
                                                   else:
@@ -156,7 +156,7 @@ class TileMap:
                                                                                           current_transition += remove_string(
                                                                                                     tile_in_current_transition.transition,
                                                                                                     "top" if "top" in tile_in_current_transition.transition else "bottom")
-                                                                                else:  # current_transition in ["left", "right"]
+                                                                                else:
                                                                                           current_transition = remove_string(
                                                                                                     tile_in_current_transition.transition,
                                                                                                     "left" if "left" in tile_in_current_transition.transition else "right") + current_transition

@@ -163,6 +163,12 @@ def normalize(val, amt, target):
                     val = target
           return val
 
+def remove_string(main_string, string_to_remove):
+          return main_string.replace(string_to_remove, '')
+
+def string_ends_with(main_string, ending):
+    return main_string.endswith(ending)
+
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
@@ -287,7 +293,3 @@ def remove_adjacent_directions(direction_string):
                                                   result = result.replace(directions[i], "").replace(directions[j], "")
 
           return result if result else direction_string
-
-
-def remove_string(main_string, string_to_remove):
-          return main_string.replace(string_to_remove, '')

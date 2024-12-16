@@ -231,9 +231,7 @@ Loading_Screens = {
 Tile_Images = {
           "Grass_Tile": import_2d_spritesheet("Assets/Misc/Tiles/grass/Sprite-0001.png", 2, 2),
           "Water_Tile": import_2d_spritesheet("Assets/Misc/Tiles/water/Sprite-0001.png", 2, 2),
-          "animation_speed": 5,
-          "Grass_Tile_Water_Tile": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
-          "animated_tiles": ["Water_Tile"],
+          "Grass_Tile_Water_Tile9x9": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
           "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Misc/Tiles/Grass_Water/Sprite-0002.png")
 }
 
@@ -241,7 +239,9 @@ Tiles_Congifig = {
           "Tile_Ranges": {
                     "Water_Tile": -0.2,
                     "Grass_Tile": 1,
+                    "animated_tiles": ["Water_Tile"],
           },
+          "animation_speed": 5,
           "tile_map_size": 16,
 }
 
