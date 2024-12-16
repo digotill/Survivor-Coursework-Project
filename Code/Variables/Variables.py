@@ -239,9 +239,9 @@ Tiles_Congifig = {
           "Tile_Ranges": {
                     "Water_Tile": -0.2,
                     "Grass_Tile": 1,
-                    "animated_tiles": ["Water_Tile"],
           },
           "animation_speed": 5,
+          "animated_tiles": ["Water_Tile"],
           "tile_map_size": 16,
 }
 
