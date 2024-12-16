@@ -94,6 +94,7 @@ def import_tilemap(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_k
                     "left": [tiles[i * x_tiles] for i in range(1, y_tiles - 1)],
           }
 
+
 def import_2d_spritesheet(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
           sheet = cached_load(filename, None, *colour_keys)
           tiles = []
@@ -105,6 +106,7 @@ def import_2d_spritesheet(filename, x_tiles, y_tiles, tile_size=16, res=None, *c
                                         tile = pygame.transform.scale(tile, res)
                               tiles.append(tile)
           return tiles
+
 
 def import_2x2_spritesheet(filename, tile_size=16, res=None, *colour_keys):
           sheet = cached_load(filename, None, *colour_keys)
@@ -271,3 +273,21 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     "separation_radius": res[0] / 2,
                     "separation_strength": 0.5,
           }
+
+
+def remove_adjacent_directions(direction_string):
+          directions = ["top", "right", "bottom", "left"]
+          result = direction_string
+
+          for i in range(len(directions)):
+                    for j in range(i + 1, len(directions)):
+                              if directions[i] in result and directions[j] in result:
+                                        if abs(result.index(directions[i]) - result.index(directions[j])) == len(
+                                                directions[i]):
+                                                  result = result.replace(directions[i], "").replace(directions[j], "")
+
+          return result if result else direction_string
+
+
+def remove_string(main_string, string_to_remove):
+          return main_string.replace(string_to_remove, '')

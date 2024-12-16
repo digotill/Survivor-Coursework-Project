@@ -81,6 +81,7 @@ class TileMap:
 
           def apply_transition_tiles(self):
                     directions = ["top", "bottom", "right", "left"]
+                    all_direction_positions = [(0, -1), (0, 1), (1, 0), (-1, 0), (1, -1), (1, 1), (-1, -1), (-1, 1)]
                     direction_positions = [(0, -1), (0, 1), (1, 0), (-1, 0)]
                     changes = 0
                     for tile in self.grid.items:
@@ -122,19 +123,55 @@ class TileMap:
                                                   self.get((grid_x + dx, grid_y + dy))
                                                   for dx, dy in direction_positions
                                         ]
+                                        all_neighbours = [
+                                                  self.get((grid_x + dx, grid_y + dy))
+                                                  for dx, dy in all_direction_positions
+                                        ]
 
                                         number_of_trans = 0
                                         current_transition = ""
-                                        for i, neighbour in enumerate(neighbours):
-                                                  if neighbour and neighbour.tile_type == "Water_Tile" and neighbour.transition is not None:
-                                                            number_of_trans += 1
-                                                            current_transition += directions[i]
+                                        if not any(neighbour and neighbour.tile_type != "Water_Tile" for neighbour in neighbours) and any(neighbour and neighbour.tile_type != "Water_Tile" for neighbour in all_neighbours):
+                                                  for i, neighbour in enumerate(neighbours):
+                                                            if neighbour and neighbour.tile_type == "Water_Tile" and neighbour.transition is not None:
+                                                                      number_of_trans += 1
+                                                                      current_transition += directions[i]
 
-                                        if number_of_trans == 2:
-                                                  if not current_transition in ["topbottom", "rightleft"]:
-                                                            tile.images = [random.choice(
-                                                                      Tile_Images["Grass_Tile_Water_Tile2x2"][
-                                                                                current_transition])]
+                                                  if number_of_trans == 2:
+                                                            if not current_transition in ["topbottom", "rightleft"]:
+                                                                      tile.images = [random.choice(
+                                                                                Tile_Images["Grass_Tile_Water_Tile2x2"][
+                                                                                          current_transition])]
+                                                  elif number_of_trans == 3:
+                                                            current_transition = remove_adjacent_directions(
+                                                                      current_transition)
+                                                            tile_in_current_transition = neighbours[
+                                                                      directions.index(current_transition)]
+                                                            if tile_in_current_transition and tile_in_current_transition.transition:
+                                                                      if (
+                                                                              "top" in tile_in_current_transition.transition or "bottom" in tile_in_current_transition.transition) and \
+                                                                              (
+                                                                                      "left" in tile_in_current_transition.transition or "right" in tile_in_current_transition.transition):
+                                                                                if current_transition in ["top",
+                                                                                                          "bottom"]:
+                                                                                          current_transition += remove_string(
+                                                                                                    tile_in_current_transition.transition,
+                                                                                                    "top" if "top" in tile_in_current_transition.transition else "bottom")
+                                                                                else:  # current_transition in ["left", "right"]
+                                                                                          current_transition = remove_string(
+                                                                                                    tile_in_current_transition.transition,
+                                                                                                    "left" if "left" in tile_in_current_transition.transition else "right") + current_transition
+                                                                      elif "top" in tile_in_current_transition.transition or "bottom" in tile_in_current_transition.transition:
+                                                                                current_transition = tile_in_current_transition.transition + current_transition
+                                                                      else:
+                                                                                current_transition += tile_in_current_transition.transition
+
+                                                            if current_transition in Tile_Images[
+                                                                      "Grass_Tile_Water_Tile2x2"]:
+                                                                      tile.images = [random.choice(
+                                                                                Tile_Images["Grass_Tile_Water_Tile2x2"][
+                                                                                          current_transition])]
+                                                            #else: print(f"Warning: Invalid transition '{current_transition}' for Grass_Tile_Water_Tile2x2")
+
 
           def terrain_generator(self):
                     for x in range(self.width):
