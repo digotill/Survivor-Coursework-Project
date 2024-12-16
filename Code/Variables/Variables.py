@@ -90,7 +90,8 @@ Player_Attributes = {
 }
 
 Enemies = {
-          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320, damage=20,
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=320,
+                                          damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
                                           images=Entity_Images["enemy1"], animation_speed=5, hit_cooldown=0.1,
                                           )
@@ -239,7 +240,6 @@ Tile_Images = {
           "animation_speed": 5,
           "Grass_Tile_Water_Tile": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16)
 }
-
 
 Tiles_Congifig = {
           "Tile_Ranges": {
