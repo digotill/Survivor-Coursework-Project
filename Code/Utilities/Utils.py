@@ -84,10 +84,10 @@ def import_tilemap(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_k
                                         tile = pygame.transform.scale(tile, res)
                               tiles.append(tile)
           return {
-                    "topleft": tiles[0],
-                    "topright": tiles[x_tiles - 1],
-                    "bottomleft": tiles[x_tiles * (y_tiles - 1)],
-                    "bottomright": tiles[-1],
+                    "topleft": [tiles[0]],
+                    "topright": [tiles[x_tiles - 1]],
+                    "bottomleft": [tiles[x_tiles * (y_tiles - 1)]],
+                    "bottomright": [tiles[-1]],
                     "top": tiles[1:x_tiles - 1],
                     "right": [tiles[i * x_tiles + x_tiles - 1] for i in range(1, y_tiles - 1)],
                     "bottom": tiles[x_tiles * (y_tiles - 1) + 1: -1],

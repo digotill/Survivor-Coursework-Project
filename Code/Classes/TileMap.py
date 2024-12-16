@@ -80,17 +80,14 @@ class TileMap:
                               if tile.tile_type == "Water_Tile":
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(
                                                   tile.position.y // self.tile_size)
-                                        neighbors = [
+                                        neighbours = [
                                                   self.get((grid_x + dx, grid_y + dy))
                                                   for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0), (-1, -1), (1, -1), (-1, 1), (1, 1)]
                                         ]
 
-                                        if any(neighbor and neighbor.tile_type == "Grass_Tile" for neighbor in neighbors
-                                               if neighbor):
-                                                  black_image = pygame.Surface((self.tile_size, self.tile_size))
-                                                  black_image.fill((0, 0, 0))
-
-                                                  tile.images = [black_image] * len(tile.images)
+                                        for i, neighbour in enumerate(neighbours):
+                                                  if neighbour and neighbour.tile_type == "Grass_Tile":
+                                                            tile.images = [random.choice(Tile_Images["Grass_Tile_Water_Tile"][directions[i]])]
 
           def terrain_generator(self):
                     for x in range(self.width):
