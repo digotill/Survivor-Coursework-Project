@@ -9,7 +9,11 @@ class Tile:
                     self.position = Vector2(position)
                     self.size = General_Settings['tilemap_size']
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size, self.size)
-                    self.images = Tile_Images[tile_type]
+                    if tile_type in Tile_Images["animated_tiles"]:
+                              self.images = Tile_Images[tile_type]
+                    else:
+                              self.images = [random.choice(Tile_Images[tile_type])]
+                    self.transition = None
 
           def draw(self, surface, offset, frame):
                     draw_position = self.position - offset
@@ -25,7 +29,7 @@ class TileMap:
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
                     self.animation_speed = Tile_Images["animation_speed"]
-                    self.frames = {tile_type: 0 for tile_type in ["Water_Tile"]}
+                    self.frames = {tile_type: 0 for tile_type in Tile_Images["animated_tiles"]}
 
                     self.terrain_generator()
                     self.grass_generator()
@@ -75,19 +79,20 @@ class TileMap:
                     return None
 
           def apply_transition_tiles(self):
-                    directions = ["top", "right", "bottom", "left", "topleft", "topright", "bottomleft", "bottomright"]
+                    directions = ["top", "right", "bottom", "left"]
                     for tile in self.grid.items:
                               if tile.tile_type == "Water_Tile":
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(
                                                   tile.position.y // self.tile_size)
                                         neighbours = [
                                                   self.get((grid_x + dx, grid_y + dy))
-                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0), (-1, -1), (1, -1), (-1, 1), (1, 1)]
+                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0)]
                                         ]
 
                                         for i, neighbour in enumerate(neighbours):
                                                   if neighbour and neighbour.tile_type == "Grass_Tile":
                                                             tile.images = [random.choice(Tile_Images["Grass_Tile_Water_Tile"][directions[i]])]
+                                                            tile.transition = directions[i]
 
           def terrain_generator(self):
                     for x in range(self.width):

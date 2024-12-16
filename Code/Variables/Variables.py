@@ -229,16 +229,13 @@ Loading_Screens = {
 }
 
 Tile_Images = {
-          "Grass_Tile": import_gif("Assets/Misc/Tiles/grass",
-                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Water_Tile": import_gif("Assets/Misc/Tiles/water",
-                                   (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Mountain_Tile": import_gif("Assets/Misc/Tiles/mountain",
-                                      (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
-          "Sand_Tile": import_gif("Assets/Misc/Tiles/sand",
-                                  (General_Settings['tilemap_size'], General_Settings['tilemap_size'])),
+          "Grass_Tile": import_2d_spritesheet("Assets/Misc/Tiles/grass/Sprite-0001.png", 2, 2),
+          "Water_Tile": import_2d_spritesheet("Assets/Misc/Tiles/water/Sprite-0001.png", 2, 2),
+          "Mountain_Tile": import_gif("Assets/Misc/Tiles/mountain"),
+          "Sand_Tile": import_gif("Assets/Misc/Tiles/sand"),
           "animation_speed": 5,
-          "Grass_Tile_Water_Tile": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16)
+          "Grass_Tile_Water_Tile": import_tilemap("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
+          "animated_tiles": ["Water_Tile"]
 }
 
 Tiles_Congifig = {
