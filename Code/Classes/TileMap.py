@@ -15,13 +15,12 @@ class Tile:
                     draw_position = self.position - offset
                     surface.blit(self.images[int(frame % len(self.images))], draw_position)
 
-
 class TileMap:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, General_Settings['tilemap_size'])
 
-                    self.tile_size = General_Settings['tilemap_size']
+                    self.tile_size = 16
+                    self.grid = HashMap(game, self.tile_size)
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
@@ -33,8 +32,9 @@ class TileMap:
 
                     self.grid.rebuild()
 
-          def add_tile(self, tile_type, position):
-                    tile = Tile(tile_type, (position[0] * self.tile_size, position[1] * self.tile_size))
+          def add_tile(self, tile_type, grid_position):
+                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
+                    tile = Tile(tile_type, pixel_position)
                     self.grid.insert(tile)
 
           def draw(self):
@@ -55,6 +55,9 @@ class TileMap:
                               if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
                                         return tile
 
+          def _get_cell(self, position):
+                    return int(position[0] // self.cell_size), int(position[1] // self.cell_size)
+
           def tile_collision(self, rect, *tile_types):
                     for tile in self.grid.query(rect):
                               for tile_type in tile_types:
@@ -62,28 +65,32 @@ class TileMap:
                                                   return True
                     return False
 
-          def get(self, position):
-                    tile = self.grid.grid.get(position, None)
-                    return tile[0] if isinstance(tile, list) and tile else tile
+          def get(self, grid_position):
+                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
+                    tile = self.grid.grid.get(grid_position, None)
+                    if isinstance(tile, list) and tile:
+                              for i in tile:
+                                        if i.rect.topleft == pixel_position:
+                                                  return i
+                    return None
 
           def apply_transition_tiles(self):
-                    directions = ["top", "right", "bottom", "left"]
+                    directions = ["top", "right", "bottom", "left", "topleft", "topright", "bottomleft", "bottomright"]
                     for tile in self.grid.items:
                               if tile.tile_type == "Water_Tile":
-                                        x, y = tile.position.x // self.tile_size, tile.position.y // self.tile_size
+                                        grid_x, grid_y = int(tile.position.x // self.tile_size), int(
+                                                  tile.position.y // self.tile_size)
                                         neighbors = [
-                                                  self.get((int(x + dx), int(y + dy)))
-                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0)]
+                                                  self.get((grid_x + dx, grid_y + dy))
+                                                  for dx, dy in [(0, -1), (1, 0), (0, 1), (-1, 0), (-1, -1), (1, -1), (-1, 1), (1, 1)]
                                         ]
 
                                         if any(neighbor and neighbor.tile_type == "Grass_Tile" for neighbor in neighbors
                                                if neighbor):
                                                   black_image = pygame.Surface((self.tile_size, self.tile_size))
-                                                  black_image.fill((0, 0, 0))  # RGB for black
+                                                  black_image.fill((0, 0, 0))
 
                                                   tile.images = [black_image] * len(tile.images)
-
-                    self.grid.rebuild()
 
           def terrain_generator(self):
                     for x in range(self.width):
