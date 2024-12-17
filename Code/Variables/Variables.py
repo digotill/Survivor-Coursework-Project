@@ -16,7 +16,7 @@ REN_RES = 640, 360
 
 Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
-pygame.display.set_icon(load_image("Assets/Misc/Cover/cover.png"))
+pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
@@ -145,13 +145,13 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Objects/Bullet/Bullet 1/Bullet.png", (16, 16))
+          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (16, 16))
 }
 
 Weapon_Images = {
-          "AK47": load_image("Assets/Objects/Weapons/rifle.png", (32, 13)),
-          "Shotgun": load_image("Assets/Objects/Weapons/Shotgun.png", (30, 13)),
-          "Minigun": load_image("Assets/Objects/Weapons/Mini gun.png", (34, 16))
+          "AK47": load_image("Assets/Misc/Weapons/rifle.png", (32, 13)),
+          "Shotgun": load_image("Assets/Misc/Weapons/Shotgun.png", (30, 13)),
+          "Minigun": load_image("Assets/Misc/Weapons/Mini gun.png", (34, 16))
 }
 
 Weapons = {
@@ -182,10 +182,10 @@ Weapons = {
 }
 
 Button_Images = {
-          "Button1": load_image("Assets/Misc/Buttons/Sprite-0001.png"),
-          "Button2": load_image("Assets/Misc/Buttons/Sprite-0002.png"),
-          "Button3": load_image("Assets/Misc/Buttons/Sprite-0003.png"),
-          "Button4": load_image("Assets/Misc/Buttons/Sprite-0004.png")
+          "Button1": load_image("Assets/UI/Buttons/Sprite-0001.png"),
+          "Button2": load_image("Assets/UI/Buttons/Sprite-0002.png"),
+          "Button3": load_image("Assets/UI/Buttons/Sprite-0003.png"),
+          "Button4": load_image("Assets/UI/Buttons/Sprite-0004.png")
 }
 
 AllButtons = {
@@ -228,10 +228,10 @@ Loading_Screens = {
 }
 
 Tile_Images = {
-          "Grass_Tile": import_2d_spritesheet("Assets/Misc/Tiles/grass/Sprite-0001.png", 2, 2),
-          "Water_Tile": import_2d_spritesheet("Assets/Misc/Tiles/water/Sprite-0001.png", 2, 2),
-          "Grass_Tile_Water_Tile9x9": import_9x9_spritesheet("Assets/Misc/Tiles/Grass_Water/Sprite-0001.png", 4, 4, 16),
-          "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Misc/Tiles/Grass_Water/Sprite-0002.png")
+          "Grass_Tile": import_2d_spritesheet("Assets/Tiles/grass/Sprite-0001.png", 2, 2),
+          "Water_Tile": import_2d_spritesheet("Assets/Tiles/water/Sprite-0001.png", 2, 2),
+          "Grass_Tile_Water_Tile4x4": import_4x4_spritesheet("Assets/Tiles/Grass_Water/Sprite-0001.png"),
+          "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Tiles/Grass_Water/Sprite-0002.png")
 }
 
 Tiles_Congifig = {
@@ -245,24 +245,24 @@ Tiles_Congifig = {
 }
 
 Cursor_Config = {
-          "Cursor_Images": import_gif("Assets/Misc/Mouse/Mouse3", (13, 13))
+          "Cursor_Images": import_gif("Assets/UI/Mouse/Mouse3", (13, 13))
 }
 
 Bar_Images = {
-          "Health_bar": load_image("Assets/Misc/Bars/health.png"),
-          "Stamina_bar": load_image("Assets/Misc/Bars/Sprite-0005.png"),
-          "Outside_Health_bar": load_image("Assets/Misc/Bars/health_bar.png", UI_Settings["outside_bar_res"])
+          "Health_bar": load_image("Assets/UI/Bars/health.png"),
+          "Stamina_bar": load_image("Assets/UI/Bars/Sprite-0005.png"),
+          "Outside_Health_bar": load_image("Assets/UI/Bars/health_bar.png", UI_Settings["outside_bar_res"])
 }
 
 Effect_Images = {
-          "Slash_Effect": import_gif("Assets/VFX/Slash"),
           "Rain": import_gif("Assets/VFX/Rain")
 }
 
 Rain_Config = {
           "animation": Effect_Images["Rain"],
-          "rate": 0.001,
+          "rate": 0.0001,
           "animation_speed": 20,
+          "amount": 3,
           "vel": 600,
           "vel_randomness": 50,
           "lifetime": 0.9,

@@ -73,11 +73,12 @@ def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *c
           return array
 
 
-def import_9x9_spritesheet(filename, x_tiles, y_tiles, tile_size=16, res=None, *colour_keys):
+def import_4x4_spritesheet(filename, tile_size=16, res=None, *colour_keys):
           sheet = cached_load(filename, None, *colour_keys)
           tiles = []
-          for y in range(y_tiles):
-                    for x in range(x_tiles):
+          x_tiles, y_tiles = 4, 4
+          for y in range(4):
+                    for x in range(4):
                               tile = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
                               tile.blit(sheet, (0, 0), (x * tile_size, y * tile_size, tile_size, tile_size))
                               if res:
@@ -288,4 +289,9 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     "hit_cooldown": hit_cooldown,
                     "separation_radius": res[0] / 2,
                     "separation_strength": 0.5,
+          }
+
+def create_object_settings(image, res, ):
+          return {
+
           }

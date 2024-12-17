@@ -361,3 +361,9 @@ class Rain(main):
                     if not self.hit_ground:
                               self.pos += self.vel_vector * self.game.dt
                               self.rect.center = self.pos
+
+class Object(main):
+          def __init__(self, game, dictionary):
+
+                    self.game = game
+                    self.set_attributes(dictionary)

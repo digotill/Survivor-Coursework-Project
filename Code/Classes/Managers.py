@@ -169,8 +169,6 @@ class ObjectManager:
                     self.game = game
                     self.grid = HashMap(game)
 
-                    self.object_pool = set()
-
           def update(self):
                     pass
 
@@ -280,8 +278,9 @@ class RainManager:
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
-                              self.grid.insert(Rain(self.game, Rain_Config))
-                              self.last_spawn = self.game.game_time
+                              for _ in range(Rain_Config["amount"]):
+                                        self.grid.insert(Rain(self.game, Rain_Config))
+                                        self.last_spawn = self.game.game_time
 
           def check_dead(self):
                     for rain_droplet in self.grid.items.copy():

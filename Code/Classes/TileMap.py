@@ -103,7 +103,7 @@ class TileMap:
                                         if 0 < number_of_trans <= 2:
                                                   if not current_transition in ["topbottom", "rightleft"]:
                                                             tile.images = [random.choice(
-                                                                      Tile_Images[tile1 + "_" + tile2 + "9x9"][
+                                                                      Tile_Images[tile1 + "_" + tile2 + "4x4"][
                                                                                 current_transition])]
                                                             tile.transition = current_transition
                                                   else:
@@ -187,7 +187,7 @@ class TileMap:
                               if string_ends_with(key, "_Tile"):
                                         for key2 in Tile_Images.keys():
                                                   if string_ends_with(key2, "_Tile"):
-                                                            if Tile_Images.get(key + "_" + key2 + "9x9",
+                                                            if Tile_Images.get(key + "_" + key2 + "4x4",
                                                                                None) is not None and Tile_Images.get(
                                                                     key + "_" + key2 + "2x2", None) is not None:
                                                                       self.apply_transition_tiles(key, key2)
