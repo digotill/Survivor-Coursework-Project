@@ -80,7 +80,7 @@ Player_Attributes = {
           'health': 100,
           'res': Entity_Images["player"]["idle"][0].size,
           "animations": Entity_Images["player"],
-          'vel': 100,
+          'vel': 900,
           'damage': 30,
           'stamina': 100,
           'acceleration': 600,

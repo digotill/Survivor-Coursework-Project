@@ -169,6 +169,16 @@ def remove_string(main_string, string_to_remove):
 def string_ends_with(main_string, ending):
     return main_string.endswith(ending)
 
+def remove_opposite_directions(direction_string):
+    opposite_pairs = [("top", "bottom"), ("left", "right")]
+    result = direction_string.lower()
+
+    for pair in opposite_pairs:
+        if all(direction in result for direction in pair):
+            result = result.replace(pair[0], "").replace(pair[1], "")
+
+    return result if result else direction_string
+
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
@@ -279,17 +289,3 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     "separation_radius": res[0] / 2,
                     "separation_strength": 0.5,
           }
-
-
-def remove_adjacent_directions(direction_string):
-          directions = ["top", "right", "bottom", "left"]
-          result = direction_string
-
-          for i in range(len(directions)):
-                    for j in range(i + 1, len(directions)):
-                              if directions[i] in result and directions[j] in result:
-                                        if abs(result.index(directions[i]) - result.index(directions[j])) == len(
-                                                directions[i]):
-                                                  result = result.replace(directions[i], "").replace(directions[j], "")
-
-          return result if result else direction_string

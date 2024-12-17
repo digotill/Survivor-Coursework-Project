@@ -146,7 +146,7 @@ class TileMap:
                                                                                           tile1 + "_" + tile2 + "2x2"][
                                                                                           current_transition])]
                                                   elif number_of_trans == 3:
-                                                            current_transition = remove_adjacent_directions(
+                                                            current_transition = remove_opposite_directions(
                                                                       current_transition)
                                                             tile_in_current_transition = neighbours[
                                                                       directions.index(current_transition)]
@@ -159,14 +159,14 @@ class TileMap:
                                                                                                           "bottom"]:
                                                                                           current_transition += remove_string(
                                                                                                     tile_in_current_transition.transition,
-                                                                                                    "top" if "top" in tile_in_current_transition.transition else "bottom")
+                                                                                                    "top" if "top" in current_transition else "bottom")
                                                                                 else:
                                                                                           current_transition = remove_string(
                                                                                                     tile_in_current_transition.transition,
-                                                                                                    "left" if "left" in tile_in_current_transition.transition else "right") + current_transition
+                                                                                                    "left" if "left" in current_transition else "right") + current_transition
                                                                       elif "top" in tile_in_current_transition.transition or "bottom" in tile_in_current_transition.transition:
                                                                                 current_transition = tile_in_current_transition.transition + current_transition
-                                                                      else:
+                                                                      elif "left" in tile_in_current_transition.transition or "right" in tile_in_current_transition.transition:
                                                                                 current_transition += tile_in_current_transition.transition
 
                                                             if current_transition in Tile_Images[
@@ -175,7 +175,7 @@ class TileMap:
                                                                                 Tile_Images[
                                                                                           tile1 + "_" + tile2 + "2x2"][
                                                                                           current_transition])]
-                                                            # else: print(f"Warning: Invalid transition '{current_transition}' for Grass_Tile_Water_Tile2x2")
+                                                            else: print(f"Warning: Invalid transition '{current_transition}' for Grass_Tile_Water_Tile2x2")
 
           def terrain_generator(self):
                     for x in range(self.width):
