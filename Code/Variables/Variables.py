@@ -231,7 +231,12 @@ Tile_Images = {
           "Grass_Tile": import_2d_spritesheet("Assets/Tiles/grass/Sprite-0001.png", 2, 2),
           "Water_Tile": import_2d_spritesheet("Assets/Tiles/water/Sprite-0001.png", 2, 2),
           "Grass_Tile_Water_Tile4x4": import_4x4_spritesheet("Assets/Tiles/Grass_Water/Sprite-0001.png"),
-          "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Tiles/Grass_Water/Sprite-0002.png")
+          "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Tiles/Grass_Water/Sprite-0002.png"),
+}
+
+Object_Images = {
+          "Rocks": import_gif("Assets/Objects/Rocks"),
+          "Cars": import_gif("Assets/Objects/Cars"),
 }
 
 Tiles_Congifig = {
@@ -255,7 +260,9 @@ Bar_Images = {
 }
 
 Effect_Images = {
-          "Rain": import_gif("Assets/VFX/Rain")
+          "Rain": import_gif("Assets/VFX/Rain"),
+          "Blood": import_SpriteSheet("Assets/VFX/Blood/Sprite-0001.png", 0, 0, 49, 48, 6),
+          "Electric": import_gif("Assets/VFX/electric"),
 }
 
 Rain_Config = {

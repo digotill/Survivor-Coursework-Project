@@ -164,21 +164,24 @@ def normalize(val, amt, target):
                     val = target
           return val
 
+
 def remove_string(main_string, string_to_remove):
           return main_string.replace(string_to_remove, '')
 
+
 def string_ends_with(main_string, ending):
-    return main_string.endswith(ending)
+          return main_string.endswith(ending)
+
 
 def remove_opposite_directions(direction_string):
-    opposite_pairs = [("top", "bottom"), ("left", "right")]
-    result = direction_string.lower()
+          opposite_pairs = [("top", "bottom"), ("left", "right")]
+          result = direction_string.lower()
 
-    for pair in opposite_pairs:
-        if all(direction in result for direction in pair):
-            result = result.replace(pair[0], "").replace(pair[1], "")
+          for pair in opposite_pairs:
+                    if all(direction in result for direction in pair):
+                              result = result.replace(pair[0], "").replace(pair[1], "")
 
-    return result if result else direction_string
+          return result if result else direction_string
 
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
@@ -291,7 +294,10 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     "separation_strength": 0.5,
           }
 
-def create_object_settings(image, res, ):
-          return {
 
+def create_object_settings(images, res, amount, collision):
+          return {
+                    'images': images,
+                    'amount': amount,
+                    'collision': collision,
           }

@@ -132,8 +132,8 @@ class TileMap:
                                         current_transition = ""
                                         if not any(neighbour and neighbour.tile_type != tile2 for neighbour in
                                                    neighbours) and any(
-                                                neighbour and neighbour.tile_type != tile2 for neighbour in
-                                                all_neighbours):
+                                                  neighbour and neighbour.tile_type != tile2 for neighbour in
+                                                  all_neighbours):
                                                   for i, neighbour in enumerate(neighbours):
                                                             if neighbour and neighbour.tile_type == tile2 and neighbour.transition is not None:
                                                                       number_of_trans += 1
@@ -175,7 +175,6 @@ class TileMap:
                                                                                 Tile_Images[
                                                                                           tile1 + "_" + tile2 + "2x2"][
                                                                                           current_transition])]
-                                                            else: print(f"Warning: Invalid transition '{current_transition}' for Grass_Tile_Water_Tile2x2")
 
           def terrain_generator(self):
                     for x in range(self.width):
@@ -189,7 +188,7 @@ class TileMap:
                                                   if string_ends_with(key2, "_Tile"):
                                                             if Tile_Images.get(key + "_" + key2 + "4x4",
                                                                                None) is not None and Tile_Images.get(
-                                                                    key + "_" + key2 + "2x2", None) is not None:
+                                                                      key + "_" + key2 + "2x2", None) is not None:
                                                                       self.apply_transition_tiles(key, key2)
 
           def grass_generator(self):
