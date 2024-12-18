@@ -16,7 +16,7 @@ class Camera(main_camera):
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)
 
-                    self.pos = v2(GAME_SIZE[0] / 2 - self.res[0] / 2, GAME_SIZE[1] / 2 - self.res[1] / 2)
+                    self.pos = v2(self.game.player.pos.x - self.res[0] / 2, self.game.player.pos.y - self.res[1] / 2)
                     self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.offset_rect = self.rect.copy()
 

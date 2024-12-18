@@ -37,14 +37,13 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
 
-                    self.camera = Camera(self)
                     self.tilemap = TileMap(self)
 
                     self.update_game_variables()
 
                     self.mainmenu = MainMenu(self)
-                    self.gameover = GameOver(self)
-                    self.mainmenu.loop()
+                    MainMenu(self).loop()
+                    self.camera = Camera(self)
 
           def refresh(self):
                     pygame.display.flip()

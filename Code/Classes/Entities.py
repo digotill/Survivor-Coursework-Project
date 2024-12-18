@@ -48,16 +48,38 @@ class main:
                               self.dead = True
                               self.health = 0
 
+
 class Player(main):
-          def __init__(self, game, position, gun, dictionary):
+          def __init__(self, game, gun, dictionary):
                     self.game = game
 
                     self.set_attributes(dictionary)
-                    self.pos = v2(position)
+                    self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
                     self.gun = gun
                     self.current_animation = 'idle'
+
+          def find_spawn_position(self):
+                    center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
+                    max_distance = max(GAME_SIZE[0], GAME_SIZE[1])
+
+                    for distance in range(0, max_distance, 10):  # Increase step size for efficiency
+                              for angle in range(0, 360, 10):  # Check in a circular pattern
+                                        x = center_x + int(distance * math.cos(math.radians(angle)))
+                                        y = center_y + int(distance * math.sin(math.radians(angle)))
+
+                                        if 0 <= x < GAME_SIZE[0] and 0 <= y < GAME_SIZE[1]:
+                                                  test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
+                                                  if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
+                                                            offset_x = x - center_x
+                                                            offset_y = y - center_y
+                                                            print(f"Spawn position found. Offset from center: ({offset_x}, {offset_y})")
+                                                            return v2(x, y)
+
+                    # Fallback to center if no suitable position found
+                    print("No suitable spawn position found. Falling back to center.")
+                    return v2(center_x, center_y)
 
           def change_animation(self, animation_name):
                     if animation_name in self.animations and animation_name != self.current_animation:
@@ -98,11 +120,13 @@ class Player(main):
                               y_rect = pygame.Rect(self.pos.x + self.res[0] / 2, new_y + self.res[1] / 2, 0, 0)
                               y_water_collision = self.game.tilemap.tile_collision(y_rect, "Water_Tile")
 
-                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2] and not x_water_collision:
+                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
+                                      self.offset[2] and not x_water_collision:
                                         self.pos.x = new_x
                                         self.rect.centerx = self.pos.x
                                         move_hor = True
-                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3] and not y_water_collision:
+                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + \
+                                      self.offset[3] and not y_water_collision:
                                         self.pos.y = new_y
                                         self.rect.centery = self.pos.y
                                         move_vert = True
@@ -131,6 +155,7 @@ class Player(main):
                               self.current_vel = min(self.current_vel + self.acceleration * self.game.dt, self.max_vel)
                     else:
                               self.current_vel = max(self.current_vel - self.acceleration * self.game.dt, 0)
+
 
 class Enemy(main):
           def __init__(self, game, coordinates, dictionary):
@@ -264,7 +289,8 @@ class Gun(main):
 
                     start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
-                              self.game.particle_manager.create_spark(270 - self.angle, start_coordinates, Sparks_Settings['gun'])
+                              self.game.particle_manager.create_spark(270 - self.angle, start_coordinates,
+                                                                      Sparks_Settings['gun'])
                               if self.shots == 1:
                                         self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
                                                                             "Player Bullet", spread_factor)
@@ -334,7 +360,8 @@ class Rain(main):
           def __init__(self, game, dictionary):
                     self.game = game
                     self.set_attributes(dictionary)
-                    self.pos = v2(change_random(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width), self.game.camera.offset_rect.y)
+                    self.pos = v2(change_random(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
+                                  self.game.camera.offset_rect.y)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
@@ -362,8 +389,8 @@ class Rain(main):
                               self.pos += self.vel_vector * self.game.dt
                               self.rect.center = self.pos
 
+
 class Object(main):
           def __init__(self, game, dictionary):
-
                     self.game = game
                     self.set_attributes(dictionary)
