@@ -222,8 +222,8 @@ AllButtons = {
 }
 
 Loading_Screens = {
-          "Green_Waterfall": import_gif("Assets/LoadingScreens/1", WIN_RES),
-          "Orange_Pond": import_gif("Assets/LoadingScreens/2", WIN_RES),
+          "Green_Waterfall": import_gif("Assets/LoadingScreens/1"),
+          "Orange_Pond": import_gif("Assets/LoadingScreens/2"),
           "animation_speed": 15,
 }
 
