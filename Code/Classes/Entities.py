@@ -64,8 +64,8 @@ class Player(main):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
                     max_distance = max(GAME_SIZE[0], GAME_SIZE[1])
 
-                    for distance in range(0, max_distance, 10):  # Increase step size for efficiency
-                              for angle in range(0, 360, 10):  # Check in a circular pattern
+                    for distance in range(0, max_distance, 10):
+                              for angle in range(0, 360, 10):
                                         x = center_x + int(distance * math.cos(math.radians(angle)))
                                         y = center_y + int(distance * math.sin(math.radians(angle)))
 
@@ -74,12 +74,7 @@ class Player(main):
                                                   if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
                                                             offset_x = x - center_x
                                                             offset_y = y - center_y
-                                                            print(f"Spawn position found. Offset from center: ({offset_x}, {offset_y})")
                                                             return v2(x, y)
-
-                    # Fallback to center if no suitable position found
-                    print("No suitable spawn position found. Falling back to center.")
-                    return v2(center_x, center_y)
 
           def change_animation(self, animation_name):
                     if animation_name in self.animations and animation_name != self.current_animation:
@@ -391,6 +386,24 @@ class Rain(main):
 
 
 class Object(main):
-          def __init__(self, game, dictionary):
+          def __init__(self, game, image, res, collisions):
                     self.game = game
-                    self.set_attributes(dictionary)
+                    self.image = image
+                    self.res = v2(res)
+                    self.collisions = collisions
+                    self.pos = self.generate_valid_position()
+                    self.rect = self.image.get_rect(center=self.pos)
+
+          def draw(self):
+                    draw_pos = self.pos - v2(self.game.camera.offset_rect.topleft)
+                    self.game.display_screen.blit(self.image, draw_pos)
+
+          def generate_valid_position(self):
+                    while True:
+                              x = random.randint(int(self.res.x / 2), int(GAME_SIZE[0] - self.res.x / 2))
+                              y = random.randint(int(self.res.y / 2), int(GAME_SIZE[1] - self.res.y / 2))
+                              pos = v2(x, y)
+
+                              test_rect = pygame.Rect(pos.x, pos.y, self.image.get_width(), self.image.get_height())
+                              if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
+                                        return pos

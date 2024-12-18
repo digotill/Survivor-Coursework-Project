@@ -298,6 +298,7 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
 def create_object_settings(images, res, amount, collision):
           return {
                     'images': images,
+                    'res': res,
                     'amount': amount,
                     'collision': collision,
           }

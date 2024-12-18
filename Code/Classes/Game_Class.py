@@ -38,6 +38,7 @@ class Game:
                     self.ui_manager = UIManager(self)
 
                     self.tilemap = TileMap(self)
+                    self.object_manager.generate_objects()
 
                     self.update_game_variables()
 
@@ -55,7 +56,6 @@ class Game:
                               self.enemy_manager.update()
                               self.particle_manager.update()
                               self.bullet_manager.update()
-                              self.object_manager.update()
                               self.rain_manager.update()
                     self.player.update()
                     self.player.gun.update()
@@ -64,6 +64,7 @@ class Game:
           def draw_groups(self):
                     self.tilemap.draw()
                     self.grass_manager.draw()
+                    self.object_manager.draw()
                     self.player.draw()
                     self.player.gun.draw()
                     self.enemy_manager.draw()

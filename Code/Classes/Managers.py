@@ -169,15 +169,16 @@ class ObjectManager:
                     self.game = game
                     self.grid = HashMap(game)
 
-          def update(self):
-                    pass
+          def generate_objects(self):
+                    for object_ in Objects_Config.keys():
+                              for _ in range(Objects_Config[object_]['amount']):
+                                        image = random.choice(Objects_Config[object_]['images'])
+                                        self.grid.insert(Object(self.game, image, image.size, Objects_Config[object_]['collision']))
+                    self.grid.rebuild()
 
           def draw(self):
-                    pass
-
-          def add_object(self, obj):
-                    pass
-
+                    for obg in self.grid.window_query():
+                              obg.draw()
 
 class SoundManager:
           def __init__(self, game):

@@ -239,6 +239,10 @@ Object_Images = {
           "Cars": import_gif("Assets/Objects/Cars"),
 }
 
+Objects_Config = {
+          "Rock": create_object_settings(Object_Images["Rocks"], Object_Images["Rocks"][0].size, 100, True)
+}
+
 Tiles_Congifig = {
           "Tile_Ranges": {
                     "Water_Tile": -0.2,
