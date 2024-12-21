@@ -97,9 +97,10 @@ class Game:
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.window_ratio = REN_RES[0] / self.display.width
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * self.window_ratio),
-                                              int(self.mouse_pos[1] * self.window_ratio))
+                    self.x_window_ratio = REN_RES[0] / self.display.width
+                    self.y_window_ratio = REN_RES[1] / self.display.height
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * self.x_window_ratio),
+                                              int(self.mouse_pos[1] * self.y_window_ratio))
                     self.mouse_state = pygame.mouse.get_pressed()
                     if self.clock.get_fps() == 0:
                               fps = 200

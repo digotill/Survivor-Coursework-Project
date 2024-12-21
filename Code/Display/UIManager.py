@@ -80,8 +80,8 @@ class UIManager:
                               else:
                                         image = Cursor_Config["Cursor_Images"][0]
                               new_image = pygame.transform.scale(image, (
-                                        image.get_rect().width * 1 / self.game.window_ratio,
-                                        image.get_rect().height * 1 / self.game.window_ratio))
+                                        image.get_rect().width * 1 / self.game.x_window_ratio,
+                                        image.get_rect().height * 1 / self.game.y_window_ratio))
                               self.game.display.blit(new_image,
                                                      (self.game.mouse_pos[0] - new_image.get_rect().width / 2,
                                                       self.game.mouse_pos[1] - new_image.get_rect().height / 2))
