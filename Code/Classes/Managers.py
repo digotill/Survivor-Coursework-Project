@@ -162,7 +162,6 @@ class ParticleManager:
                               if not spark.alive:
                                         self.grid.items.remove(spark)
                                         self.spark_pool.add(spark)
-                                        print(True)
 
 
 class ObjectManager:

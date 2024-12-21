@@ -3,6 +3,8 @@ from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
 
+os.chdir('C:/Users/digot/PycharmProjects/Survivor')
+
 pygame.init()
 
 START_FULLSCREEN = False
@@ -172,9 +174,9 @@ Weapons = {
                     bullet_image=Bullet_Images["bullet1"]
           ),
           "Minigun": create_weapon_settings(
-                    vel=600, spread=10, reload_time=10, fire_rate=0.01, clip_size=100,
+                    vel=600, spread=50, reload_time=10, fire_rate=0.01, clip_size=100,
                     lifetime=2, lifetime_randomness=0.2, damage=1,
-                    distance=-12, friction=0.1, animation_speed=5, spread_time=2,
+                    distance=-12, friction=0.1, animation_speed=5, spread_time=0.2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
                     bullet_image=Bullet_Images["bullet1"]

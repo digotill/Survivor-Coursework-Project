@@ -1,5 +1,5 @@
 from pygame import Vector2
-
+from perlin_noise import PerlinNoise
 from Code.Utilities.Grid import *
 
 
@@ -31,6 +31,7 @@ class TileMap:
 
                     self.animation_speed = Tiles_Congifig["animation_speed"]
                     self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
+                    self.perlin_noise = PerlinNoise(1, random.randint(0, 100000))
 
                     self.terrain_generator()
                     self.grass_generator()
@@ -53,9 +54,8 @@ class TileMap:
                               else:
                                         tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, 0)
 
-          @staticmethod
-          def get_tile_type(x, y):
-                    noise_value = Perlin_Noise["1 octave"]([x * 0.05, y * 0.05])
+          def get_tile_type(self, x, y):
+                    noise_value = self.perlin_noise([x * 0.05, y * 0.05])
                     for tile in Tiles_Congifig["Tile_Ranges"].keys():
                               if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
                                         return tile

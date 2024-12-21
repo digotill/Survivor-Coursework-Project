@@ -109,10 +109,10 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              x_rect = pygame.Rect(new_x + self.res[0] / 2, self.pos.y + 3 * self.res[1] / 2, 0, 0)
+                              x_rect = pygame.Rect(new_x + self.res[0] / 2, self.pos.y + self.res[1] / 2, 0, 0)
                               x_water_collision = self.game.tilemap.tile_collision(x_rect, "Water_Tile")
 
-                              y_rect = pygame.Rect(self.pos.x + self.res[0] / 2, new_y + 3 * self.res[1] / 2, 0, 0)
+                              y_rect = pygame.Rect(self.pos.x + self.res[0] / 2, new_y + self.res[1] / 2, 0, 0)
                               y_water_collision = self.game.tilemap.tile_collision(y_rect, "Water_Tile")
 
                               if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
