@@ -27,16 +27,16 @@ pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': False,
+          'peaceful_mode': True,
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
-          'max_enemies': 1,
+          'max_enemies': 10,
           'enemy_spawn_rate': 1,
           'max_brightness': 5,
           'min_brightness': 5,
           'spatial_hash_map_size': 100,
-          'tilemap_size': 16,
+          'tilemap_size': 8,
           'darkness': (12, 12, 12)
 }
 
@@ -66,7 +66,7 @@ Grass = {
                     "ground_shadow": [2, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
           },
           "Grass_Path": "Assets/Misc/Grass",
-          "Buffer_Size": 2,
+          "Buffer_Size": 0,
           "Precision": 30,
           "Density": 0.9,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
@@ -86,7 +86,7 @@ Player_Attributes = {
           'health': 100,
           'res': Entity_Images["player"]["idle"][0].size,
           "animations": Entity_Images["player"],
-          'vel': 900,
+          'vel': 90,
           'damage': 30,
           'stamina': 100,
           'acceleration': 600,

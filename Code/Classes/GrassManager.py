@@ -2,6 +2,7 @@ import os
 import random
 import math
 from copy import deepcopy
+from pygame.math import Vector2
 
 from Code.Utilities.Utils import *
 from Code.Variables.Variables import *
@@ -46,7 +47,7 @@ class GrassManager(main_grass):
           def place_tile(self, location, density, grass_options):
                     # ignore if a tile was already placed in this location
                     if tuple(location) not in self.grass_tiles:
-                              self.grass_tiles[tuple(location)] = GrassTile(self.tile_size, (
+                              self.grass_tiles[tuple(location)] = GrassTile(self.game, self.tile_size, (
                                         location[0] * self.tile_size, location[1] * self.tile_size), density,
                                                                             grass_options,
                                                                             self.ga, self)
@@ -65,7 +66,7 @@ class GrassManager(main_grass):
                                                   self.grass_tiles[pos].apply_force(location, radius, dropoff)
 
           # an update and render combination function
-          def draw(self):
+          def update(self):
                     surf = self.game.display_screen
                     offset = self.game.camera.offset_rect.topleft
 
@@ -98,7 +99,7 @@ class GrassManager(main_grass):
                     # render the grass tiles
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
-                              tile.draw(surf, self.game.dt, offset, self.game.game_time)
+                              self.game.drawing_manager.drawables.append(tile)
 
 
 # an asset manager that contains functionality for rendering blades of grass
@@ -130,10 +131,11 @@ class GrassAssets:
 
 # the grass tile object that contains data for the blades
 class GrassTile:
-          def __init__(self, tile_size, location, amt, config, ga, gm):
+          def __init__(self, game, tile_size, location, amt, config, ga, gm):
+                    self.game = game
                     self.ga = ga
                     self.gm = gm
-                    self.loc = location
+                    self.pos = Vector2(location)
                     self.size = tile_size
                     self.blades = []
                     self.master_rotation = 0
@@ -166,6 +168,8 @@ class GrassTile:
                     if overwrite:
                               self.blades = overwrite[1]
                               self.base_id = overwrite[0]
+
+                    self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size, self.size)
 
                     # custom_blade_data is used when the blade's current state should not be cached. all grass tiles will try to return to a cached state
                     self.custom_blade_data = None
@@ -239,14 +243,14 @@ class GrassTile:
           def render_shadow(self, surf, offset=(0, 0)):
                     if self.gm.ground_shadow[0] and (self.base_id in self.gm.shadow_cache):
                               surf.blit(self.gm.shadow_cache[self.base_id], (
-                                        self.loc[0] - offset[0] - self.padding, self.loc[1] - offset[1] - self.padding))
+                                        self.pos.x - offset[0] - self.padding, self.pos.y - offset[1] - self.padding))
 
           # draw the grass itself
           def render(self, surf, dt, offset=(0, 0)):
                     # render a new grass tile image if using custom uncached data otherwise use cached data if possible
                     if self.custom_blade_data:
                               surf.blit(self.render_tile(), (
-                                        self.loc[0] - offset[0] - self.padding, self.loc[1] - offset[1] - self.padding))
+                                        self.pos.x - offset[0] - self.padding, self.pos.y - offset[1] - self.padding))
 
                     else:
                               # check if a new cached image needs to be generated and use the cached data if not (also cache shadow if necessary)
@@ -260,7 +264,7 @@ class GrassTile:
 
                               # render image from the cache
                               surf.blit(self.gm.grass_cache[self.render_data], (
-                                        self.loc[0] - offset[0] - self.padding, self.loc[1] - offset[1] - self.padding))
+                                        self.pos.x - offset[0] - self.padding, self.pos.y - offset[1] - self.padding))
 
                     # attempt to move blades back to their base position
                     if self.custom_blade_data:
@@ -273,6 +277,6 @@ class GrassTile:
                               if matching:
                                         self.custom_blade_data = None
 
-          def draw(self, surf, dt, offset, time):
-                    self.render(surf, dt, offset=offset)
-                    self.set_rotation(Grass["Rot_Function"](self.loc[0], self.loc[1], time))
+          def draw(self):
+                    self.render(self.game.display_screen, self.game.dt, offset=self.game.camera.offset_rect.topleft)
+                    self.set_rotation(Grass["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))

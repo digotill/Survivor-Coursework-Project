@@ -23,10 +23,6 @@ class EnemyManager:
                     self.add_enemies(Enemies["enemy1"])
                     self.grid.rebuild()
 
-          def draw(self):
-                    for enemy in self.grid.window_query():
-                              enemy.draw()
-
           def add_enemies(self, enemy_dict):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
                             len(self.grid.items) < General_Settings["max_enemies"] and not General_Settings["peaceful_mode"]):
@@ -176,10 +172,6 @@ class ObjectManager:
                                         self.grid.insert(Object(self.game, image, image.size, Objects_Config[object_]['collision']))
                     self.grid.rebuild()
 
-          def draw(self):
-                    for obg in self.grid.window_query():
-                              obg.draw()
-
 class SoundManager:
           def __init__(self, game):
                     self.game = game
@@ -288,6 +280,21 @@ class RainManager:
                               if rain_droplet.frame >= len(rain_droplet.animation):
                                         self.grid.items.remove(rain_droplet)
 
-class Drawing_Manager:
+class DrawingManager:
           def __init__(self, game):
                     self.game = game
+                    self.drawables = []
+
+          def draw(self):
+                    for obg in self.game.object_manager.grid.window_query():
+                              self.game.drawing_manager.drawables.append(obg)
+
+                    for enemy in self.game.enemy_manager.grid.window_query():
+                              self.game.drawing_manager.drawables.append(enemy)
+
+                    self.game.drawing_manager.drawables.append(self.game.player)
+
+                    self.drawables.sort(key=lambda obj: obj.rect.bottom)
+                    for drawable in self.drawables:
+                              drawable.draw()
+                    self.drawables = []

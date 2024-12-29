@@ -44,6 +44,7 @@ class Game:
                     self.grass_manager = GrassManager(self)
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
+                    self.drawing_manager = DrawingManager(self)
 
                     self.tilemap = TileMap(self)
                     self.object_manager.generate_objects()
@@ -73,10 +74,8 @@ class Game:
           def draw_groups(self):
                     self.tilemap.draw()
 
-                    self.grass_manager.draw()
-                    self.object_manager.draw()
-                    self.player.draw()
-                    self.enemy_manager.draw()
+                    self.grass_manager.update()
+                    self.drawing_manager.draw()
 
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
