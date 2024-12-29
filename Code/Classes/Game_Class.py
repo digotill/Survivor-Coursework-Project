@@ -5,6 +5,9 @@ from Code.Display.UIManager import *
 from Code.Display.Camera import *
 from Code.Classes.TileMap import TileMap
 from Code.Classes.GrassManager import *
+import pygame_shaders
+import moderngl
+
 
 
 class Game:
@@ -13,6 +16,9 @@ class Game:
 
                     self.display = Display
                     self.display_screen = pygame.Surface(REN_RES).convert()
+                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
+                                                   pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
+
                     self.ui_surface = pygame.Surface(REN_RES).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))
                     self.clock = pygame.time.Clock()
@@ -25,6 +31,8 @@ class Game:
                     self.in_menu = True
                     self.restart = False
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
+                    self.x_window_ratio = REN_RES[0] / self.display.width
+                    self.y_window_ratio = REN_RES[1] / self.display.height
 
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
@@ -45,6 +53,7 @@ class Game:
                     self.mainmenu = MainMenu(self)
                     MainMenu(self).loop()
                     self.camera = Camera(self)
+
 
           def refresh(self):
                     pygame.display.flip()
@@ -79,12 +88,31 @@ class Game:
                     self.button_manager.draw()
 
           def update_display(self):
-                    self.display_screen.blit(self.ui_surface)
-                    self.ui_surface.fill((0, 0, 0, 0))
-                    self.display.blit(pygame.transform.scale(self.display_screen, self.display.size))
-                    self.ui_manager.display_mouse()
-                    self.ui_manager.draw_brightness()
-                    pygame.display.flip()
+                    try:
+                              self.ui_manager.display_mouse()
+                              self.display_screen.blit(self.ui_surface, (0, 0))
+                              self.ui_surface.fill((0, 0, 0, 0))
+                              self.ui_manager.draw_brightness()
+
+                              # Add more detailed error handling around the problematic area
+                              try:
+                                        self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
+                                                                              self.display.get_height()))
+                              except moderngl.Error as e:
+                                        print(f"ModernGL Error in shader.render_direct: {e}")
+                                        print(f"Current display size: {self.display.get_size()}")
+                                        print(f"Current display_screen size: {self.display_screen.get_size()}")
+
+                                        # If reinitialization fails, fall back to non-shader rendering
+                                        self.display.blit(
+                                                  pygame.transform.scale(self.display_screen, self.display.get_size()),
+                                                  (0, 0))
+
+                              pygame.display.flip()
+                    except Exception as e:
+                              print(f"Unexpected error in update_display: {e}")
+                              import traceback
+                              traceback.print_exc()
 
           def manage_events(self):
                     self.event_manager.handle_events()
@@ -97,8 +125,6 @@ class Game:
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = pygame.mouse.get_pos()
-                    self.x_window_ratio = REN_RES[0] / self.display.width
-                    self.y_window_ratio = REN_RES[1] / self.display.height
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * self.x_window_ratio),
                                               int(self.mouse_pos[1] * self.y_window_ratio))
                     self.mouse_state = pygame.mouse.get_pressed()

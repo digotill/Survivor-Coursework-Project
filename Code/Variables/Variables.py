@@ -1,4 +1,7 @@
 import copy
+
+import pygame
+import moderngl
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
@@ -7,27 +10,39 @@ os.chdir('C:/Users/digot/PycharmProjects/Survivor')
 
 pygame.init()
 
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
+
 START_FULLSCREEN = False
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
-MIN_WIN_RES = 1280, 720
+MONITER_RATIO = MONITER_RES[0] / MONITER_RES[1]
+MIN_WIN_RES = 1280, int(1280 / MONITER_RATIO) + 1
+REN_RES = 640, int(640 / MONITER_RATIO) + 1
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 GAME_SIZE = 3000, 3000
-REN_RES = 640, 360
 
-Display = pygame.display.set_mode(WIN_RES, pygame.RESIZABLE | pygame.DOUBLEBUF)
+Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
 
+try:
+    ctx = moderngl.create_context()
+    print(f"OpenGL version: {ctx.version_code}")
+except moderngl.Error as e:
+    print(f"Error creating ModernGL context: {e}")
+    # Handle the error (e.g., fallback to non-OpenGL rendering or exit the program)
+
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': True,
+          'peaceful_mode': False,
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
-          'max_enemies': 100,
+          'max_enemies': 1,
           'enemy_spawn_rate': 1,
           'max_brightness': 5,
           'min_brightness': 5,
@@ -147,7 +162,7 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (16, 16))
+          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (128, 128))
 }
 
 Weapon_Images = {

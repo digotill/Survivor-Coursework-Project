@@ -79,12 +79,9 @@ class UIManager:
                                         image = Cursor_Config["Cursor_Images"][1]
                               else:
                                         image = Cursor_Config["Cursor_Images"][0]
-                              new_image = pygame.transform.scale(image, (
-                                        image.get_rect().width * 1 / self.game.x_window_ratio,
-                                        image.get_rect().height * 1 / self.game.y_window_ratio))
-                              self.game.display.blit(new_image,
-                                                     (self.game.mouse_pos[0] - new_image.get_rect().width / 2,
-                                                      self.game.mouse_pos[1] - new_image.get_rect().height / 2))
+                              self.game.ui_surface.blit(image,
+                                                     (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
+                                                      self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
                     if self.game.changing_settings:
@@ -94,10 +91,10 @@ class UIManager:
           def draw_brightness(self):
                     if self.brightness == 50: return None
                     if self.brightness > General_Settings['brightness']:
-                              self.game.display.fill([int(General_Settings['min_brightness'] * (
+                              self.game.display_screen.fill([int(General_Settings['min_brightness'] * (
                                       self.brightness - General_Settings['brightness'])) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < General_Settings['brightness']:
-                              self.game.display.fill([int(General_Settings['max_brightness'] * (
+                              self.game.display_screen.fill([int(General_Settings['max_brightness'] * (
                                       General_Settings['brightness'] - self.brightness)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_SUB)
