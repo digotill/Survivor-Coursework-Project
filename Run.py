@@ -1,6 +1,10 @@
 import sys
 import logging
 from pstats import Stats
+import ctypes
+
+ctypes.windll.shcore.SetProcessDpiAwareness(2)
+
 from Code.Classes.Game_Class import *
 from Code.Variables.Variables import PROFILE
 import cProfile, os
@@ -14,6 +18,8 @@ if sys.version_info < (3, 7):
 
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
+os.chdir('C:/Users/digot/PycharmProjects/Survivor')
+
 
 if __name__ == "__main__":
           profiler = None
@@ -23,7 +29,7 @@ if __name__ == "__main__":
 
           try:
                     Game().run_game()
-                    pygame.quit()
+                    sys.exit()
           except Exception as e:
                     logger.exception(f"An error occurred during game execution: {e}")
           finally:

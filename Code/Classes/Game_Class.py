@@ -55,7 +55,6 @@ class Game:
                     MainMenu(self).loop()
                     self.camera = Camera(self)
 
-
           def refresh(self):
                     pygame.display.flip()
                     self.__init__()

@@ -395,7 +395,7 @@ class Object(main):
                     self.rect = self.image.get_rect(center=self.pos)
 
           def draw(self):
-                    draw_pos = self.pos - v2(self.game.camera.offset_rect.topleft)
+                    draw_pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     self.game.display_screen.blit(self.image, draw_pos)
 
           def generate_valid_position(self):
