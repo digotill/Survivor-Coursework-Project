@@ -28,7 +28,7 @@ General_Settings = {
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
-          'max_enemies': 10,
+          'max_enemies': 50,
           'enemy_spawn_rate': 1,
           'max_brightness': 5,
           'min_brightness': 5,
