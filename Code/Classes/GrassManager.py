@@ -98,8 +98,7 @@ class GrassManager(main_grass):
                     # render the grass tiles
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
-                              tile.render(surf, self.game.dt, offset=offset)
-                              tile.set_rotation(Grass["Rot_Function"](tile.loc[0], tile.loc[1], self.game.game_time))
+                              tile.draw(surf, self.game.dt, offset, self.game.game_time)
 
 
 # an asset manager that contains functionality for rendering blades of grass
@@ -273,3 +272,7 @@ class GrassTile:
                               # mark the data as non-custom once in base position so the cache can be used
                               if matching:
                                         self.custom_blade_data = None
+
+          def draw(self, surf, dt, offset, time):
+                    self.render(surf, dt, offset=offset)
+                    self.set_rotation(Grass["Rot_Function"](self.loc[0], self.loc[1], time))

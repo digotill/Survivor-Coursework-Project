@@ -25,7 +25,7 @@ class EnemyManager:
 
           def draw(self):
                     for enemy in self.grid.window_query():
-                              enemy.blit()
+                              enemy.draw()
 
           def add_enemies(self, enemy_dict):
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
@@ -288,4 +288,6 @@ class RainManager:
                               if rain_droplet.frame >= len(rain_droplet.animation):
                                         self.grid.items.remove(rain_droplet)
 
-
+class Drawing_Manager:
+          def __init__(self, game):
+                    self.game = game

@@ -90,11 +90,11 @@ class UIManager:
 
           def draw_brightness(self):
                     if self.brightness == 50: return None
-                    if self.brightness > General_Settings['brightness']:
+                    if self.brightness > 50:
                               self.game.display_screen.fill([int(General_Settings['min_brightness'] * (
-                                      self.brightness - General_Settings['brightness'])) for _ in range(3)],
+                                      self.brightness - 50)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_ADD)
-                    elif self.brightness < General_Settings['brightness']:
+                    elif self.brightness < 50:
                               self.game.display_screen.fill([int(General_Settings['max_brightness'] * (
-                                      General_Settings['brightness'] - self.brightness)) for _ in range(3)],
+                                      50 - self.brightness)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_SUB)

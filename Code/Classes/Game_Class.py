@@ -72,19 +72,21 @@ class Game:
 
           def draw_groups(self):
                     self.tilemap.draw()
+
                     self.grass_manager.draw()
                     self.object_manager.draw()
                     self.player.draw()
-                    self.player.gun.draw()
                     self.enemy_manager.draw()
-                    self.object_manager.draw()
+
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
                     self.rain_manager.draw()
+
                     self.ui_manager.darken_screen()
                     self.ui_manager.draw_bars()
                     self.ui_manager.draw_fps()
                     self.ui_manager.draw_time()
+
                     self.button_manager.draw()
 
           def update_display(self):
@@ -110,11 +112,8 @@ class Game:
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * self.x_window_ratio),
                                               int(self.mouse_pos[1] * self.y_window_ratio))
                     self.mouse_state = pygame.mouse.get_pressed()
-                    if self.clock.get_fps() == 0:
-                              fps = 200
-                    else:
-                              fps = self.clock.get_fps()
-                    self.dt = 1 / fps
+                    if self.clock.get_fps() != 0: self.dt = 1 / self.clock.get_fps()
+                    else: self.dt = 0
                     if not self.changing_settings:
                               self.game_time += self.dt
 

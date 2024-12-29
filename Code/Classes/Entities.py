@@ -72,8 +72,6 @@ class Player(main):
                                         if 0 <= x < GAME_SIZE[0] and 0 <= y < GAME_SIZE[1]:
                                                   test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
                                                   if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
-                                                            offset_x = x - center_x
-                                                            offset_y = y - center_y
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
@@ -138,6 +136,8 @@ class Player(main):
                               image = pygame.transform.flip(image, True, False)
 
                     self.game.display_screen.blit(image, self.get_position())
+
+                    self.gun.draw()
 
           def update_facing(self):
                     if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
@@ -207,7 +207,7 @@ class Enemy(main):
           def distance_to_player(self):
                     return (self.game.player.rect.center - self.pos).length()
 
-          def blit(self):
+          def draw(self):
                     self.game.display_screen.blit(self.get_current_sprite(), self.get_position())
 
           def get_current_sprite(self):
