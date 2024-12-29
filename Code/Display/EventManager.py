@@ -5,18 +5,25 @@ from Code.Variables.Variables import *
 class EventManager:
           def __init__(self, game):
                     self.game = game
-                    self.Last_Fullscreen = 0
-                    self.Last_FPS_Toggle = 0
-                    self.Last_Changing_settings = 0
                     self.Fullscreen_Toggled = START_FULLSCREEN
+
+                    self.Last_Fullscreen = - Cooldowns['fullscreen']
+                    self.Last_FPS_Toggle = -Cooldowns['fps']
+                    self.Last_Changing_settings = - Cooldowns['settings']
                     self.Fullscreen_Cooldown = Cooldowns['fullscreen']
                     self.FPS_Cooldown = Cooldowns['fps']
                     self.Changing_settings_Cooldown = Cooldowns['settings']
 
-          def handle_events(self):
+          def handle_quitting(self):
                     for event in pygame.event.get():
                               if event.type == pygame.QUIT or self.game.keys[Keys['escape']]:
                                         self.game.running = False
+
+          def fullscreen_toggle(self):
+                    if self.game.keys[Keys[
+                              'fullscreen']] and self.Last_Fullscreen + self.Fullscreen_Cooldown < pygame.time.get_ticks() / 1000:
+                              pygame.display.toggle_fullscreen()
+                              self.Last_Fullscreen = pygame.time.get_ticks() / 1000
 
           def update_fps_toggle(self):
                     if self.game.keys[Keys[

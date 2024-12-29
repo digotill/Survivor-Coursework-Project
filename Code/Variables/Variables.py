@@ -10,10 +10,6 @@ os.chdir('C:/Users/digot/PycharmProjects/Survivor')
 
 pygame.init()
 
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
-
 START_FULLSCREEN = False
 PROFILE = False
 
@@ -24,7 +20,7 @@ REN_RES = 640, int(640 / MONITER_RATIO) + 1
 WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
 GAME_SIZE = 3000, 3000
 
-Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE)
+Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE | pygame.NOFRAME)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")

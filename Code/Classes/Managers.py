@@ -235,7 +235,7 @@ class ButtonManager:
                               elif self.sliders['brightness'].update_value:
                                         self.game.ui_manager.brightness = self.sliders['brightness'].value
                               elif self.buttons['fullscreen'].check_for_input():
-                                        self.game.event_manager.update_size(True)
+                                        pygame.display.toggle_fullscreen()
                               elif self.buttons['quit'].check_for_input():
                                         self.game.immidiate_quit = True
                               elif self.buttons['return'].check_for_input():

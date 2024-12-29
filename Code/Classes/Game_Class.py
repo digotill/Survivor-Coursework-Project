@@ -94,24 +94,12 @@ class Game:
                               self.ui_manager.draw_brightness()
                               self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
                                                                     self.display.get_height()))
-
-                              """# Add more detailed error handling around the problematic area
-                              try:
-                                        self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
-                                                                              self.display.get_height()))
-                              except moderngl.Error as e:
-                                        print(f"ModernGL Error in shader.render_direct: {e}")
-
-                                        # If reinitialization fails, fall back to non-shader rendering
-                                        self.display.blit(
-                                                  pygame.transform.scale(self.display_screen, self.display.get_size()),
-                                                  (0, 0))"""
-
                               pygame.display.flip()
 
           def manage_events(self):
-                    self.event_manager.handle_events()
+                    self.event_manager.handle_quitting()
                     self.event_manager.update_grab()
+                    self.event_manager.fullscreen_toggle()
                     if not self.in_menu:
                               self.event_manager.update_changing_settings()
                               self.event_manager.update_fps_toggle()
