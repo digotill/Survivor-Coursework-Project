@@ -29,13 +29,6 @@ pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0
 pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
 
-try:
-    ctx = moderngl.create_context()
-    print(f"OpenGL version: {ctx.version_code}")
-except moderngl.Error as e:
-    print(f"Error creating ModernGL context: {e}")
-    # Handle the error (e.g., fallback to non-OpenGL rendering or exit the program)
-
 General_Settings = {
           'volume': 0.5,
           'peaceful_mode': False,

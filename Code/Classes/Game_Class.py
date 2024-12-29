@@ -88,35 +88,29 @@ class Game:
                     self.button_manager.draw()
 
           def update_display(self):
-                    try:
                               self.ui_manager.display_mouse()
                               self.display_screen.blit(self.ui_surface, (0, 0))
                               self.ui_surface.fill((0, 0, 0, 0))
                               self.ui_manager.draw_brightness()
+                              self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
+                                                                    self.display.get_height()))
 
-                              # Add more detailed error handling around the problematic area
+                              """# Add more detailed error handling around the problematic area
                               try:
                                         self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
                                                                               self.display.get_height()))
                               except moderngl.Error as e:
                                         print(f"ModernGL Error in shader.render_direct: {e}")
-                                        print(f"Current display size: {self.display.get_size()}")
-                                        print(f"Current display_screen size: {self.display_screen.get_size()}")
 
                                         # If reinitialization fails, fall back to non-shader rendering
                                         self.display.blit(
                                                   pygame.transform.scale(self.display_screen, self.display.get_size()),
-                                                  (0, 0))
+                                                  (0, 0))"""
 
                               pygame.display.flip()
-                    except Exception as e:
-                              print(f"Unexpected error in update_display: {e}")
-                              import traceback
-                              traceback.print_exc()
 
           def manage_events(self):
                     self.event_manager.handle_events()
-                    self.event_manager.update_size()
                     self.event_manager.update_grab()
                     if not self.in_menu:
                               self.event_manager.update_changing_settings()
