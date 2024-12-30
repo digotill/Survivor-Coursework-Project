@@ -13,7 +13,7 @@ MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MONITER_RATIO = MONITER_RES[0] / MONITER_RES[1]
 WIN_RES = 1280, int(1280 / MONITER_RATIO)
 REN_RES = 640, int(640 / MONITER_RATIO)
-GAME_SIZE = 2000, 2000
+GAME_SIZE = 8000, 8000
 
 Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.NOFRAME)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
@@ -149,7 +149,7 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (128, 128))
+          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (64, 64))
 }
 
 Weapon_Images = {
@@ -227,7 +227,6 @@ AllButtons = {
 
 Loading_Screens = {
           "Green_Waterfall": import_gif("Assets/LoadingScreens/1"),
-          "Orange_Pond": import_gif("Assets/LoadingScreens/2"),
           "animation_speed": 15,
 }
 

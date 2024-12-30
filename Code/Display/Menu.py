@@ -16,7 +16,7 @@ class MainMenu:
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = Loading_Screens["Green_Waterfall"] if random.random() < 0.5 else Loading_Screens["Orange_Pond"]
+                    self.loading_screen = Loading_Screens["Green_Waterfall"]
                     self.current_frame = 0
                     self.difficulty = "MEDIUM"
                     self.animation_speed = Loading_Screens["animation_speed"]
