@@ -7,20 +7,19 @@ from pygame.math import Vector2 as v2
 
 pygame.init()
 
-START_FULLSCREEN = False
 PROFILE = False
 
 MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MONITER_RATIO = MONITER_RES[0] / MONITER_RES[1]
-MIN_WIN_RES = 1280, int(1280 / MONITER_RATIO)
+WIN_RES = 1280, int(1280 / MONITER_RATIO)
 REN_RES = 640, int(640 / MONITER_RATIO)
-WIN_RES = MONITER_RES if START_FULLSCREEN else MIN_WIN_RES
-GAME_SIZE = 3000, 3000
+GAME_SIZE = 2000, 2000
 
 Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.NOFRAME)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
+#pygame.display.toggle_fullscreen()
 
 General_Settings = {
           'volume': 0.5,
@@ -89,7 +88,8 @@ Player_Attributes = {
           'acceleration': 600,
           "offset": (10, 10, -10, -10),
           'animation_speed': 10,
-          "hit_cooldown": 0.5
+          "hit_cooldown": 0.5,
+          "sprint_speed": 140
 }
 
 Enemies = {
@@ -112,6 +112,7 @@ Keys = {
           'fps': pygame.K_F12,
           'escape': pygame.K_F10,
           'ungrab': pygame.K_ESCAPE,
+          'sprint': pygame.K_LSHIFT
 }
 
 UI_Settings = {

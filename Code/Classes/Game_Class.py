@@ -92,8 +92,7 @@ class Game:
                               self.display_screen.blit(self.ui_surface, (0, 0))
                               self.ui_surface.fill((0, 0, 0, 0))
                               self.ui_manager.draw_brightness()
-                              self.shader.render_direct(pygame.Rect(0, 0, self.display.get_width(),
-                                                                    self.display.get_height()))
+                              self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                               pygame.display.flip()
 
           def manage_events(self):
@@ -106,9 +105,12 @@ class Game:
 
           def update_game_variables(self):
                     self.keys = pygame.key.get_pressed()
-                    self.mouse_pos = pygame.mouse.get_pos()
+                    self.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.display.width)),
+                                      max(0, min(pygame.mouse.get_pos()[1], self.display.height)))
                     self.correct_mouse_pos = (int(self.mouse_pos[0] * self.x_window_ratio),
                                               int(self.mouse_pos[1] * self.y_window_ratio))
+                    if self.mouse_pos != pygame.mouse.get_pos():
+                              pygame.mouse.set_pos(self.mouse_pos)
                     self.mouse_state = pygame.mouse.get_pressed()
                     if self.clock.get_fps() != 0: self.dt = 1 / self.clock.get_fps()
                     else: self.dt = 0

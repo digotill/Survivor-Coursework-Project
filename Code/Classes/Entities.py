@@ -57,8 +57,10 @@ class Player(main):
                     self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
+                    self.base_max_vel = self.max_vel
                     self.gun = gun
                     self.current_animation = 'idle'
+                    self.is_sprinting = False
 
           def find_spawn_position(self):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
@@ -92,6 +94,9 @@ class Player(main):
                     if self.game.keys[pygame.K_d]: dx += 1
                     if self.game.keys[pygame.K_s]: dy += 1
                     if self.game.keys[pygame.K_w]: dy -= 1
+
+                    self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
+                    self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
 
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:

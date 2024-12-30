@@ -5,7 +5,6 @@ from Code.Variables.Variables import *
 class EventManager:
           def __init__(self, game):
                     self.game = game
-                    self.Fullscreen_Toggled = START_FULLSCREEN
 
                     self.Last_Fullscreen = - Cooldowns['fullscreen']
                     self.Last_FPS_Toggle = -Cooldowns['fps']
