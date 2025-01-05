@@ -82,7 +82,9 @@ class Player(main):
                               self.frame = 0
 
           def update_animation(self):
-                    if (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
+                    if self.is_sprinting:
+                              self.change_animation('sprinting')
+                    elif (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
                             self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]):
                               self.change_animation('run')
                     else:
@@ -96,6 +98,7 @@ class Player(main):
                     if self.game.keys[pygame.K_w]: dy -= 1
 
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
+                    self.handle_stamina()
                     self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
 
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
@@ -103,9 +106,14 @@ class Player(main):
                               dx /= magnitude
                               dy /= magnitude
 
-                    if (dy != 0 or dx != 0) and not self.game.changing_settings: self.update_frame()
+                    if not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
                     self.update_facing()
+
+                    if self.current_animation != "idle":
+                              self.game.camera.add_screen_shake(Screen_Shake["player"][str(self.current_animation) + "_duration"],
+                                        Screen_Shake['player'][str(self.current_animation) + "_magnitude"]
+                              )
 
                     new_x = self.pos.x + dx * self.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt
@@ -129,6 +137,7 @@ class Player(main):
                                         self.rect.centery = self.pos.y
                                         move_vert = True
 
+                    self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force_dropoff)
                     self.game.camera.move(dx, dy, move_hor, move_vert)
                     self.update_animation()
 
@@ -143,6 +152,19 @@ class Player(main):
                     self.game.display_screen.blit(image, self.get_position())
 
                     self.gun.draw()
+
+          def handle_stamina(self):
+                    if self.is_sprinting and self.current_vel > 0:
+                              self.stamina -= self.stamina_consumption * self.game.dt
+                              self.stamina = max(0,
+                                                 self.stamina)
+                    elif self.current_vel == 0:
+                              self.stamina += self.stamina_recharge_rate * self.game.dt
+                              self.stamina = min(self.max_stamina,
+                                                 self.stamina)
+
+                    if self.stamina <= 0:
+                              self.is_sprinting = False
 
           def update_facing(self):
                     if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
@@ -361,7 +383,7 @@ class Rain(main):
                     self.game = game
                     self.set_attributes(dictionary)
                     self.pos = v2(change_random(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
-                                  self.game.camera.offset_rect.y)
+                                  self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 2)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
@@ -393,6 +415,7 @@ class Rain(main):
 class Object(main):
           def __init__(self, game, image, res, collisions):
                     self.game = game
+                    self.original_image = image
                     self.image = image
                     self.res = v2(res)
                     self.collisions = collisions

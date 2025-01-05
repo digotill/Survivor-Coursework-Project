@@ -13,9 +13,9 @@ MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
 MONITER_RATIO = MONITER_RES[0] / MONITER_RES[1]
 WIN_RES = 1280, int(1280 / MONITER_RATIO)
 REN_RES = 640, int(640 / MONITER_RATIO)
-GAME_SIZE = 8000, 8000
+GAME_SIZE = 2000, 2000
 
-Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF | pygame.NOFRAME)
+Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
 pygame.display.set_caption("Survivor Game")
@@ -32,7 +32,7 @@ General_Settings = {
           'max_brightness': 5,
           'min_brightness': 5,
           'spatial_hash_map_size': 100,
-          'tilemap_size': 8,
+          'tilemap_size': 15,
           'darkness': (12, 12, 12)
 }
 
@@ -59,10 +59,10 @@ Grass = {
                     "max_unique": 5,
                     "vertical_place_range": [0, 1],
                     "padding": 13,
-                    "ground_shadow": [2, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
+                    "ground_shadow": [3, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
           },
           "Grass_Path": "Assets/Misc/Grass",
-          "Buffer_Size": 0,
+          "Buffer_Size": 1,
           "Precision": 30,
           "Density": 0.9,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
@@ -71,8 +71,9 @@ Grass = {
 
 Entity_Images = {
           "player": {
-                    "idle": import_gif("Assets/Entities/newplayer/idle", (16, 16)),
-                    "run": import_gif("Assets/Entities/newplayer/running", (16, 16)),
+                    "idle": import_gif("Assets/Entities/newplayer/idle"),
+                    "run": import_gif("Assets/Entities/newplayer/running"),
+                    "sprinting": import_gif("Assets/Entities/newplayer/running"),
           },
           "enemy1": import_gif("Assets/Entities/Enemy1", (32, 36)),
 }
@@ -85,11 +86,15 @@ Player_Attributes = {
           'vel': 90,
           'damage': 30,
           'stamina': 100,
-          'acceleration': 600,
+          'acceleration': 200,
           "offset": (10, 10, -10, -10),
           'animation_speed': 10,
           "hit_cooldown": 0.5,
-          "sprint_speed": 140
+          "sprint_speed": 140,
+          "stamina_consumption": 20,
+          "stamina_recharge_rate": 30,
+          "max_stamina": 100,
+          "grass_force_dropoff": 10,
 }
 
 Enemies = {
@@ -126,8 +131,20 @@ UI_Settings = {
 }
 
 Screen_Shake = {
-          'bullet_impact_shake_duration': 0.5,
-          'bullet_impact_shake_magnitude': 4,
+          "player": {
+                    "run_magnitude": 1.1,
+                    "run_duration": 0.1,
+                    "sprinting_magnitude": 1.5,
+                    "sprinting_duration": 0.2
+          },
+          "shooting": {
+                    "AK47_magnitude": 10,
+                    "AK47_duration": 0.1,
+                    "Shotgun_magnitude": 25,
+                    "Shotgun_duration": 0.1,
+                    "Minigun_magnitude": 15,
+                    "Minigun_duration": 0.1
+          }
 }
 
 Sparks_Settings = {
@@ -149,7 +166,7 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (64, 64))
+          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (12, 9))
 }
 
 Weapon_Images = {
@@ -165,7 +182,7 @@ Weapons = {
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=5, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
-                    bullet_image=Bullet_Images["bullet1"]
+                    bullet_image=Bullet_Images["bullet1"], name="AK47"
           ),
           "Shotgun": create_weapon_settings(
                     vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
@@ -173,7 +190,7 @@ Weapons = {
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=20,
                     gun_image=Weapon_Images["Shotgun"], res=Weapon_Images["Shotgun"].size,
-                    bullet_image=Bullet_Images["bullet1"]
+                    bullet_image=Bullet_Images["bullet1"], name="Shotgun"
           ),
           "Minigun": create_weapon_settings(
                     vel=600, spread=50, reload_time=10, fire_rate=0.01, clip_size=100,
@@ -181,7 +198,7 @@ Weapons = {
                     distance=-12, friction=0.1, animation_speed=5, spread_time=0.2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
-                    bullet_image=Bullet_Images["bullet1"]
+                    bullet_image=Bullet_Images["bullet1"], name="Minigun"
           )
 }
 

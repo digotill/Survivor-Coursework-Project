@@ -44,10 +44,6 @@ class EnemyManager:
                                         enemy.dead = True
                               if enemy.dead:
                                         self.grid.items.remove(enemy)
-                                        self.game.camera.add_screen_shake(
-                                                  duration=Screen_Shake["bullet_impact_shake_duration"],
-                                                  magnitude=Screen_Shake['bullet_impact_shake_magnitude']
-                                        )
                                         self.enemy_pool.add(enemy)
 
           def calculate_separation(self, enemy):
@@ -101,6 +97,9 @@ class BulletManager:
                     else:
                               bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread)
                     self.grid.insert(bullet)
+                    self.game.camera.add_screen_shake(Screen_Shake["shooting"][str(self.game.player.gun.name) + "_duration"],
+                                                      Screen_Shake['shooting'][str(self.game.player.gun.name) + "_magnitude"]
+                                                      )
 
           def check_dead_bullets(self):
                     for bullet in self.grid.items.copy():
@@ -285,7 +284,22 @@ class DrawingManager:
                     self.game = game
                     self.drawables = []
 
+          def transparent_objects(self):
+                    for thing in self.game.object_manager.grid.query(self.game.player.rect):
+                              if thing.rect.colliderect(self.game.player.rect):
+                                        dx = thing.rect.bottom - self.game.player.rect.bottom
+                                        dy = thing.rect.bottom - self.game.player.rect.bottom
+                                        squared_distance = dx * dx + dy * dy
+                                        greatest_side = thing.image.get_height()
+                                        alpha = max(0, min(squared_distance / (greatest_side * greatest_side) * 255, 255))
+                                        if self.game.player.rect.bottom > thing.rect.bottom: alpha = 255
+                                        thing.image = thing.original_image.copy()
+                                        thing.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+                              else:
+                                        thing.image = thing.original_image.copy()
+
           def draw(self):
+                    self.transparent_objects()
                     for obg in self.game.object_manager.grid.window_query():
                               self.game.drawing_manager.drawables.append(obg)
 

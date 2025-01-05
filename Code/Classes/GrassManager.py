@@ -43,7 +43,6 @@ class GrassManager(main_grass):
                               self.formats[format_id]['count'] += 1
                               self.formats[format_id]['data'].append((tile_id, data))
 
-          # attempt to place a new grass tile
           def place_tile(self, location, density, grass_options):
                     # ignore if a tile was already placed in this location
                     if tuple(location) not in self.grass_tiles:
@@ -73,8 +72,8 @@ class GrassManager(main_grass):
                     # Increase the rendering area by adding a buffer
                     buffer_tiles = Grass["Buffer_Size"]  # Adjust this value as needed
                     visible_tile_range = (
-                              int(surf.get_width() // self.tile_size) + 1 + buffer_tiles * 2,
-                              int(surf.get_height() // self.tile_size) + 1 + buffer_tiles * 2
+                              int(surf.get_width() // self.tile_size) + buffer_tiles + 1,
+                              int(surf.get_height() // self.tile_size) + buffer_tiles + 1
                     )
                     base_pos = (
                               int(offset[0] // self.tile_size) - buffer_tiles,
@@ -182,14 +181,14 @@ class GrassTile:
                               self.custom_blade_data = [None] * len(self.blades)
 
                     for i, blade in enumerate(self.blades):
-                              dis = math.sqrt((self.loc[0] + blade[0][0] - force_point[0]) ** 2 + (
-                                      self.loc[1] + blade[0][1] - force_point[1]) ** 2)
+                              dis = math.sqrt((self.pos.x + blade[0][0] - force_point[0]) ** 2 + (
+                                      self.pos.y + blade[0][1] - force_point[1]) ** 2)
                               if dis < force_radius:
                                         force = 2
                               else:
                                         dis = max(0, dis - force_radius)
                                         force = 1 - min(dis / force_dropoff, 1)
-                              dir_ = 1 if force_point[0] > (self.loc[0] + blade[0][0]) else -1
+                              dir_ = 1 if force_point[0] > (self.pos.x + blade[0][0]) else -1
                               # don't update unless force is greater
                               if not self.custom_blade_data[i] or abs(
                                       self.custom_blade_data[i][2] - self.blades[i][2]) <= abs(force) * 90:

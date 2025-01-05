@@ -88,8 +88,8 @@ class Camera(main_camera):
                     self.offset_rect.y = max(0, min(self.offset_rect.y, GAME_SIZE[1] - self.res[1]))
 
           def calculate_shake(self):
-                    current_time = pygame.time.get_ticks()
-                    elapsed_time = (current_time - self.shake_start_time) / 1000.0
+                    current_time = self.game.game_time
+                    elapsed_time = current_time - self.shake_start_time
 
                     if elapsed_time > self.shake_duration:
                               self.shake_duration = 0
@@ -114,11 +114,14 @@ class Camera(main_camera):
                     return Perlin_Noise["3 octaves"]([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):
-                    self.shake_duration = duration
-                    self.shake_magnitude = magnitude
-                    self.shake_start_time = pygame.time.get_ticks()
-                    self.shake_seed = self.game.game_time
-                    self.shake_direction = v2(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
+                    if self.shake_duration + self.shake_start_time < self.game.game_time:
+                              self.shake_magnitude = 0
+                    if magnitude > self.shake_magnitude:
+                              self.shake_duration = duration
+                              self.shake_magnitude = magnitude
+                              self.shake_start_time = self.game.game_time
+                              self.shake_seed = self.game.game_time
+                              self.shake_direction = v2(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
 
           @staticmethod
           def lerp(start, end, amount):

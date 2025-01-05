@@ -186,7 +186,7 @@ def remove_opposite_directions(direction_string):
 
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
-                           pierce, shake_mag, shake_duration, shots, gun_image, bullet_image):
+                           pierce, shake_mag, shake_duration, shots, gun_image, bullet_image, name):
           return {
                     "res": res,
                     "vel": vel,
@@ -206,7 +206,8 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
                     "shake_duration": shake_duration,
                     "shots": shots,
                     "gun_image": pygame.transform.scale(gun_image, res),
-                    "bullet_image": bullet_image
+                    "bullet_image": bullet_image,
+                    "name": name
           }
 
 
