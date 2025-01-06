@@ -18,9 +18,6 @@ if sys.version_info < (3, 7):
 
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
-os.chdir('C:/Users/digot/PycharmProjects/Survivor')
-
-
 if __name__ == "__main__":
           profiler = None
           if PROFILE:

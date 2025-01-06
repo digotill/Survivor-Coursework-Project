@@ -72,12 +72,12 @@ class GrassManager(main_grass):
                     # Increase the rendering area by adding a buffer
                     buffer_tiles = Grass["Buffer_Size"]  # Adjust this value as needed
                     visible_tile_range = (
-                              int(surf.get_width() // self.tile_size) + buffer_tiles + 1,
-                              int(surf.get_height() // self.tile_size) + buffer_tiles + 1
+                              int(surf.get_width() // self.tile_size) + 1,
+                              int(surf.get_height() // self.tile_size) + 1 + buffer_tiles
                     )
                     base_pos = (
-                              int(offset[0] // self.tile_size) - buffer_tiles,
-                              int(offset[1] // self.tile_size) - buffer_tiles
+                              int(offset[0] // self.tile_size),
+                              int(offset[1] // self.tile_size)
                     )
 
                     # get list of grass tiles to render based on visible area plus buffer
