@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="fhj" />
+    <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="fhj">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +25,7 @@
     <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main-opengl" />
+        <entry key="$PROJECT_DIR$" value="trying_to_package" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,6 +61,7 @@
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main-opengl&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/digot/PycharmProjects/Others/Bouncy Balls&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
@@ -117,22 +122,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00108" summary="yaaayayayayayyayayayayayyayayyayayayayyaayyayayayyayayayyaya yipepeeeeee so happy rn">
-      <option name="closed" value="true" />
-      <created>1734111201066</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1734111201066</updated>
-    </task>
-    <task id="LOCAL-00109" summary="peace">
-      <option name="closed" value="true" />
-      <created>1734113050447</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1734113050447</updated>
     </task>
     <task id="LOCAL-00110" summary="phew">
       <option name="closed" value="true" />
@@ -510,7 +499,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736124574705</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="fhj">
+      <option name="closed" value="true" />
+      <created>1736124629978</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1736124629978</updated>
+    </task>
+    <task id="LOCAL-00158" summary="fhj">
+      <option name="closed" value="true" />
+      <created>1736124650704</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1736124650704</updated>
+    </task>
+    <option name="localTasksCounter" value="159" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

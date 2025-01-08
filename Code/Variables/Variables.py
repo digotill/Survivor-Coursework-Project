@@ -23,7 +23,7 @@ pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': True,
+          'peaceful_mode': False,
           'EASY_difficulty': 1.3,
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
@@ -229,7 +229,7 @@ AllButtons = {
           "Sliders": {
                     "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness:  ", 0, 100,
                                                 50),
-                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 30, 240,
+                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 20, 240,
                                          pygame.display.get_current_refresh_rate())
           },
           "Menu_Buttons": {
