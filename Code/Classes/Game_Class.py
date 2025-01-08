@@ -12,17 +12,24 @@ import moderngl
 
 class Game:
           def __init__(self):
+                    # Initialize Pygame
                     pygame.init()
 
+                    # Set up display and rendering surfaces
                     self.display = Display
                     self.display_screen = pygame.Surface(REN_RES).convert()
+                    # Initialize shader for post-processing effects
                     self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
                                                    pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
 
+                    # Create a separate surface for UI elements
                     self.ui_surface = pygame.Surface(REN_RES).convert()
-                    self.ui_surface.set_colorkey((0, 0, 0))
+                    self.ui_surface.set_colorkey((0, 0, 0))  # Set black as transparent for UI surface
+                    
+                    # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
 
+                    # Game state variables
                     self.running = True
                     self.game_time = 0
                     self.fps = AllButtons["Sliders"]["fps"]["value"]
@@ -30,10 +37,15 @@ class Game:
                     self.immidiate_quit = False
                     self.in_menu = True
                     self.restart = False
+                    
+                    # Initialize DataFrame for storing game statistics
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
+                    
+                    # Calculate window ratio for mouse position scaling
                     self.x_window_ratio = REN_RES[0] / self.display.width
                     self.y_window_ratio = REN_RES[1] / self.display.height
 
+                    # Initialize various game managers
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
                     self.particle_manager = ParticleManager(self)
@@ -46,21 +58,28 @@ class Game:
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
 
+                    # Initialize tilemap and generate objects
                     self.tilemap = TileMap(self)
                     self.object_manager.generate_objects()
 
+                    # Update initial game variables
                     self.update_game_variables()
 
+                    # Initialize and run the main menu
                     self.mainmenu = MainMenu(self)
                     MainMenu(self).loop()
+                    
+                    # Initialize camera
                     self.camera = Camera(self)
 
           def refresh(self):
+                    # Refresh the display and restart the game
                     pygame.display.flip()
                     self.__init__()
                     self.run_game()
 
           def update_groups(self):
+                    # Update game entities and managers
                     if not self.changing_settings:
                               self.enemy_manager.update()
                               self.particle_manager.update()
@@ -71,31 +90,30 @@ class Game:
                     self.button_manager.update()
 
           def draw_groups(self):
+                    # Draw game elements in order
                     self.tilemap.draw()
-
                     self.grass_manager.update()
                     self.drawing_manager.draw()
-
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
                     self.rain_manager.draw()
-
                     self.ui_manager.darken_screen()
                     self.ui_manager.draw_bars()
                     self.ui_manager.draw_fps()
                     self.ui_manager.draw_time()
-
                     self.button_manager.draw()
 
           def update_display(self):
-                              self.ui_manager.display_mouse()
-                              self.display_screen.blit(self.ui_surface, (0, 0))
-                              self.ui_surface.fill((0, 0, 0, 0))
-                              self.ui_manager.draw_brightness()
-                              self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
-                              pygame.display.flip()
+                    # Update the display with all drawn elements
+                    self.ui_manager.display_mouse()
+                    self.display_screen.blit(self.ui_surface, (0, 0))
+                    self.ui_surface.fill((0, 0, 0, 0))
+                    self.ui_manager.draw_brightness()
+                    self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
+                    pygame.display.flip()
 
           def manage_events(self):
+                    # Handle various game events
                     self.event_manager.handle_quitting()
                     self.event_manager.update_grab()
                     self.event_manager.fullscreen_toggle()
@@ -104,6 +122,7 @@ class Game:
                               self.event_manager.update_fps_toggle()
 
           def update_game_variables(self):
+                    # Update game state variables each frame
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.display.width)),
                                       max(0, min(pygame.mouse.get_pos()[1], self.display.height)))
@@ -118,6 +137,7 @@ class Game:
                               self.game_time += self.dt
 
           def run_game(self):
+                    # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
                               self.update_game_variables()

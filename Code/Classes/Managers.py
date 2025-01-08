@@ -8,37 +8,47 @@ import pygame, math, random
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
-                    self.enemy_pool = set()
+                    self.grid = HashMap(game)  # Spatial hash grid for efficient enemy management
+                    self.enemy_pool = set()  # Pool of inactive enemies for reuse
                     self.spawn_cooldown = General_Settings["enemy_spawn_rate"]
                     self.last_spawn = - General_Settings["enemy_spawn_rate"]
-                    self.enemy_multiplier = 1
+                    self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
 
           def update(self):
+                    # Update all enemies and apply separation forces
                     for enemy in self.grid.items:
                               enemy.update()
                               separation_force = self.calculate_separation(enemy)
                               enemy.apply_force(separation_force)
-                    self.remove_dead_enemies()
-                    self.add_enemies(Enemies["enemy1"])
-                    self.grid.rebuild()
+
+                    self.remove_dead_enemies()  # Remove enemies with no health
+                    self.add_enemies(Enemies["enemy1"])  # Spawn new enemies if conditions are met
+                    self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_dict):
+                    # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < General_Settings["max_enemies"] and not General_Settings["peaceful_mode"]):
+                            len(self.grid.items) < General_Settings["max_enemies"] and not General_Settings[
+                                      "peaceful_mode"]):
                               self.last_spawn = self.game.game_time
+
+                              # Generate random coordinates for the new enemy
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
                                         self.game.camera.rect, enemy_dict["res"][0], enemy_dict["res"][1]
                               )
+
+                              # Reuse an enemy from the pool if available, otherwise create a new one
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()
                                         enemy.reset(coordinates, enemy_dict)
                               else:
                                         enemy = Enemy(self.game, coordinates, enemy_dict)
-                              self.grid.insert(enemy)
+
+                              self.grid.insert(enemy)  # Add the enemy to the spatial hash grid
 
           def remove_dead_enemies(self):
+                    # Remove enemies with no health and add them back to the pool
                     for enemy in self.grid.items.copy():
                               if enemy.health <= 0:
                                         enemy.dead = True
@@ -47,6 +57,7 @@ class EnemyManager:
                                         self.enemy_pool.add(enemy)
 
           def calculate_separation(self, enemy):
+                    # Calculate separation force to prevent enemies from clustering too closely
                     steering = v2(0, 0)
                     total = 0
                     nearby_enemies = self.grid.query(
@@ -97,9 +108,10 @@ class BulletManager:
                     else:
                               bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread)
                     self.grid.insert(bullet)
-                    self.game.camera.add_screen_shake(Screen_Shake["shooting"][str(self.game.player.gun.name) + "_duration"],
-                                                      Screen_Shake['shooting'][str(self.game.player.gun.name) + "_magnitude"]
-                                                      )
+                    self.game.camera.add_screen_shake(
+                              Screen_Shake["shooting"][str(self.game.player.gun.name) + "_duration"],
+                              Screen_Shake['shooting'][str(self.game.player.gun.name) + "_magnitude"]
+                              )
 
           def check_dead_bullets(self):
                     for bullet in self.grid.items.copy():
@@ -168,8 +180,10 @@ class ObjectManager:
                     for object_ in Objects_Config.keys():
                               for _ in range(Objects_Config[object_]['amount']):
                                         image = random.choice(Objects_Config[object_]['images'])
-                                        self.grid.insert(Object(self.game, image, image.size, Objects_Config[object_]['collision']))
+                                        self.grid.insert(Object(self.game, image, image.size,
+                                                                Objects_Config[object_]['collision']))
                     self.grid.rebuild()
+
 
 class SoundManager:
           def __init__(self, game):
@@ -216,7 +230,8 @@ class ButtonManager:
                               buttons.update()
                               buttons.changeColor()
 
-                    if self.game.changing_settings and self.game.mouse_state[0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
+                    if self.game.changing_settings and self.game.mouse_state[
+                              0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
                               temp_time = self.last_pressed_time
                               self.last_pressed_time = pygame.time.get_ticks() / 1000
                               if self.buttons['resume'].check_for_input():
@@ -231,7 +246,8 @@ class ButtonManager:
                                         self.game.immidiate_quit = True
                               elif self.buttons['return'].check_for_input():
                                         self.game.restart = True
-                              else: self.last_pressed_time = temp_time
+                              else:
+                                        self.last_pressed_time = temp_time
 
                     if self.game.changing_settings and pygame.time.get_ticks() / 1000 - self.last_value_set > self.value_cooldown:
                               self.game.fps = self.sliders['fps'].value
@@ -241,6 +257,7 @@ class ButtonManager:
           def draw(self):
                     for button in list(self.buttons.values()) + list(self.sliders.values()):
                               button.draw()
+
 
 class RainManager:
           def __init__(self, game):
@@ -266,7 +283,8 @@ class RainManager:
                                         self.game.display_screen.blit(rain_droplet.animation[0], pos)
                               else:
                                         self.game.display_screen.blit(
-                                                  rain_droplet.animation[int(rain_droplet.frame % len(rain_droplet.animation))], pos)
+                                                  rain_droplet.animation[
+                                                            int(rain_droplet.frame % len(rain_droplet.animation))], pos)
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
@@ -278,6 +296,7 @@ class RainManager:
                     for rain_droplet in self.grid.items.copy():
                               if rain_droplet.frame >= len(rain_droplet.animation):
                                         self.grid.items.remove(rain_droplet)
+
 
 class DrawingManager:
           def __init__(self, game):
@@ -291,7 +310,8 @@ class DrawingManager:
                                         dy = thing.rect.bottom - self.game.player.rect.bottom
                                         squared_distance = dx * dx + dy * dy
                                         greatest_side = thing.image.get_height()
-                                        alpha = max(0, min(squared_distance / (greatest_side * greatest_side) * 255, 255))
+                                        alpha = max(0,
+                                                    min(squared_distance / (greatest_side * greatest_side) * 255, 255))
                                         if self.game.player.rect.bottom > thing.rect.bottom: alpha = 255
                                         thing.image = thing.original_image.copy()
                                         thing.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
