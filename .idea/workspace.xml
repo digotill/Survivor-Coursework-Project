@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="fhj">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Buttons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Game_Class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Game_Class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,14 +120,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00111" summary="omg wtf i dindt even ralize i removed the most important feature of the game">
-      <option name="closed" value="true" />
-      <created>1734115451638</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1734115451638</updated>
     </task>
     <task id="LOCAL-00112" summary="havent commit in a whguiele">
       <option name="closed" value="true" />
@@ -517,7 +505,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736335347484</updated>
     </task>
-    <option name="localTasksCounter" value="160" />
+    <task id="LOCAL-00160" summary="fhj">
+      <option name="closed" value="true" />
+      <created>1736337478353</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1736337478353</updated>
+    </task>
+    <option name="localTasksCounter" value="161" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
