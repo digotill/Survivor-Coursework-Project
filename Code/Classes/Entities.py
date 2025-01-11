@@ -1,4 +1,5 @@
 import math
+import pygame_shaders
 
 from Code.Utilities.Particles import Spark
 from Code.Variables.Variables import *
@@ -62,6 +63,7 @@ class Player(main):
                     self.current_animation = 'idle'
                     self.is_sprinting = False
 
+
           def find_spawn_position(self):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
                     max_distance = max(GAME_SIZE[0], GAME_SIZE[1])
@@ -97,14 +99,14 @@ class Player(main):
                     if self.game.keys[pygame.K_s]: dy += 1
                     if self.game.keys[pygame.K_w]: dy -= 1
 
-                    self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
-                    self.handle_stamina()
-                    self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
-
                     magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:
                               dx /= magnitude
                               dy /= magnitude
+
+                    self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
+                    self.handle_stamina(magnitude)
+                    self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
 
                     if not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
@@ -149,16 +151,18 @@ class Player(main):
                     if self.facing == "left":
                               image = pygame.transform.flip(image, True, False)
 
+                    shadow_image = Shadows["player_shadow"].copy()
+                    self.game.display_screen.blit(shadow_image, (self.get_position()[0] + self.res[0] / 2 - shadow_image.width / 2, self.get_position()[1] + self.res[1] - shadow_image.height / 2))
                     self.game.display_screen.blit(image, self.get_position())
 
                     self.gun.draw()
 
-          def handle_stamina(self):
+          def handle_stamina(self, magnitude):
                     if self.is_sprinting and self.current_vel > 0:
                               self.stamina -= self.stamina_consumption * self.game.dt
                               self.stamina = max(0,
                                                  self.stamina)
-                    elif self.current_vel == 0:
+                    else:
                               self.stamina += self.stamina_recharge_rate * self.game.dt
                               self.stamina = min(self.max_stamina,
                                                  self.stamina)
@@ -235,6 +239,11 @@ class Enemy(main):
                     return (self.game.player.rect.center - self.pos).length()
 
           def draw(self):
+                    shadow_image = Shadows["player_shadow"].copy()
+                    pygame.transform.scale(shadow_image, (self.images[int(self.frame) % len(self.images)].width, shadow_image.height))
+                    self.game.display_screen.blit(shadow_image, (
+                              self.get_position()[0],
+                              self.get_position()[1] + self.res[1] - shadow_image.height / 2))
                     self.game.display_screen.blit(self.get_current_sprite(), self.get_position())
 
           def get_current_sprite(self):
@@ -312,7 +321,7 @@ class Gun(main):
                     start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
                               self.game.particle_manager.create_spark(270 - self.angle, start_coordinates,
-                                                                      Sparks_Settings['gun'])
+                                                                      Sparks_Settings['muzzle_flash'])
                               if self.shots == 1:
                                         self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
                                                                             "Player Bullet", spread_factor)
@@ -372,10 +381,6 @@ class Bullet(main):
 
           def reset(self, pos, angle, spread):
                     self.__init__(self.game, self.gun, pos, angle, self.name, spread)
-
-
-import math
-from pygame.math import Vector2 as v2
 
 
 class Rain(main):

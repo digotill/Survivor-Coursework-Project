@@ -128,7 +128,7 @@ class BulletManager:
                                                   self.game.particle_manager.create_spark(270 - bullet.angle,
                                                                                           bullet.pos,
                                                                                           Sparks_Settings[
-                                                                                                    'bullet'])
+                                                                                                    'enemy_hit'])
 
 
 class ParticleManager:

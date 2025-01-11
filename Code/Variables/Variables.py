@@ -28,7 +28,7 @@ General_Settings = {
           'MEDIUM_difficulty': 1,
           'HARD_difficulty': 0.6,
           'max_enemies': 50,
-          'enemy_spawn_rate': 1,
+          'enemy_spawn_rate': 0.2,
           'max_brightness': 5,
           'min_brightness': 5,
           'spatial_hash_map_size': 100,
@@ -101,7 +101,7 @@ Enemies = {
           "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=100,
                                           damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
-                                          images=Entity_Images["enemy1"], animation_speed=5, hit_cooldown=0.1,
+                                          images=Entity_Images["enemy1"], animation_speed=5, hit_cooldown=0,
                                           )
 }
 
@@ -138,18 +138,18 @@ Screen_Shake = {
                     "sprinting_duration": 0.2
           },
           "shooting": {
-                    "AK47_magnitude": 10,
+                    "AK47_magnitude": 5,
                     "AK47_duration": 0.1,
                     "Shotgun_magnitude": 25,
                     "Shotgun_duration": 0.1,
-                    "Minigun_magnitude": 15,
+                    "Minigun_magnitude": 5,
                     "Minigun_duration": 0.1
           }
 }
 
 Sparks_Settings = {
-          "bullet": create_spark_settings(spread=10, scale=0.6, colour=(255, 0, 0), amount=3, min_vel=3, max_vel=10),
-          "gun": create_spark_settings(spread=5, scale=0.3, colour=(255, 255, 255), amount=3, min_vel=3, max_vel=10)
+          "enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
+          "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
 }
 
 General_Spark_Settings = {
@@ -180,23 +180,23 @@ Weapons = {
                     vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
                     lifetime=3, lifetime_randomness=0.2, damage=16,
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
-                    pierce=5, shake_mag=2, shake_duration=1, shots=1,
+                    pierce=3, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
                     bullet_image=Bullet_Images["bullet1"], name="AK47"
           ),
           "Shotgun": create_weapon_settings(
                     vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
-                    lifetime=0.5, lifetime_randomness=0.2, damage=10,
+                    lifetime=0.5, lifetime_randomness=0.2, damage=50,
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=20,
                     gun_image=Weapon_Images["Shotgun"], res=Weapon_Images["Shotgun"].size,
                     bullet_image=Bullet_Images["bullet1"], name="Shotgun"
           ),
           "Minigun": create_weapon_settings(
-                    vel=600, spread=50, reload_time=10, fire_rate=0.01, clip_size=100,
+                    vel=600, spread=5, reload_time=10, fire_rate=0.01, clip_size=100,
                     lifetime=2, lifetime_randomness=0.2, damage=5,
                     distance=-12, friction=0.1, animation_speed=5, spread_time=0.2,
-                    pierce=1, shake_mag=2, shake_duration=1, shots=1,
+                    pierce=0, shake_mag=2, shake_duration=1, shots=1,
                     gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
                     bullet_image=Bullet_Images["bullet1"], name="Minigun"
           )
@@ -300,6 +300,10 @@ Rain_Config = {
           "lifetime_randomness": 0.8,
           "angle": 40,
           "res": Effect_Images["Rain"][0].size
+}
+
+Shadows = {
+          "player_shadow": load_image("Assets/Misc/Shadows/shadow.png")
 }
 
 Font_Config = {
