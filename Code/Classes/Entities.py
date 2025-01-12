@@ -49,6 +49,11 @@ class main:
                               self.dead = True
                               self.health = 0
 
+          @staticmethod
+          def generate_shadow_image(image):
+                    shadow_image = Shadows["player_shadow"].copy()
+                    return pygame.transform.scale(shadow_image, (image.width, shadow_image.height))
+
 
 class Player(main):
           def __init__(self, game, gun, dictionary):
@@ -151,8 +156,8 @@ class Player(main):
                     if self.facing == "left":
                               image = pygame.transform.flip(image, True, False)
 
-                    shadow_image = Shadows["player_shadow"].copy()
-                    self.game.display_screen.blit(shadow_image, (self.get_position()[0] + self.res[0] / 2 - shadow_image.width / 2, self.get_position()[1] + self.res[1] - shadow_image.height / 2))
+                    shadow_image = self.generate_shadow_image(image)
+                    self.game.display_screen.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
                     self.game.display_screen.blit(image, self.get_position())
 
                     self.gun.draw()
@@ -239,12 +244,12 @@ class Enemy(main):
                     return (self.game.player.rect.center - self.pos).length()
 
           def draw(self):
-                    shadow_image = Shadows["player_shadow"].copy()
-                    pygame.transform.scale(shadow_image, (self.images[int(self.frame) % len(self.images)].width, shadow_image.height))
+                    current_sprite = self.get_current_sprite()
+                    shadow_image = self.generate_shadow_image(current_sprite)
                     self.game.display_screen.blit(shadow_image, (
                               self.get_position()[0],
                               self.get_position()[1] + self.res[1] - shadow_image.height / 2))
-                    self.game.display_screen.blit(self.get_current_sprite(), self.get_position())
+                    self.game.display_screen.blit(current_sprite, self.get_position())
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]
@@ -418,25 +423,15 @@ class Rain(main):
 
 
 class Object(main):
-          def __init__(self, game, image, res, collisions):
+          def __init__(self, game, image, res, pos, collisions):
                     self.game = game
                     self.original_image = image
                     self.image = image
                     self.res = v2(res)
                     self.collisions = collisions
-                    self.pos = self.generate_valid_position()
+                    self.pos = pos
                     self.rect = self.image.get_rect(center=self.pos)
 
           def draw(self):
                     draw_pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     self.game.display_screen.blit(self.image, draw_pos)
-
-          def generate_valid_position(self):
-                    while True:
-                              x = random.randint(int(self.res.x / 2), int(GAME_SIZE[0] - self.res.x / 2))
-                              y = random.randint(int(self.res.y / 2), int(GAME_SIZE[1] - self.res.y / 2))
-                              pos = v2(x, y)
-
-                              test_rect = pygame.Rect(pos.x, pos.y, self.image.get_width(), self.image.get_height())
-                              if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
-                                        return pos

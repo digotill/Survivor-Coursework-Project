@@ -2,6 +2,8 @@ from Code.Classes.Buttons import *
 from Code.Classes.Entities import *
 from Code.Utilities.Grid import *
 from Code.Utilities.Particles import Spark
+from pygame.math import Vector2 as v2
+from perlin_noise import PerlinNoise
 import pygame, math, random
 
 
@@ -175,14 +177,77 @@ class ObjectManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game)
+                    self.biome_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
+                    self.density_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
 
           def generate_objects(self):
-                    for object_ in Objects_Config.keys():
-                              for _ in range(Objects_Config[object_]['amount']):
-                                        image = random.choice(Objects_Config[object_]['images'])
-                                        self.grid.insert(Object(self.game, image, image.size,
-                                                                Objects_Config[object_]['collision']))
+
+                    biomes = {
+                              "Dead_Trees": Object_Images["Dead_Trees"],
+                              "Green_Trees": Object_Images["Green_Trees"],
+                              "Lush_Trees": Object_Images["Lush_Trees"],
+                              "Ripe_Trees": Object_Images["Ripe_Trees"],
+                              "Yellowish_Trees": Object_Images["Yellowish_Trees"],
+                    }
+
+                    # Generate biome and density maps
+                    biome_map = self.generate_noise_map(self.biome_noise, 0.005)
+                    density_map = self.generate_noise_map(self.density_noise, 0.05)
+
+                    # Generate trees based on biome and density
+                    for y in range(0, GAME_SIZE[1], 20):
+                              for x in range(0, GAME_SIZE[0], 20):
+                                        biome_value = biome_map[y // 20][x // 20]
+                                        density_value = density_map[y // 20][x // 20]
+
+                                        # Determine biome
+                                        if biome_value < 0.3:
+                                                  biome = "Dead_Trees"
+                                        elif biome_value < 0.4:
+                                                  biome = "Yellowish_Trees"
+                                        elif biome_value < 0.5:
+                                                  biome = "Green_Trees"
+                                        elif biome_value < 0.6:
+                                                  biome = "Ripe_Trees"
+                                        else:
+                                                  biome = "Lush_Trees"
+
+                                        # Check if we should place a tree based on density
+                                        if random.random() < density_value * 0.15:  # Adjust 0.1 to control overall tree density
+                                                  tree_image = random.choice(biomes[biome])
+                                                  pos = self.generate_valid_position(tree_image.size, x, y)
+                                                  if pos:
+                                                            self.grid.insert(
+                                                                      Object(self.game, tree_image, tree_image.size,
+                                                                             pos, True))
+
+                    for _ in range(Objects_Config["Rock"]["amount"]):
+                              image = random.choice(Objects_Config["Rock"]["images"])
+                              pos = self.generate_valid_position(image.size)
+                              if pos:
+                                        self.grid.insert(Object(self.game, image, image.size, pos,
+                                                                Objects_Config["Rock"]["collision"]))
+
                     self.grid.rebuild()
+
+          def generate_valid_position(self, size, base_x=None, base_y=None):
+                    if base_x is None or base_y is None:
+                              base_x, base_y = random.randint(0, GAME_SIZE[0]), random.randint(0, GAME_SIZE[1])
+
+                    for _ in range(10):  # Try 10 times to find a valid position
+                              x = base_x + random.randint(-20, 20)
+                              y = base_y + random.randint(-20, 20)
+                              if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
+                                        rect = pygame.Rect(x, y, size[0], size[1])
+                                        if not self.game.tilemap.tile_collision(rect, "Water_Tile"):
+                                                  return v2(x, y)
+                    return None
+
+          @staticmethod
+          def generate_noise_map(noise, scale):
+                    width, height = GAME_SIZE[0] // 10, GAME_SIZE[1] // 10
+                    noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
+                    return (np.array(noise_map) + 1) / 2  # Normalize to [0, 1]
 
 
 class SoundManager:

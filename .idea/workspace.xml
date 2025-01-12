@@ -5,11 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="fhj">
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/Lush/Tree_13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/Lush/Tree_19.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/dead/Tree_21.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/dead/Tree_23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/ripe/Tree_15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/ripe/Tree_16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/ripe/Tree_17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/ripe/Tree_18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/yellowish/Tree_05.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/yellowish/Tree_14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Objects/Trees/yellowish/Tree_26.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VFX/Rain/Other/water_drop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_06.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_08.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Objects/Trees/Tree_25.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Classes/Entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Entities.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Classes/Managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Display/Camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Display/Camera.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,14 +143,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00113" summary="havent commit in a whguiele">
-      <option name="closed" value="true" />
-      <created>1734131807982</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1734131807982</updated>
     </task>
     <task id="LOCAL-00114" summary="havent commit in a whguiele">
       <option name="closed" value="true" />
@@ -518,7 +528,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736353436629</updated>
     </task>
-    <option name="localTasksCounter" value="162" />
+    <task id="LOCAL-00162" summary="fhj">
+      <option name="closed" value="true" />
+      <created>1736636578826</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1736636578826</updated>
+    </task>
+    <option name="localTasksCounter" value="163" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

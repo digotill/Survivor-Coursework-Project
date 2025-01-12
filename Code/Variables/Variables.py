@@ -132,10 +132,10 @@ UI_Settings = {
 
 Screen_Shake = {
           "player": {
-                    "run_magnitude": 1.1,
-                    "run_duration": 0.1,
-                    "sprinting_magnitude": 1.5,
-                    "sprinting_duration": 0.2
+                    "run_magnitude": 0,
+                    "run_duration": 0,
+                    "sprinting_magnitude": 0,
+                    "sprinting_duration": 0
           },
           "shooting": {
                     "AK47_magnitude": 5,
@@ -257,10 +257,16 @@ Tile_Images = {
 Object_Images = {
           "Rocks": import_gif("Assets/Objects/Rocks"),
           "Cars": import_gif("Assets/Objects/Cars"),
+          "Trees": import_gif("Assets/Objects/Trees", (64, 64)),
+          "Dead_Trees": import_gif("Assets/Objects/Trees/dead",  (64, 64)),
+          "Green_Trees": import_gif("Assets/Objects/Trees/Green", (64, 64)),
+          "Lush_Trees": import_gif("Assets/Objects/Trees/Lush", (64, 64)),
+          "Ripe_Trees": import_gif("Assets/Objects/Trees/ripe", (64, 64)),
+          "Yellowish_Trees": import_gif("Assets/Objects/Trees/yellowish", (64, 64)),
 }
 
 Objects_Config = {
-          "Rock": create_object_settings(Object_Images["Rocks"], Object_Images["Rocks"][0].size, 100, True)
+          "Rock": create_object_settings(Object_Images["Rocks"], Object_Images["Rocks"][0].size, 100, True),
 }
 
 Tiles_Congifig = {
