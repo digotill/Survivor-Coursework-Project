@@ -191,7 +191,7 @@ class ObjectManager:
                     }
 
                     # Generate biome and density maps
-                    biome_map = self.generate_noise_map(self.biome_noise, 0.005)
+                    biome_map = self.generate_noise_map(self.biome_noise, 0.004)
                     density_map = self.generate_noise_map(self.density_noise, 0.05)
 
                     # Generate trees based on biome and density
@@ -213,7 +213,7 @@ class ObjectManager:
                                                   biome = "Lush_Trees"
 
                                         # Check if we should place a tree based on density
-                                        if random.random() < density_value * 0.15:  # Adjust 0.1 to control overall tree density
+                                        if random.random() < density_value * 0.2:  # Adjust 0.1 to control overall tree density
                                                   tree_image = random.choice(biomes[biome])
                                                   pos = self.generate_valid_position(tree_image.size, x, y)
                                                   if pos:
@@ -234,7 +234,7 @@ class ObjectManager:
                     if base_x is None or base_y is None:
                               base_x, base_y = random.randint(0, GAME_SIZE[0]), random.randint(0, GAME_SIZE[1])
 
-                    for _ in range(10):  # Try 10 times to find a valid position
+                    for _ in range(10):
                               x = base_x + random.randint(-20, 20)
                               y = base_y + random.randint(-20, 20)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
@@ -375,7 +375,7 @@ class DrawingManager:
                                         dy = thing.rect.bottom - self.game.player.rect.bottom
                                         squared_distance = dx * dx + dy * dy
                                         greatest_side = thing.image.get_height()
-                                        alpha = max(0,
+                                        alpha = max(100,
                                                     min(squared_distance / (greatest_side * greatest_side) * 255, 255))
                                         if self.game.player.rect.bottom > thing.rect.bottom: alpha = 255
                                         thing.image = thing.original_image.copy()

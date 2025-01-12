@@ -257,7 +257,6 @@ Tile_Images = {
 Object_Images = {
           "Rocks": import_gif("Assets/Objects/Rocks"),
           "Cars": import_gif("Assets/Objects/Cars"),
-          "Trees": import_gif("Assets/Objects/Trees", (64, 64)),
           "Dead_Trees": import_gif("Assets/Objects/Trees/dead",  (64, 64)),
           "Green_Trees": import_gif("Assets/Objects/Trees/Green", (64, 64)),
           "Lush_Trees": import_gif("Assets/Objects/Trees/Lush", (64, 64)),

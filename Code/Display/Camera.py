@@ -36,11 +36,12 @@ class Camera(main_camera):
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
                                       self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
 
+                    dt = min(self.game.dt, 1 / 30)
                     self.mouse_smoothing = v2(
                               self.lerp(self.mouse_smoothing.x, mouse_target.x,
-                                        self.window_mouse_smoothing_amount * self.game.dt),
+                                        self.window_mouse_smoothing_amount * dt),
                               self.lerp(self.mouse_smoothing.y, mouse_target.y,
-                                        self.window_mouse_smoothing_amount * self.game.dt)
+                                        self.window_mouse_smoothing_amount * dt)
                     )
 
                     self.mouse_smoothing.x = 0 if abs(
@@ -54,10 +55,9 @@ class Camera(main_camera):
                               self.window_max_offset * int(self.mouse_smoothing.y)
                     )
 
-                    dt = min(self.game.dt, 1/200)
                     self.current_offset = v2(
-                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * dt),
-                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * dt)
+                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
+                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt)
                     )
 
                     return v2(round(self.current_offset.x), round(self.current_offset.y))
