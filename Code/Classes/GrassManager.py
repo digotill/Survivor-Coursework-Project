@@ -20,7 +20,7 @@ class GrassManager(main_grass):
           def __init__(self, game):
                     self.game = game
                     # asset manager
-                    self.ga = GrassAssets(Grass["Grass_Path"], self)
+                    self.ga = GrassAssets(self)
 
                     # caching variables
                     self.grass_id = 0
@@ -70,10 +70,9 @@ class GrassManager(main_grass):
                     offset = self.game.camera.offset_rect.topleft
 
                     # Increase the rendering area by adding a buffer
-                    buffer_tiles = Grass["Buffer_Size"]  # Adjust this value as needed
                     visible_tile_range = (
                               int(surf.get_width() // self.tile_size) + 1,
-                              int(surf.get_height() // self.tile_size) + 1 + buffer_tiles
+                              int(surf.get_height() // self.tile_size) + 2
                     )
                     base_pos = (
                               int(offset[0] // self.tile_size),
@@ -103,15 +102,9 @@ class GrassManager(main_grass):
 
 # an asset manager that contains functionality for rendering blades of grass
 class GrassAssets:
-          def __init__(self, path, gm):
+          def __init__(self, gm):
                     self.gm = gm
-                    self.blades = []
-
-                    # load in blade images
-                    for blade in sorted(os.listdir(path)):
-                              img = pygame.image.load(path + '/' + blade).convert()
-                              img.set_colorkey((0, 0, 0))
-                              self.blades.append(img)
+                    self.blades = AM.assets["grass"]
 
           def render_blade(self, surf, blade_id, location, rotation):
                     # rotate the blade

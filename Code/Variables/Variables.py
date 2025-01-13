@@ -30,9 +30,9 @@ General_Settings = {
           'HARD_difficulty': 0.6,
           'max_enemies': 50,
           'enemy_spawn_rate': 0.2,
-          'max_brightness': 5,
-          'min_brightness': 5,
-          'spatial_hash_map_size': 100,
+          'max_brightness': 1.5,
+          'min_brightness': 1.5,
+          'spatial_hash_map_size': 50,
           'tilemap_size': 15,
           'darkness': (12, 12, 12)
 }
@@ -62,9 +62,7 @@ Grass = {
                     "padding": 13,
                     "ground_shadow": [3, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
           },
-          "Grass_Path": "Assets/Misc/Grass",
-          "Buffer_Size": 1,
-          "Precision": 30,
+          "Precision": 25,
           "Density": 0.6,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
                                                               math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
@@ -150,7 +148,8 @@ Screen_Shake = {
 
 Sparks_Settings = {
           "enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
-          "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
+          "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3,
+                                                max_vel=10)
 }
 
 General_Spark_Settings = {
