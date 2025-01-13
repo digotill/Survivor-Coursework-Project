@@ -4,20 +4,21 @@ import moderngl
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
+from Code.Variables.AssetManager import *
 
 pygame.init()
 
 PROFILE = False
 
-MONITER_RES = pygame.display.Info().current_w, pygame.display.Info().current_h
-MONITER_RATIO = MONITER_RES[0] / MONITER_RES[1]
-WIN_RES = 1280, int(1280 / MONITER_RATIO)
-REN_RES = 640, int(640 / MONITER_RATIO)
+WIN_RES = 1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
+REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 GAME_SIZE = 2000, 2000
-
 Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+
+AM = AssetManager()
+
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
-pygame.display.set_icon(load_image("Assets/UI/Cover/cover.png"))
+pygame.display.set_icon(AM.assets["Cover"])
 pygame.display.set_caption("Survivor Game")
 pygame.display.toggle_fullscreen()
 
@@ -71,11 +72,11 @@ Grass = {
 
 Entity_Images = {
           "player": {
-                    "idle": import_gif("Assets/Entities/newplayer/idle"),
-                    "run": import_gif("Assets/Entities/newplayer/running"),
-                    "sprinting": import_gif("Assets/Entities/newplayer/running"),
+                    "idle": AM.assets["player_idle"],
+                    "run": AM.assets["player_running"],
+                    "sprinting": AM.assets["player_running"],
           },
-          "enemy1": import_gif("Assets/Entities/Enemy1", (32, 36)),
+          "enemy1": AM.assets["enemy 1"],
 }
 
 Player_Attributes = {
@@ -166,13 +167,13 @@ Perlin_Noise = {
 }
 
 Bullet_Images = {
-          "bullet1": load_image("Assets/Misc/Bullet/Bullet 1/Bullet.png", (12, 9))
+          "bullet1": AM.assets["Bullet"]
 }
 
 Weapon_Images = {
-          "AK47": load_image("Assets/Misc/Weapons/rifle.png", (32, 13)),
-          "Shotgun": load_image("Assets/Misc/Weapons/Shotgun.png", (30, 13)),
-          "Minigun": load_image("Assets/Misc/Weapons/Mini gun.png", (34, 16))
+          "AK47": AM.assets["AK47"],
+          "Shotgun": AM.assets["Shotgun"],
+          "Minigun": AM.assets["Minigun"]
 }
 
 Weapons = {
@@ -203,10 +204,10 @@ Weapons = {
 }
 
 Button_Images = {
-          "Button1": load_image("Assets/UI/Buttons/Sprite-0001.png"),
-          "Button2": load_image("Assets/UI/Buttons/Sprite-0002.png"),
-          "Button3": load_image("Assets/UI/Buttons/Sprite-0003.png"),
-          "Button4": load_image("Assets/UI/Buttons/Sprite-0004.png")
+          "Button1": AM.assets["Button1"],
+          "Button2": AM.assets["Button2"],
+          "Button3": AM.assets["Button3"],
+          "Button4": AM.assets["Button4"]
 }
 
 AllButtons = {
@@ -243,7 +244,7 @@ AllButtons = {
 }
 
 Loading_Screens = {
-          "Green_Waterfall": import_gif("Assets/LoadingScreens/1"),
+          "Green_Waterfall": AM.assets["main menu screen"],
           "animation_speed": 15,
 }
 
@@ -255,13 +256,12 @@ Tile_Images = {
 }
 
 Object_Images = {
-          "Rocks": import_gif("Assets/Objects/Rocks"),
-          "Cars": import_gif("Assets/Objects/Cars"),
-          "Dead_Trees": import_gif("Assets/Objects/Trees/dead",  (64, 64)),
-          "Green_Trees": import_gif("Assets/Objects/Trees/Green", (64, 64)),
-          "Lush_Trees": import_gif("Assets/Objects/Trees/Lush", (64, 64)),
-          "Ripe_Trees": import_gif("Assets/Objects/Trees/ripe", (64, 64)),
-          "Yellowish_Trees": import_gif("Assets/Objects/Trees/yellowish", (64, 64)),
+          "Rocks": AM.assets["Rock"],
+          "Dead_Trees": AM.assets["Dead Tree"],
+          "Green_Trees": AM.assets["Green Tree"],
+          "Lush_Trees": AM.assets["Lush Tree"],
+          "Ripe_Trees": AM.assets["Ripe Tree"],
+          "Yellowish_Trees": AM.assets["Yellowish Tree"],
 }
 
 Objects_Config = {
@@ -279,19 +279,19 @@ Tiles_Congifig = {
 }
 
 Cursor_Config = {
-          "Cursor_Images": import_gif("Assets/UI/Mouse/Mouse3", (13, 13))
+          "Cursor_Images": AM.assets["cursor"]
 }
 
 Bar_Images = {
-          "Health_bar": load_image("Assets/UI/Bars/health.png"),
-          "Stamina_bar": load_image("Assets/UI/Bars/Sprite-0005.png"),
-          "Outside_Health_bar": load_image("Assets/UI/Bars/health_bar.png", UI_Settings["outside_bar_res"])
+          "Health_bar": AM.assets["Health bar"],
+          "Stamina_bar": AM.assets["Stamina bar"],
+          "Outside_Health_bar": AM.assets["Bar outline"]
 }
 
 Effect_Images = {
-          "Rain": import_gif("Assets/VFX/Rain"),
-          "Blood": import_SpriteSheet("Assets/VFX/Blood/Sprite-0001.png", 0, 0, 49, 48, 6),
-          "Electric": import_gif("Assets/VFX/electric"),
+          "Rain": AM.assets["Rain"],
+          "Blood": AM.assets["Blood"],
+          "Electric": AM.assets["Electric"],
 }
 
 Rain_Config = {
@@ -308,7 +308,7 @@ Rain_Config = {
 }
 
 Shadows = {
-          "player_shadow": load_image("Assets/Misc/Shadows/shadow.png")
+          "player_shadow": AM.assets["shadow"]
 }
 
 Font_Config = {

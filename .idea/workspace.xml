@@ -5,275 +5,241 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="biomes">
-      <change afterPath="$PROJECT_DIR$/New Assets/.ap/project.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/LayeredProject.aseprite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/allanimation.aseprite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/main project.aseprite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/attacking.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/death.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/idle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/idle2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/skill1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonAppear.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonDeath.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonIdle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/summons1.aseprite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Enemy 1/enemy 1.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Player/player_idle.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Player/player_running.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/Crow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Font/font2.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/LoadingScreens/main menu screen.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Bullet/Bullet 1/Bullet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Bullet/Bullet 1/Casing &amp; Bullet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/grass_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Alcohol.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Apple.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Bandage.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Battery.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Bread.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Can.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Cheese.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Chips.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Chocolate.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Coins.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Coke.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/First Aid Kit 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/First Aid Kit 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Flask.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Key.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Meat.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Money.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Pills.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Radio.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Sandwich.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Syringe.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Other/Water.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Shadows/shadow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Shadows/shadow_medium.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Shadows/shadow_small.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Shadows/shadow_tiny.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/AK47.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/Minigun.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/27.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/other/Weapons_Objects.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/shotgun.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car Black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car Blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car Green.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car Red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car Taxi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Car White.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Cars/Cars.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Chest/Chest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 1-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 1-2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 1-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 1-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 1-5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 2-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 2-2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 2-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 2-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Fences/Fence 2-5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Holes/Hole 9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Barrel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Barrier red.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Barrier yellow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Campfire.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Campfirelit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Chest Closed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Chest Opened.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Cone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Crate.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Sewer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Skull.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Trash Can 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Trash Can 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Misc/Trash Can 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock 5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign 9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign Base.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign Danger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign No Entry.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign Parking.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign RadioActive.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign Stop.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign WC Men.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Signs/Sign WC Women.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Lush/Tree_13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Lush/Tree_19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/dead/Tree_21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/dead/Tree_23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Garage 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Garage 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Garage 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Garage 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - House 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - House 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - House 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - House 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Market 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Market 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Parking 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Parking 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Parking 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Toilet 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Prefabs - Toilet 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - CrossRoad 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - CrossRoad 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Prefabs - Road 6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/ambience.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/boom.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/destroy.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/highlife_transition.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/jingle.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/jump.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/land.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/machine_hit.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/pistol_shoot.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/player_hit.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/powerup.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/prepare.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/roll.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/scrap.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/shoot.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/shop.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/shotgun_shoot.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/tap.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/SFX/tick.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Building Tiles.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0003.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0004.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Pavement Tiles.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Road Tiles.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/gentle forest (48x48 resize) v01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/grass/Sprite-0001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/water/Sprite-0001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Bars/bar outline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Bars/health bar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Bars/stamina bar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Key Indications/e.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Key Indications/mouse_left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Key Indications/mouse_right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Key Indications/r.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Key Indications/tutorial.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Mouse/Sprite-0001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/UI/Mouse/Sprite-0002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/Blood/Sprite-0001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/Dust/dust.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/Muzzle flash/muzzleflash-sheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/Rain/rain.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark bomb 79x65.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark circle of flames 82x73.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark face bomb 79x80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark flame 1 50x40.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark flame 2 55x40.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark flaming sword 85x44.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/dark orb 89x28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark/reaper attack 136x59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/electric/electric.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New Assets/VFX/wind/wind.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Code/Shaders/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_attack.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_death.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_idle1.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_idle2.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_skill.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/Boss 1/boss_summon.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/caw.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/eating.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/flying.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/getting ready to fly.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/idle.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/looking left.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Entities/crow/looking up.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Bullet/Bullet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Bullet/Casing &amp; Bullet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Grass/Grass 9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Alcohol.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Apple.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Bandage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Battery.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Bread.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Can.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Cheese.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Chips.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Chocolate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Coins.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Coke.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/First Aid Kit 1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/First Aid Kit 2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Flask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Key.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Meat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Money.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Pills.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Radio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Sandwich.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Syringe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Items/Water.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Misc/Weapons/other/Lots of Guns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Rocks/Rock.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Green tree.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/Lush/Lush Tree.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/dead/Dead Tree.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Ripe Tree.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Yellowish Tree.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Buildings/Building Tiles.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Pavement Tiles.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Prefabs/Roads/Road Tiles.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_tile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Tilemap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/water_tile.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Bar outline.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Button1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Button2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Button3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Button4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Cover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Health bar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/Stamina bar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/cursor.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/e_button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/mouse_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/mouse_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/r_button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/UI/tutorial.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/blood.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark bomb.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark circle of flames.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark face bomb.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark flame spiral.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark flame.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark flaming sword.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/dark orb.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/electric.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/rain.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/reaper attack.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/New Assets/VFX/wind.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Assets.approj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/anchorpoint/templates/file/dunno/summonIdle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/.ap/project.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/Classes/Entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Entities.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Classes/Game_Class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Game_Class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Utilities/AssetManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/AssetManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/Variables/AssetManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/AssetManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/LayeredProject.aseprite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/allanimation.aseprite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/main project.aseprite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/attacking.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/death.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/idle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/idle2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/skill1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonAppear.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonDeath.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/png/summonIdle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/Boss 1/summons1.aseprite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Entities/crow/Crow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Bullet/Bullet 1/Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Bullet/Bullet 1/Casing &amp; Bullet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Foliage/Grass/Grass 9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Alcohol.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Bandage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Battery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Bread.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Can.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Cheese.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Chips.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Chocolate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Coins.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Coke.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/First Aid Kit 1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/First Aid Kit 2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Flask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Key.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Meat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Money.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Pills.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Radio.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Sandwich.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Syringe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Other/Water.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/25.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/30.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/31.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/33.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Misc/Weapons/new guns/9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Green/Tree_07.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Lush/Tree_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/Lush/Tree_19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/dead/Tree_21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/dead/Tree_23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/ripe/Tree_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Objects/Trees/yellowish/Tree_26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Building Tiles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0003.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Grass_Water/Sprite-0004.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Pavement Tiles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Road Tiles.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/gentle forest (48x48 resize) v01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/grass/Sprite-0001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/water/Sprite-0001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Bars/bar outline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Bars/health bar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Bars/stamina bar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Buttons/Bar4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Key Indications/e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Key Indications/mouse_left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Key Indications/mouse_right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Key Indications/r.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Key Indications/tutorial.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Mouse/Sprite-0001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/UI/Mouse/Sprite-0002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/Blood/Sprite-0001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/Dust/dust.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/Muzzle flash/muzzleflash-sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/Rain/rain.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark bomb 79x65.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark circle of flames 82x73.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark face bomb 79x80.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark flame 1 50x40.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark flame 2 55x40.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark flaming sword 85x44.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/dark orb 89x28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/dark/reaper attack 136x59.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/electric/electric.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/New Assets/VFX/wind/wind.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_shaders/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_shaders/pygame_shaders.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Shaders/pygame_shaders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_shaders/screen_rect.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Shaders/screen_rect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_shaders/shader_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Shaders/shader_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_shaders/texture.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Shaders/texture.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,27 +280,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Python.Entities.executor": "Run",
-    "Python.Game_Class.executor": "Run",
-    "Python.Main Game Class.executor": "Run",
-    "Python.Managers.executor": "Run",
-    "Python.Run.executor": "Run",
-    "Python.Variables.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "new-asset-system",
-    "last_opened_file_path": "C:/Users/digot/PycharmProjects/Others/Bouncy Balls",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Python.Entities.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Game_Class.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main Game Class.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Managers.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Run.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Variables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;new-asset-system&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/digot/PycharmProjects/Others/Bouncy Balls&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\digot\PycharmProjects\Survivor\Code" />
       <recent name="C:\Users\digot\PycharmProjects\Survivor\Code\Variables" />
       <recent name="C:\Users\digot\OneDrive\Documentos\Survivor\_internal\Utilities" />
     </key>
@@ -388,14 +355,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00116" summary="working">
-      <option name="closed" value="true" />
-      <created>1734185503170</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1734185503171</updated>
     </task>
     <task id="LOCAL-00117" summary="hevent commint inb a while">
       <option name="closed" value="true" />
@@ -781,7 +740,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736782465863</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="biomes">
+      <option name="closed" value="true" />
+      <created>1736787115068</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1736787115068</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

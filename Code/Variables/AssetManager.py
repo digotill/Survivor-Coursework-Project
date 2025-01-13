@@ -5,8 +5,7 @@ import io
 
 
 class AssetManager:
-          def __init__(self, game):
-                    self.game = game
+          def __init__(self):
                     self.assets = {}
                     self.load_all_assets()
 
@@ -23,8 +22,6 @@ class AssetManager:
                                                   self.import_gif(file_path, file_name)
                                         elif file_ext.lower() in ['.wav', '.ogg', '.mp3']:
                                                   self.load_sound(file_path, file_name)
-                    for items in self.assets.keys():
-                              print(items)
 
           def import_gif(self, path, name):
                     frames = []

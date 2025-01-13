@@ -1,7 +1,3 @@
-import math
-import pygame_shaders
-
-from Code.Utilities.Particles import Spark
 from Code.Variables.Variables import *
 from pygame.math import Vector2 as v2
 

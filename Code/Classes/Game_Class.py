@@ -6,9 +6,7 @@ from Code.Display.Camera import *
 from Code.Classes.TileMap import TileMap
 from Code.Classes.GrassManager import *
 from Code.Variables.AssetManager import *
-import pygame_shaders
-import moderngl
-
+from Code.Shaders import pygame_shaders
 
 
 class Game:
@@ -21,7 +19,7 @@ class Game:
                     self.display_screen = pygame.Surface(REN_RES).convert()
                     # Initialize shader for post-processing effects
                     self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
-                                                   pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
+                                                        pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
 
                     # Create a separate surface for UI elements
                     self.ui_surface = pygame.Surface(REN_RES).convert()
@@ -58,7 +56,6 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
-                    self.Asset_manager = AssetManager(self)
 
                     # Initialize tilemap and generate objects
                     self.tilemap = TileMap(self)
