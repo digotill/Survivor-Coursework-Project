@@ -291,7 +291,7 @@ def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
                     'animation_speed': animation_speed,
                     "images": images,
                     "hit_cooldown": hit_cooldown,
-                    "separation_radius": res[0] / 2,
+                    "separation_radius": res[0],
                     "separation_strength": 0.5,
           }
 
