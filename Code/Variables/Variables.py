@@ -64,7 +64,7 @@ Grass = {
           "Grass_Path": "Assets/Misc/Grass",
           "Buffer_Size": 1,
           "Precision": 30,
-          "Density": 0.9,
+          "Density": 0.6,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
                                                               math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }

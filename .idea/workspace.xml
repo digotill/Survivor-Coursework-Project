@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="biomes">
-      <change afterPath="$PROJECT_DIR$/Assets/.ap/project.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Assets.approj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/anchorpoint/templates/file/dunno/summonIdle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Code/Utilities/AssetManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Utilities/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Utilities/Utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +24,7 @@
     <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="trying_to_package" />
+        <entry key="$PROJECT_DIR$" value="new-rendering-method" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
