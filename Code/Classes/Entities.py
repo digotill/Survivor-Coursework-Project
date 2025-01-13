@@ -328,7 +328,7 @@ class Gun(main):
                                                                             "Player Bullet", spread_factor)
                               else:
                                         self.game.bullet_manager.add_bullet(start_coordinates,
-                                                                            change_random(self.angle, self.spread),
+                                                                            change_by_diff(self.angle, self.spread),
                                                                             "Player Bullet", spread_factor)
 
           def calculate_bullet_start_position(self):
@@ -356,7 +356,7 @@ class Bullet(main):
                     self.rect = self.image.get_rect(center=self.pos)
                     self.res = self.rect.size
 
-                    self.lifetime = change_random(self.gun.lifetime, self.gun.lifetime_randomness)
+                    self.lifetime = change_by_diff(self.gun.lifetime, self.gun.lifetime_randomness)
                     self.dead = False
                     self.creation_time = game.game_time
                     self.friction = self.gun.friction
@@ -388,14 +388,14 @@ class Rain(main):
           def __init__(self, game, dictionary):
                     self.game = game
                     self.set_attributes(dictionary)
-                    self.pos = v2(change_random(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
+                    self.pos = v2(change_by_diff(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
                                   self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 2)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
                     self.hit_ground = False
-                    self.lifetime = change_random(self.lifetime, self.lifetime_randomness)
-                    self.vel = change_random(self.vel, self.vel_randomness)
+                    self.lifetime = change_by_diff(self.lifetime, self.lifetime_randomness)
+                    self.vel = change_by_diff(self.vel, self.vel_randomness)
                     self.vel_vector = self.calculate_vel_vector()
                     self.set_rect()
 

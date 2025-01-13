@@ -13,7 +13,7 @@ def random_xy(rect1, rect2, sprite_width, sprite_height):
                     if not rect2.collidepoint(x, y): return x, y
 
 
-def change_random(number, diff):
+def change_by_diff(number, diff):
           diff = random.random() * diff
           if random.randint(0, 1) == 0:
                     return number - diff
@@ -21,25 +21,11 @@ def change_random(number, diff):
                     return number + diff
 
 
-def change_by(number, amount):
+def change_by_random(number, amount):
           if random.random() < 0.5:
                     return number - random.randint(0, amount)
           else:
                     return number + random.randint(0, amount)
-
-
-def calculate_distances(player_pos, enemy_positions):
-          return np.linalg.norm(enemy_positions - player_pos, axis=1)
-
-
-def check_collisions(rect1, other_rects):
-          player_array = np.array([rect1.left, rect1.top, rect1.right, rect1.bottom])
-          objects_array = np.array([[rect.left, rect.top, rect.right, rect.bottom] for rect in other_rects])
-
-          collisions = np.all((player_array[:2] < objects_array[:, 2:]) &
-                              (player_array[2:] > objects_array[:, :2]), axis=1)
-
-          return np.where(collisions)[0]
 
 
 def load_image(file_path, res=None, *color_keys):
@@ -54,23 +40,6 @@ def cached_load(file_path, res=None, *color_keys):
           return load_image(file_path, res, *color_keys)
 
 
-def import_gif(file_name, res=None, *colour_keys):
-          file_paths = [os.path.join(file_name, f) for f in os.listdir(file_name) if f.endswith(('.jpg', '.png'))]
-          return [cached_load(file_path, res, *colour_keys) for file_path in file_paths]
-
-
-def import_SpriteSheet(filename, px, py, tw, th, tiles, res=None, image=None, *colour_keys):
-          if image is None:
-                    sheet = cached_load(filename, None, *colour_keys)
-          else:
-                    sheet = image
-          array = []
-          for i in range(tiles):
-                    cropped = pygame.Surface((tw, th), pygame.SRCALPHA)
-                    cropped.blit(sheet, (0, 0), (px + tw * i, py, tw, th))
-                    if res: cropped = pygame.transform.scale(cropped, res)
-                    array.append(cropped)
-          return array
 
 
 def import_4x4_spritesheet(filename, tile_size=16, res=None, *colour_keys):
@@ -145,14 +114,6 @@ def perfect_outline(img, outline_color=(255, 255, 255)):
 def lookup_colour(colour):
           color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
           for colour in color_list: print(colour)
-
-
-def flip_image(image):
-          return pygame.transform.flip(image, True, False)
-
-
-def flip_images(images):
-          return [flip_image(image) for image in images]
 
 
 def normalize(val, amt, target):
