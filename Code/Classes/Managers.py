@@ -201,7 +201,7 @@ class ObjectManager:
                                         density_value = density_map[y // 20][x // 20]
 
                                         # Determine biome
-                                        if biome_value < 0.3:
+                                        if biome_value < 0.35:
                                                   biome = "Dead_Trees"
                                         elif biome_value < 0.4:
                                                   biome = "Yellowish_Trees"

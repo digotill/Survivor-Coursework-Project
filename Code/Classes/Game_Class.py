@@ -5,6 +5,7 @@ from Code.Display.UIManager import *
 from Code.Display.Camera import *
 from Code.Classes.TileMap import TileMap
 from Code.Classes.GrassManager import *
+from Code.Variables.AssetManager import *
 import pygame_shaders
 import moderngl
 
@@ -57,6 +58,7 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
+                    self.Asset_manager = AssetManager(self)
 
                     # Initialize tilemap and generate objects
                     self.tilemap = TileMap(self)
