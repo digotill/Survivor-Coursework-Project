@@ -54,12 +54,21 @@ class AssetManager:
           def import_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
-                    array = []
+                    array = ["0202", "2210", "2121", "0122", "2222", "2112", "1111", "1221", "2020", "1022", "1212", "2201", "0000", "0220", "2222", "2002"]
+                    dictionary = {}
+                    count = 0
                     for i in range(4):
                               for j in range(4):
-                                        tile.blit(tileset_image, (0, 0), (j * 16, i * 16, 16, 16))
-                                        array.append(tile.copy())
-                    self.assets[name] = array
+                                        tile.blit(tileset_image, (0, 0), (i * 16, j * 16, 16, 16))
+                                        dictionary[array[count]] = tile.copy()
+                                        count += 1
+                    array = ["1000", "0100", "0010", "0001"]
+                    count = 0
+                    for i in range(4):
+                              tile.blit(tileset_image, (0, 0), (16 * 2, 16 * 1, 16, 16))
+                              dictionary[array[count]] = tile.copy()
+                              count += 1
+                    self.assets[name] = dictionary
 
           def load_font(self, file_path, name):
                     self.assets[name] = pygame.font.Font(file_path, int(name[4:]))
