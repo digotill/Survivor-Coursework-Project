@@ -25,9 +25,7 @@ pygame.display.toggle_fullscreen()
 General_Settings = {
           'volume': 0.5,
           'peaceful_mode': False,
-          'EASY_difficulty': 1.3,
-          'MEDIUM_difficulty': 1,
-          'HARD_difficulty': 0.6,
+          'difficulty': [0.8, 1, 1.3],
           'max_enemies': 50,
           'enemy_spawn_rate': 0.2,
           'max_brightness': 1.5,
@@ -60,7 +58,7 @@ Grass = {
                     "max_unique": 5,
                     "vertical_place_range": [0, 1],
                     "padding": 13,
-                    "ground_shadow": [3, (0, 0, 1), 40, (1, 2)],  # radius, colour, strength, shift
+                    "ground_shadow": [3, (0, 0, 1), 60, (1, 2)],  # radius, colour, strength, shift
           },
           "Precision": 25,
           "Density": 0.6,

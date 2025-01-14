@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="&lt;3">
-      <change afterPath="$PROJECT_DIR$/New Assets/Tiles/Grass_tileset.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Entities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Game_Class.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Game_Class.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Display/Menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Display/Menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Display/UIManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Display/UIManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Variables/AssetManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/AssetManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/New Assets/Tiles/Grass_tile.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,14 +123,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00121" summary="working">
-      <option name="closed" value="true" />
-      <created>1734280409517</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1734280409517</updated>
     </task>
     <task id="LOCAL-00122" summary="cant figure this out">
       <option name="closed" value="true" />
@@ -523,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736812500653</updated>
     </task>
-    <option name="localTasksCounter" value="170" />
+    <task id="LOCAL-00170" summary="&lt;3">
+      <option name="closed" value="true" />
+      <created>1736816650623</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1736816650623</updated>
+    </task>
+    <option name="localTasksCounter" value="171" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -52,9 +52,9 @@ class AssetManager:
           def import_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
-                    dictionary = {}
+                    array = []
                     for i in range(4):
                               for j in range(4):
                                         tile.blit(tileset_image, (0, 0), (j * 16, i * 16, 16, 16))
-                                        dictionary[(j, i)] = tile.copy()
-                    self.assets[name] = dictionary
+                                        array.append(tile.copy())
+                    self.assets[name] = array
