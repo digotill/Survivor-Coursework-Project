@@ -32,6 +32,7 @@ class Game:
                     self.running = True
                     self.game_time = 0
                     self.fps = AllButtons["Sliders"]["fps"]["value"]
+                    self.assets = AM.assets
                     self.changing_settings = False
                     self.immidiate_quit = False
                     self.in_menu = True

@@ -16,7 +16,9 @@ class AssetManager:
                                         file_path = os.path.join(root, file)
                                         file_name, file_ext = os.path.splitext(file)
 
-                                        if file_ext.lower() in ['.png', '.jpg', '.jpeg']:
+                                        if "tileset" in file_name.lower():
+                                            self.import_tileset(file_path, file_name)
+                                        elif file_ext.lower() in ['.png', '.jpg', '.jpeg']:
                                                   self.load_image(file_path, file_name)
                                         elif file_ext.lower() == '.gif':
                                                   self.import_gif(file_path, file_name)
@@ -46,3 +48,13 @@ class AssetManager:
           def load_sound(self, file_path, name):
                     sound = pygame.mixer.Sound(file_path)
                     self.assets[name] = sound
+
+          def import_tileset(self, filepath, name):
+                    tileset_image = pygame.image.load(filepath).convert_alpha()
+                    tile = pygame.Surface((16, 16), pygame.SRCALPHA)
+                    dictionary = {}
+                    for i in range(4):
+                              for j in range(4):
+                                        tile.blit(tileset_image, (0, 0), (j * 16, i * 16, 16, 16))
+                                        dictionary[(j, i)] = tile.copy()
+                    self.assets[name] = dictionary

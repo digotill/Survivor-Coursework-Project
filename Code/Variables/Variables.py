@@ -32,7 +32,7 @@ General_Settings = {
           'enemy_spawn_rate': 0.2,
           'max_brightness': 1.5,
           'min_brightness': 1.5,
-          'spatial_hash_map_size': 50,
+          'spatial_hash_map_size': 100,
           'tilemap_size': 15,
           'darkness': (12, 12, 12)
 }
@@ -68,20 +68,15 @@ Grass = {
                                                               math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
 
-Entity_Images = {
-          "player": {
+Player_Attributes = {
+          'name': 'Player',
+          'health': 100,
+          'res': AM.assets["player_idle"][0].size,
+          "animations": {
                     "idle": AM.assets["player_idle"],
                     "run": AM.assets["player_running"],
                     "sprinting": AM.assets["player_running"],
           },
-          "enemy1": AM.assets["enemy 1"],
-}
-
-Player_Attributes = {
-          'name': 'Player',
-          'health': 100,
-          'res': Entity_Images["player"]["idle"][0].size,
-          "animations": Entity_Images["player"],
           'vel': 90,
           'damage': 30,
           'stamina': 100,
@@ -97,10 +92,10 @@ Player_Attributes = {
 }
 
 Enemies = {
-          "enemy1": create_enemy_settings(name="Enemy", health=100, res=Entity_Images["enemy1"][0].size, vel=100,
+          "enemy1": create_enemy_settings(name="Enemy", health=100, res=AM.assets["enemy 1"][0].size, vel=100,
                                           damage=20,
                                           stopping_distance=25, steering_strength=0.8, friction=0.2,
-                                          images=Entity_Images["enemy1"], animation_speed=5, hit_cooldown=0,
+                                          images=AM.assets["enemy 1"], animation_speed=5, hit_cooldown=0,
                                           )
 }
 
@@ -130,12 +125,6 @@ UI_Settings = {
 }
 
 Screen_Shake = {
-          "player": {
-                    "run_magnitude": 0,
-                    "run_duration": 0,
-                    "sprinting_magnitude": 0,
-                    "sprinting_duration": 0
-          },
           "shooting": {
                     "AK47_magnitude": 5,
                     "AK47_duration": 0.1,
@@ -165,56 +154,39 @@ Perlin_Noise = {
           "3 octaves": PerlinNoise(3, random.randint(0, 100000))
 }
 
-Bullet_Images = {
-          "bullet1": AM.assets["Bullet"]
-}
-
-Weapon_Images = {
-          "AK47": AM.assets["AK47"],
-          "Shotgun": AM.assets["Shotgun"],
-          "Minigun": AM.assets["Minigun"]
-}
-
 Weapons = {
           "AK47": create_weapon_settings(
                     vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30,
                     lifetime=3, lifetime_randomness=0.2, damage=16,
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=3, shake_mag=2, shake_duration=1, shots=1,
-                    gun_image=Weapon_Images["AK47"], res=Weapon_Images["AK47"].size,
-                    bullet_image=Bullet_Images["bullet1"], name="AK47"
+                    gun_image=AM.assets["AK47"], res=AM.assets["AK47"].size,
+                    bullet_image=AM.assets["Bullet"], name="AK47"
           ),
           "Shotgun": create_weapon_settings(
                     vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8,
                     lifetime=0.5, lifetime_randomness=0.2, damage=50,
                     distance=-2, friction=0.1, animation_speed=5, spread_time=2,
                     pierce=1, shake_mag=2, shake_duration=1, shots=20,
-                    gun_image=Weapon_Images["Shotgun"], res=Weapon_Images["Shotgun"].size,
-                    bullet_image=Bullet_Images["bullet1"], name="Shotgun"
+                    gun_image=AM.assets["Shotgun"], res=AM.assets["Shotgun"].size,
+                    bullet_image=AM.assets["Bullet"], name="Shotgun"
           ),
           "Minigun": create_weapon_settings(
                     vel=600, spread=5, reload_time=10, fire_rate=0.01, clip_size=100,
                     lifetime=2, lifetime_randomness=0.2, damage=5,
                     distance=-12, friction=0.1, animation_speed=5, spread_time=0.2,
                     pierce=0, shake_mag=2, shake_duration=1, shots=1,
-                    gun_image=Weapon_Images["Minigun"], res=Weapon_Images["Minigun"].size,
-                    bullet_image=Bullet_Images["bullet1"], name="Minigun"
+                    gun_image=AM.assets["Minigun"], res=AM.assets["Minigun"].size,
+                    bullet_image=AM.assets["Bullet"], name="Minigun"
           )
-}
-
-Button_Images = {
-          "Button1": AM.assets["Button1"],
-          "Button2": AM.assets["Button2"],
-          "Button3": AM.assets["Button3"],
-          "Button4": AM.assets["Button4"]
 }
 
 AllButtons = {
           "In_Game": {
-                    "resume": create_button("Resume", v2(240, 135), Button_Images["Button1"]),
-                    "fullscreen": create_button("Fullscreen", v2(240, 170), Button_Images["Button1"]),
-                    "quit": create_button("QUIT", v2(240, 240), Button_Images["Button1"]),
-                    "return": create_button("Return", v2(240, 90), Button_Images["Button1"])
+                    "resume": create_button("Resume", v2(240, 135), AM.assets["Button1"]),
+                    "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["Button1"]),
+                    "quit": create_button("QUIT", v2(240, 240), AM.assets["Button1"]),
+                    "return": create_button("Return", v2(240, 90), AM.assets["Button1"])
           },
           "Weapons": {
                     "AK47": create_button("AK47", v2(140, 240), perfect_outline(Weapons["AK47"]["gun_image"]),
@@ -227,24 +199,19 @@ AllButtons = {
                                              text_pos="left"),
           },
           "Sliders": {
-                    "brightness": create_slider(v2(360, 235), Button_Images["Button2"], "Brightness:  ", 0, 100,
+                    "brightness": create_slider(v2(360, 235), AM.assets["Button2"], "Brightness:  ", 0, 100,
                                                 50),
-                    "fps": create_slider(v2(360, 180), Button_Images["Button2"], "Max FPS:  ", 20, 240,
+                    "fps": create_slider(v2(360, 180), AM.assets["Button2"], "Max FPS:  ", 20, 240,
                                          pygame.display.get_current_refresh_rate())
           },
           "Menu_Buttons": {
-                    "play": create_button("PLAY", v2(200, 240), Button_Images["Button1"]),
-                    "quit": create_button("QUIT", v2(280, 240), Button_Images["Button1"]),
-                    "easy": create_button("EASY", v2(200, 190), Button_Images["Button1"]),
-                    "medium": create_button("MEDIUM", v2(200, 150), Button_Images["Button1"]),
-                    "hard": create_button("HARD", v2(280, 190), Button_Images["Button1"]),
+                    "play": create_button("PLAY", v2(200, 240), AM.assets["Button1"]),
+                    "quit": create_button("QUIT", v2(280, 240), AM.assets["Button1"]),
+                    "easy": create_button("EASY", v2(200, 190), AM.assets["Button1"]),
+                    "medium": create_button("MEDIUM", v2(200, 150), AM.assets["Button1"]),
+                    "hard": create_button("HARD", v2(280, 190), AM.assets["Button1"]),
           },
           'speed': 300,
-}
-
-Loading_Screens = {
-          "Green_Waterfall": AM.assets["main menu screen"],
-          "animation_speed": 15,
 }
 
 Tile_Images = {
@@ -254,17 +221,8 @@ Tile_Images = {
           "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Tiles/Grass_Water/Sprite-0002.png"),
 }
 
-Object_Images = {
-          "Rocks": AM.assets["Rock"],
-          "Dead_Trees": AM.assets["Dead Tree"],
-          "Green_Trees": AM.assets["Green Tree"],
-          "Lush_Trees": AM.assets["Lush Tree"],
-          "Ripe_Trees": AM.assets["Ripe Tree"],
-          "Yellowish_Trees": AM.assets["Yellowish Tree"],
-}
-
 Objects_Config = {
-          "Rock": create_object_settings(Object_Images["Rocks"], Object_Images["Rocks"][0].size, 100, True),
+          "Rock": create_object_settings(AM.assets["Rock"], AM.assets["Rock"][0].size, 100, True),
 }
 
 Tiles_Congifig = {
@@ -277,24 +235,8 @@ Tiles_Congifig = {
           "tile_map_size": 16,
 }
 
-Cursor_Config = {
-          "Cursor_Images": AM.assets["cursor"]
-}
-
-Bar_Images = {
-          "Health_bar": AM.assets["Health bar"],
-          "Stamina_bar": AM.assets["Stamina bar"],
-          "Outside_Health_bar": AM.assets["Bar outline"]
-}
-
-Effect_Images = {
-          "Rain": AM.assets["Rain"],
-          "Blood": AM.assets["Blood"],
-          "Electric": AM.assets["Electric"],
-}
-
 Rain_Config = {
-          "animation": Effect_Images["Rain"],
+          "animation": AM.assets["Rain"],
           "rate": 0.0001,
           "animation_speed": 20,
           "amount": 3,
@@ -303,11 +245,7 @@ Rain_Config = {
           "lifetime": 0.9,
           "lifetime_randomness": 0.8,
           "angle": 40,
-          "res": Effect_Images["Rain"][0].size
-}
-
-Shadows = {
-          "player_shadow": AM.assets["shadow"]
+          "res": AM.assets["Rain"][0].size
 }
 
 Font_Config = {

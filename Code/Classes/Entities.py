@@ -47,7 +47,7 @@ class main:
 
           @staticmethod
           def generate_shadow_image(image):
-                    shadow_image = Shadows["player_shadow"].copy()
+                    shadow_image = AM.assets["shadow"].copy()
                     return pygame.transform.scale(shadow_image, (image.width, shadow_image.height))
 
 
@@ -112,11 +112,6 @@ class Player(main):
                     if not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
                     self.update_facing()
-
-                    if self.current_animation != "idle":
-                              self.game.camera.add_screen_shake(Screen_Shake["player"][str(self.current_animation) + "_duration"],
-                                        Screen_Shake['player'][str(self.current_animation) + "_magnitude"]
-                              )
 
                     new_x = self.pos.x + dx * self.current_vel * self.game.dt
                     new_y = self.pos.y + dy * self.current_vel * self.game.dt

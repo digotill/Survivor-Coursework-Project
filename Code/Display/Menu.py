@@ -16,10 +16,10 @@ class MainMenu:
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = Loading_Screens["Green_Waterfall"]
+                    self.loading_screen = self.game.assets["main menu screen"]
                     self.current_frame = 0
                     self.difficulty = "MEDIUM"
-                    self.animation_speed = Loading_Screens["animation_speed"]
+                    self.animation_speed = 15
                     self.create_weapons()
 
           def create_weapons(self):

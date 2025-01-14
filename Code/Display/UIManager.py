@@ -6,8 +6,8 @@ class UIManager:
                     self.game = game
                     self.font = pygame.font.Font(Font_Config['font'], UI_Settings["fps_time_size"])
                     self.fps_enabled = False
-                    self.health_bar_rect = Bar_Images["Health_bar"].get_rect()
-                    self.stamina_bar_rect = Bar_Images["Stamina_bar"].get_rect()
+                    self.health_bar_rect = self.game.assets["Health bar"].get_rect()
+                    self.stamina_bar_rect = self.game.assets["Stamina bar"].get_rect()
                     self.brightness = 50
 
           def draw_bars(self):
@@ -15,8 +15,8 @@ class UIManager:
                     health = max(self.game.player.health, 1)
                     health_ratio = health / self.game.player.max_health
                     self._draw_bar(
-                              bar_image=Bar_Images["Health_bar"],
-                              outer_image=Bar_Images["Outside_Health_bar"],
+                              bar_image=self.game.assets["Health bar"],
+                              outer_image=self.game.assets["Bar outline"],
                               ratio=health_ratio,
                               position=UI_Settings["health_bar"],
                               is_flipped=False
@@ -26,8 +26,8 @@ class UIManager:
                     stamina = max(self.game.player.stamina, 1)
                     stamina_ratio = stamina / Player_Attributes['stamina']
                     self._draw_bar(
-                              bar_image=Bar_Images["Stamina_bar"],
-                              outer_image=Bar_Images["Outside_Health_bar"],
+                              bar_image=self.game.assets["Stamina bar"],
+                              outer_image=self.game.assets["Bar outline"],
                               ratio=stamina_ratio,
                               position=UI_Settings["stamina_bar"],
                               is_flipped=True
@@ -76,9 +76,9 @@ class UIManager:
           def display_mouse(self):
                     if pygame.mouse.get_focused():
                               if self.game.mouse_state[0]:
-                                        image = Cursor_Config["Cursor_Images"][1]
+                                        image = self.game.assets["cursor"][1]
                               else:
-                                        image = Cursor_Config["Cursor_Images"][0]
+                                        image = self.game.assets["cursor"][0]
                               self.game.ui_surface.blit(image,
                                                      (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
                                                       self.game.correct_mouse_pos[1] - image.get_rect().height / 2))

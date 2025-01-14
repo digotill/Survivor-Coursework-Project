@@ -183,11 +183,11 @@ class ObjectManager:
           def generate_objects(self):
 
                     biomes = {
-                              "Dead_Trees": Object_Images["Dead_Trees"],
-                              "Green_Trees": Object_Images["Green_Trees"],
-                              "Lush_Trees": Object_Images["Lush_Trees"],
-                              "Ripe_Trees": Object_Images["Ripe_Trees"],
-                              "Yellowish_Trees": Object_Images["Yellowish_Trees"],
+                              "Dead_Trees": self.game.assets["Dead Tree"],
+                              "Green_Trees": self.game.assets["Green Tree"],
+                              "Lush_Trees": self.game.assets["Lush Tree"],
+                              "Ripe_Trees": self.game.assets["Ripe Tree"],
+                              "Yellowish_Trees": self.game.assets["Yellowish Tree"],
                     }
 
                     # Generate biome and density maps
