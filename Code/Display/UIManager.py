@@ -4,7 +4,6 @@ from Code.Classes.Entities import *
 class UIManager:
           def __init__(self, game):
                     self.game = game
-                    self.font = pygame.font.Font(Font_Config['font'], UI_Settings["fps_time_size"])
                     self.fps_enabled = False
                     self.health_bar_rect = self.game.assets["Health bar"].get_rect()
                     self.stamina_bar_rect = self.game.assets["Stamina bar"].get_rect()
@@ -60,14 +59,14 @@ class UIManager:
                               fps = str(int(
                                         max(min(AllButtons["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
                                             AllButtons["Sliders"]["fps"]["min_value"])))
-                              text = self.font.render(fps + "  FPS", False,
+                              text = self.game.assets["font14"].render(fps + "  FPS", False,
                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=UI_Settings["fps"])
                               self.game.ui_surface.blit(text, text_rect)
 
           def draw_time(self):
                     if self.fps_enabled:
-                              text = self.font.render(str(int(self.game.game_time)) + " SECONDS", False,
+                              text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=(
                                         REN_RES[0] - UI_Settings["time"][0], UI_Settings["time"][1]))

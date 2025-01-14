@@ -24,6 +24,8 @@ class AssetManager:
                                                   self.import_gif(file_path, file_name)
                                         elif file_ext.lower() in ['.wav', '.ogg', '.mp3']:
                                                   self.load_sound(file_path, file_name)
+                                        elif file_ext.lower() in ['.ttf']:
+                                                  self.load_font(file_path, file_name)
 
           def import_gif(self, path, name):
                     frames = []
@@ -58,3 +60,6 @@ class AssetManager:
                                         tile.blit(tileset_image, (0, 0), (j * 16, i * 16, 16, 16))
                                         array.append(tile.copy())
                     self.assets[name] = array
+
+          def load_font(self, file_path, name):
+                    self.assets[name] = pygame.font.Font(file_path, int(name[4:]))

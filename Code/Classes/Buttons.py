@@ -19,8 +19,7 @@ class UIElement:
 
           def setup_text(self):
                     # Set up the text for the UI element
-                    self.font_size = int(self.rect.height / Font_Config['font_size'])
-                    self.font = pygame.font.Font(self.font, self.font_size)
+                    self.font = self.game.assets["font8"]
                     self.text = self.font.render(self.text_input, False, self.base_colour)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
                     self.has_text = True
@@ -88,7 +87,6 @@ class UIElement:
 
           def init_positions(self):
                     # Initialize the positions and text for the UI element
-                    self.font = Font_Config['font']
                     self.set_rect()
                     self.starting_pos = self.calculate_starting_position()
                     self.current_pos = v2(self.starting_pos)

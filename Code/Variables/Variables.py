@@ -246,9 +246,4 @@ Rain_Config = {
           "res": AM.assets["Rain"][0].size
 }
 
-Font_Config = {
-          'font': "Assets/Font/font2.ttf",
-          'font_size': 1.4,
-}
-
 # lookup_colour("red")
