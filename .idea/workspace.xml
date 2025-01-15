@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="yipppeeeee">
-      <change afterPath="$PROJECT_DIR$/Code/Utilities/ErrorLogger.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Code/Utilities/timer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/error_log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/GrassManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/GrassManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/Managers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/Managers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Classes/TileMap.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Classes/TileMap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Display/EventManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Display/EventManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Utilities/Grid.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Utilities/Grid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Utilities/Particles.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Utilities/Particles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Utilities/Utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Utilities/Utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/Variables/Variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/Variables/Variables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Run.py" beforeDir="false" afterPath="$PROJECT_DIR$/Run.py" afterDir="false" />
-    </list>
+    <list default="true" id="6a82ffc7-9ec4-44bc-abc9-f744766bbaa7" name="Changes" comment="alot" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,14 +119,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1731196013714</updated>
-    </task>
-    <task id="LOCAL-00128" summary="wow it actually looks nice">
-      <option name="closed" value="true" />
-      <created>1734325911684</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1734325911684</updated>
     </task>
     <task id="LOCAL-00129" summary="yipeeeeeeeeeeeee">
       <option name="closed" value="true" />
@@ -526,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736976808746</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="alot">
+      <option name="closed" value="true" />
+      <created>1736980619587</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1736980619587</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +528,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="worried" />
     <MESSAGE value="water collisions ayyayyaya" />
     <MESSAGE value="working" />
     <MESSAGE value="cant figure this out" />
@@ -567,6 +552,7 @@
     <MESSAGE value="wokring tileset import" />
     <MESSAGE value="(:" />
     <MESSAGE value="yipppeeeee" />
-    <option name="LAST_COMMIT_MESSAGE" value="yipppeeeee" />
+    <MESSAGE value="alot" />
+    <option name="LAST_COMMIT_MESSAGE" value="alot" />
   </component>
 </project>
