@@ -54,24 +54,21 @@ class AssetManager:
           def import_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
-                    array = ["1212", "2201", "1010", "1022", "2222", "1001", "0000", "0110", "2121", "0122", "0101",
-                             "2210", "", "1221", "2222", "2112"]  # "top", "bottom", "right", "left"
-                    dictionary = {}
+                    array = ["1212", "2201", "1010", "1022", "2222", "1001", "0000", "0110", "2121", "0122", "0101", "2210", "", "1221", "2222", "2112"]
+                    dictionary = {}  # "top", "bottom", "right", "left"
                     for i in range(4):
                               for j in range(4):
                                         self.add_tile(tile, (j, i), dictionary, array, tileset_image, i * 4 + j)
-                    self.assets[name] = dictionary
                     temp_array = ["2201", "1022", "0122", "2210"]
                     temp_array2 = ["1101", "1011", "0111", "1110"]
-                    dictionary2 = {}
-                    for item in dictionary.keys():
+                    for item in dictionary.copy().keys():
                               if item in temp_array:
                                         key = temp_array2[temp_array.index(item)]
-                                        dictionary2[key] = self.assets[name][item]
+                                        dictionary[key] = dictionary[item]
                     array = ["1000", "0100", "0010", "0001"]
                     for i in range(4):
-                              self.add_tile(tile, (2, 1), dictionary2, array, tileset_image, i)
-                    self.assets[name + "1"] = dictionary2
+                              self.add_tile(tile, (2, 1), dictionary, array, tileset_image, i)
+                    self.assets[name] = dictionary
 
 
           @staticmethod

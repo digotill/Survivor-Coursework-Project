@@ -94,7 +94,7 @@ class TileMap:
                                                   tile.images = [self.game.assets[transition_array[0]][0].copy()]
                                                   tile.tile_type = transition_array[0]
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
-                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string, "1")
+                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
                                         elif neighbours_string in ["0101", "0110", "1001", "1010"] and count == 2:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
                                         elif neighbours_string in ["2121", "2112", "1221", "1212", "1222", "2122", "2212", "2221", "2222"] and count == 3:
@@ -119,10 +119,10 @@ class TileMap:
                                         return directions2[neighbours.index(neighbour)]
                     return True
 
-          def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index, string=""):
+          def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)
                     new_tile = Tile(self.game, transition_array[0], pixel_position)
-                    new_tile.images = self.game.assets[transition_array[0][:6] + "tileset" + string][index]
+                    new_tile.images = self.game.assets[transition_array[0][:6] + "tileset"][index]
                     tile.transition = True
                     self.grid2.insert(new_tile)
 
