@@ -2,6 +2,8 @@ import sys
 import logging
 from pstats import Stats
 import ctypes
+from Code.Utilities.ErrorLogger import *
+import traceback
 
 ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
@@ -26,9 +28,11 @@ if __name__ == "__main__":
 
           try:
                     Game().run_game()
-                    sys.exit()
           except Exception as e:
-                    logger.exception(f"An error occurred during game execution: {e}")
+                    error_message = str(e)
+                    error_traceback = traceback.format_exc()
+                    log_error(error_message, error_traceback)
+                    print_error_message(error_message, error_traceback)
           finally:
                     if profiler:
                               profiler.disable()

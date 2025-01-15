@@ -13,6 +13,9 @@ class EventManager:
                     self.FPS_Cooldown = Cooldowns['fps']
                     self.Changing_settings_Cooldown = Cooldowns['settings']
 
+                    pygame.display.toggle_fullscreen()
+                    pygame.display.toggle_fullscreen()
+
           def handle_quitting(self):
                     for event in pygame.event.get():
                               if event.type == pygame.QUIT or self.game.keys[Keys['escape']]:

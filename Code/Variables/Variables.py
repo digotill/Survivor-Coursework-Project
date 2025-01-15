@@ -19,8 +19,6 @@ PF = False
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["Cover"])
 pygame.display.set_caption("Survivor Game")
-pygame.display.toggle_fullscreen()
-pygame.display.toggle_fullscreen()
 
 General_Settings = {
           'volume': 0.5,
@@ -30,9 +28,18 @@ General_Settings = {
           'enemy_spawn_rate': 0.2,
           'max_brightness': 1.5,
           'min_brightness': 1.5,
-          'spatial_hash_map_size': 100,
           'tilemap_size': 15,
-          'darkness': (12, 12, 12)
+          'darkness': (12, 12, 12),
+          'sparks': (20, 0.3, 3.5, 0.1)  # friction, width, height, min_vel
+}
+
+Hash_Map_Config = {
+          "Enemies": 50,
+          "Bullets": 40,
+          "Tilemap": 16,
+          "Rain": 100,
+          "Objects": 100,
+          "Particles": 100,
 }
 
 Window_Attributes = {
@@ -109,7 +116,7 @@ Keys = {
           'fps': pygame.K_F12,
           'escape': pygame.K_F10,
           'ungrab': pygame.K_ESCAPE,
-          'sprint': pygame.K_LSHIFT
+          'sprint': pygame.K_LSHIFT,
 }
 
 UI_Settings = {
@@ -137,13 +144,6 @@ Sparks_Settings = {
           "enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
           "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3,
                                                 max_vel=10)
-}
-
-General_Spark_Settings = {
-          "friction": 20,
-          "width": 0.3,
-          "height": 3.5,
-          "min_vel": 0.1,
 }
 
 Perlin_Noise = {
@@ -214,7 +214,12 @@ AllButtons = {
 
 
 Objects_Config = {
-          "Rock": create_object_settings(AM.assets["Rock"], AM.assets["Rock"][0].size, 100, True),
+          "Rock": {
+                    "images": AM.assets["Rock"],
+                    "res": AM.assets["Rock"][0].size,
+                    "amount": 100,
+                    "collision": True
+          }
 }
 
 Tiles_Congifig = {

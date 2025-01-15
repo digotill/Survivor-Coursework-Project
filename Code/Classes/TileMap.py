@@ -8,8 +8,8 @@ class Tile:
                     self.game = game
                     self.tile_type = tile_type
                     self.position = Vector2(position)
-                    self.size = General_Settings['tilemap_size']
-                    self.rect = pygame.Rect(self.position.x, self.position.y, self.size, self.size)
+                    self.size = Hash_Map_Config['Tilemap']
+                    self.rect = pygame.Rect(self.position.x, self.position.y, self.size - 1, self.size - 1)
                     if tile_type in Tiles_Congifig["animated_tiles"]:
                               self.images = self.game.assets[tile_type]
                     else:
@@ -25,7 +25,7 @@ class TileMap:
           def __init__(self, game):
                     self.game = game
 
-                    self.tile_size = 16
+                    self.tile_size = Hash_Map_Config['Tilemap']
                     self.grid = HashMap(game, self.tile_size)
                     self.grid2 = HashMap(game, self.tile_size)
                     self.width = GAME_SIZE[0] // self.tile_size + 1
@@ -90,7 +90,7 @@ class TileMap:
 
                                         neighbours_string = ''.join(map(neighbor_value, neighbours))
 
-                                        if (neighbours_string in ["1100", "0011", "0000"] or (neighbours_string.count('0') == 3 and neighbours_string.count('1') == 1)) and count == 0:
+                                        if neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 0:
                                                   tile.images = [self.game.assets[transition_array[0]][0].copy()]
                                                   tile.tile_type = transition_array[0]
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
@@ -108,22 +108,16 @@ class TileMap:
                     self.grid2.rebuild()
 
           def check_corners(self, tile):
-                    directions = [(-1, -1), (1, -1), (-1, 1), (1, 1)]  # "top-left", "top-right", "bottom-left", "bottom-right"
-                    directions2 = ["2112", "2121", "1212", "1221"]
                     grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
-                    neighbours = [self.get((grid_x + dx, grid_y + dy)) for dx, dy in directions]
+                    neighbours = [self.get((grid_x + dx, grid_y + dy)) for dx, dy in [(-1, -1), (1, -1), (-1, 1), (1, 1)]]
                     return_data = []
                     for neighbour in neighbours:
                               if neighbour is None or neighbour.tile_type != tile.tile_type:
-                                        return_data.append(directions2[neighbours.index(neighbour)])
+                                        return_data.append(["2112", "2121", "1212", "1221"][neighbours.index(neighbour)])
                     if len(return_data) == 0: return True
                     elif len(return_data) == 1: return return_data[0]
-                    elif "2112" in return_data:
-                              print(grid_x, grid_y)
-                              return "1"
-                    else:
-                              print(grid_x, grid_y)
-                              return "2"
+                    elif "2112" in return_data: return "1"
+                    else: return "2"
 
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)

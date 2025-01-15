@@ -1,6 +1,7 @@
 import os
 import random
 import math
+import threading
 from copy import deepcopy
 from pygame.math import Vector2
 
@@ -98,7 +99,6 @@ class GrassManager(main_grass):
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
                               self.game.drawing_manager.drawables.append(tile)
-
 
 # an asset manager that contains functionality for rendering blades of grass
 class GrassAssets:

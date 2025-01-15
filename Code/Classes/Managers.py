@@ -10,7 +10,7 @@ import pygame, math, random
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)  # Spatial hash grid for efficient enemy management
+                    self.grid = HashMap(game, Hash_Map_Config["Enemies"])  # Spatial hash grid for efficient enemy management
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
                     self.spawn_cooldown = General_Settings["enemy_spawn_rate"]
                     self.last_spawn = - General_Settings["enemy_spawn_rate"]
@@ -84,7 +84,7 @@ class EnemyManager:
 class BulletManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
+                    self.grid = HashMap(game, Hash_Map_Config["Bullets"])
                     self.bullet_pool = set()
 
           def update(self):
@@ -136,7 +136,7 @@ class BulletManager:
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
+                    self.grid = HashMap(game, Hash_Map_Config["Particles"])
                     self.spark_pool = set()
 
           def update(self):
@@ -176,7 +176,7 @@ class ParticleManager:
 class ObjectManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
+                    self.grid = HashMap(game, Hash_Map_Config["Objects"])
                     self.biome_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
                     self.density_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
 
@@ -326,7 +326,7 @@ class ButtonManager:
 class RainManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game)
+                    self.grid = HashMap(game, Hash_Map_Config["Rain"])
                     self.cooldown = Rain_Config['rate']
                     self.last_spawn = - Rain_Config['rate']
 

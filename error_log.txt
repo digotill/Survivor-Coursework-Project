@@ -1,0 +1,79 @@
+[2025-01-15 22:12:22]
+Error: name 'log_error' is not defined
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 36, in <module>
+    log_error(error_message, error_traceback)
+    ^^^^^^^^^
+
+--------------------------------------------------
+[2025-01-15 22:12:48]
+Error: name 'log_error' is not defined
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 36, in <module>
+    log_error(error_message, error_traceback)
+    ^^^^^^^^^
+
+--------------------------------------------------
+[2025-01-15 22:13:51]
+Error: name 'log_error' is not defined
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 35, in <module>
+    log_error(error_message, error_traceback)
+    ^^^^^^^^^
+
+--------------------------------------------------
+[2025-01-15 22:14:26]
+Error: division by zero
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 31, in <module>
+    result = 1 / 0
+             ~~^~~
+ZeroDivisionError: division by zero
+
+--------------------------------------------------
+[2025-01-15 22:16:11]
+Error: 
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 63, in __init__
+    self.object_manager.generate_objects()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 218, in generate_objects
+    pos = self.generate_valid_position(tree_image.size, x, y)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 242, in generate_valid_position
+    if not self.game.tilemap.tile_collision(rect, "Water_Tile"):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 64, in tile_collision
+    for tile in self.grid.query(rect):
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Utilities\Grid.py", line 36, in query
+    for cell in self._rect_cells(rect): items.update(self.grid.get(cell, ()))
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Utilities\Grid.py", line 23, in _rect_cells
+    return product(range(x1, x2), range(y1, y2))
+                                  ^^^^^^^^^^^^^
+
+--------------------------------------------------
+[2025-01-15 22:16:24]
+Error: division by zero
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 31, in <module>
+    e = 1 / 0
+        ~~^~~
+ZeroDivisionError: division by zero
+
+--------------------------------------------------
+[2025-01-15 22:17:21]
+Error: division by zero
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 31, in <module>
+    e = 1 / 0
+        ~~^~~
+ZeroDivisionError: division by zero
+
+--------------------------------------------------

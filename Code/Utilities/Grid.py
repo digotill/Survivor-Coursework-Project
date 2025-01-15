@@ -3,7 +3,7 @@ from Code.Variables.Variables import *
 
 
 class HashMap:
-          def __init__(self, game, size=General_Settings['spatial_hash_map_size']):
+          def __init__(self, game, size):
                     self.grid = {}
                     self.items = set()
                     self.game = game

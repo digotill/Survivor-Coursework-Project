@@ -106,7 +106,7 @@ class Player(main):
                               dy /= magnitude
 
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
-                    self.handle_stamina(magnitude)
+                    if not self.game.changing_settings: self.handle_stamina()
                     self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
 
                     if not self.game.changing_settings: self.update_frame()
@@ -153,7 +153,7 @@ class Player(main):
 
                     self.gun.draw()
 
-          def handle_stamina(self, magnitude):
+          def handle_stamina(self):
                     if self.is_sprinting and self.current_vel > 0:
                               self.stamina -= self.stamina_consumption * self.game.dt
                               self.stamina = max(0,
