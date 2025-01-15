@@ -90,7 +90,7 @@ class TileMap:
 
                                         neighbours_string = ''.join(map(neighbor_value, neighbours))
 
-                                        if neighbours_string in ["0001", "0010", "0100", "1000", "1100", "0011"] and count == 0:
+                                        if (neighbours_string in ["1100", "0011", "0000"] or (neighbours_string.count('0') == 3 and neighbours_string.count('1') == 1)) and count == 0:
                                                   tile.images = [self.game.assets[transition_array[0]][0].copy()]
                                                   tile.tile_type = transition_array[0]
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
@@ -101,8 +101,6 @@ class TileMap:
                                                   neighbour_check = self.check_corners(tile)
                                                   if neighbour_check is not True:
                                                             self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbour_check)
-                                        elif neighbours_string in ["2222"] and count == 3:
-                                                  pass
 
                     count += 1
                     if count < 4:
@@ -114,10 +112,18 @@ class TileMap:
                     directions2 = ["2112", "2121", "1212", "1221"]
                     grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
                     neighbours = [self.get((grid_x + dx, grid_y + dy)) for dx, dy in directions]
+                    return_data = []
                     for neighbour in neighbours:
                               if neighbour is None or neighbour.tile_type != tile.tile_type:
-                                        return directions2[neighbours.index(neighbour)]
-                    return True
+                                        return_data.append(directions2[neighbours.index(neighbour)])
+                    if len(return_data) == 0: return True
+                    elif len(return_data) == 1: return return_data[0]
+                    elif "2112" in return_data:
+                              print(grid_x, grid_y)
+                              return "1"
+                    else:
+                              print(grid_x, grid_y)
+                              return "2"
 
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)
