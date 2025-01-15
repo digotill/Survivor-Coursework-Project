@@ -19,7 +19,8 @@ PF = False
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["Cover"])
 pygame.display.set_caption("Survivor Game")
-#pygame.display.toggle_fullscreen()
+pygame.display.toggle_fullscreen()
+pygame.display.toggle_fullscreen()
 
 General_Settings = {
           'volume': 0.5,

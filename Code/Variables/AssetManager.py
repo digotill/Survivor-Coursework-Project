@@ -54,8 +54,8 @@ class AssetManager:
           def import_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
-                    array = ["2020", "2201", "1212", "1022", "2222", "1221", "0000", "2112", "0202", "0122", "2121",
-                             "2210", "", "2002", "2222", "0220"]  # "top", "bottom", "right", "left"
+                    array = ["1212", "2201", "1010", "1022", "2222", "1001", "0000", "0110", "2121", "0122", "0101",
+                             "2210", "", "1221", "2222", "2112"]  # "top", "bottom", "right", "left"
                     dictionary = {}
                     for i in range(4):
                               for j in range(4):
