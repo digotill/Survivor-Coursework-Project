@@ -10,14 +10,14 @@ class AssetManager:
                     self.load_all_assets()
 
           def load_all_assets(self):
-                    assets_dir = "New Assets"
+                    assets_dir = "Assets"
                     for root, dirs, files in os.walk(assets_dir):
                               for file in files:
                                         file_path = os.path.join(root, file)
                                         file_name, file_ext = os.path.splitext(file)
 
                                         if "tileset" in file_name.lower():
-                                            self.import_tileset(file_path, file_name)
+                                                  self.import_tileset(file_path, file_name)
                                         elif file_ext.lower() in ['.png', '.jpg', '.jpeg']:
                                                   self.load_image(file_path, file_name)
                                         elif file_ext.lower() == '.gif':
@@ -54,21 +54,32 @@ class AssetManager:
           def import_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
-                    array = ["0202", "2210", "2121", "0122", "2222", "2112", "1111", "1221", "2020", "1022", "1212", "2201", "0000", "0220", "2222", "2002"]
+                    array = ["2020", "2201", "1212", "1022", "2222", "1221", "0000", "2112", "0202", "0122", "2121",
+                             "2210", "", "2002", "2222", "0220"]  # "top", "bottom", "right", "left"
                     dictionary = {}
-                    count = 0
                     for i in range(4):
                               for j in range(4):
-                                        tile.blit(tileset_image, (0, 0), (i * 16, j * 16, 16, 16))
-                                        dictionary[array[count]] = tile.copy()
-                                        count += 1
-                    array = ["1000", "0100", "0010", "0001"]
-                    count = 0
-                    for i in range(4):
-                              tile.blit(tileset_image, (0, 0), (16 * 2, 16 * 1, 16, 16))
-                              dictionary[array[count]] = tile.copy()
-                              count += 1
+                                        self.add_tile(tile, (j, i), dictionary, array, tileset_image, i * 4 + j)
                     self.assets[name] = dictionary
+                    temp_array = ["2201", "1022", "0122", "2210"]
+                    temp_array2 = ["1101", "1011", "0111", "1110"]
+                    dictionary2 = {}
+                    for item in dictionary.keys():
+                              if item in temp_array:
+                                        key = temp_array2[temp_array.index(item)]
+                                        dictionary2[key] = self.assets[name][item]
+                    array = ["1000", "0100", "0010", "0001"]
+                    for i in range(4):
+                              self.add_tile(tile, (2, 1), dictionary2, array, tileset_image, i)
+                    self.assets[name + "1"] = dictionary2
+
+
+          @staticmethod
+          def add_tile(tile, position, dictionary, array, tileset_image, count):
+                    tile.fill((0, 0, 0, 0))
+                    tile.blit(tileset_image, (0, 0), (16 * position[0], 16 * position[1], 16, 16))
+                    dictionary[array[count]] = [tile.copy()]
+
 
           def load_font(self, file_path, name):
                     self.assets[name] = pygame.font.Font(file_path, int(name[4:]))

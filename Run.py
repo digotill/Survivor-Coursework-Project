@@ -6,7 +6,7 @@ import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 from Code.Classes.Game_Class import *
-from Code.Variables.Variables import PROFILE
+from Code.Variables.Variables import PF
 import cProfile, os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -20,7 +20,7 @@ os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
 if __name__ == "__main__":
           profiler = None
-          if PROFILE:
+          if PF:
                     profiler = cProfile.Profile()
                     profiler.enable()
 

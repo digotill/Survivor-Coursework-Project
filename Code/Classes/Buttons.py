@@ -73,7 +73,7 @@ class UIElement:
                               target.x = max(self.current_pos.x - self.current_hover_offset,
                                              self.starting_pos[0])
 
-                    direction = (target - self.current_pos).normalize() if distance > 0 and target - self.current_pos != 0.0 else v2(0, 0)
+                    direction = (target - self.current_pos).normalize() if (target - self.current_pos).length_squared() > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
                     if movement.length() > distance:
                               self.current_pos = target

@@ -4,16 +4,17 @@ from Code.Utilities.Grid import *
 
 
 class Tile:
-          def __init__(self, tile_type, position):
+          def __init__(self, game, tile_type, position):
+                    self.game = game
                     self.tile_type = tile_type
                     self.position = Vector2(position)
                     self.size = General_Settings['tilemap_size']
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size, self.size)
                     if tile_type in Tiles_Congifig["animated_tiles"]:
-                              self.images = Tile_Images[tile_type]
+                              self.images = self.game.assets[tile_type]
                     else:
-                              self.images = [random.choice(Tile_Images[tile_type])]
-                    self.transition = None
+                              self.images = [random.choice(self.game.assets[tile_type])]
+                    self.transition = False
 
           def draw(self, surface, offset, frame):
                     draw_position = self.position - offset
@@ -26,6 +27,7 @@ class TileMap:
 
                     self.tile_size = 16
                     self.grid = HashMap(game, self.tile_size)
+                    self.grid2 = HashMap(game, self.tile_size)
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
@@ -40,28 +42,23 @@ class TileMap:
 
           def add_tile(self, tile_type, grid_position):
                     pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
-                    tile = Tile(tile_type, pixel_position)
+                    tile = Tile(self.game, tile_type, pixel_position)
                     self.grid.insert(tile)
 
           def draw(self):
                     if not self.game.changing_settings:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
-                    for tile in self.grid.window_query():
-                              if tile.tile_type in self.frames:
-                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft,
-                                                  self.frames[tile.tile_type])
-                              else:
-                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, 0)
+                    for grid in [self.grid, self.grid2]:
+                              for tile in grid.window_query():
+                                        frame = self.frames.get(tile.tile_type, 0)
+                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, frame)
 
           def get_tile_type(self, x, y):
                     noise_value = self.perlin_noise([x * 0.05, y * 0.05])
                     for tile in Tiles_Congifig["Tile_Ranges"].keys():
                               if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
                                         return tile
-
-          def _get_cell(self, position):
-                    return int(position[0] // self.cell_size), int(position[1] // self.cell_size)
 
           def tile_collision(self, rect, *tile_types):
                     for tile in self.grid.query(rect):
@@ -79,102 +76,38 @@ class TileMap:
                                                   return i
                     return None
 
-          def apply_transition_tiles(self, tile1, tile2):
-                    directions = ["top", "bottom", "right", "left"]
-                    all_direction_positions = [(0, -1), (0, 1), (1, 0), (-1, 0), (1, -1), (1, 1), (-1, -1), (-1, 1)]
-                    direction_positions = [(0, -1), (0, 1), (1, 0), (-1, 0)]
-                    changes = 0
+          def apply_transition_tiles(self, transition_array, stop=False):
+                    directions2 = [(0, -1), (0, 1), (1, 0), (-1, 0)]  # "top", "bottom", "right", "left"
+                    t = "" if stop else "1"
                     for tile in self.grid.items:
-                              if tile.tile_type == tile2:
+                              if tile.tile_type == transition_array[1]:
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(
                                                   tile.position.y // self.tile_size)
                                         neighbours = [
                                                   self.get((grid_x + dx, grid_y + dy))
-                                                  for dx, dy in direction_positions
+                                                  for dx, dy in directions2
                                         ]
+                                        neighbours_string = ''.join([
+                                                  '2' if neighbour and neighbour.tile_type == transition_array[1] and neighbour.transition else
+                                                  '1' if neighbour and neighbour.tile_type == transition_array[1] else
+                                                  '0'
+                                                  for neighbour in neighbours
+                                        ])
+                                        for key in self.game.assets[transition_array[0][:6] + "tileset" + t].keys():
+                                                  if stop:
+                                                            print(key)
+                                                  if key == neighbours_string:
+                                                            pixel_position = (grid_x * self.tile_size,
+                                                                              grid_y * self.tile_size)
+                                                            new_tile = Tile(self.game, transition_array[0], pixel_position)
+                                                            tile.transition = True
+                                                            #tile.tile_type = transition_array[0]
+                                                            new_tile.images = self.game.assets[transition_array[0][:6] + "tileset" + t][key]
+                                                            self.grid2.insert(new_tile)
 
-                                        number_of_trans = 0
-                                        current_transition = ""
-                                        for i, neighbour in enumerate(neighbours):
-                                                  if neighbour and neighbour.tile_type == tile1:
-                                                            number_of_trans += 1
-                                                            current_transition += directions[i]
-
-                                        if 0 < number_of_trans <= 2:
-                                                  if not current_transition in ["topbottom", "rightleft"]:
-                                                            tile.images = [random.choice(
-                                                                      Tile_Images[tile1 + "_" + tile2 + "4x4"][
-                                                                                current_transition])]
-                                                            tile.transition = current_transition
-                                                  else:
-                                                            tile.__init__(tile1,
-                                                                          (tile.position.x, tile.position.y))
-                                        if number_of_trans >= 3:
-                                                  tile.__init__(tile1, (tile.position.x, tile.position.y))
-                                                  changes += 1
-                    if changes != 0:
-                              self.apply_transition_tiles(tile1, tile2)
-
-                    for tile in self.grid.items:
-                              if tile.tile_type == tile2:
-                                        grid_x, grid_y = int(tile.position.x // self.tile_size), int(
-                                                  tile.position.y // self.tile_size)
-                                        neighbours = [
-                                                  self.get((grid_x + dx, grid_y + dy))
-                                                  for dx, dy in direction_positions
-                                        ]
-                                        all_neighbours = [
-                                                  self.get((grid_x + dx, grid_y + dy))
-                                                  for dx, dy in all_direction_positions
-                                        ]
-
-                                        number_of_trans = 0
-                                        current_transition = ""
-                                        if not any(neighbour and neighbour.tile_type != tile2 for neighbour in
-                                                   neighbours) and any(
-                                                  neighbour and neighbour.tile_type != tile2 for neighbour in
-                                                  all_neighbours):
-                                                  for i, neighbour in enumerate(neighbours):
-                                                            if neighbour and neighbour.tile_type == tile2 and neighbour.transition is not None:
-                                                                      number_of_trans += 1
-                                                                      current_transition += directions[i]
-
-                                                  if number_of_trans == 2:
-                                                            if not current_transition in ["topbottom", "rightleft"]:
-                                                                      tile.images = [random.choice(
-                                                                                Tile_Images[
-                                                                                          tile1 + "_" + tile2 + "2x2"][
-                                                                                          current_transition])]
-                                                  elif number_of_trans == 3:
-                                                            current_transition = remove_opposite_directions(
-                                                                      current_transition)
-                                                            tile_in_current_transition = neighbours[
-                                                                      directions.index(current_transition)]
-                                                            if tile_in_current_transition and tile_in_current_transition.transition:
-                                                                      if (
-                                                                              "top" in tile_in_current_transition.transition or "bottom" in tile_in_current_transition.transition) and \
-                                                                              (
-                                                                                      "left" in tile_in_current_transition.transition or "right" in tile_in_current_transition.transition):
-                                                                                if current_transition in ["top",
-                                                                                                          "bottom"]:
-                                                                                          current_transition += remove_string(
-                                                                                                    tile_in_current_transition.transition,
-                                                                                                    "top" if "top" in current_transition else "bottom")
-                                                                                else:
-                                                                                          current_transition = remove_string(
-                                                                                                    tile_in_current_transition.transition,
-                                                                                                    "left" if "left" in current_transition else "right") + current_transition
-                                                                      elif "top" in tile_in_current_transition.transition or "bottom" in tile_in_current_transition.transition:
-                                                                                current_transition = tile_in_current_transition.transition + current_transition
-                                                                      elif "left" in tile_in_current_transition.transition or "right" in tile_in_current_transition.transition:
-                                                                                current_transition += tile_in_current_transition.transition
-
-                                                            if current_transition in Tile_Images[
-                                                                      tile1 + "_" + tile2 + "2x2"]:
-                                                                      tile.images = [random.choice(
-                                                                                Tile_Images[
-                                                                                          tile1 + "_" + tile2 + "2x2"][
-                                                                                          current_transition])]
+                    if not stop:
+                              self.apply_transition_tiles(transition_array, True)
+                    self.grid2.rebuild()
 
           def terrain_generator(self):
                     for x in range(self.width):
@@ -182,14 +115,8 @@ class TileMap:
                                         tile_type = self.get_tile_type(x, y)
                                         self.add_tile(tile_type, (x, y))
 
-                    for key in Tile_Images.keys():
-                              if string_ends_with(key, "_Tile"):
-                                        for key2 in Tile_Images.keys():
-                                                  if string_ends_with(key2, "_Tile"):
-                                                            if Tile_Images.get(key + "_" + key2 + "4x4",
-                                                                               None) is not None and Tile_Images.get(
-                                                                      key + "_" + key2 + "2x2", None) is not None:
-                                                                      self.apply_transition_tiles(key, key2)
+                    for array in Tiles_Congifig["transitions"]:
+                              self.apply_transition_tiles(array)
 
           def grass_generator(self):
                     for tile in self.grid.items:

@@ -8,23 +8,22 @@ from Code.Variables.AssetManager import *
 
 pygame.init()
 
-PROFILE = False
-
 WIN_RES = 1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 GAME_SIZE = 2000, 2000
-Display = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 
 AM = AssetManager()
+PF = False
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["Cover"])
 pygame.display.set_caption("Survivor Game")
-pygame.display.toggle_fullscreen()
+#pygame.display.toggle_fullscreen()
 
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': False,
+          'peaceful_mode': True,
           'difficulty': [0.8, 1, 1.3],
           'max_enemies': 50,
           'enemy_spawn_rate': 0.2,
@@ -212,12 +211,6 @@ AllButtons = {
           'speed': 300,
 }
 
-Tile_Images = {
-          "Grass_Tile": import_2d_spritesheet("Assets/Tiles/grass/Sprite-0001.png", 2, 2),
-          "Water_Tile": import_2d_spritesheet("Assets/Tiles/water/Sprite-0001.png", 2, 2),
-          "Grass_Tile_Water_Tile4x4": import_4x4_spritesheet("Assets/Tiles/Grass_Water/Sprite-0001.png"),
-          "Grass_Tile_Water_Tile2x2": import_2x2_spritesheet("Assets/Tiles/Grass_Water/Sprite-0002.png"),
-}
 
 Objects_Config = {
           "Rock": create_object_settings(AM.assets["Rock"], AM.assets["Rock"][0].size, 100, True),
@@ -228,8 +221,9 @@ Tiles_Congifig = {
                     "Water_Tile": -0.2,
                     "Grass_Tile": 1,
           },
+          "transitions": [["Grass_Tile", "Water_Tile"]],
           "animation_speed": 5,
-          "animated_tiles": ["Water_Tile"],
+          "animated_tiles": [],
           "tile_map_size": 16,
 }
 

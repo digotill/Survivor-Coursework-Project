@@ -15,7 +15,7 @@ class Game:
                     pygame.init()
 
                     # Set up display and rendering surfaces
-                    self.display = Display
+                    self.display = DISPLAY
                     self.display_screen = pygame.Surface(REN_RES).convert()
                     # Initialize shader for post-processing effects
                     self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
