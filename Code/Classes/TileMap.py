@@ -88,12 +88,13 @@ class TileMap:
                                                   for dx, dy in directions2
                                         ]
                                         neighbours_string = ''.join([
-                                                  '2' if neighbour and neighbour.tile_type == transition_array[1] and neighbour.transition else
+                                                  '2' if neighbour and neighbour.tile_type == transition_array[
+                                                            1] and neighbour.transition else
                                                   '1' if neighbour and neighbour.tile_type == transition_array[1] else
                                                   '0'
                                                   for neighbour in neighbours
                                         ])
-                                        for key in self.game.assets[transition_array[0][:6] + "tileset" + t].keys():
+                                        """for key in self.game.assets[transition_array[0][:6] + "tileset" + t].keys():
                                                   if stop:
                                                             print(key)
                                                   if key == neighbours_string:
@@ -103,10 +104,19 @@ class TileMap:
                                                             tile.transition = True
                                                             #tile.tile_type = transition_array[0]
                                                             new_tile.images = self.game.assets[transition_array[0][:6] + "tileset" + t][key]
-                                                            self.grid2.insert(new_tile)
+                                                            self.grid2.insert(new_tile)"""
+                                        if neighbours_string in ["0001", "0010", "0100", "1000", "1100", "0011"]:
+                                                  tile.images = [self.game.assets[transition_array[0]][0].copy()]
+                                                  tile.tile_type = transition_array[0]
+                                        if neighbours_string.count('1') == 3:
+                                                  for i in ["1101", "1011", "0111", "1110"]:
+                                                            if i == neighbours_string:
+                                                                      pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)
+                                                                      new_tile = Tile(self.game, transition_array[0], pixel_position)
+                                                                      new_tile.images = self.game.assets[transition_array[0][:6] + "tileset" + "1"][i]
+                                                                      self.grid2.insert(new_tile)
 
-                    if not stop:
-                              self.apply_transition_tiles(transition_array, True)
+
                     self.grid2.rebuild()
 
           def terrain_generator(self):
