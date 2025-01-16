@@ -40,10 +40,6 @@ class Game:
                     
                     # Initialize DataFrame for storing game statistics
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
-                    
-                    # Calculate window ratio for mouse position scaling
-                    self.x_window_ratio = REN_RES[0] / self.display.width
-                    self.y_window_ratio = REN_RES[1] / self.display.height
 
                     # Initialize various game managers
                     self.event_manager = EventManager(self)
@@ -126,8 +122,8 @@ class Game:
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.display.width)),
                                       max(0, min(pygame.mouse.get_pos()[1], self.display.height)))
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * self.x_window_ratio),
-                                              int(self.mouse_pos[1] * self.y_window_ratio))
+                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
+                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
                     if self.mouse_pos != pygame.mouse.get_pos():
                               pygame.mouse.set_pos(self.mouse_pos)
                     self.mouse_state = pygame.mouse.get_pressed()

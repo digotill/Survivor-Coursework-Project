@@ -77,3 +77,368 @@ Traceback (most recent call last):
 ZeroDivisionError: division by zero
 
 --------------------------------------------------
+[2025-01-16 00:12:47]
+Error: string indices must be integers, not 'str'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 63, in __init__
+    self.object_manager.generate_objects()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 209, in generate_objects
+    tree_image = random.choice(biomes[biome])
+                               ~~~~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+
+--------------------------------------------------
+[2025-01-16 00:13:47]
+Error: 'Lush_Trees'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 63, in __init__
+    self.object_manager.generate_objects()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 209, in generate_objects
+    tree_image = random.choice(self.game.assets[biome])
+                               ~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: 'Lush_Trees'
+
+--------------------------------------------------
+[2025-01-16 00:21:57]
+Error: 'Lush'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 63, in __init__
+    self.object_manager.generate_objects()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 209, in generate_objects
+    tree_image = random.choice(self.game.assets[biome])
+                               ~~~~~~~~~~~~~~~~^^^^^^^
+KeyError: 'Lush'
+
+--------------------------------------------------
+[2025-01-16 00:29:28]
+Error: 'amount'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 145, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 87, in update_groups
+    self.rain_manager.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 324, in update
+    self.create()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 340, in create
+    for _ in range(Rain_Config["amount"]):
+                   ~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'amount'
+
+--------------------------------------------------
+[2025-01-16 00:57:58]
+Error: 'Player' object has no attribute 'grass_force_dropoff'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 145, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 88, in update_groups
+    self.player.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 140, in update
+    self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force_dropoff)
+                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Player' object has no attribute 'grass_force_dropoff'
+
+--------------------------------------------------
+[2025-01-16 00:58:36]
+Error: 'Player' object has no attribute 'sprint_speed'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 145, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 88, in update_groups
+    self.player.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 112, in update
+    self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
+                   ^^^^^^^^^^^^^^^^^
+AttributeError: 'Player' object has no attribute 'sprint_speed'. Did you mean: 'sprint_vel'?
+
+--------------------------------------------------
+[2025-01-16 01:03:29]
+Error: name 'Hash_Map_Config' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 50, in __init__
+    self.enemy_manager = EnemyManager(self)
+                         ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 13, in __init__
+    self.grid = HashMap(game, Hash_Map_Config["Enemies"])  # Spatial hash grid for efficient enemy management
+                              ^^^^^^^^^^^^^^^
+NameError: name 'Hash_Map_Config' is not defined
+
+--------------------------------------------------
+[2025-01-16 01:04:56]
+Error: name 'Hash_Map_Config' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 62, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 38, in __init__
+    self.terrain_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 133, in terrain_generator
+    self.add_tile(tile_type, (x, y))
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 45, in add_tile
+    tile = Tile(self.game, tile_type, pixel_position)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 11, in __init__
+    self.size = Hash_Map_Config['Tilemap']
+                ^^^^^^^^^^^^^^^
+NameError: name 'Hash_Map_Config' is not defined
+
+--------------------------------------------------
+[2025-01-16 01:15:11]
+Error: name 'rain_droplet' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 146, in run_game
+    self.draw_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 96, in draw_groups
+    self.drawing_manager.draw()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 381, in draw
+    drawable.draw()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 426, in draw
+    int(rain_droplet.frame % len(self.animation))], pos)
+        ^^^^^^^^^^^^
+NameError: name 'rain_droplet' is not defined
+
+--------------------------------------------------
+[2025-01-16 01:26:02]
+Error: 'Rain' object has no attribute 'angle'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 83, in update_groups
+    self.rain_manager.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 328, in update
+    self.create()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 340, in create
+    self.grid.insert(Rain(self.game, Rain_Config))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 398, in __init__
+    self.vel_vector = self.calculate_vel_vector()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 402, in calculate_vel_vector
+    angle_rad = math.radians(self.angle)
+                             ^^^^^^^^^^
+AttributeError: 'Rain' object has no attribute 'angle'
+
+--------------------------------------------------
+[2025-01-16 01:28:17]
+Error: name 'dictionary' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 83, in update_groups
+    self.rain_manager.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 328, in update
+    self.create()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 340, in create
+    self.grid.insert(Rain(self.game, Rain_Config))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 399, in __init__
+    self.vel_vector = self.calculate_vel_vector()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 403, in calculate_vel_vector
+    angle_rad = math.radians(dictionary["look"][0])
+                             ^^^^^^^^^^
+NameError: name 'dictionary' is not defined
+
+--------------------------------------------------
+[2025-01-16 01:35:38]
+Error: 'Rain' object has no attribute 'look'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 83, in update_groups
+    self.rain_manager.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 328, in update
+    self.create()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 340, in create
+    self.grid.insert(Rain(self.game, Rain_Config))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 389, in __init__
+    self.animation_speed = self.look[0]
+                           ^^^^^^^^^
+AttributeError: 'Rain' object has no attribute 'look'
+
+--------------------------------------------------
+[2025-01-16 01:36:01]
+Error: 'Rain' object has no attribute 'frame'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 83, in update_groups
+    self.rain_manager.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 329, in update
+    self.check_dead()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 345, in check_dead
+    if rain_droplet.frame >= len(rain_droplet.animation):
+       ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Rain' object has no attribute 'frame'. Did you mean: 'game'?
+
+--------------------------------------------------
+[2025-01-16 01:36:19]
+Error: '2 octaves'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 85, in update_groups
+    self.player.gun.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 272, in update
+    self.update_shooting()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 300, in update_shooting
+    self.shoot(current_time)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 324, in shoot
+    self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 111, in add_bullet
+    bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 345, in __init__
+    noise_value = Perlin_Noise["2 octaves"]([game.game_time * 0.1, 0])
+                  ~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '2 octaves'
+
+--------------------------------------------------
+[2025-01-16 01:42:06]
+Error: '3 octaves'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 84, in update_groups
+    self.player.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 141, in update
+    self.game.camera.move(dx, dy, move_hor, move_vert)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 37, in move
+    shake_offset = self.calculate_shake()
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 108, in calculate_shake
+    noise_x = self.get_2d_noise(self.shake_seed + elapsed_time, 0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 121, in get_2d_noise
+    return Perlin_Noise["3 octaves"]([scaled_x, scaled_y])
+           ~~~~~~~~~~~~^^^^^^^^^^^^^
+KeyError: '3 octaves'
+
+--------------------------------------------------
+[2025-01-16 01:44:35]
+Error: 'dict' object is not callable
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 69, in __init__
+    self.camera = Camera(self)
+                  ^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 29, in __init__
+    self.noise_map = Perlin_Noise(Perlin_Noise["camera_shake_map"][0], random.randint(0, 100000))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'dict' object is not callable
+
+--------------------------------------------------
+[2025-01-16 01:45:20]
+Error: 'dict' object is not callable
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 69, in __init__
+    self.camera = Camera(self)
+                  ^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 30, in __init__
+    self.noise_map = Perlin_Noise(Perlin_Noise["camera_shake_map"][0], random.randint(0, 100000))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'dict' object is not callable
+
+--------------------------------------------------
+[2025-01-16 01:45:57]
+Error: name 'self' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 84, in update_groups
+    self.player.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 141, in update
+    self.game.camera.move(dx, dy, move_hor, move_vert)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 40, in move
+    shake_offset = self.calculate_shake()
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 111, in calculate_shake
+    noise_x = self.get_2d_noise(self.shake_seed + elapsed_time, 0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 124, in get_2d_noise
+    return self.noise_map([scaled_x, scaled_y])
+           ^^^^
+NameError: name 'self' is not defined
+
+--------------------------------------------------
+[2025-01-16 01:46:17]
+Error: Camera.get_2d_noise() takes 2 positional arguments but 3 were given
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 84, in update_groups
+    self.player.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 141, in update
+    self.game.camera.move(dx, dy, move_hor, move_vert)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 40, in move
+    shake_offset = self.calculate_shake()
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Display\Camera.py", line 111, in calculate_shake
+    noise_x = self.get_2d_noise(self.shake_seed + elapsed_time, 0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Camera.get_2d_noise() takes 2 positional arguments but 3 were given
+
+--------------------------------------------------

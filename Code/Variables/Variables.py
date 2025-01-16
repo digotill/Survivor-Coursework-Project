@@ -22,39 +22,22 @@ pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': True,
-          'difficulty': [0.8, 1, 1.3],
-          'max_enemies': 50,
-          'enemy_spawn_rate': 0.2,
-          'max_brightness': 1.5,
-          'min_brightness': 1.5,
-          'tilemap_size': 15,
-          'darkness': (12, 12, 12),
-          'sparks': (20, 0.3, 3.5, 0.1)  # friction, width, height, min_vel
-}
-
-Hash_Map_Config = {
-          "Enemies": 50,
-          "Bullets": 40,
-          "Tilemap": 16,
-          "Rain": 100,
-          "Objects": 100,
-          "Particles": 100,
+          'peaceful_mode': True,     # no enemies spawn
+          'difficulty': (0.8, 1, 1.3),   # easy, medium, hard
+          'enemies': (50, 0.2),  # max, spawn rate
+          'brightness': (1.5, 1.5, 12),  # max, min, paused
+          'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
+          'hash_maps': (50, 40, 16, 10, 90, 30)  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
 }
 
 Window_Attributes = {
           'lerp_speed': 5,
           'mouse_smoothing': v2(10, 10),
-          'deadzone': 3,
-          'window_mouse_smoothing_amount': 50,
+          'window_mouse_smoothing_amount': 5,
+          'deadzone': 1,
           'window_max_offset': 0.3,
           'shake_speed': 200,
-          'shake_seed': random.random() * 1000,
-          'shake_directions': v2(1, 1),
           'reduced_screen_shake': 1,
-          'shake_duration': 0,
-          'shake_start_time': 0,
-          'shake_magnitude': 0,
 }
 
 Grass = {
@@ -76,24 +59,21 @@ Grass = {
 Player_Attributes = {
           'name': 'Player',
           'health': 100,
-          'res': AM.assets["player_idle"][0].size,
           "animations": {
                     "idle": AM.assets["player_idle"],
                     "run": AM.assets["player_running"],
-                    "sprinting": AM.assets["player_running"],
           },
           'vel': 90,
+          "sprint_vel": 140,
           'damage': 30,
-          'stamina': 100,
           'acceleration': 200,
-          "offset": (10, 10, -10, -10),
+          "offset": (10, 10, -10, -10),     # distance from edge of area
           'animation_speed': 10,
           "hit_cooldown": 0.5,
-          "sprint_speed": 140,
+          'stamina': 100,
           "stamina_consumption": 20,
           "stamina_recharge_rate": 30,
-          "max_stamina": 100,
-          "grass_force_dropoff": 10,
+          "grass_force": 10,    # grass force drop off
 }
 
 Enemies = {
@@ -109,6 +89,7 @@ Cooldowns = {
           'fullscreen': 0.5,
           'settings': 0.5,
           'buttons': 0.5,
+          'value': 0.1
 }
 
 Keys = {
@@ -122,22 +103,14 @@ Keys = {
 UI_Settings = {
           "health_bar": (135, 95),
           "stamina_bar": (170, 95),
-          "bar_res": (94, 8),
-          "outside_bar_res": (106, 19),
           "fps": (150, 70),
           "time": (150, 70),
-          "fps_time_size": 14,
 }
 
 Screen_Shake = {
-          "shooting": {
-                    "AK47_magnitude": 5,
-                    "AK47_duration": 0.1,
-                    "Shotgun_magnitude": 25,
-                    "Shotgun_duration": 0.1,
-                    "Minigun_magnitude": 5,
-                    "Minigun_duration": 0.1
-          }
+          "AK47": [5, 0.1],  # magnitude, duration
+          "Shotgun": [25, 0.1],
+          "Minigun": [5, 0.1],
 }
 
 Sparks_Settings = {
@@ -147,9 +120,11 @@ Sparks_Settings = {
 }
 
 Perlin_Noise = {
-          "1 octave": PerlinNoise(1, random.randint(0, 100000)),
-          "2 octaves": PerlinNoise(2, random.randint(0, 100000)),
-          "3 octaves": PerlinNoise(3, random.randint(0, 100000))
+          "biome_map": (0.004, 4),   # scale, octaves
+          "density_map": (0.05, 4),
+          "overworld_map": (0.05, 1),
+          "gun_shake_map": (0.1, 2),
+          "camera_shake_map": (0.1, 3)
 }
 
 Weapons = {
@@ -212,14 +187,18 @@ AllButtons = {
           'speed': 300,
 }
 
-
 Objects_Config = {
-          "Rock": {
-                    "images": AM.assets["Rock"],
-                    "res": AM.assets["Rock"][0].size,
-                    "amount": 100,
-                    "collision": True
-          }
+          "Rock": [100, False],  # amount, collisions
+          "Tree": [0.2, 20],  # density, spreadoutness
+          "Placement": [20, 10],  # distance from original position, attempts
+}
+
+Biomes_Config = {
+          "Dead": (0.35, 1),   # chance, amount
+          "Yellowish": (0.4, 1),
+          "Green": (0.5, 1),
+          "Ripe": (0.6, 1),
+          "Lush": (1, 1),
 }
 
 Tiles_Congifig = {
@@ -230,20 +209,13 @@ Tiles_Congifig = {
           "transitions": [["Grass_Tile", "Water_Tile"]],
           "animation_speed": 5,
           "animated_tiles": [],
-          "tile_map_size": 16,
 }
 
 Rain_Config = {
-          "animation": AM.assets["Rain"],
-          "rate": 0.0001,
-          "animation_speed": 20,
-          "amount": 3,
-          "vel": 600,
-          "vel_randomness": 50,
-          "lifetime": 0.9,
-          "lifetime_randomness": 0.8,
-          "angle": 40,
-          "res": AM.assets["Rain"][0].size
+          "spawn_rate": [0.05, 12],   # spawn rate, amount spawning
+          "look": [30, 40],  # animation speed, angle
+          "vel": (600, 50),   # initial value, randomness
+          "lifetime": (0.9, 0.8), # initial value, randomness
 }
 
 # lookup_colour("red")

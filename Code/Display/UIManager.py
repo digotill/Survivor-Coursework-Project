@@ -84,16 +84,17 @@ class UIManager:
 
           def darken_screen(self):
                     if self.game.changing_settings:
-                              self.game.display_screen.fill(General_Settings['darkness'],
+                              a = General_Settings['brightness'][2]
+                              self.game.display_screen.fill((a, a, a),
                                                             special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
                     if self.brightness == 50: return None
                     if self.brightness > 50:
-                              self.game.display_screen.fill([int(General_Settings['min_brightness'] * (
+                              self.game.display_screen.fill([int(General_Settings['brightness'][1] * (
                                       self.brightness - 50)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < 50:
-                              self.game.display_screen.fill([int(General_Settings['max_brightness'] * (
+                              self.game.display_screen.fill([int(General_Settings['brightness'][0] * (
                                       50 - self.brightness)) for _ in range(3)],
                                                      special_flags=pygame.BLEND_RGB_SUB)

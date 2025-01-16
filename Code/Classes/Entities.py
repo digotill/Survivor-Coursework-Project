@@ -16,6 +16,8 @@ class main:
                               self.current_vel = 0
                     if hasattr(self, 'health'):
                               self.max_health = self.health
+                    if hasattr(self, 'stamina'):
+                              self.max_stamina = self.stamina
                     if hasattr(self, 'animation_speed'):
                               self.frame = 0
                     if hasattr(self, 'hit_cooldown'):
@@ -56,6 +58,7 @@ class Player(main):
                     self.game = game
 
                     self.set_attributes(dictionary)
+                    self.res = AM.assets["player_idle"][0].size
                     self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
@@ -63,7 +66,6 @@ class Player(main):
                     self.gun = gun
                     self.current_animation = 'idle'
                     self.is_sprinting = False
-
 
           def find_spawn_position(self):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
@@ -88,7 +90,7 @@ class Player(main):
                     if self.is_sprinting:
                               self.change_animation('sprinting')
                     elif (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
-                            self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]):
+                          self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]):
                               self.change_animation('run')
                     else:
                               self.change_animation('idle')
@@ -107,7 +109,7 @@ class Player(main):
 
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
                     if not self.game.changing_settings: self.handle_stamina()
-                    self.max_vel = self.sprint_speed if self.is_sprinting else self.base_max_vel
+                    self.max_vel = self.sprint_vel if self.is_sprinting else self.base_max_vel
 
                     if not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
@@ -135,7 +137,7 @@ class Player(main):
                                         self.rect.centery = self.pos.y
                                         move_vert = True
 
-                    self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force_dropoff)
+                    self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
                     self.game.camera.move(dx, dy, move_hor, move_vert)
                     self.update_animation()
 
@@ -260,6 +262,7 @@ class Gun(main):
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
+                    self.noise_map = PerlinNoise(Perlin_Noise["gun_shake_map"][1], random.randint(0, 100000))
 
                     self.last_shot = - self.fire_rate
                     self.initial_vel = self.vel
@@ -335,12 +338,11 @@ class Gun(main):
 
 
 class Bullet(main):
-          def __init__(self, game, gun, pos, angle, name, spread_factor):
+          def __init__(self, game, gun, pos, angle, name, spread_factor, shake_map):
                     self.game = game
                     self.gun = gun
                     self.name = name
-
-                    noise_value = Perlin_Noise["2 octaves"]([game.game_time * 0.1, 0])
+                    noise_value = shake_map([game.game_time * Perlin_Noise["gun_shake_map"][0], 0])
                     spread_angle = noise_value * gun.spread * spread_factor
                     self.angle = angle + spread_angle
                     self.image = pygame.transform.rotate(gun.bullet_image, self.angle + 90)
@@ -382,20 +384,24 @@ class Bullet(main):
 class Rain(main):
           def __init__(self, game, dictionary):
                     self.game = game
+                    self.animation = AM.assets["Rain"]
+                    self.res = AM.assets["Rain"][0].size
                     self.set_attributes(dictionary)
+                    self.animation_speed = self.look[0]
                     self.pos = v2(change_by_diff(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
                                   self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 2)
 
                     self.spawn_time = self.game.game_time
-                    self.initial_vel = self.vel
+                    self.initial_vel = self.vel[0]
                     self.hit_ground = False
-                    self.lifetime = change_by_diff(self.lifetime, self.lifetime_randomness)
-                    self.vel = change_by_diff(self.vel, self.vel_randomness)
+                    self.lifetime = change_by_diff(self.lifetime[0], self.lifetime[1])
+                    self.vel = change_by_diff(self.vel[0], self.vel[1])
                     self.vel_vector = self.calculate_vel_vector()
                     self.set_rect()
+                    self.frame = 0
 
           def calculate_vel_vector(self):
-                    angle_rad = math.radians(self.angle)
+                    angle_rad = math.radians(self.look[1])
 
                     vel_x = self.vel * math.sin(angle_rad)
                     vel_y = self.vel * math.cos(angle_rad)
@@ -411,6 +417,15 @@ class Rain(main):
                     if not self.hit_ground:
                               self.pos += self.vel_vector * self.game.dt
                               self.rect.center = self.pos
+
+          def draw(self):
+                    pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                    if not self.hit_ground:
+                              self.game.display_screen.blit(self.animation[0], pos)
+                    else:
+                              self.game.display_screen.blit(
+                                        self.animation[
+                                                  int(self.frame % len(self.animation))], pos)
 
 
 class Object(main):

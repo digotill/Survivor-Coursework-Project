@@ -1,4 +1,5 @@
 from Code.Classes.Entities import *
+from perlin_noise import PerlinNoise as perlin_noise
 
 
 class main_camera:
@@ -20,6 +21,14 @@ class Camera(main_camera):
                     self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
                     self.offset_rect = self.rect.copy()
 
+                    self.shake_start_time = 0
+                    self.shake_magnitude = 0
+                    self.shake_duration = 0
+                    self.shake_seed = random.random() * 1000
+                    self.shake_direction = v2(1, 1)
+
+                    self.noise_map = perlin_noise(Perlin_Noise["camera_shake_map"][0], random.randint(0, 100000))
+
           def move(self, dx, dy, move_horizontally, move_vertically):
                     if move_horizontally:
                               self.pos.x += dx * self.game.player.current_vel * self.game.dt
@@ -36,7 +45,7 @@ class Camera(main_camera):
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
                                       self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
 
-                    dt = min(self.game.dt, 1 / 30)
+                    dt = min(self.game.dt, 1 / 20)
                     self.mouse_smoothing = v2(
                               self.lerp(self.mouse_smoothing.x, mouse_target.x,
                                         self.window_mouse_smoothing_amount * dt),
@@ -109,10 +118,9 @@ class Camera(main_camera):
                     shake_offset = direction * sin_value * self.shake_magnitude * fade_out
                     return v2(int(shake_offset.x), int(shake_offset.y))
 
-          @staticmethod
-          def get_2d_noise(x, y):
-                    scaled_x, scaled_y = x * 0.1, y * 0.1
-                    return Perlin_Noise["3 octaves"]([scaled_x, scaled_y])
+          def get_2d_noise(self, x, y):
+                    scaled_x, scaled_y = x * Perlin_Noise["camera_shake_map"][1], y * Perlin_Noise["camera_shake_map"][1]
+                    return self.noise_map([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):
                     if self.shake_duration + self.shake_start_time < self.game.game_time:

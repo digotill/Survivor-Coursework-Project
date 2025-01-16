@@ -10,10 +10,10 @@ import pygame, math, random
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, Hash_Map_Config["Enemies"])  # Spatial hash grid for efficient enemy management
+                    self.grid = HashMap(game, General_Settings["hash_maps"][0])  # Spatial hash grid for efficient enemy management
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
-                    self.spawn_cooldown = General_Settings["enemy_spawn_rate"]
-                    self.last_spawn = - General_Settings["enemy_spawn_rate"]
+                    self.spawn_cooldown = General_Settings["enemies"][1]
+                    self.last_spawn = - General_Settings["enemies"][1]
                     self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
 
           def update(self):
@@ -30,7 +30,7 @@ class EnemyManager:
           def add_enemies(self, enemy_dict):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
-                            len(self.grid.items) < General_Settings["max_enemies"] and not General_Settings[
+                            len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings[
                                       "peaceful_mode"]):
                               self.last_spawn = self.game.game_time
 
@@ -84,7 +84,7 @@ class EnemyManager:
 class BulletManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, Hash_Map_Config["Bullets"])
+                    self.grid = HashMap(game, General_Settings["hash_maps"][1])
                     self.bullet_pool = set()
 
           def update(self):
@@ -108,12 +108,10 @@ class BulletManager:
                               bullet = self.bullet_pool.pop()
                               bullet.reset(pos, angle, spread)
                     else:
-                              bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread)
+                              bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread, self.game.player.gun.noise_map)
                     self.grid.insert(bullet)
-                    self.game.camera.add_screen_shake(
-                              Screen_Shake["shooting"][str(self.game.player.gun.name) + "_duration"],
-                              Screen_Shake['shooting'][str(self.game.player.gun.name) + "_magnitude"]
-                              )
+                    array = Screen_Shake[self.game.player.gun.name]
+                    self.game.camera.add_screen_shake(array[1], array[0])
 
           def check_dead_bullets(self):
                     for bullet in self.grid.items.copy():
@@ -136,7 +134,7 @@ class BulletManager:
 class ParticleManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, Hash_Map_Config["Particles"])
+                    self.grid = HashMap(game, General_Settings["hash_maps"][5])
                     self.spark_pool = set()
 
           def update(self):
@@ -176,57 +174,47 @@ class ParticleManager:
 class ObjectManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, Hash_Map_Config["Objects"])
-                    self.biome_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
-                    self.density_noise = PerlinNoise(octaves=4, seed=random.randint(0, 100000))
+                    self.grid = HashMap(game, General_Settings["hash_maps"][4])
+                    self.biome_noise = PerlinNoise(octaves=Perlin_Noise["biome_map"][1], seed=random.randint(0, 100000))
+                    self.density_noise = PerlinNoise(octaves=Perlin_Noise["density_map"][1], seed=random.randint(0, 100000))
 
           def generate_objects(self):
 
-                    biomes = {
-                              "Dead_Trees": self.game.assets["Dead Tree"],
-                              "Green_Trees": self.game.assets["Green Tree"],
-                              "Lush_Trees": self.game.assets["Lush Tree"],
-                              "Ripe_Trees": self.game.assets["Ripe Tree"],
-                              "Yellowish_Trees": self.game.assets["Yellowish Tree"],
-                    }
-
                     # Generate biome and density maps
-                    biome_map = self.generate_noise_map(self.biome_noise, 0.004)
-                    density_map = self.generate_noise_map(self.density_noise, 0.05)
+                    biome_map = self.generate_noise_map(self.biome_noise, Perlin_Noise["biome_map"][0])
+                    density_map = self.generate_noise_map(self.density_noise, Perlin_Noise["density_map"][0])
 
+                    size = Objects_Config["Tree"][1]
+                    sorted_biomes = sorted(Biomes_Config.items(), key=lambda x_: x_[1])
                     # Generate trees based on biome and density
-                    for y in range(0, GAME_SIZE[1], 20):
-                              for x in range(0, GAME_SIZE[0], 20):
-                                        biome_value = biome_map[y // 20][x // 20]
-                                        density_value = density_map[y // 20][x // 20]
+                    for y in range(0, GAME_SIZE[1], size):
+                              for x in range(0, GAME_SIZE[0], size):
+                                        biome_value = biome_map[y // size][x // size]
+                                        density_value = density_map[y // size][x // size]
+                                        biome_density_factor = 1
 
-                                        # Determine biome
-                                        if biome_value < 0.35:
-                                                  biome = "Dead_Trees"
-                                        elif biome_value < 0.4:
-                                                  biome = "Yellowish_Trees"
-                                        elif biome_value < 0.5:
-                                                  biome = "Green_Trees"
-                                        elif biome_value < 0.6:
-                                                  biome = "Ripe_Trees"
-                                        else:
-                                                  biome = "Lush_Trees"
+                                        biome = "Green"
+                                        for biome_name, data in sorted_biomes:
+                                                  if biome_value < data[0]:
+                                                            biome = biome_name
+                                                            biome_density_factor = data[1]
+                                                            break
+
 
                                         # Check if we should place a tree based on density
-                                        if random.random() < density_value * 0.2:  # Adjust 0.1 to control overall tree density
-                                                  tree_image = random.choice(biomes[biome])
+                                        if random.random() < density_value * Objects_Config["Tree"][0] * biome_density_factor:  # Adjust 0.1 to control overall tree density
+                                                  tree_image = random.choice(self.game.assets[biome + " Tree"])
                                                   pos = self.generate_valid_position(tree_image.size, x, y)
                                                   if pos:
                                                             self.grid.insert(
                                                                       Object(self.game, tree_image, tree_image.size,
                                                                              pos, True))
 
-                    for _ in range(Objects_Config["Rock"]["amount"]):
-                              image = random.choice(Objects_Config["Rock"]["images"])
+                    for _ in range(Objects_Config["Rock"][0]):
+                              image = random.choice(AM.assets["Rock"])
                               pos = self.generate_valid_position(image.size)
                               if pos:
-                                        self.grid.insert(Object(self.game, image, image.size, pos,
-                                                                Objects_Config["Rock"]["collision"]))
+                                        self.grid.insert(Object(self.game, image, image.size, pos, Objects_Config["Rock"][1]))
 
                     self.grid.rebuild()
 
@@ -234,9 +222,10 @@ class ObjectManager:
                     if base_x is None or base_y is None:
                               base_x, base_y = random.randint(0, GAME_SIZE[0]), random.randint(0, GAME_SIZE[1])
 
+                    v = Objects_Config["Placement"][0]
                     for _ in range(10):
-                              x = base_x + random.randint(-20, 20)
-                              y = base_y + random.randint(-20, 20)
+                              x = base_x + random.randint(-v, v)
+                              y = base_y + random.randint(-v, v)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
                                         rect = pygame.Rect(x, y, size[0], size[1])
                                         if not self.game.tilemap.tile_collision(rect, "Water_Tile"):
@@ -245,7 +234,8 @@ class ObjectManager:
 
           @staticmethod
           def generate_noise_map(noise, scale):
-                    width, height = GAME_SIZE[0] // 10, GAME_SIZE[1] // 10
+                    size = Objects_Config["Tree"][1]
+                    width, height = GAME_SIZE[0] // size, GAME_SIZE[1] // size
                     noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
                     return (np.array(noise_map) + 1) / 2  # Normalize to [0, 1]
 
@@ -268,8 +258,8 @@ class ButtonManager:
                     self.cooldown = Cooldowns['buttons']
                     self.last_pressed_time = - Cooldowns['buttons']
 
-                    self.value_cooldown = 0.1
-                    self.last_value_set = 0
+                    self.value_cooldown = Cooldowns["value"]
+                    self.last_value_set = -Cooldowns["value"]
 
           def _create_buttons(self):
                     button_configs = AllButtons
@@ -326,33 +316,30 @@ class ButtonManager:
 class RainManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, Hash_Map_Config["Rain"])
-                    self.cooldown = Rain_Config['rate']
-                    self.last_spawn = - Rain_Config['rate']
+                    self.grid = HashMap(game, General_Settings["hash_maps"][3])
+                    self.cooldown = Rain_Config['spawn_rate'][0]
+                    self.last_spawn = - Rain_Config['spawn_rate'][0]
 
                     self.grid.rebuild()
 
           def update(self):
                     for rain_droplet in self.grid.items:
                               rain_droplet.update()
-                              if rain_droplet.hit_ground: rain_droplet.update_frame()
+                              if rain_droplet.hit_ground:
+                                        rain_droplet.update_frame()
+                                        self.game.drawing_manager.drawables.append(rain_droplet)
                     self.create()
                     self.check_dead()
                     self.grid.rebuild()
 
           def draw(self):
                     for rain_droplet in self.grid.window_query():
-                              pos = rain_droplet.rect.x - self.game.camera.offset_rect.x, rain_droplet.rect.y - self.game.camera.offset_rect.y
                               if not rain_droplet.hit_ground:
-                                        self.game.display_screen.blit(rain_droplet.animation[0], pos)
-                              else:
-                                        self.game.display_screen.blit(
-                                                  rain_droplet.animation[
-                                                            int(rain_droplet.frame % len(rain_droplet.animation))], pos)
+                                        rain_droplet.draw()
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
-                              for _ in range(Rain_Config["amount"]):
+                              for _ in range(Rain_Config['spawn_rate'][1]):
                                         self.grid.insert(Rain(self.game, Rain_Config))
                                         self.last_spawn = self.game.game_time
 
