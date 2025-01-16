@@ -73,6 +73,14 @@ Simply run the provided "run.exe" file to start the game.
 - Shift: Sprint
 - ESC: Pause game
 
+## 🐛 Known Issues
+
+1. Memory Leak: The game may experience gradual memory usage increase over extended play sessions.
+
+2. Performance Dips: Users might experience temporary drops in frame rate during certain high-intensity actions or in areas with many entities.
+
+3. Tile Orientation: In rare cases, some tiles may not be properly oriented. This is a visual glitch and doesn't affect gameplay.
+
 ### Packaging the Game
 
 To create an executable, use:
