@@ -3,8 +3,6 @@
  
 Overview: A simple 2d top down game
  
-Installation: Run the run.exe file
- 
 Code examples: Python code with the use of Pygame and OpenGL
  
 License: MIT
