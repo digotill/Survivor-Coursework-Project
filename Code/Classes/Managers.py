@@ -203,19 +203,19 @@ class ObjectManager:
 
 
                                         # Check if we should place a tree based on density
-                                        if random.random() < density_value * Objects_Config["Tree"][0] * biome_density_factor:  # Adjust 0.1 to control overall tree density
-                                                  tree_image = random.choice(self.game.assets[biome + " Tree"])
+                                        if random.random() < density_value * Objects_Config["tree"][0] * biome_density_factor:  # Adjust 0.1 to control overall tree density
+                                                  tree_image = random.choice(self.game.assets[biome + "_tree"])
                                                   pos = self.generate_valid_position(tree_image.size, x, y)
                                                   if pos:
                                                             self.grid.insert(
                                                                       Object(self.game, tree_image, tree_image.size,
                                                                              pos, True))
 
-                    for _ in range(Objects_Config["Rock"][0]):
-                              image = random.choice(AM.assets["Rock"])
+                    for _ in range(Objects_Config["rock"][0]):
+                              image = random.choice(AM.assets["rock"])
                               pos = self.generate_valid_position(image.size)
                               if pos:
-                                        self.grid.insert(Object(self.game, image, image.size, pos, Objects_Config["Rock"][1]))
+                                        self.grid.insert(Object(self.game, image, image.size, pos, Objects_Config["rock"][1]))
 
                     self.grid.rebuild()
 
@@ -223,19 +223,19 @@ class ObjectManager:
                     if base_x is None or base_y is None:
                               base_x, base_y = random.randint(0, GAME_SIZE[0]), random.randint(0, GAME_SIZE[1])
 
-                    v = Objects_Config["Placement"][0]
+                    v = Objects_Config["placement"][0]
                     for _ in range(10):
                               x = base_x + random.randint(-v, v)
                               y = base_y + random.randint(-v, v)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
                                         rect = pygame.Rect(x, y, size[0], size[1])
-                                        if not self.game.tilemap.tile_collision(rect, "Water_Tile"):
+                                        if not self.game.tilemap.tile_collision(rect, "water_Tile"):
                                                   return v2(x, y)
                     return None
 
           @staticmethod
           def generate_noise_map(noise, scale):
-                    size = Objects_Config["Tree"][1]
+                    size = Objects_Config["tree"][1]
                     width, height = GAME_SIZE[0] // size, GAME_SIZE[1] // size
                     noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
                     return (np.array(noise_map) + 1) / 2  # Normalize to [0, 1]

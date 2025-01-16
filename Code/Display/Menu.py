@@ -11,12 +11,12 @@ class MainMenu:
                     self.buttons = {}
                     self._create_buttons()
                     self.difficulty_switchs = [self.buttons['easy'], self.buttons['medium'], self.buttons['hard']]
-                    self.weapons_switches = [self.buttons['AK47'], self.buttons['Shotgun'], self.buttons['Minigun']]
+                    self.weapons_switches = [self.buttons['ak47'], self.buttons['shotgun'], self.buttons['minigun']]
 
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = self.game.assets["main menu screen"]
+                    self.loading_screen = self.game.assets["main_menu"]
                     self.current_frame = 0
                     self.difficulty = "MEDIUM"
                     self.animation_speed = 15
@@ -25,25 +25,25 @@ class MainMenu:
           def create_weapons(self):
                     self.weapons = {}
 
-                    for weapon_type in ["AK47", "Shotgun", "Minigun"]:
+                    for weapon_type in ["ak47", "shotgun", "minigun"]:
                               weapon_settings = Weapons[weapon_type]
                               self.weapons[weapon_type] = Gun(
                                         self.game, weapon_settings
                               )
 
-                    self.gun = self.weapons["AK47"]
+                    self.gun = self.weapons["ak47"]
 
           def _create_buttons(self):
                     button_configs = AllButtons
                     for name, config in (button_configs["Weapons"] | button_configs["Menu_Buttons"]).items():
-                              button_class = Switch if name in ['easy', 'medium', 'hard', 'AK47', 'Shotgun',
-                                                                'Minigun'] else Button
+                              button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun',
+                                                                'minigun'] else Button
                               self.buttons[name] = button_class(self.game,
                                                                 copy.deepcopy(config)
                                                                 )
 
                     self.buttons['medium'].on = True
-                    self.buttons['AK47'].on = True
+                    self.buttons['ak47'].on = True
 
           def loop(self):
                     while self.game.in_menu and self.game.running:
