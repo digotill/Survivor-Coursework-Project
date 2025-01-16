@@ -187,6 +187,9 @@ class Enemy(main):
 
                     self.set_attributes(dictionary)
 
+                    self.images = AM.assets[self.name]
+                    self.res = AM.assets[self.name][0].size
+
                     self.pos = v2(coordinates)
                     self.set_rect()
 
@@ -259,6 +262,10 @@ class Gun(main):
                     self.game = game
 
                     self.set_attributes(dictionary)
+
+                    self.gun_image = AM.assets[self.name]
+                    self.res = AM.assets[self.name].size
+                    self.bullet_image = AM.assets[self.name + "_Bullet"]
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])

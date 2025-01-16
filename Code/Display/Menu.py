@@ -91,10 +91,8 @@ class MainMenu:
                     self.game.player = Player(self.game, self.gun, Player_Attributes)
 
           def draw_and_update_background(self):
-                    self.game.display_screen.blit(pygame.transform.scale(
-                              self.loading_screen[int(self.current_frame) % len(self.loading_screen)],
-                              self.game.display_screen.size))
-                    self.current_frame -= self.game.dt * self.animation_speed
+                    self.game.display_screen.blit(self.loading_screen[int(self.current_frame) % len(self.loading_screen)])
+                    self.current_frame += self.game.dt * self.animation_speed
 
 
 class GameOver:

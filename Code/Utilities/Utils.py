@@ -48,11 +48,10 @@ def lookup_colour(colour):
           for colour in color_list: print(colour)
 
 
-def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
+def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
-                           pierce, shake_mag, shake_duration, shots, gun_image, bullet_image, name):
+                           pierce, shots, name):
           return {
-                    "res": res,
                     "vel": vel,
                     "spread": spread,
                     "reload_time": reload_time,
@@ -66,11 +65,7 @@ def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, 
                     "animation_speed": animation_speed,
                     "spread_time": spread_time,
                     "pierce": pierce,
-                    "shake_mag": shake_mag,
-                    "shake_duration": shake_duration,
                     "shots": shots,
-                    "gun_image": pygame.transform.scale(gun_image, res),
-                    "bullet_image": bullet_image,
                     "name": name
           }
 
@@ -141,20 +136,18 @@ def create_spark_settings(spread, scale, colour, amount, min_vel, max_vel):
           }
 
 
-def create_enemy_settings(name, health, res, vel, damage, stopping_distance,
-                          steering_strength, friction, images, animation_speed, hit_cooldown):
+def create_enemy_settings(name, health, vel, damage, stopping_distance,
+                          steering_strength, friction, animation_speed, hit_cooldown, separation_radius, separation_strength):
           return {
                     'name': name,
                     'health': health,
-                    'res': res,
                     'vel': vel,
                     'damage': damage,
                     'stopping_distance': stopping_distance,
                     'steering_strength': steering_strength,
                     'friction': friction,
                     'animation_speed': animation_speed,
-                    "images": images,
                     "hit_cooldown": hit_cooldown,
-                    "separation_radius": res[0],
-                    "separation_strength": 0.5,
+                    "separation_radius": separation_radius,
+                    "separation_strength": separation_strength,
           }

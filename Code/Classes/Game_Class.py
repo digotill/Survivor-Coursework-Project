@@ -3,7 +3,7 @@ from Code.Display.EventManager import *
 from Code.Display.Menu import *
 from Code.Display.UIManager import *
 from Code.Display.Camera import *
-from Code.Classes.TileMap import TileMap
+from Code.Classes.TileMapManager import TileMapManager
 from Code.Classes.GrassManager import *
 from Code.Variables.AssetManager import *
 from Code.Shaders import pygame_shaders
@@ -45,7 +45,6 @@ class Game:
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
                     self.particle_manager = ParticleManager(self)
-                    self.object_manager = ObjectManager(self)
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
@@ -53,10 +52,8 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
-
-                    # Initialize tilemap and generate objects
-                    self.tilemap = TileMap(self)
-                    self.object_manager.generate_objects()
+                    self.tilemap = TileMapManager(self)
+                    self.object_manager = ObjectManager(self)
 
                     # Update initial game variables
                     self.update_game_variables()

@@ -17,9 +17,14 @@ def exception_handler(exc_type, exc_value, exc_traceback):
           error_traceback = "".join(traceback.format_tb(exc_traceback))
           log_error(error_message, error_traceback)
 
-          # Print the error to console as well
-          print(f"An error occurred: {error_message}")
-          print("Error has been logged to error_log.txt")
+          # Print the full error and traceback to console
+          print("An error occurred:")
+          print(f"Error Type: {exc_type.__name__}")
+          print(f"Error Message: {error_message}")
+          print("Traceback:")
+          print(error_traceback)
+          print("This error has been logged to error_log.txt")
+
 
 def print_error_message(error_message, error_traceback):
           print("An error occurred:")

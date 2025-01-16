@@ -24,10 +24,10 @@ class EnemyManager:
                               enemy.apply_force(separation_force)
 
                     self.remove_dead_enemies()  # Remove enemies with no health
-                    self.add_enemies(Enemies["enemy1"])  # Spawn new enemies if conditions are met
+                    self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
                     self.grid.rebuild()  # Rebuild the spatial hash grid
 
-          def add_enemies(self, enemy_dict):
+          def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
                     if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
                             len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings[
@@ -37,15 +37,15 @@ class EnemyManager:
                               # Generate random coordinates for the new enemy
                               coordinates = random_xy(
                                         pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
-                                        self.game.camera.rect, enemy_dict["res"][0], enemy_dict["res"][1]
+                                        self.game.camera.rect, AM.assets[enemy_type][0].width, AM.assets[enemy_type][0].height
                               )
 
                               # Reuse an enemy from the pool if available, otherwise create a new one
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()
-                                        enemy.reset(coordinates, enemy_dict)
+                                        enemy.reset(coordinates, Enemies[enemy_type])
                               else:
-                                        enemy = Enemy(self.game, coordinates, enemy_dict)
+                                        enemy = Enemy(self.game, coordinates, Enemies[enemy_type])
 
                               self.grid.insert(enemy)  # Add the enemy to the spatial hash grid
 
@@ -177,6 +177,7 @@ class ObjectManager:
                     self.grid = HashMap(game, General_Settings["hash_maps"][4])
                     self.biome_noise = PerlinNoise(octaves=Perlin_Noise["biome_map"][1], seed=random.randint(0, 100000))
                     self.density_noise = PerlinNoise(octaves=Perlin_Noise["density_map"][1], seed=random.randint(0, 100000))
+                    self.generate_objects()
 
           def generate_objects(self):
 
