@@ -1,17 +1,22 @@
-Title: Survivor Coursework Project
+# Survivor Coursework Project
+
  
 Overview: A simple 2d top down game
  
 Installation: Run the run.exe file
  
-Code examples: Python code with the use of pygame and opengl 
+Code examples: Python code with the use of Pygame and OpenGL
  
-License: Dunno 
- 
-Contributors: Me, some ai
- 
-Technologies: my cool laptop
- 
-Requirements: have fun
+License: MIT
 
+Running Source Code
+-------------
+Run the run.py file
+ 
+ 
+Source Packaging
+-------------
+
+```
 To Package: pyinstaller "name of executable file".py --onefile --windowed
+```
