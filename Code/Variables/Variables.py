@@ -23,12 +23,12 @@ AM = AssetManager()
 PF = False
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
-#pygame.display.set_icon(AM.assets["cover"])
+pygame.display.set_icon(AM.assets["cover"])
 pygame.display.set_caption("Survivor Game")
 
 General_Settings = {
           'volume': 0.5,
-          'peaceful_mode': True,  # no enemies spawn
+          'peaceful_mode': False,  # no enemies spawn
           'difficulty': (0.8, 1, 1.3),  # easy, medium, hard
           'enemies': (50, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 12),  # max, min, paused
@@ -55,7 +55,7 @@ Grass = {
           "vertical_place_range": (0, 1),
           "wind_effect": (13, 25),
           "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
-          "density": 0.6,
+          "density": 0.4,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
 
@@ -85,22 +85,15 @@ Enemies = {
 }
 
 Keys = {
-          'fullscreen': pygame.K_F11,
-          'fps': pygame.K_F12,
-          'escape': pygame.K_F10,
-          'ungrab': pygame.K_ESCAPE,
-          'sprint': pygame.K_LSHIFT,
+          'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
 }
 
 UI_Settings = {
-          "health_bar": (80, 30),
-          "stamina_bar": (80, 30),
+          "health_bar": (80, 30), "stamina_bar": (80, 30),
 }
 
 Screen_Shake = {
-          "ak47": (5, 0.1),  # magnitude, duration
-          "shotgun": (25, 0.1),
-          "minigun": (5, 0.1),
+          "ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1),  # magnitude, duration
 }
 
 Sparks_Settings = {
@@ -109,74 +102,57 @@ Sparks_Settings = {
 }
 
 Perlin_Noise = {
-          "biome_map": (0.004, 4),  # scale, octaves
-          "density_map": (0.05, 4),
-          "overworld_map": (0.05, 1),
-          "gun_shake_map": (0.1, 2),
-          "camera_shake_map": (0.1, 3)
+          "biome_map": (0.004, 4), "density_map": (0.05, 4), "overworld_map": (0.05, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
 }
 
 Weapons = {
-          "ak47": create_weapon_settings(
-                    vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30, lifetime=3, lifetime_randomness=0.2, damage=16,
-                    distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=3, shots=1, name="AK47"
-          ),
-          "shotgun": create_weapon_settings(
-                    vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8, lifetime=0.5, lifetime_randomness=0.2, damage=50,
-                    distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=1, shots=20, name="Shotgun"
-          ),
-          "minigun": create_weapon_settings(
-                    vel=600, spread=5, reload_time=10, fire_rate=0.01, clip_size=100, lifetime=2, lifetime_randomness=0.2, damage=5,
-                    distance=-12, friction=0.1, animation_speed=5, spread_time=0.2, pierce=0, shots=1, name="Minigun"
-          )
+          "ak47": create_weapon_settings(vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30, lifetime=3, lifetime_randomness=0.2, damage=16,
+                                         distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=3, shots=1, name="ak47"
+                                         ),
+          "shotgun": create_weapon_settings(vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8, lifetime=0.5, lifetime_randomness=0.2, damage=50,
+                                            distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=1, shots=20, name="shotgun"
+                                            ),
+          "minigun": create_weapon_settings(vel=600, spread=5, reload_time=10, fire_rate=0.01, clip_size=100, lifetime=2, lifetime_randomness=0.2, damage=5,
+                                            distance=-12, friction=0.1, animation_speed=5, spread_time=0.2, pierce=0, shots=1, name="minigun"
+                                            ),
 }
 
 AllButtons = {
-          "In_Game": {
-                    "resume": create_button("Resume", v2(240, 135), AM.assets["button1"]),
-                    "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["button1"]),
-                    "quit": create_button("QUIT", v2(240, 240), AM.assets["button1"]),
-                    "return": create_button("Return", v2(240, 90), AM.assets["button1"])
-          },
-          "Weapons": {
-                    "ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), text_pos="left"),
-                    "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), text_pos="left"),
-                    "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), text_pos="left"),
-          },
-          "Sliders": {
-                    "brightness": create_slider(v2(360, 235), AM.assets["button2"], "Brightness:  ", 0, 100, 50),
-                    "fps": create_slider(v2(360, 180), AM.assets["button2"], "Max FPS:  ", 20, 240, pygame.display.get_current_refresh_rate())
-          },
-          "Menu_Buttons": {
-                    "play": create_button("PLAY", v2(200, 240), AM.assets["button1"]),
-                    "quit": create_button("QUIT", v2(280, 240), AM.assets["button1"]),
-                    "easy": create_button("EASY", v2(200, 190), AM.assets["button1"]),
-                    "medium": create_button("MEDIUM", v2(200, 150), AM.assets["button1"]),
-                    "hard": create_button("HARD", v2(280, 190), AM.assets["button1"]),
-          },
+          "In_Game": {"resume": create_button("Resume", v2(240, 135), AM.assets["button1"]),
+                      "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["button1"]),
+                      "quit": create_button("QUIT", v2(240, 240), AM.assets["button1"]),
+                      "return": create_button("Return", v2(240, 90), AM.assets["button1"])
+                      },
+          "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), text_pos="left"),
+                      "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), text_pos="left"),
+                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), text_pos="left"),
+                      },
+          "Sliders": {"brightness": create_slider(v2(360, 235), AM.assets["button2"], "Brightness:  ", 0, 100, 50),
+                      "fps": create_slider(v2(360, 180), AM.assets["button2"], "Max FPS:  ", 20, 240, pygame.display.get_current_refresh_rate())
+                      },
+          "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button1"]),
+                           "quit": create_button("quit", v2(280, 240), AM.assets["button1"]),
+                           "easy": create_button("easy", v2(200, 190), AM.assets["button1"]),
+                           "medium": create_button("medium", v2(200, 150), AM.assets["button1"]),
+                           "hard": create_button("hard", v2(280, 190), AM.assets["button1"]),
+                           },
           'speed': 300,
 }
 
 Objects_Config = {
           "rock": (100, False),  # amount, collisions
           "tree": (0.2, 20),  # density, spreadoutness
-          "Placement": (20, 10),  # distance from original position, attempts
+          "placement": (20, 10),  # distance from original position, attempts
 }
 
 Biomes_Config = {
-          "dead": (0.35, 1),  # chance, amount
-          "yellowish": (0.4, 1),
-          "green": (0.5, 1),
-          "ripe": (0.6, 1),
-          "lush": (1, 1),
+          "dead": (0.35, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, amount
 }
 
 Tiles_Congifig = {
-          "Tile_Ranges": {
-                    "water_Tile": -0.2,
-                    "grass_Tile": 1,
-          },
-          "transitions": [["grass_Tile", "water_Tile"]],
+          "Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1,
+                          },
+          "transitions": [["grass_tile", "water_tile"]],
           "animation_speed": 5,
           "animated_tiles": [],
 }
@@ -187,6 +163,3 @@ Rain_Config = {
           "vel": (600, 50),  # initial value, randomness
           "lifetime": (0.9, 0.8),  # initial value, randomness
 }
-
-# lookup_colour("red")
-# print(f"Total memory usage of AM: {asizeof.asizeof(self.event_manager)} bytes")

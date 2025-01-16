@@ -48,6 +48,28 @@ def lookup_colour(colour):
           for colour in color_list: print(colour)
 
 
+def get_unique_filename(path):
+          root, ext = os.path.splitext(path)
+          counter = 1
+          while os.path.exists(path):
+                    path = f"{root}_{counter}{ext}"
+                    counter += 1
+          return path
+
+
+def rename_files_recursive(directory):
+          for root, dirs, files in os.walk(directory):
+                    for filename in files:
+                              if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+                                        new_filename = filename.lower().replace(' ', '_')
+                                        if filename != new_filename:
+                                                  old_path = os.path.join(root, filename)
+                                                  new_path = os.path.join(root, new_filename)
+                                                  if os.path.exists(new_path):
+                                                            new_path = get_unique_filename(new_path)
+                                                  os.rename(old_path, new_path)
+                                                  print(f"Renamed: {old_path} -> {new_path}")
+
 def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
                            pierce, shots, name):

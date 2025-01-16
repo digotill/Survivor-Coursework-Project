@@ -71,14 +71,14 @@ class Player(main):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
                     max_distance = max(GAME_SIZE[0], GAME_SIZE[1])
 
-                    for distance in range(0, max_distance, 10):
+                    for distance in range(0, max_distance, 16):
                               for angle in range(0, 360, 10):
                                         x = center_x + int(distance * math.cos(math.radians(angle)))
                                         y = center_y + int(distance * math.sin(math.radians(angle)))
 
                                         if 0 <= x < GAME_SIZE[0] and 0 <= y < GAME_SIZE[1]:
                                                   test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
-                                                  if not self.game.tilemap.tile_collision(test_rect, "Water_Tile"):
+                                                  if not self.game.tilemap.tile_collision(test_rect, "water_tile"):
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
@@ -120,11 +120,11 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              x_rect = pygame.Rect(new_x + self.res[0] / 2 - 8, self.pos.y + self.res[1] / 2, 0, 0)
-                              x_water_collision = self.game.tilemap.tile_collision(x_rect, "Water_Tile")
+                              x_rect = pygame.Rect(new_x, self.pos.y + self.res[1] / 2, 0, 0)
+                              x_water_collision = self.game.tilemap.tile_collision(x_rect, "water_tile")
 
-                              y_rect = pygame.Rect(self.pos.x + self.res[0] / 2 - 8, new_y + self.res[1] / 2, 0, 0)
-                              y_water_collision = self.game.tilemap.tile_collision(y_rect, "Water_Tile")
+                              y_rect = pygame.Rect(self.pos.x, new_y + self.res[1] / 2, 0, 0)
+                              y_water_collision = self.game.tilemap.tile_collision(y_rect, "water_tile")
 
                               if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
                                       self.offset[2] and not x_water_collision:
@@ -265,7 +265,7 @@ class Gun(main):
 
                     self.gun_image = AM.assets[self.name]
                     self.res = AM.assets[self.name].size
-                    self.bullet_image = AM.assets[self.name + "_Bullet"]
+                    self.bullet_image = AM.assets[self.name + "_bullet"]
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
@@ -391,8 +391,8 @@ class Bullet(main):
 class Rain(main):
           def __init__(self, game, dictionary):
                     self.game = game
-                    self.animation = AM.assets["Rain"]
-                    self.res = AM.assets["Rain"][0].size
+                    self.animation = AM.assets["rain"]
+                    self.res = AM.assets["rain"][0].size
                     self.set_attributes(dictionary)
                     self.animation_speed = self.look[0]
                     self.pos = v2(change_by_diff(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),

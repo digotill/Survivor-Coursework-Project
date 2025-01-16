@@ -136,7 +136,7 @@ class TileMapManager:
 
           def grass_generator(self):
                     for tile in self.grid.items:
-                              if tile.tile_type == "Grass_Tile":
+                              if tile.tile_type == "grass_tile":
                                         v = random.random()
                                         if v < self.game.grass_manager.density:
                                                   self.game.grass_manager.place_tile(

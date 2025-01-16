@@ -5,8 +5,8 @@ class UIManager:
           def __init__(self, game):
                     self.game = game
                     self.fps_enabled = False
-                    self.health_bar_rect = self.game.assets["Health bar"].get_rect()
-                    self.stamina_bar_rect = self.game.assets["Stamina bar"].get_rect()
+                    self.health_bar_rect = self.game.assets["health_bar"].get_rect()
+                    self.stamina_bar_rect = self.game.assets["stamina_bar"].get_rect()
                     self.brightness = 50
 
           def draw_bars(self):
@@ -14,8 +14,8 @@ class UIManager:
                     health = max(self.game.player.health, 1)
                     health_ratio = health / self.game.player.max_health
                     self._draw_bar(
-                              bar_image=self.game.assets["Health bar"],
-                              outer_image=self.game.assets["Bar outline"],
+                              bar_image=self.game.assets["health_bar"],
+                              outer_image=self.game.assets["bar_outline"],
                               ratio=health_ratio,
                               position=UI_Settings["health_bar"],
                               is_flipped=False
@@ -25,8 +25,8 @@ class UIManager:
                     stamina = max(self.game.player.stamina, 1)
                     stamina_ratio = stamina / Player_Attributes['stamina']
                     self._draw_bar(
-                              bar_image=self.game.assets["Stamina bar"],
-                              outer_image=self.game.assets["Bar outline"],
+                              bar_image=self.game.assets["stamina_bar"],
+                              outer_image=self.game.assets["bar_outline"],
                               ratio=stamina_ratio,
                               position=UI_Settings["stamina_bar"],
                               is_flipped=True

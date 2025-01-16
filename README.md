@@ -37,6 +37,7 @@ occur use these versions):
 - pandas==2.2.3
 - Pympler==1.1
 - dateutils==0.6.12
+- glcontet==3.0.0
 
 Built-in Python modules used:
 - math
@@ -49,7 +50,12 @@ Built-in Python modules used:
 You can install the required packages using pip:
 
 ```bash
-pip install pygame-ce==2.5.2 PyOpenGL==3.1.7 numpy==2.2.1 moderngl==5.12.0 perlin-noise==1.13 pillow==11.1.0 psutil==6.1.1 python-dateutil==2.9.0.post0 pytz==2024.2 pandas==2.2.3 Pympler==1.1 dateutils==0.6.12
+pip install pygame-ce==2.5.2 PyOpenGL==3.1.7 numpy==2.2.1 moderngl==5.12.0 perlin-noise==1.13 pillow==11.1.0 psutil==6.1.1 python-dateutil==2.9.0.post0 pytz==2024.2 pandas==2.2.3 Pympler==1.1 dateutils==0.6.12 glcontet==3.0.0
+```
+or
+
+```bash
+pip3 install pygame-ce==2.5.2 PyOpenGL==3.1.7 numpy==2.2.1 moderngl==5.12.0 perlin-noise==1.13 pillow==11.1.0 psutil==6.1.1 python-dateutil==2.9.0.post0 pytz==2024.2 pandas==2.2.3 Pympler==1.1 dateutils==0.6.12 glcontet==3.0.0
 ```
 
 ### Installation

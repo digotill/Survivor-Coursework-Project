@@ -185,7 +185,7 @@ class ObjectManager:
                     biome_map = self.generate_noise_map(self.biome_noise, Perlin_Noise["biome_map"][0])
                     density_map = self.generate_noise_map(self.density_noise, Perlin_Noise["density_map"][0])
 
-                    size = Objects_Config["Tree"][1]
+                    size = Objects_Config["tree"][1]
                     sorted_biomes = sorted(Biomes_Config.items(), key=lambda x_: x_[1])
                     # Generate trees based on biome and density
                     for y in range(0, GAME_SIZE[1], size):
@@ -194,7 +194,7 @@ class ObjectManager:
                                         density_value = density_map[y // size][x // size]
                                         biome_density_factor = 1
 
-                                        biome = "Green"
+                                        biome = "green"
                                         for biome_name, data in sorted_biomes:
                                                   if biome_value < data[0]:
                                                             biome = biome_name
@@ -229,7 +229,7 @@ class ObjectManager:
                               y = base_y + random.randint(-v, v)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
                                         rect = pygame.Rect(x, y, size[0], size[1])
-                                        if not self.game.tilemap.tile_collision(rect, "water_Tile"):
+                                        if not self.game.tilemap.tile_collision(rect, "water_tile"):
                                                   return v2(x, y)
                     return None
 
