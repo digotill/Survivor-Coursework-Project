@@ -1,6 +1,6 @@
 # Survivor Coursework Project
 
-![Game Cover](Assets\UI\Cover.png)
+![Game Cover](Assets/UI/Cover.png)
 
 ## 🎮 About The Game
 
@@ -17,7 +17,7 @@ Survivor is a thrilling 2D top-down game built with Python, leveraging the power
 
 ## 🖼 Screenshots
 
-![Gameplay Screenshot](Assets\UI\screenshot.png)
+![Gameplay Screenshot](Assets/UI/screenshot.png)
 
 ## 📦 Dependencies
 
