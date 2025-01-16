@@ -18,6 +18,7 @@ DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 
 physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
+refresh_rate = pygame.display.get_current_refresh_rate()
 
 AM = AssetManager()
 PF = False
@@ -42,7 +43,7 @@ Button_config = {
                     "hovering_colour": (255, 0, 0), "hover_slide": True, "hover_offset": 10, "hover_speed": 20,
           },
           "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4, "circle_base_colour": (255, 255, 255),
-                    "circle_hovering_color": (255, 0, 0), "hover_slide": False, "hover_offset": 10, "hover_speed": 20, "line_thickness": 2, "line_colour": (120, 120, 120)
+                    "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 10, "hover_speed": 20, "line_thickness": 2, "line_colour": (120, 120, 120)
           }
 }
 
@@ -122,23 +123,23 @@ Weapons = {
 }
 
 AllButtons = {
-          "In_Game": {"resume": create_button("Resume", v2(240, 135), AM.assets["button1"]),
-                      "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["button1"]),
-                      "quit": create_button("QUIT", v2(240, 240), AM.assets["button1"]),
-                      "return": create_button("Return", v2(240, 90), AM.assets["button1"])
+          "In_Game": {"resume": create_button("Resume", v2(240, 135), AM.assets["button1"], Button_config["button"]),
+                      "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["button1"], Button_config["button"]),
+                      "quit": create_button("QUIT", v2(240, 240), AM.assets["button1"], Button_config["button"]),
+                      "return": create_button("Return", v2(240, 90), AM.assets["button1"], Button_config["button"])
                       },
-          "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), text_pos="left"),
-                      "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), text_pos="left"),
-                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), text_pos="left"),
+          "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), Button_config["button"], {"text_pos": "left"}),
+                      "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), Button_config["button"], {"text_pos": "left"}),
+                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), Button_config["button"], {"text_pos": "left"}),
                       },
-          "Sliders": {"brightness": create_slider(v2(360, 235), AM.assets["button2"], "Brightness:  ", 0, 100, 50),
-                      "fps": create_slider(v2(360, 180), AM.assets["button2"], "Max FPS:  ", 20, 240, pygame.display.get_current_refresh_rate())
+          "Sliders": {"brightness": create_slider(v2(360, 235), AM.assets["button2"], "brightness:  ", 0, 100, 50, Button_config["slider"]),
+                      "fps": create_slider(v2(360, 180), AM.assets["button2"], "max fps:  ", 20, 240, refresh_rate, Button_config["slider"])
                       },
-          "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button1"]),
-                           "quit": create_button("quit", v2(280, 240), AM.assets["button1"]),
-                           "easy": create_button("easy", v2(200, 190), AM.assets["button1"]),
-                           "medium": create_button("medium", v2(200, 150), AM.assets["button1"]),
-                           "hard": create_button("hard", v2(280, 190), AM.assets["button1"]),
+          "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button1"], Button_config["button"]),
+                           "quit": create_button("quit", v2(280, 240), AM.assets["button1"], Button_config["button"]),
+                           "easy": create_button("easy", v2(200, 190), AM.assets["button1"], Button_config["button"]),
+                           "medium": create_button("medium", v2(200, 150), AM.assets["button1"], Button_config["button"]),
+                           "hard": create_button("hard", v2(280, 190), AM.assets["button1"], Button_config["button"]),
                            },
 }
 
