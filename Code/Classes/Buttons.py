@@ -17,6 +17,14 @@ class UIElement:
                                             1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
                               return self.pos.x, y
 
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
+
+          def set_rect(self):
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
+                                            self.res[1])
+
           def setup_text(self):
                     # Set up the text for the UI element
                     self.font = self.game.assets["font8"]
@@ -60,7 +68,7 @@ class UIElement:
                     target = self.pos if self.active else v2(self.starting_pos)
 
                     distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / AllButtons["speed"], 1)
+                    speed_factor = min(distance / (self.speed * self.distance_factor), 1)
 
                     if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide:
                               self.current_hover_offset = min(
@@ -95,12 +103,15 @@ class UIElement:
 
 
 # Button class, inherits from UIElement and main
-class Button(UIElement, main):
+class Button(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the button with game instance and attributes from dictionary
                     self.game = game
 
                     self.set_attributes(dictionary)
+                    self.res = self.image.size
+                    self.active = False
+                    self.current_hover_offset = 0
                     self.init_positions()
 
           def changeColor(self):
@@ -111,13 +122,18 @@ class Button(UIElement, main):
 
 
 # Slider class, inherits from UIElement and main
-class Slider(UIElement, main):
+class Slider(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the slider with game instance and attributes from dictionary
                     # Set up the slider's visual components (line and circle)
                     self.game = game
 
                     self.set_attributes(dictionary)
+
+                    self.res = self.image.size
+                    self.is_dragging = False
+                    self.active = False
+                    self.current_hover_offset = 0
 
                     self.init_positions()
 
@@ -152,7 +168,7 @@ class Slider(UIElement, main):
                     target = self.pos if self.active else v2(self.starting_pos)
 
                     distance = (target - self.current_pos).length()
-                    speed_factor = min(distance / AllButtons["speed"], 1)
+                    speed_factor = min(distance / (self.speed * self.distance_factor), 1)
 
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
@@ -210,12 +226,17 @@ class Slider(UIElement, main):
 
 
 # Switch class, inherits from UIElement and main
-class Switch(UIElement, main):
+class Switch(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the switch with game instance and attributes from dictionary
                     self.game = game
 
                     self.set_attributes(dictionary)
+
+                    self.res = self.image.size
+                    self.on = False
+                    self.active = False
+                    self.current_hover_offset = 0
 
                     self.init_positions()
 

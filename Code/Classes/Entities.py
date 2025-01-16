@@ -394,21 +394,20 @@ class Rain(main):
                     self.animation = AM.assets["rain"]
                     self.res = AM.assets["rain"][0].size
                     self.set_attributes(dictionary)
-                    self.animation_speed = self.look[0]
                     self.pos = v2(change_by_diff(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
                                   self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 2)
 
                     self.spawn_time = self.game.game_time
-                    self.initial_vel = self.vel[0]
+                    self.initial_vel = self.vel
                     self.hit_ground = False
-                    self.lifetime = change_by_diff(self.lifetime[0], self.lifetime[1])
-                    self.vel = change_by_diff(self.vel[0], self.vel[1])
+                    self.lifetime = change_by_diff(self.lifetime, self.lifetime_randomness)
+                    self.vel = change_by_diff(self.vel, self.vel_randomness)
                     self.vel_vector = self.calculate_vel_vector()
                     self.set_rect()
                     self.frame = 0
 
           def calculate_vel_vector(self):
-                    angle_rad = math.radians(self.look[1])
+                    angle_rad = math.radians(self.angle)
 
                     vel_x = self.vel * math.sin(angle_rad)
                     vel_y = self.vel * math.cos(angle_rad)
@@ -448,3 +447,5 @@ class Object(main):
           def draw(self):
                     draw_pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     self.game.display_screen.blit(self.image, draw_pos)
+                    shadow_image = self.generate_shadow_image(self.image)
+                    self.game.display_screen.blit(shadow_image, (draw_pos[0], draw_pos[1] + self.res[1] - shadow_image.height / 2))

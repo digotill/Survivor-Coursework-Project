@@ -52,6 +52,8 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
+
+                    #Generate tilemap and objects
                     self.tilemap = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
 
@@ -60,8 +62,7 @@ class Game:
 
                     # Initialize and run the main menu
                     self.mainmenu = MainMenu(self)
-                    MainMenu(self).loop()
-                    
+
                     # Initialize camera
                     self.camera = Camera(self)
 

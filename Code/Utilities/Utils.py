@@ -92,8 +92,8 @@ def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifet
           }
 
 
-def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=900,
-                  base_colour=(255, 255, 255),
+def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", text_pos="center", speed=300,
+                  base_colour=(255, 255, 255), distance_factor=0.4,
                   hovering_colour=(255, 0, 0), hover_slide=True, hover_offset=10, hover_speed=20,
                   current_hover_offset=0, active=False, on=False):
           return {
@@ -105,6 +105,7 @@ def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", t
                     "text_pos": text_pos,
                     "image": image,
                     "speed": speed,
+                    "distance_factor": distance_factor,
                     "base_colour": base_colour,
                     "hovering_colour": hovering_colour,
                     "hover_slide": hover_slide,
@@ -117,7 +118,7 @@ def create_button(text_input, pos, image, res=(46, 15), axis="y", axisl="max", t
 
 
 def create_slider(pos, image, text_input, min_value, max_value, initial_value, axis="y", axisl="max", text_pos="right",
-                  circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), speed=900,
+                  circle_base_colour=(255, 255, 255), circle_hovering_color=(255, 0, 0), speed=300, distance_factor=0.4,
                   hover_slide=False, hover_offset=10, hover_speed=20, current_hover_offset=0, active=False,
                   res=(46, 15), base_colour=(255, 255, 255),
                   is_dragging=False, line_colour=(120, 120, 120), line_thickness=2):
@@ -134,6 +135,7 @@ def create_slider(pos, image, text_input, min_value, max_value, initial_value, a
                     "circle_base_colour": circle_base_colour,
                     "circle_hovering_colour": circle_hovering_color,
                     "speed": speed,
+                    "distance_factor": distance_factor,
                     "hover_slide": hover_slide,
                     "hover_offset": hover_offset,
                     "hover_speed": hover_speed,

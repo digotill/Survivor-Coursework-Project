@@ -21,6 +21,7 @@ class MainMenu:
                     self.difficulty = "MEDIUM"
                     self.animation_speed = 15
                     self.create_weapons()
+                    self.loop()
 
           def create_weapons(self):
                     self.weapons = {}
@@ -53,7 +54,8 @@ class MainMenu:
                               self.game.manage_events()
                               self.game.update_game_variables()
 
-                              for button in self.buttons.values():
+                              sorted_buttons = sorted(self.buttons.values(), key=lambda b: b.pos.y)
+                              for button in sorted_buttons:
                                         button.update()
                                         button.changeColor()
                                         button.draw()

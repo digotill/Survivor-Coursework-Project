@@ -228,7 +228,7 @@ class ObjectManager:
                               x = base_x + random.randint(-v, v)
                               y = base_y + random.randint(-v, v)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
-                                        rect = pygame.Rect(x, y, size[0], size[1])
+                                        rect = pygame.Rect(x - size[0] * 0.25, y + size[1] * 0.5, size[0] / 2, size[1] / 10)
                                         if not self.game.tilemap.tile_collision(rect, "water_tile"):
                                                   return v2(x, y)
                     return None
@@ -310,7 +310,11 @@ class ButtonManager:
                               self.last_value_set = pygame.time.get_ticks() / 1000
 
           def draw(self):
-                    for button in list(self.buttons.values()) + list(self.sliders.values()):
+                    all_elements = list(self.buttons.values()) + list(self.sliders.values())
+
+                    # Sort all elements by their y position
+                    sorted_elements = sorted(all_elements, key=lambda element: element.pos.y)
+                    for button in sorted_elements:
                               button.draw()
 
 
@@ -318,8 +322,8 @@ class RainManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game, General_Settings["hash_maps"][3])
-                    self.cooldown = Rain_Config['spawn_rate'][0]
-                    self.last_spawn = - Rain_Config['spawn_rate'][0]
+                    self.cooldown = Rain_Config['spawn_rate']
+                    self.last_spawn = - Rain_Config['spawn_rate']
 
                     self.grid.rebuild()
 
@@ -340,7 +344,7 @@ class RainManager:
 
           def create(self):
                     if self.game.game_time - self.last_spawn > self.cooldown:
-                              for _ in range(Rain_Config['spawn_rate'][1]):
+                              for _ in range(Rain_Config['amount_spawning']):
                                         self.grid.insert(Rain(self.game, Rain_Config))
                                         self.last_spawn = self.game.game_time
 
