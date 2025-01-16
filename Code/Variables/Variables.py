@@ -1,6 +1,7 @@
 import copy
 import pygame
 import moderngl
+import psutil
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
@@ -12,6 +13,8 @@ WIN_RES = 1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Inf
 REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 GAME_SIZE = 2000, 2000
 DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+physical_cores = psutil.cpu_count(logical=False)
+logical_cores = psutil.cpu_count(logical=True)
 
 AM = AssetManager()
 PF = False
@@ -41,17 +44,14 @@ Window_Attributes = {
 }
 
 Grass = {
-          "Grass_Settings": {
-                    "tile_size": 16,
-                    "shade_amount": 100,
-                    "stiffness": 300,
-                    "max_unique": 5,
-                    "vertical_place_range": [0, 1],
-                    "padding": 13,
-                    "ground_shadow": [3, (0, 0, 1), 60, (1, 2)],  # radius, colour, strength, shift
-          },
-          "Precision": 25,
-          "Density": 0.6,
+          "tile_size": 16,
+          "shade_amount": 100,
+          "stiffness": 300,
+          "max_unique": 5,
+          "vertical_place_range": (0, 1),
+          "wind_effect": (13, 25),
+          "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
+          "density": 0.6,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 +
                                                               math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
@@ -108,9 +108,9 @@ UI_Settings = {
 }
 
 Screen_Shake = {
-          "AK47": [5, 0.1],  # magnitude, duration
-          "Shotgun": [25, 0.1],
-          "Minigun": [5, 0.1],
+          "AK47": (5, 0.1),  # magnitude, duration
+          "Shotgun": (25, 0.1),
+          "Minigun": (5, 0.1),
 }
 
 Sparks_Settings = {
@@ -188,9 +188,9 @@ AllButtons = {
 }
 
 Objects_Config = {
-          "Rock": [100, False],  # amount, collisions
-          "Tree": [0.2, 20],  # density, spreadoutness
-          "Placement": [20, 10],  # distance from original position, attempts
+          "Rock": (100, False),  # amount, collisions
+          "Tree": (0.2, 20),  # density, spreadoutness
+          "Placement": (20, 10),  # distance from original position, attempts
 }
 
 Biomes_Config = {
@@ -212,8 +212,8 @@ Tiles_Congifig = {
 }
 
 Rain_Config = {
-          "spawn_rate": [0.05, 12],   # spawn rate, amount spawning
-          "look": [30, 40],  # animation speed, angle
+          "spawn_rate": (0.05, 12),   # spawn rate, amount spawning
+          "look": (30, 40),  # animation speed, angle
           "vel": (600, 50),   # initial value, randomness
           "lifetime": (0.9, 0.8), # initial value, randomness
 }

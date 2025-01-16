@@ -32,7 +32,7 @@ class GrassManager(main_grass):
                     # tile data
                     self.grass_tiles = {}
 
-                    self.set_attributes(Grass["Grass_Settings"])
+                    self.set_attributes(Grass)
 
           # either creates a new grass tile layout or returns an existing one if the cap has been hit
           def get_format(self, format_id, data, tile_id):
@@ -131,8 +131,8 @@ class GrassTile:
                     self.size = tile_size
                     self.blades = []
                     self.master_rotation = 0
-                    self.precision = Grass["Precision"]
-                    self.padding = self.gm.padding
+                    self.precision = Grass["wind_effect"][1]
+                    self.padding = Grass["wind_effect"][0]
                     self.inc = 90 / self.precision
 
                     # generate blade data

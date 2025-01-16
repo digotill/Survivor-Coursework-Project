@@ -138,9 +138,9 @@ class TileMap:
                     for tile in self.grid.items:
                               if tile.tile_type == "Grass_Tile":
                                         v = random.random()
-                                        if v < Grass["Density"]:
+                                        if v < self.game.grass_manager.density:
                                                   self.game.grass_manager.place_tile(
-                                                            (tile.position.x // Grass["Grass_Settings"]["tile_size"],
-                                                             tile.position.y // Grass["Grass_Settings"]["tile_size"]),
+                                                            (tile.position.x // Grass["tile_size"],
+                                                             tile.position.y // Grass["tile_size"]),
                                                             int(v * 12),
                                                             [0, 1, 2, 3, 4])

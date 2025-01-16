@@ -442,3 +442,136 @@ Traceback (most recent call last):
 TypeError: Camera.get_2d_noise() takes 2 positional arguments but 3 were given
 
 --------------------------------------------------
+[2025-01-16 01:55:43]
+Error: 'Density'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 141, in grass_generator
+    if v < Grass["Density"]:
+           ~~~~~^^^^^^^^^^^
+KeyError: 'Density'
+
+--------------------------------------------------
+[2025-01-16 01:56:12]
+Error: 'TileMap' object has no attribute 'density'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 141, in grass_generator
+    if v < self.density:
+           ^^^^^^^^^^^^
+AttributeError: 'TileMap' object has no attribute 'density'
+
+--------------------------------------------------
+[2025-01-16 01:57:22]
+Error: 'GrassManager' object has no attribute 'density'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 141, in grass_generator
+    if v < self.game.grass_manager.density:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'GrassManager' object has no attribute 'density'. Did you mean: 'Density'?
+
+--------------------------------------------------
+[2025-01-16 01:57:36]
+Error: 'Precision'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 142, in grass_generator
+    self.game.grass_manager.place_tile(
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\GrassManager.py", line 50, in place_tile
+    self.grass_tiles[tuple(location)] = GrassTile(self.game, self.tile_size, (
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\GrassManager.py", line 134, in __init__
+    self.precision = Grass["Precision"]
+                     ~~~~~^^^^^^^^^^^^^
+KeyError: 'Precision'
+
+--------------------------------------------------
+[2025-01-16 01:59:55]
+Error: 'wind_effect'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 142, in grass_generator
+    self.game.grass_manager.place_tile(
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\GrassManager.py", line 50, in place_tile
+    self.grass_tiles[tuple(location)] = GrassTile(self.game, self.tile_size, (
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\GrassManager.py", line 134, in __init__
+    self.precision = Grass["wind_effect"][1]
+                     ~~~~~^^^^^^^^^^^^^^^
+KeyError: 'wind_effect'
+
+--------------------------------------------------
+[2025-01-16 02:01:41]
+Error: 'Grass_Settings'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+    ^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 58, in __init__
+    self.tilemap = TileMap(self)
+                   ^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 39, in __init__
+    self.grass_generator()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\TileMap.py", line 143, in grass_generator
+    (tile.position.x // Grass["Grass_Settings"]["tile_size"],
+                        ~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'Grass_Settings'
+
+--------------------------------------------------
+[2025-01-16 02:05:31]
+Error: No module named 'psutil'
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 10, in <module>
+    from Code.Classes.Game_Class import *
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 1, in <module>
+    from Code.Classes.Managers import *
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 1, in <module>
+    from Code.Classes.Buttons import *
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Buttons.py", line 3, in <module>
+    from Code.Variables.Variables import *
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Variables\Variables.py", line 4, in <module>
+    import psutil
+
+--------------------------------------------------
