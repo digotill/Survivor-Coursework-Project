@@ -80,3 +80,6 @@ Save/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Ignore all .txt files in the root directory
+/*.txt
