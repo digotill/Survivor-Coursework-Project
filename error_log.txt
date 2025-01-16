@@ -575,3 +575,73 @@ Traceback:
     import psutil
 
 --------------------------------------------------
+[2025-01-16 03:15:24]
+Error: name 'asizeof' is not defined
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 143, in run_game
+    print(f"Total memory usage of AM: {asizeof.asizeof(self.assets)} bytes")
+                                       ^^^^^^^
+NameError: name 'asizeof' is not defined
+
+--------------------------------------------------
+[2025-01-16 03:16:56]
+Error: 
+Traceback:
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 143, in run_game
+    print(f"Total memory usage of AM: {asizeof.asizeof(self)} bytes")
+                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 2545, in asizeof
+    s = _asizer.asizeof(*t)
+        ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1954, in asizeof
+    return sum(self._sizer(o, 0, 0, None) for o in objs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1954, in <genexpr>
+    return sum(self._sizer(o, 0, 0, None) for o in objs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1888, in _sizer
+    s += z(o, i, d, None)
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1888, in _sizer
+    s += z(o, i, d, None)
+         ^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1888, in _sizer
+    s += z(o, i, d, None)
+         ^^^^^^^^^^^^^^^^
+  [Previous line repeated 2 more times]
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1865, in _sizer
+    s = f = v.flat(obj, self._mask)  # flat size
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\digot\PycharmProjects\Survivor\.venv\Lib\site-packages\pympler\asizeof.py", line 1055, in flat
+    s = _getsizeof(obj, s)
+        ^^^^^^^^^^^^^^^^^^
+
+--------------------------------------------------
+[2025-01-16 03:23:31]
+Error: Bullet.__init__() missing 1 required positional argument: 'shake_map'
+Traceback:
+Traceback (most recent call last):
+  File "C:\Users\digot\PycharmProjects\Survivor\Run.py", line 30, in <module>
+    Game().run_game()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 141, in run_game
+    self.update_groups()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Game_Class.py", line 85, in update_groups
+    self.player.gun.update()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 273, in update
+    self.update_shooting()
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 301, in update_shooting
+    self.shoot(current_time)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 325, in shoot
+    self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Managers.py", line 109, in add_bullet
+    bullet.reset(pos, angle, spread)
+  File "C:\Users\digot\PycharmProjects\Survivor\Code\Classes\Entities.py", line 381, in reset
+    self.__init__(self.game, self.gun, pos, angle, self.name, spread)
+TypeError: Bullet.__init__() missing 1 required positional argument: 'shake_map'
+
+--------------------------------------------------

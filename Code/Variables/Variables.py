@@ -2,6 +2,7 @@ import copy
 import pygame
 import moderngl
 import psutil
+from pympler import asizeof
 from perlin_noise import PerlinNoise
 from Code.Utilities.Utils import *
 from pygame.math import Vector2 as v2
@@ -30,7 +31,8 @@ General_Settings = {
           'enemies': (50, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 12),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 10, 90, 30)  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
+          'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
+          'cooldowns': (0.5, 0.1)    # toggle cooldowns, value checker cooldown
 }
 
 Window_Attributes = {
@@ -84,14 +86,6 @@ Enemies = {
                                           )
 }
 
-Cooldowns = {
-          'fps': 0.5,
-          'fullscreen': 0.5,
-          'settings': 0.5,
-          'buttons': 0.5,
-          'value': 0.1
-}
-
 Keys = {
           'fullscreen': pygame.K_F11,
           'fps': pygame.K_F12,
@@ -101,10 +95,8 @@ Keys = {
 }
 
 UI_Settings = {
-          "health_bar": (135, 95),
-          "stamina_bar": (170, 95),
-          "fps": (150, 70),
-          "time": (150, 70),
+          "health_bar": (80, 30),
+          "stamina_bar": (80, 30),
 }
 
 Screen_Shake = {
@@ -219,3 +211,4 @@ Rain_Config = {
 }
 
 # lookup_colour("red")
+#print(f"Total memory usage of AM: {asizeof.asizeof(self.event_manager)} bytes")

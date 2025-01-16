@@ -6,12 +6,12 @@ class EventManager:
           def __init__(self, game):
                     self.game = game
 
-                    self.Last_Fullscreen = - Cooldowns['fullscreen']
-                    self.Last_FPS_Toggle = -Cooldowns['fps']
-                    self.Last_Changing_settings = - Cooldowns['settings']
-                    self.Fullscreen_Cooldown = Cooldowns['fullscreen']
-                    self.FPS_Cooldown = Cooldowns['fps']
-                    self.Changing_settings_Cooldown = Cooldowns['settings']
+                    self.Last_Fullscreen = - General_Settings['cooldowns'][0]
+                    self.Last_FPS_Toggle = -General_Settings['cooldowns'][0]
+                    self.Last_Changing_settings = - General_Settings['cooldowns'][0]
+                    self.Fullscreen_Cooldown = General_Settings['cooldowns'][0]
+                    self.FPS_Cooldown = General_Settings['cooldowns'][0]
+                    self.Changing_settings_Cooldown = General_Settings['cooldowns'][0]
 
                     pygame.display.toggle_fullscreen()
                     pygame.display.toggle_fullscreen()

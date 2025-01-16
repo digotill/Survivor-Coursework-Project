@@ -219,7 +219,7 @@ class Switch(UIElement, main):
 
                     self.init_positions()
 
-                    self.cooldown = Cooldowns['buttons']
+                    self.cooldown = General_Settings['cooldowns'][0]
                     self.last_pressed_time = 0
 
           def changeColor(self):

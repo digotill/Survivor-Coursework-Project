@@ -255,11 +255,11 @@ class ButtonManager:
                     self._create_buttons()
                     self._create_sliders()
 
-                    self.cooldown = Cooldowns['buttons']
-                    self.last_pressed_time = - Cooldowns['buttons']
+                    self.cooldown = General_Settings['cooldowns'][0]
+                    self.last_pressed_time = - General_Settings['cooldowns'][0]
 
-                    self.value_cooldown = Cooldowns["value"]
-                    self.last_value_set = -Cooldowns["value"]
+                    self.value_cooldown = General_Settings['cooldowns'][1]
+                    self.last_value_set = -General_Settings['cooldowns'][1]
 
           def _create_buttons(self):
                     button_configs = AllButtons

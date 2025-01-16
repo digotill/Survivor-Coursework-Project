@@ -61,7 +61,7 @@ class UIManager:
                                             AllButtons["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False,
                                                       pygame.Color("orange"))
-                              text_rect = text.get_rect(center=UI_Settings["fps"])
+                              text_rect = text.get_rect(center=(UI_Settings["health_bar"][0], UI_Settings["health_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def draw_time(self):
@@ -69,7 +69,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=(
-                                        REN_RES[0] - UI_Settings["time"][0], UI_Settings["time"][1]))
+                                        REN_RES[0] - UI_Settings["stamina_bar"][0], UI_Settings["stamina_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def display_mouse(self):

@@ -378,7 +378,7 @@ class Bullet(main):
                     return False
 
           def reset(self, pos, angle, spread):
-                    self.__init__(self.game, self.gun, pos, angle, self.name, spread)
+                    self.__init__(self.game, self.gun, pos, angle, self.name, spread, self.game.player.gun.noise_map)
 
 
 class Rain(main):
