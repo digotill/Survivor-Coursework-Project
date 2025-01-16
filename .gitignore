@@ -83,3 +83,6 @@ Thumbs.db
 
 # Ignore all .txt files in the root directory
 /*.txt
+
+# Ignore .ap files in any directory
+**/*.ap
