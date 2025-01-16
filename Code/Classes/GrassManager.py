@@ -262,7 +262,7 @@ class GrassTile:
                     if self.custom_blade_data:
                               matching = True
                               for i, blade in enumerate(self.custom_blade_data):
-                                        blade[2] = normalize(blade[2], self.gm.stiffness * dt, self.blades[i][2])
+                                        blade[2] = self.normalize(blade[2], self.gm.stiffness * dt, self.blades[i][2])
                                         if blade[2] != self.blades[i][2]:
                                                   matching = False
                               # mark the data as non-custom once in base position so the cache can be used
@@ -272,3 +272,13 @@ class GrassTile:
           def draw(self):
                     self.render(self.game.display_screen, self.game.dt, offset=self.game.camera.offset_rect.topleft)
                     self.set_rotation(Grass["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
+
+          @staticmethod
+          def normalize(val, amt, target):
+                    if val > target + amt:
+                              val -= amt
+                    elif val < target - amt:
+                              val += amt
+                    else:
+                              val = target
+                    return val

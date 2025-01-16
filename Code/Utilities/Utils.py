@@ -48,16 +48,6 @@ def lookup_colour(colour):
           for colour in color_list: print(colour)
 
 
-def normalize(val, amt, target):
-          if val > target + amt:
-                    val -= amt
-          elif val < target - amt:
-                    val += amt
-          else:
-                    val = target
-          return val
-
-
 def create_weapon_settings(res, vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
                            pierce, shake_mag, shake_duration, shots, gun_image, bullet_image, name):

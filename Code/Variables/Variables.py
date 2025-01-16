@@ -207,7 +207,7 @@ Rain_Config = {
           "spawn_rate": (0.05, 12),   # spawn rate, amount spawning
           "look": (30, 40),  # animation speed, angle
           "vel": (600, 50),   # initial value, randomness
-          "lifetime": (0.9, 0.8), # initial value, randomness
+          "lifetime": (0.9, 0.8),  # initial value, randomness
 }
 
 # lookup_colour("red")
