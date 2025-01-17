@@ -22,7 +22,7 @@ refresh_rate = pygame.display.get_current_refresh_rate()
 
 AM = AssetManager()
 Performance_Profile = False
-Memory_Profile = True
+Memory_Profile = False
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["cover"])

@@ -9,7 +9,6 @@ from Code.Variables.AssetManager import *
 from Code.Shaders import pygame_shaders
 from memory_profiler import profile
 
-
 class Game:
           def __init__(self):
                     # Initialize Pygame
@@ -67,7 +66,10 @@ class Game:
                     # Initialize camera
                     self.camera = Camera(self)
 
-                    self.run_game()
+                    if Memory_Profile:
+                              self.run_game_profile()
+                    else:
+                              self.run_game()
 
           def refresh(self):
                     # Refresh the display and restart the game
@@ -133,7 +135,19 @@ class Game:
                     if not self.changing_settings:
                               self.game_time += self.dt
 
-          #@profile
+          @profile
+          def run_game_profile(self):
+                    # Main game loop
+                    while self.running:
+                              self.clock.tick_busy_loop(self.fps)
+                              self.update_game_variables()
+                              self.manage_events()
+                              self.update_groups()
+                              self.draw_groups()
+                              self.update_display()
+                              if self.restart: self.refresh()
+                              elif self.immidiate_quit: return None
+
           def run_game(self):
                     # Main game loop
                     while self.running:

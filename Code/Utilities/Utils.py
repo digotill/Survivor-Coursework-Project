@@ -69,6 +69,22 @@ def rename_files_recursive(directory):
                                                             new_path = get_unique_filename(new_path)
                                                   os.rename(old_path, new_path)
                                                   print(f"Renamed: {old_path} -> {new_path}")
+          for root, dirs, files in os.walk(directory):
+                    for filename in files:
+                              if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+                                        base, ext = os.path.splitext(filename)
+                                        if base.endswith('_1'):
+                                                  new_base = base[:-2]  # Remove the last two characters ('_1')
+                                                  new_filename = f"{new_base}{ext}"
+                                                  old_path = os.path.join(root, filename)
+                                                  new_path = os.path.join(root, new_filename)
+
+                                                  if not os.path.exists(new_path):
+                                                            os.rename(old_path, new_path)
+                                                            print(f"Renamed: {old_path} -> {new_path}")
+                                                  else:
+                                                            print(f"Skipped: {old_path} (Target name already exists)")
+
 
 def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifetime, lifetime_randomness,
                            damage, distance, friction, animation_speed, spread_time,
