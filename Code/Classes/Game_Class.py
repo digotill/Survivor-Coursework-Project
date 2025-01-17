@@ -133,7 +133,7 @@ class Game:
                     if not self.changing_settings:
                               self.game_time += self.dt
 
-          @profile
+          #@profile
           def run_game(self):
                     # Main game loop
                     while self.running:
