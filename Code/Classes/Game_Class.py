@@ -7,6 +7,7 @@ from Code.Classes.TileMapManager import TileMapManager
 from Code.Classes.GrassManager import *
 from Code.Variables.AssetManager import *
 from Code.Shaders import pygame_shaders
+from memory_profiler import profile
 
 
 class Game:
@@ -65,6 +66,8 @@ class Game:
 
                     # Initialize camera
                     self.camera = Camera(self)
+
+                    self.run_game()
 
           def refresh(self):
                     # Refresh the display and restart the game
@@ -130,6 +133,7 @@ class Game:
                     if not self.changing_settings:
                               self.game_time += self.dt
 
+          @profile
           def run_game(self):
                     # Main game loop
                     while self.running:

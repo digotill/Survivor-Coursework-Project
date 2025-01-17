@@ -73,13 +73,13 @@ class UIElement:
                     if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide:
                               self.current_hover_offset = min(
                                         self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
-                              target.x = min(self.current_pos.x + self.current_hover_offset,
-                                             self.starting_pos[0] + self.hover_offset)
                     else:
                               self.current_hover_offset = max(
                                         self.current_hover_offset - self.hover_speed * self.game.dt, 0)
-                              target.x = max(self.current_pos.x - self.current_hover_offset,
-                                             self.starting_pos[0])
+
+
+                    # Update the target vector
+                    target.x = self.starting_pos[0] + self.current_hover_offset if self.hover_slide else self.starting_pos[0]
 
                     direction = (target - self.current_pos).normalize() if (target - self.current_pos).length_squared() > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
@@ -88,7 +88,8 @@ class UIElement:
                     else:
                               self.current_pos += movement
 
-                    self.rect.center = self.current_pos
+                    temp_pos = round(self.current_pos.x), round(self.current_pos.y)
+                    self.rect.center = temp_pos
 
                     if self.has_text:
                               self.update_text_position()

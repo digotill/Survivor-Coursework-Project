@@ -8,7 +8,7 @@ import traceback
 ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 from Code.Classes.Game_Class import *
-from Code.Variables.Variables import PF
+from Code.Variables.Variables import Performance_Profile
 import cProfile, os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -22,12 +22,12 @@ os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
 if __name__ == "__main__":
           profiler = None
-          if PF:
+          if Performance_Profile:
                     profiler = cProfile.Profile()
                     profiler.enable()
 
           try:
-                    Game().run_game()
+                    Game()
           except Exception as e:
                     error_message = str(e)
                     error_traceback = traceback.format_exc()

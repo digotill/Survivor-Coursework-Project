@@ -21,7 +21,8 @@ logical_cores = psutil.cpu_count(logical=True)
 refresh_rate = pygame.display.get_current_refresh_rate()
 
 AM = AssetManager()
-PF = False
+Performance_Profile = False
+Memory_Profile = True
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["cover"])
@@ -36,15 +37,6 @@ General_Settings = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-}
-
-Button_config = {
-          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4,
-                    "hovering_colour": (255, 0, 0), "hover_slide": True, "hover_offset": 10, "hover_speed": 20,
-          },
-          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4, "circle_base_colour": (255, 255, 255),
-                    "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 10, "hover_speed": 20, "line_thickness": 2, "line_colour": (120, 120, 120)
-          }
 }
 
 Window_Attributes = {
@@ -122,25 +114,35 @@ Weapons = {
                                             ),
 }
 
+Button_config = {
+          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4,
+                    "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "image": AM.assets["button5"],
+          },
+          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4, "circle_base_colour": (255, 255, 255),
+                    "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120), "image": AM.assets["button7"]
+          }
+}
+
+
 AllButtons = {
-          "In_Game": {"resume": create_button("Resume", v2(240, 135), AM.assets["button1"], Button_config["button"]),
-                      "fullscreen": create_button("Fullscreen", v2(240, 170), AM.assets["button1"], Button_config["button"]),
-                      "quit": create_button("QUIT", v2(240, 240), AM.assets["button1"], Button_config["button"]),
-                      "return": create_button("Return", v2(240, 90), AM.assets["button1"], Button_config["button"])
+          "In_Game": {"resume": create_button("Resume", v2(240, 135), Button_config["button"]),
+                      "fullscreen": create_button("Fullscreen", v2(240, 170), Button_config["button"]),
+                      "quit": create_button("QUIT", v2(240, 240), Button_config["button"]),
+                      "return": create_button("Return", v2(240, 90), Button_config["button"])
                       },
-          "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), Button_config["button"], {"text_pos": "left"}),
-                      "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), Button_config["button"], {"text_pos": "left"}),
-                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), Button_config["button"], {"text_pos": "left"}),
+          "Weapons": {"ak47": create_button("ak47", v2(140, 240), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["ak47"])}),
+                      "shotgun": create_button("shotgun", v2(140, 215), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["shotgun"])}),
+                      "minigun": create_button("minigun", v2(140, 180), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["minigun"])}),
                       },
-          "Sliders": {"brightness": create_slider(v2(360, 235), AM.assets["button2"], "brightness:  ", 0, 100, 50, Button_config["slider"]),
-                      "fps": create_slider(v2(360, 180), AM.assets["button2"], "max fps:  ", 20, 240, refresh_rate, Button_config["slider"])
-                      },
-          "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button1"], Button_config["button"]),
-                           "quit": create_button("quit", v2(280, 240), AM.assets["button1"], Button_config["button"]),
-                           "easy": create_button("easy", v2(200, 190), AM.assets["button1"], Button_config["button"]),
-                           "medium": create_button("medium", v2(200, 150), AM.assets["button1"], Button_config["button"]),
-                           "hard": create_button("hard", v2(280, 190), AM.assets["button1"], Button_config["button"]),
+          "Menu_Buttons": {"play": create_button("play", v2(200, 240), Button_config["button"]),
+                           "quit": create_button("quit", v2(280, 240), Button_config["button"]),
+                           "easy": create_button("easy", v2(200, 190), Button_config["button"]),
+                           "medium": create_button("medium", v2(200, 150), Button_config["button"]),
+                           "hard": create_button("hard", v2(280, 190), Button_config["button"]),
                            },
+          "Sliders": {"brightness": create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, Button_config["slider"]),
+                      "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, Button_config["slider"])
+                      },
 }
 
 Objects_Config = {
@@ -149,7 +151,7 @@ Objects_Config = {
           "placement": (20, 10),  # distance from original position, attempts
 }
 
-Biomes_Config = {"dead": (0.35, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, amount
+Biomes_Config = {"dead": (0.3, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, tree density
                  }
 
 Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],

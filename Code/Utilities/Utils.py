@@ -92,11 +92,10 @@ def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifet
           }
 
 
-def create_button(text_input, pos, image, dictionary, dictionary2=None):
+def create_button(text_input, pos, dictionary, dictionary2=None):
           value = {
                     "text_input": text_input,
                     "pos": pos,
-                    "image": image,
           }
           value.update(dictionary)
           if dictionary2 is not None:
@@ -104,11 +103,10 @@ def create_button(text_input, pos, image, dictionary, dictionary2=None):
           return value
 
 
-def create_slider(pos, image, text_input, min_value, max_value, initial_value, dictionary, dictionary2=None):
+def create_slider(pos, text_input, min_value, max_value, initial_value, dictionary, dictionary2=None):
           value = {
                     "text_input": text_input,
                     "pos": pos,
-                    "image": image,
                     "min_value": min_value,
                     "max_value": max_value,
                     "value": initial_value,
