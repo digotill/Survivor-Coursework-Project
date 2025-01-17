@@ -81,8 +81,8 @@ Save/
 ehthumbs.db
 Thumbs.db
 
-# Ignore all .txt files in the root directory
-/*.txt
+# Ignore error log
+error_log.txt
 
 # Ignore .ap files in any directory
 **/*.ap

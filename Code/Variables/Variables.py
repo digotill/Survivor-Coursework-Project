@@ -125,10 +125,10 @@ Button_config = {
 
 
 AllButtons = {
-          "In_Game": {"resume": create_button("Resume", v2(240, 135), Button_config["button"]),
-                      "fullscreen": create_button("Fullscreen", v2(240, 170), Button_config["button"]),
-                      "quit": create_button("QUIT", v2(240, 240), Button_config["button"]),
-                      "return": create_button("Return", v2(240, 90), Button_config["button"])
+          "In_Game": {"resume": create_button("resume", v2(240, 135), Button_config["button"]),
+                      "fullscreen": create_button("fullscreen", v2(240, 170), Button_config["button"]),
+                      "quit": create_button("quit", v2(240, 240), Button_config["button"]),
+                      "return": create_button("return", v2(240, 90), Button_config["button"])
                       },
           "Weapons": {"ak47": create_button("ak47", v2(140, 240), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["ak47"])}),
                       "shotgun": create_button("shotgun", v2(140, 215), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["shotgun"])}),
