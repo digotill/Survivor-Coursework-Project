@@ -61,13 +61,11 @@ class AssetManager:
                                         self.add_tile(tile, (j, i), dictionary, array, tileset_image, i * 4 + j)
                     self.assets[name] = dictionary
 
-
           @staticmethod
           def add_tile(tile, position, dictionary, array, tileset_image, count):
                     tile.fill((0, 0, 0, 0))
                     tile.blit(tileset_image, (0, 0), (16 * position[0], 16 * position[1], 16, 16))
                     dictionary[array[count]] = [tile.copy()]
-
 
           def load_font(self, file_path, name):
                     self.assets[name] = pygame.font.Font(file_path, int(name[4:]))

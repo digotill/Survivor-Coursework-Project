@@ -16,6 +16,7 @@ class main_grass:
                     for key, value in attributes.items():
                               setattr(self, key, value)
 
+
 # the main object that manages the grass system
 class GrassManager(main_grass):
           def __init__(self, game):
@@ -99,6 +100,7 @@ class GrassManager(main_grass):
                     for pos in render_list:
                               tile = self.grass_tiles[pos]
                               self.game.drawing_manager.drawables.append(tile)
+
 
 # an asset manager that contains functionality for rendering blades of grass
 class GrassAssets:

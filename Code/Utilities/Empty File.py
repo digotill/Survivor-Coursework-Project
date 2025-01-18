@@ -8,4 +8,4 @@
 
 # lookup_colour("red")
 # print(f"Total memory usage of AM: {asizeof.asizeof(self.event_manager)} bytes")
-#rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor\Assets")
+# rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor\Assets")

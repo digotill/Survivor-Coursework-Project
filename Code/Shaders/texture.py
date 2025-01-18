@@ -1,52 +1,55 @@
 import os
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import moderngl
 import typing
 
+
 class Texture:
-    """
-    Responsible for handling an OpenGL texture object.
-    """
-    def __init__(self, image: pygame.Surface, ctx: moderngl.Context) -> None:
-        image = pygame.transform.flip(image, False, True)
-        self.image_width, self.image_height = image.get_rect().size
-        img_data = pygame.image.tostring(image, "RGBA")
-        self.texture = ctx.texture(size=image.get_size(), components=4, data=img_data)
-        self.texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
+          """
+          Responsible for handling an OpenGL texture object.
+          """
 
-    def update(self, image: pygame.Surface) -> None:
-        """
-        Writes the contents of the pygame Surface to OpenGL texture. 
-        """
+          def __init__(self, image: pygame.Surface, ctx: moderngl.Context) -> None:
+                    image = pygame.transform.flip(image, False, True)
+                    self.image_width, self.image_height = image.get_rect().size
+                    img_data = pygame.image.tostring(image, "RGBA")
+                    self.texture = ctx.texture(size=image.get_size(), components=4, data=img_data)
+                    self.texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
 
-        image = pygame.transform.flip(image, False, True)
-        image_width, image_height = image.get_rect().size
-        img_data = pygame.image.tostring(image, "RGBA")
+          def update(self, image: pygame.Surface) -> None:
+                    """
+                    Writes the contents of the pygame Surface to OpenGL texture.
+                    """
 
-        self.texture.write(img_data)
+                    image = pygame.transform.flip(image, False, True)
+                    image_width, image_height = image.get_rect().size
+                    img_data = pygame.image.tostring(image, "RGBA")
 
-    def as_surface(self) -> pygame.Surface:
-        """
-        Returns the OpenGL texture as a pygame Surface.
-        """
+                    self.texture.write(img_data)
 
-        buffer = self.texture.read()
-        surf = pygame.image.frombuffer(buffer, (self.image_width, self.image_height), "RGBA")
-        return surf
+          def as_surface(self) -> pygame.Surface:
+                    """
+                    Returns the OpenGL texture as a pygame Surface.
+                    """
 
-    def bind(self, unit: int, read: bool=True, write: bool=True) -> None:
-        """
-        Bind the texture to a certain texture slot with given permissions
-        """
+                    buffer = self.texture.read()
+                    surf = pygame.image.frombuffer(buffer, (self.image_width, self.image_height), "RGBA")
+                    return surf
 
-        self.texture.bind_to_image(unit, read=read, write=write)
+          def bind(self, unit: int, read: bool = True, write: bool = True) -> None:
+                    """
+                    Bind the texture to a certain texture slot with given permissions
+                    """
 
-    def use(self, _id: typing.Union[None, int] = None) -> None:
-        """
-        Use the texture object for rendering
-        """
-        if not _id:
-            self.texture.use()  
-        else:
-            self.texture.use(_id)
+                    self.texture.bind_to_image(unit, read=read, write=write)
+
+          def use(self, _id: typing.Union[None, int] = None) -> None:
+                    """
+                    Use the texture object for rendering
+                    """
+                    if not _id:
+                              self.texture.use()
+                    else:
+                              self.texture.use(_id)

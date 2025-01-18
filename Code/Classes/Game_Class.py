@@ -9,6 +9,7 @@ from Code.Variables.AssetManager import *
 from Code.Shaders import pygame_shaders
 from memory_profiler import profile
 
+
 class Game:
           def __init__(self):
                     # Initialize Pygame
@@ -24,7 +25,7 @@ class Game:
                     # Create a separate surface for UI elements
                     self.ui_surface = pygame.Surface(REN_RES).convert()
                     self.ui_surface.set_colorkey((0, 0, 0))  # Set black as transparent for UI surface
-                    
+
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
 
@@ -37,7 +38,7 @@ class Game:
                     self.immidiate_quit = False
                     self.in_menu = True
                     self.restart = False
-                    
+
                     # Initialize DataFrame for storing game statistics
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
 
@@ -53,7 +54,7 @@ class Game:
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
 
-                    #Generate tilemap and objects
+                    # Generate tilemap and objects
                     self.tilemap = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
 
@@ -130,8 +131,10 @@ class Game:
                     if self.mouse_pos != pygame.mouse.get_pos():
                               pygame.mouse.set_pos(self.mouse_pos)
                     self.mouse_state = pygame.mouse.get_pressed()
-                    if self.clock.get_fps() != 0: self.dt = 1 / self.clock.get_fps()
-                    else: self.dt = 0
+                    if self.clock.get_fps() != 0:
+                              self.dt = 1 / self.clock.get_fps()
+                    else:
+                              self.dt = 0
                     if not self.changing_settings:
                               self.game_time += self.dt
 
@@ -145,8 +148,10 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.update_display()
-                              if self.restart: self.refresh()
-                              elif self.immidiate_quit: return None
+                              if self.restart:
+                                        self.refresh()
+                              elif self.immidiate_quit:
+                                        return None
 
           def run_game(self):
                     # Main game loop
@@ -157,5 +162,7 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.update_display()
-                              if self.restart: self.refresh()
-                              elif self.immidiate_quit: return None
+                              if self.restart:
+                                        self.refresh()
+                              elif self.immidiate_quit:
+                                        return None

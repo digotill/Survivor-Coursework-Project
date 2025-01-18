@@ -116,13 +116,12 @@ Weapons = {
 
 Button_config = {
           "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4,
-                    "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "image": AM.assets["button5"],
-          },
+                     "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "image": AM.assets["button5"],
+                     },
           "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4, "circle_base_colour": (255, 255, 255),
-                    "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120), "image": AM.assets["button7"]
-          }
+                     "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120), "image": AM.assets["button7"]
+                     }
 }
-
 
 AllButtons = {
           "In_Game": {"resume": create_button("resume", v2(240, 135), Button_config["button"]),
@@ -158,4 +157,4 @@ Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transit
                   }
 
 Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,
-                    }
+               }

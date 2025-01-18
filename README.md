@@ -85,7 +85,8 @@ Simply run the provided "run.exe" file to start the game.
 ### Packaging the Game
 
 To create an executable, use:
-pyinstaller "name of executable file".py --onefile --windowed
+
+
 
 ## 👨‍💻 Authors
 

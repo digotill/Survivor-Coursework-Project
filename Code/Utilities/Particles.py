@@ -4,10 +4,12 @@ from Code.Variables.Variables import *
 
 pygame.init()
 
+
 class main:
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
                               setattr(self, key, value)
+
 
 class Spark(main):
           def __init__(self, game, pos, angle, speed, color, scale=1):

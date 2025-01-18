@@ -77,7 +77,6 @@ class UIElement:
                               self.current_hover_offset = max(
                                         self.current_hover_offset - self.hover_speed * self.game.dt, 0)
 
-
                     # Update the target vector
                     target.x = self.starting_pos[0] + self.current_hover_offset if self.hover_slide else self.starting_pos[0]
 

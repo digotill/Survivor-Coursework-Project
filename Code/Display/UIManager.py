@@ -60,14 +60,14 @@ class UIManager:
                                         max(min(AllButtons["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
                                             AllButtons["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False,
-                                                      pygame.Color("orange"))
+                                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=(UI_Settings["health_bar"][0], UI_Settings["health_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def draw_time(self):
                     if self.fps_enabled:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
-                                                      pygame.Color("orange"))
+                                                                       pygame.Color("orange"))
                               text_rect = text.get_rect(center=(
                                         REN_RES[0] - UI_Settings["stamina_bar"][0], UI_Settings["stamina_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
@@ -79,8 +79,8 @@ class UIManager:
                               else:
                                         image = self.game.assets["cursor"][0]
                               self.game.ui_surface.blit(image,
-                                                     (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
-                                                      self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
+                                                        (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
+                                                         self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
                     if self.game.changing_settings:
@@ -93,8 +93,8 @@ class UIManager:
                     if self.brightness > 50:
                               self.game.display_screen.fill([int(General_Settings['brightness'][1] * (
                                       self.brightness - 50)) for _ in range(3)],
-                                                     special_flags=pygame.BLEND_RGB_ADD)
+                                                            special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < 50:
                               self.game.display_screen.fill([int(General_Settings['brightness'][0] * (
                                       50 - self.brightness)) for _ in range(3)],
-                                                     special_flags=pygame.BLEND_RGB_SUB)
+                                                            special_flags=pygame.BLEND_RGB_SUB)

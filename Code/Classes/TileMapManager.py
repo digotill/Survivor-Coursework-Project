@@ -114,10 +114,14 @@ class TileMapManager:
                     for neighbour in neighbours:
                               if neighbour is None or neighbour.tile_type != tile.tile_type:
                                         return_data.append(["2112", "2121", "1212", "1221"][neighbours.index(neighbour)])
-                    if len(return_data) == 0: return True
-                    elif len(return_data) == 1: return return_data[0]
-                    elif "2112" in return_data: return "1"
-                    else: return "2"
+                    if len(return_data) == 0:
+                              return True
+                    elif len(return_data) == 1:
+                              return return_data[0]
+                    elif "2112" in return_data:
+                              return "1"
+                    else:
+                              return "2"
 
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)

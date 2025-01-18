@@ -7,6 +7,7 @@ class main_camera:
                     for key, value in attributes.items():
                               setattr(self, key, value)
 
+
 class Camera(main_camera):
           def __init__(self, game):
                     self.game = game

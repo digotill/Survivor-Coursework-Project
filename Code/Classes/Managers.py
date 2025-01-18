@@ -201,7 +201,6 @@ class ObjectManager:
                                                             biome_density_factor = data[1]
                                                             break
 
-
                                         # Check if we should place a tree based on density
                                         if random.random() < density_value * Objects_Config["tree"][0] * biome_density_factor:  # Adjust 0.1 to control overall tree density
                                                   tree_image = random.choice(self.game.assets[biome + "_tree"])
