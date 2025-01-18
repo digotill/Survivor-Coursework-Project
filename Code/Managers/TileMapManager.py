@@ -1,4 +1,3 @@
-from pygame import Vector2
 from Code.DataStructures.Grid import *
 
 
@@ -6,7 +5,7 @@ class Tile:
           def __init__(self, game, tile_type, position):
                     self.game = game
                     self.tile_type = tile_type
-                    self.position = Vector2(position)
+                    self.position = v2(position)
                     self.size = General_Settings["hash_maps"][2]
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size - 1, self.size - 1)
                     if tile_type in Tiles_Congifig["animated_tiles"]:
@@ -32,7 +31,7 @@ class TileMapManager:
 
                     self.animation_speed = Tiles_Congifig["animation_speed"]
                     self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
-                    self.perlin_noise = PerlinNoise(Perlin_Noise["overworld_map"][1], random.randint(0, 100000))
+                    self.perlin_noise = PerlinNoise(Map_Config["overworld_map"][1], random.randint(0, 100000))
 
                     self.terrain_generator()
                     self.grass_generator()
@@ -54,7 +53,7 @@ class TileMapManager:
                                         tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, frame)
 
           def get_tile_type(self, x, y):
-                    noise_value = self.perlin_noise([x * Perlin_Noise["overworld_map"][0], y * Perlin_Noise["overworld_map"][0]])
+                    noise_value = self.perlin_noise([x * Map_Config["overworld_map"][0], y * Map_Config["overworld_map"][0]])
                     for tile in Tiles_Congifig["Tile_Ranges"].keys():
                               if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
                                         return tile

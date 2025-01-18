@@ -1,7 +1,8 @@
 import pandas as pd
 
+from Code.Individuals.Player import *
 from Code.Individuals.Buttons import *
-from Code.Individuals.Entities import *
+from Code.Individuals.Gun import *
 from Code.Utilities.Functions import *
 
 

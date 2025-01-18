@@ -1,6 +1,4 @@
-from Code.Individuals.Entities import *
-from perlin_noise import PerlinNoise as perlin_noise
-
+from Code.Variables.Variables import *
 
 class main_camera:
           def set_attributes(self, attributes):
@@ -28,7 +26,7 @@ class CameraManager(main_camera):
                     self.shake_seed = random.random() * 1000
                     self.shake_direction = v2(1, 1)
 
-                    self.noise_map = perlin_noise(Perlin_Noise["camera_shake_map"][0], random.randint(0, 100000))
+                    self.noise_map = PerlinNoise(Map_Config["camera_shake_map"][0], random.randint(0, 100000))
 
           def move(self, dx, dy, move_horizontally, move_vertically):
                     if move_horizontally:
@@ -120,7 +118,7 @@ class CameraManager(main_camera):
                     return v2(int(shake_offset.x), int(shake_offset.y))
 
           def get_2d_noise(self, x, y):
-                    scaled_x, scaled_y = x * Perlin_Noise["camera_shake_map"][1], y * Perlin_Noise["camera_shake_map"][1]
+                    scaled_x, scaled_y = x * Map_Config["camera_shake_map"][1], y * Map_Config["camera_shake_map"][1]
                     return self.noise_map([scaled_x, scaled_y])
 
           def add_screen_shake(self, duration, magnitude):

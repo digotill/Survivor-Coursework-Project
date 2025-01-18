@@ -1,7 +1,5 @@
 from Code.Individuals.Buttons import *
 from Code.DataStructures.Grid import *
-import pygame
-
 
 class ButtonManager:
           def __init__(self, game):

@@ -12,7 +12,7 @@ class Gun(main):
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
-                    self.noise_map = PerlinNoise(Perlin_Noise["gun_shake_map"][1], random.randint(0, 100000))
+                    self.noise_map = PerlinNoise(Map_Config["gun_shake_map"][1], random.randint(0, 100000))
 
                     self.last_shot = - self.fire_rate
                     self.initial_vel = self.vel

@@ -3,7 +3,6 @@ from Code.Managers import *
 from Code.Menus import *
 from Code.Variables.LoadAssets import *
 from Code.Shaders import pygame_shaders
-from memory_profiler import profile
 
 
 class Game:

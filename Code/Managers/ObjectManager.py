@@ -10,15 +10,15 @@ class ObjectManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game, General_Settings["hash_maps"][4])
-                    self.biome_noise = PerlinNoise(octaves=Perlin_Noise["biome_map"][1], seed=random.randint(0, 100000))
-                    self.density_noise = PerlinNoise(octaves=Perlin_Noise["density_map"][1], seed=random.randint(0, 100000))
+                    self.biome_noise = PerlinNoise(octaves=Map_Config["biome_map"][1], seed=random.randint(0, 100000))
+                    self.density_noise = PerlinNoise(octaves=Map_Config["density_map"][1], seed=random.randint(0, 100000))
                     self.generate_objects()
 
           def generate_objects(self):
 
                     # Generate biome and density maps
-                    biome_map = self.generate_noise_map(self.biome_noise, Perlin_Noise["biome_map"][0])
-                    density_map = self.generate_noise_map(self.density_noise, Perlin_Noise["density_map"][0])
+                    biome_map = self.generate_noise_map(self.biome_noise, Map_Config["biome_map"][0])
+                    density_map = self.generate_noise_map(self.density_noise, Map_Config["density_map"][0])
 
                     size = General_Settings["tree"][1]
                     sorted_biomes = sorted(Biomes_Config.items(), key=lambda x_: x_[1])

@@ -1,7 +1,4 @@
-# Import necessary modules and variables
-from Code.Utilities.Functions import *
 from Code.Variables.Variables import *
-from Code.Individuals.Entities import *
 
 
 # Base class for UI elements

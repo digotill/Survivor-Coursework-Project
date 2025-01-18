@@ -1,13 +1,14 @@
-import copy
-import pygame
-import moderngl
-import psutil
+import copy, traceback, cProfile, os, ctypes, logging, pygame, moderngl, psutil, math, time, os, random, threading
 import pandas as pd
 from pympler import asizeof
 from perlin_noise import PerlinNoise
+from pygame.math import Vector2 as v2
+from copy import deepcopy
+from itertools import product
+from pstats import Stats
+from memory_profiler import profile
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *
-from pygame.math import Vector2 as v2
 from Code.Variables.LoadAssets import *
 
 pygame.init()
@@ -22,6 +23,7 @@ physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
 refresh_rate = pygame.display.get_current_refresh_rate()
 
+rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
 Performance_Profile = False
 
@@ -102,8 +104,8 @@ Sparks_Settings = {"enemy_hit": create_spark_settings(spread=60, scale=1, colour
                    "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
                    }
 
-Perlin_Noise = {"biome_map": (0.004, 1), "density_map": (0.05, 4), "overworld_map": (0.05, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
-                }
+Map_Config = {"biome_map": (0.004, 1), "density_map": (0.05, 4), "overworld_map": (0.05, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
+              }
 
 Biomes_Config = {"dead": (0.3, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, tree density
                  }

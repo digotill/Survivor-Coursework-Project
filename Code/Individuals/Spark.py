@@ -1,8 +1,4 @@
-import math
-import pygame
 from Code.Variables.Variables import *
-
-pygame.init()
 
 
 class main:

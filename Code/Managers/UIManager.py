@@ -1,5 +1,4 @@
-from Code.Individuals.Entities import *
-
+from Code.Variables.Variables import *
 
 class UIManager:
           def __init__(self, game):

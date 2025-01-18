@@ -1,4 +1,3 @@
-from Code.Individuals.Buttons import *
 from Code.Individuals.Bullet import *
 from Code.DataStructures.Grid import *
 

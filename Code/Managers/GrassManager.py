@@ -1,14 +1,4 @@
-import os
-import random
-import math
-import threading
-from copy import deepcopy
-from pygame.math import Vector2
-
-from Code.Utilities.Functions import *
 from Code.Variables.Variables import *
-
-import pygame
 
 # the main object that manages the grass system
 class GrassManager():
@@ -126,7 +116,7 @@ class GrassTile:
                     self.game = game
                     self.ga = ga
                     self.gm = gm
-                    self.pos = Vector2(location)
+                    self.pos = v2(location)
                     self.size = tile_size
                     self.blades = []
                     self.master_rotation = 0

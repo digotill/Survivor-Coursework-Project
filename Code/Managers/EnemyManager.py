@@ -1,8 +1,5 @@
-from Code.Individuals.Buttons import *
 from Code.Individuals.Enemy import *
 from Code.DataStructures.Grid import *
-from pygame.math import Vector2 as v2
-import pygame
 
 
 class EnemyManager:

@@ -5,7 +5,7 @@ class Bullet(main):
                     self.game = game
                     self.gun = gun
                     self.name = name
-                    noise_value = shake_map([game.game_time * Perlin_Noise["gun_shake_map"][0], 0])
+                    noise_value = shake_map([game.game_time * Map_Config["gun_shake_map"][0], 0])
                     spread_angle = noise_value * gun.spread * spread_factor
                     self.angle = angle + spread_angle
                     self.image = pygame.transform.rotate(gun.bullet_image, self.angle + 90)

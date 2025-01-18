@@ -1,18 +1,8 @@
-import logging
-from pstats import Stats
-import ctypes
 from Code.Utilities.ErrorLogger import *
-from Code.Utilities.Functions import *
-import traceback
+from Code.Game_Class import *
+
 
 ctypes.windll.shcore.SetProcessDpiAwareness(2)
-
-rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
-
-from Code.Game_Class import *
-from Code.Variables.Variables import Performance_Profile
-import cProfile, os
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -22,8 +12,9 @@ if sys.version_info < (3, 7):
 
 os.environ['SDL_VIDEODRIVER'] = 'opengl'
 
+Performance_Profile = False
+
 if __name__ == "__main__":
-          profiler = None
           if Performance_Profile:
                     profiler = cProfile.Profile()
                     profiler.enable()
@@ -36,7 +27,7 @@ if __name__ == "__main__":
                     log_error(error_message, error_traceback)
                     print_error_message(error_message, error_traceback)
           finally:
-                    if profiler:
+                    if Performance_Profile:
                               profiler.disable()
                               stats = Stats(profiler)
                               stats.sort_stats('time').reverse_order().print_stats()
