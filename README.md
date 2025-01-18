@@ -32,11 +32,25 @@ pip install -r requirements.txt
 ### Installation
 
 1. Clone the repository
-   git clone https://github.com/yourusername/survivor-coursework.git
+```bash
+git clone https://github.com/digotill/Survivor-Coursework-Project.git survivor-coursework-project
+```
 2. Navigate to the project directory
-   cd survivor-coursework-project
-3. Install required packages
-   pip install -r requirements.txt
+```bash
+cd survivor-coursework-project
+```
+3. Create a virtual environment
+```bash
+python -m venv venv
+```
+4. Install the required packages
+```bash
+venv/pip install -r requirements.txt
+```
+5. Run
+```bash
+venv/python run.py
+```
 
 ### Running the Game
 
@@ -63,7 +77,7 @@ Simply run the provided "run.exe" file to start the game.
 To create an executable, use pyinstaller:
 
 ```bash
-pyinstaller Run.py --onefile --windowed --noconsole --add-data "Assets;Assets"
+pyinstaller run.py --onefile --windowed --noconsole --add-data "Assets;Assets"
 ```
 
 ## 👨‍💻 Authors
