@@ -4,7 +4,7 @@ from PIL import Image
 import io
 
 
-class AssetManager:
+class LoadAssets:
           def __init__(self):
                     self.assets = {}
                     self.load_all_assets()

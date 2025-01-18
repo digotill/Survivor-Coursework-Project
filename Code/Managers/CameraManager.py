@@ -1,4 +1,4 @@
-from Code.Classes.Entities import *
+from Code.Individuals.Entities import *
 from perlin_noise import PerlinNoise as perlin_noise
 
 
@@ -8,7 +8,7 @@ class main_camera:
                               setattr(self, key, value)
 
 
-class Camera(main_camera):
+class CameraManager(main_camera):
           def __init__(self, game):
                     self.game = game
                     self.res = REN_RES

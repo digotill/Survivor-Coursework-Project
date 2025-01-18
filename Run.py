@@ -1,16 +1,15 @@
-import sys
 import logging
 from pstats import Stats
 import ctypes
 from Code.Utilities.ErrorLogger import *
-from Code.Utilities.Utils import *
+from Code.Utilities.Functions import *
 import traceback
 
 ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 
-from Code.Classes.Game_Class import *
+from Code.Game_Class import *
 from Code.Variables.Variables import Performance_Profile
 import cProfile, os
 

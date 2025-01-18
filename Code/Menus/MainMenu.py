@@ -1,8 +1,8 @@
 import pandas as pd
 
-from Code.Classes.Buttons import *
-from Code.Classes.Entities import *
-from Code.Utilities.Utils import *
+from Code.Individuals.Buttons import *
+from Code.Individuals.Entities import *
+from Code.Utilities.Functions import *
 
 
 class MainMenu:
@@ -16,10 +16,10 @@ class MainMenu:
                     for button in self.buttons.values():
                               button.active = True
 
-                    self.loading_screen = self.game.assets["main_menu"]
-                    self.current_frame = 0
-                    self.difficulty = "MEDIUM"
-                    self.animation_speed = 15
+                    self.background_frame = 0
+                    self.transition_frame = 0
+                    self.playing_transition = False
+                    self.difficulty = "medium"
                     self.create_weapons()
                     self.loop()
 
@@ -49,10 +49,10 @@ class MainMenu:
           def loop(self):
                     while self.game.in_menu and self.game.running:
                               self.game.clock.tick(self.game.fps)
-                              self.draw_and_update_background()
+                              self.draw_background()
 
                               self.game.manage_events()
-                              self.game.update_game_variables()
+                              self.game.update_variables()
 
                               sorted_buttons = sorted(self.buttons.values(), key=lambda b: b.pos.y)
                               for button in sorted_buttons:
@@ -60,9 +60,11 @@ class MainMenu:
                                         button.changeColor()
                                         button.draw()
 
+                              self.draw_transition()
+
                               if pygame.mouse.get_pressed()[0]:
                                         if self.buttons['play'].check_for_input():
-                                                  self.game.in_menu = False
+                                                  self.playing_transition = True
                                         if self.buttons['quit'].check_for_input():
                                                   self.game.running = False
                                                   self.game.immidiate_quit = True
@@ -83,26 +85,22 @@ class MainMenu:
 
                               self.game.update_display()
 
-                    self.update_difficulty()
+                    self.update()
 
-          def update_difficulty(self):
+          def update(self):
                     new_stat = pd.DataFrame(
                               {'Coins': [0], 'Score': [0], 'Enemies Killed': [0], 'Difficulty': [self.difficulty]})
                     self.game.stats = pd.concat([self.game.stats, new_stat], ignore_index=True)
 
                     self.game.player = Player(self.game, self.gun, Player_Attributes)
 
-          def draw_and_update_background(self):
-                    self.game.display_screen.blit(self.loading_screen[int(self.current_frame) % len(self.loading_screen)])
-                    self.current_frame += self.game.dt * self.animation_speed
+          def draw_background(self):
+                    self.game.display_screen.blit(self.game.assets["main_menu"][int(self.background_frame) % len(self.game.assets["main_menu"])])
+                    self.background_frame += self.game.dt * General_Settings['animation_speeds'][0]
 
-
-class GameOver:
-          def __init__(self, game):
-                    self.game = game
-
-          def update(self):
-                    if self.game.player.pierce < 0: self.running = False
-
-          def loop(self):
-                    pass
+          def draw_transition(self):
+                    if self.playing_transition:
+                              self.game.ui_surface.blit(self.game.assets["transition_screen"][int(self.transition_frame) % len(self.game.assets["transition_screen"])])
+                              self.transition_frame += self.game.dt * General_Settings['animation_speeds'][1]
+                              if self.transition_frame > len(self.game.assets["transition_screen"]) - 1:
+                                        self.game.in_menu = False

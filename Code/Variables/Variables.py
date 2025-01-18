@@ -2,11 +2,13 @@ import copy
 import pygame
 import moderngl
 import psutil
+import pandas as pd
 from pympler import asizeof
 from perlin_noise import PerlinNoise
-from Code.Utilities.Utils import *
+from Code.Utilities.Functions import *
+from Code.Utilities.CreateDict import *
 from pygame.math import Vector2 as v2
-from Code.Variables.AssetManager import *
+from Code.Variables.LoadAssets import *
 
 pygame.init()
 
@@ -20,9 +22,8 @@ physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
 refresh_rate = pygame.display.get_current_refresh_rate()
 
-AM = AssetManager()
+AM = LoadAssets()
 Performance_Profile = False
-Memory_Profile = False
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["cover"])
@@ -37,6 +38,9 @@ General_Settings = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
+          'animation_speeds': (15, 20),  # main menu
+          "rock": (100, False),  # amount, collisions
+          "tree": (0.2, 25),  # density, spreadoutness
 }
 
 Window_Attributes = {
@@ -81,8 +85,8 @@ Player_Attributes = {
           "grass_force": 10,  # grass force drop off
 }
 
-Enemies = {"enemy1": create_enemy_settings(name="enemy1", health=100, vel=100, damage=20, stopping_distance=25, steering_strength=0.8, friction=0.2, animation_speed=5,
-                                           hit_cooldown=0, separation_radius=20, separation_strength=5)
+Enemies = {"enemy1": create_enemy_settings(name="enemy1", health=100, vel=100, damage=20, stopping_distance=25, steering_strength=0.8,
+                                           friction=0.2, animation_speed=5, hit_cooldown=0, separation_radius=20, separation_strength=5)
            }
 
 Keys = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
@@ -94,13 +98,21 @@ UI_Settings = {"health_bar": (80, 30), "stamina_bar": (80, 30),
 Screen_Shake = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1),  # magnitude, duration
                 }
 
-Sparks_Settings = {
-          "enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
-          "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
-}
+Sparks_Settings = {"enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
+                   "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
+                   }
 
 Perlin_Noise = {"biome_map": (0.004, 1), "density_map": (0.05, 4), "overworld_map": (0.05, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
                 }
+
+Biomes_Config = {"dead": (0.3, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, tree density
+                 }
+
+Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],
+                  }
+
+Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,
+               }
 
 Weapons = {
           "ak47": create_weapon_settings(vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30, lifetime=3, lifetime_randomness=0.2, damage=16,
@@ -115,10 +127,10 @@ Weapons = {
 }
 
 Button_config = {
-          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4,
+          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
                      "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "image": AM.assets["button5"],
                      },
-          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 300, "base_colour": (255, 255, 255), "distance_factor": 0.4, "circle_base_colour": (255, 255, 255),
+          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3, "circle_base_colour": (255, 255, 255),
                      "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120), "image": AM.assets["button7"]
                      }
 }
@@ -143,18 +155,3 @@ AllButtons = {
                       "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, Button_config["slider"])
                       },
 }
-
-Objects_Config = {
-          "rock": (100, False),  # amount, collisions
-          "tree": (0.2, 25),  # density, spreadoutness
-          "placement": (20, 10),  # distance from original position, attempts
-}
-
-Biomes_Config = {"dead": (0.3, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, tree density
-                 }
-
-Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],
-                  }
-
-Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,
-               }

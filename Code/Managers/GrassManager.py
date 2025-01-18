@@ -5,20 +5,13 @@ import threading
 from copy import deepcopy
 from pygame.math import Vector2
 
-from Code.Utilities.Utils import *
+from Code.Utilities.Functions import *
 from Code.Variables.Variables import *
 
 import pygame
 
-
-class main_grass:
-          def set_attributes(self, attributes):
-                    for key, value in attributes.items():
-                              setattr(self, key, value)
-
-
 # the main object that manages the grass system
-class GrassManager(main_grass):
+class GrassManager():
           def __init__(self, game):
                     self.game = game
                     # asset manager
@@ -34,6 +27,10 @@ class GrassManager(main_grass):
                     self.grass_tiles = {}
 
                     self.set_attributes(Grass)
+
+          def set_attributes(self, attributes):
+                    for key, value in attributes.items():
+                              setattr(self, key, value)
 
           # either creates a new grass tile layout or returns an existing one if the cap has been hit
           def get_format(self, format_id, data, tile_id):

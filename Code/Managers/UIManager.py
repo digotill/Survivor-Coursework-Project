@@ -1,4 +1,4 @@
-from Code.Classes.Entities import *
+from Code.Individuals.Entities import *
 
 
 class UIManager:
@@ -98,3 +98,9 @@ class UIManager:
                               self.game.display_screen.fill([int(General_Settings['brightness'][0] * (
                                       50 - self.brightness)) for _ in range(3)],
                                                             special_flags=pygame.BLEND_RGB_SUB)
+
+          def draw(self):
+                    self.darken_screen()
+                    self.draw_bars()
+                    self.draw_fps()
+                    self.draw_time()

@@ -1,6 +1,5 @@
 from pygame import Vector2
-from perlin_noise import PerlinNoise
-from Code.Utilities.Grid import *
+from Code.DataStructures.Grid import *
 
 
 class Tile:

@@ -1,11 +1,7 @@
-from Code.Classes.Managers import *
-from Code.Display.EventManager import *
-from Code.Display.Menu import *
-from Code.Display.UIManager import *
-from Code.Display.Camera import *
-from Code.Classes.TileMapManager import TileMapManager
-from Code.Classes.GrassManager import *
-from Code.Variables.AssetManager import *
+from Code.Variables.Variables import *
+from Code.Managers import *
+from Code.Menus import *
+from Code.Variables.LoadAssets import *
 from Code.Shaders import pygame_shaders
 from memory_profiler import profile
 
@@ -45,7 +41,7 @@ class Game:
                     # Initialize various game managers
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
-                    self.particle_manager = ParticleManager(self)
+                    self.particle_manager = SparkManager(self)
                     self.bullet_manager = BulletManager(self)
                     self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
@@ -53,24 +49,19 @@ class Game:
                     self.rain_manager = RainManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
-
-                    # Generate tilemap and objects
                     self.tilemap = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
 
                     # Update initial game variables
-                    self.update_game_variables()
+                    self.update_variables()
 
                     # Initialize and run the main menu
                     self.mainmenu = MainMenu(self)
 
                     # Initialize camera
-                    self.camera = Camera(self)
+                    self.camera = CameraManager(self)
 
-                    if Memory_Profile:
-                              self.run_game_profile()
-                    else:
-                              self.run_game()
+                    self.run_game()
 
           def refresh(self):
                     # Refresh the display and restart the game
@@ -97,10 +88,7 @@ class Game:
                     self.bullet_manager.draw()
                     self.particle_manager.draw()
                     self.rain_manager.draw()
-                    self.ui_manager.darken_screen()
-                    self.ui_manager.draw_bars()
-                    self.ui_manager.draw_fps()
-                    self.ui_manager.draw_time()
+                    self.ui_manager.draw()
                     self.button_manager.draw()
 
           def update_display(self):
@@ -121,7 +109,7 @@ class Game:
                               self.event_manager.update_changing_settings()
                               self.event_manager.update_fps_toggle()
 
-          def update_game_variables(self):
+          def update_variables(self):
                     # Update game state variables each frame
                     self.keys = pygame.key.get_pressed()
                     self.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.display.width)),
@@ -138,26 +126,12 @@ class Game:
                     if not self.changing_settings:
                               self.game_time += self.dt
 
-          @profile
-          def run_game_profile(self):
-                    # Main game loop
-                    while self.running:
-                              self.clock.tick_busy_loop(self.fps)
-                              self.update_game_variables()
-                              self.manage_events()
-                              self.update_groups()
-                              self.draw_groups()
-                              self.update_display()
-                              if self.restart:
-                                        self.refresh()
-                              elif self.immidiate_quit:
-                                        return None
-
+          #@profile
           def run_game(self):
                     # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
-                              self.update_game_variables()
+                              self.update_variables()
                               self.manage_events()
                               self.update_groups()
                               self.draw_groups()
