@@ -12,3 +12,4 @@ Pympler==1.1
 dateutils==0.6.12
 glcontext==3.0.0
 memory-profiler==0.61.0
+pyinstaller==6.11.1

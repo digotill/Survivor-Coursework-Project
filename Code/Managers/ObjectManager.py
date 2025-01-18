@@ -1,9 +1,5 @@
-from Code.Individuals.Buttons import *
 from Code.Individuals.Objects import *
 from Code.DataStructures.Grid import *
-from pygame.math import Vector2 as v2
-from perlin_noise import PerlinNoise
-import pygame, random
 
 
 class ObjectManager:

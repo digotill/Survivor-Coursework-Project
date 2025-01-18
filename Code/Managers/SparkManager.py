@@ -1,6 +1,5 @@
 from Code.DataStructures.Grid import *
-from Code.Individuals.Spark import Spark
-import math, random
+from Code.Individuals.Spark import *
 
 class SparkManager:
           def __init__(self, game):

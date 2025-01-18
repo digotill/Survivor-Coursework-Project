@@ -1,11 +1,13 @@
-import copy, traceback, cProfile, os, ctypes, logging, pygame, moderngl, psutil, math, time, os, random, threading
+import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading
 import pandas as pd
+import numpy as np
 from pympler import asizeof
 from perlin_noise import PerlinNoise
 from pygame.math import Vector2 as v2
 from copy import deepcopy
 from itertools import product
 from pstats import Stats
+from Code.Shaders import pygame_shaders
 from memory_profiler import profile
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *

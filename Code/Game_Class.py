@@ -2,7 +2,6 @@ from Code.Variables.Variables import *
 from Code.Managers import *
 from Code.Menus import *
 from Code.Variables.LoadAssets import *
-from Code.Shaders import pygame_shaders
 
 
 class Game:
@@ -14,8 +13,7 @@ class Game:
                     self.display = DISPLAY
                     self.display_screen = pygame.Surface(REN_RES).convert()
                     # Initialize shader for post-processing effects
-                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
-                                                        pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
+                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
 
                     # Create a separate surface for UI elements
                     self.ui_surface = pygame.Surface(REN_RES).convert()
@@ -25,14 +23,14 @@ class Game:
                     self.clock = pygame.time.Clock()
 
                     # Game state variables
-                    self.running = True
-                    self.game_time = 0
-                    self.fps = refresh_rate
-                    self.assets = AM.assets
                     self.changing_settings = False
                     self.immidiate_quit = False
                     self.in_menu = True
                     self.restart = False
+                    self.running = True
+                    self.game_time = 0
+                    self.fps = refresh_rate
+                    self.assets = AM.assets
 
                     # Initialize DataFrame for storing game statistics
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])

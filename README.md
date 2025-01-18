@@ -1,6 +1,6 @@
 # Survivor Coursework Project
 
-![Game Cover](Assets/UI/Cover.png)
+![Game Cover](Assets/UI/cover2.png)
 
 ## 🎮 About The Game
 
@@ -21,31 +21,7 @@ Survivor is a thrilling 2D top-down game built with Python, leveraging the power
 
 ## 📦 Dependencies
 
-To run this game, you'll need the following Python packages:
-
-- Python 3.x
-- pygame-ce
-- PyOpenGL
-- numpy
-- moderngl
-- perlin-noise
-- pillow
-- psutil
-- python-dateutil
-- pytz
-- pandas
-- Pympler
-- dateutils
-- glcontext
-- memory-profiler
-
-Built-in Python modules used:
-- math
-- random
-- sys
-- os
-- datetime
-- traceback
+To run this game, you'll need the following Python packages listed in the requirements.txt
 
 You can install the required packages using pip:
 
@@ -58,7 +34,7 @@ pip install -r requirements.txt
 1. Clone the repository
    git clone https://github.com/yourusername/survivor-coursework.git
 2. Navigate to the project directory
-   cd survivor-coursework
+   cd survivor-coursework-project
 3. Install required packages
    pip install -r requirements.txt
 
@@ -84,9 +60,11 @@ Simply run the provided "run.exe" file to start the game.
 
 ### Packaging the Game
 
-To create an executable, use:
+To create an executable, use pyinstaller:
 
-
+```bash
+pyinstaller Run.py --onefile --windowed --noconsole --add-data "Assets;Assets"
+```
 
 ## 👨‍💻 Authors
 
@@ -99,7 +77,7 @@ This project is licensed under the [MIT license] - see the [LICENSE](LICENSE.md)
 ## 🙏 Acknowledgments
 
 - Special thanks to [DaFluffyPotato](https://github.com/DaFluffyPotato) for some of the code used in this project
-  - Particle system implementation
+  - Spark system implementation
   - Grass system implementation
 - Inspiration drawn from various top-down survival games
-- Thanks to the pygame and OpenGL communities for their excellent libraries and documentation
+- Thanks to the Pygame and OpenGL communities for their excellent libraries and documentation
