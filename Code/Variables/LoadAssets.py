@@ -17,17 +17,17 @@ class LoadAssets:
                                         file_name, file_ext = os.path.splitext(file)
 
                                         if "tileset" in file_name.lower():
-                                                  self.import_tileset(file_path, file_name)
+                                                  self.load_tileset(file_path, file_name)
                                         elif file_ext.lower() in ['.png', '.jpg', '.jpeg']:
                                                   self.load_image(file_path, file_name)
                                         elif file_ext.lower() == '.gif':
-                                                  self.import_gif(file_path, file_name)
+                                                  self.load_gif(file_path, file_name)
                                         elif file_ext.lower() in ['.wav', '.ogg', '.mp3']:
                                                   self.load_sound(file_path, file_name)
                                         elif file_ext.lower() in ['.ttf']:
                                                   self.load_font(file_path, file_name)
 
-          def import_gif(self, path, name):
+          def load_gif(self, path, name):
                     frames = []
                     with Image.open(path) as gif:
                               for frame_index in range(gif.n_frames):
@@ -51,21 +51,21 @@ class LoadAssets:
                     sound = pygame.mixer.Sound(file_path)
                     self.assets[name] = sound
 
-          def import_tileset(self, filepath, name):
+          def load_tileset(self, filepath, name):
                     tileset_image = pygame.image.load(filepath).convert_alpha()
                     tile = pygame.Surface((16, 16), pygame.SRCALPHA)
                     array = ["1212", "1101", "1010", "1011", "1", "1001", "", "0110", "2121", "0111", "0101", "1110", "0000", "1221", "2", "2112"]
                     dictionary = {}  # "top", "bottom", "right", "left"
+
+                    def add_tile(count, position):
+                              tile.fill((0, 0, 0, 0))
+                              tile.blit(tileset_image, (0, 0), (16 * position[0], 16 * position[1], 16, 16))
+                              dictionary[array[count]] = [tile.copy()]
+
                     for i in range(4):
                               for j in range(4):
-                                        self.add_tile(tile, (j, i), dictionary, array, tileset_image, i * 4 + j)
+                                        add_tile(i * 4 + j, (j, i))
                     self.assets[name] = dictionary
-
-          @staticmethod
-          def add_tile(tile, position, dictionary, array, tileset_image, count):
-                    tile.fill((0, 0, 0, 0))
-                    tile.blit(tileset_image, (0, 0), (16 * position[0], 16 * position[1], 16, 16))
-                    dictionary[array[count]] = [tile.copy()]
 
           def load_font(self, file_path, name):
                     self.assets[name] = pygame.font.Font(file_path, int(name[4:]))

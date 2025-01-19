@@ -98,7 +98,7 @@ class MainMenu:
 
           def draw_transition(self):
                     if self.playing_transition:
-                              self.game.ui_surface.blit(self.game.assets["transition_screen"][int(self.transition_frame) % len(self.game.assets["transition_screen"])])
+                              self.game.ui_surface.blit(self.game.assets["transition_screeneffect"][int(self.transition_frame) % len(self.game.assets["transition_screeneffect"])])
                               self.transition_frame += self.game.dt * General_Settings['animation_speeds'][1]
-                              if self.transition_frame > len(self.game.assets["transition_screen"]) - 1:
+                              if self.transition_frame > len(self.game.assets["transition_screeneffect"]) - 1:
                                         self.game.in_menu = False

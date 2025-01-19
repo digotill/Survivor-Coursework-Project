@@ -1,4 +1,4 @@
-import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading
+import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading, platform
 import pandas as pd
 import numpy as np
 from pympler import asizeof
@@ -23,6 +23,7 @@ DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 
 physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
+operating_system = platform.system()
 refresh_rate = pygame.display.get_current_refresh_rate()
 
 rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
