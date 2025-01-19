@@ -45,11 +45,11 @@ python -m venv venv
 ```
 4. Install the required packages
 ```bash
-venv/pip install -r requirements.txt
+venv/bin/pip install -r requirements.txt
 ```
 5. Run
 ```bash
-venv/python run.py
+venv/bin/python run.py
 ```
 
 ### Running the Game
