@@ -32,5 +32,5 @@ class GameVariables:
                               self.game.dt = 1 / self.game.clock.get_fps()
                     else:
                               self.game.dt = 0
-                    if not self.game.changing_settings:
+                    if not self.game.changing_settings and not self.game.in_menu:
                               self.game.game_time += self.game.dt
