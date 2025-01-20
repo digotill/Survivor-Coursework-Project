@@ -142,7 +142,7 @@ class TileMapManager:
                                         v = random.random()
                                         if v < self.game.grass_manager.density:
                                                   self.game.grass_manager.place_tile(
-                                                            (tile.position.x // Grass["tile_size"],
-                                                             tile.position.y // Grass["tile_size"]),
+                                                            (tile.position.x // Grass_Attributes["tile_size"],
+                                                             tile.position.y // Grass_Attributes["tile_size"]),
                                                             int(v * 12),
                                                             [0, 1, 2, 3, 4])

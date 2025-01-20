@@ -11,7 +11,7 @@ class CameraManager(main_camera):
                     self.game = game
                     self.res = REN_RES
 
-                    self.set_attributes(Window_Attributes)
+                    self.set_attributes(Camera_Attributes)
 
                     self.target_offset = v2(0, 0)
                     self.current_offset = v2(0, 0)

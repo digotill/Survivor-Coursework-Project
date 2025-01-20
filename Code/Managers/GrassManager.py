@@ -16,7 +16,7 @@ class GrassManager():
                     # tile data
                     self.grass_tiles = {}
 
-                    self.set_attributes(Grass)
+                    self.set_attributes(Grass_Attributes)
 
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
@@ -120,8 +120,8 @@ class GrassTile:
                     self.size = tile_size
                     self.blades = []
                     self.master_rotation = 0
-                    self.precision = Grass["wind_effect"][1]
-                    self.padding = Grass["wind_effect"][0]
+                    self.precision = Grass_Attributes["wind_effect"][1]
+                    self.padding = Grass_Attributes["wind_effect"][0]
                     self.inc = 90 / self.precision
 
                     # generate blade data
@@ -260,7 +260,7 @@ class GrassTile:
 
           def draw(self):
                     self.render(self.game.display_screen, self.game.dt, offset=self.game.camera.offset_rect.topleft)
-                    self.set_rotation(Grass["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
+                    self.set_rotation(Grass_Attributes["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
 
           @staticmethod
           def normalize(val, amt, target):

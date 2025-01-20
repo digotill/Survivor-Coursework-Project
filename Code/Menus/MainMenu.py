@@ -60,7 +60,7 @@ class MainMenu:
 
                               self.draw_transition()
 
-                              if pygame.mouse.get_pressed()[0]:
+                              if self.game.mouse_state[0]:
                                         if self.buttons['play'].check_for_input():
                                                   self.playing_transition = True
                                         if self.buttons['quit'].check_for_input():

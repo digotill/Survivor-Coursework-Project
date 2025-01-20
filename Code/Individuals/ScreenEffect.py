@@ -3,7 +3,7 @@ from Code.Variables.Variables import *
 class ScreenEffect:
           def __init__(self, frames):
                     self.frame = 0
-                    self.length = len(frames)
+                    self.length = len(frames) - 1
                     self.images = frames
 
           def draw(self, surface, animation_speed, dt):

@@ -48,7 +48,7 @@ General_Settings = {
           "tree": (0.2, 25),  # density, spreadoutness
 }
 
-Window_Attributes = {
+Camera_Attributes = {
           'lerp_speed': 5,
           'mouse_smoothing': v2(10, 10),
           'window_mouse_smoothing_amount': 5,
@@ -58,7 +58,7 @@ Window_Attributes = {
           'reduced_screen_shake': 1,
 }
 
-Grass = {
+Grass_Attributes = {
           "tile_size": 16,
           "shade_amount": 100,
           "stiffness": 300,
