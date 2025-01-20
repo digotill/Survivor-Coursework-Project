@@ -1,4 +1,4 @@
-from Code.Variables.Variables import *
+from Code.Variables.SettingsVariables import *
 
 # the main object that manages the grass system
 class GrassManager():

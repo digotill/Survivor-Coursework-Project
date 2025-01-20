@@ -1,4 +1,4 @@
-from Code.Variables.Variables import *
+from Code.Variables.SettingsVariables import *
 
 class main:
           def set_attributes(self, attributes):

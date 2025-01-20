@@ -1,5 +1,6 @@
-from Code.Variables.Variables import *
+from Code.Variables.SettingsVariables import *
 from Code.Managers import *
+from Code.Variables.GameVariables import *
 from Code.Menus import *
 from Code.Variables.LoadAssets import *
 
@@ -21,16 +22,7 @@ class Game:
 
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
-
-                    # Game state variables
-                    self.changing_settings = False
-                    self.immidiate_quit = False
-                    self.in_menu = True
-                    self.restart = False
-                    self.running = True
-                    self.game_time = 0
-                    self.fps = refresh_rate
-                    self.assets = AM.assets
+                    self.game_variables = GameVariables(self)
 
                     # Initialize DataFrame for storing game statistics
                     self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
@@ -48,9 +40,6 @@ class Game:
                     self.drawing_manager = DrawingManager(self)
                     self.tilemap = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
-
-                    # Update initial game variables
-                    self.update_variables()
 
                     # Initialize and run the main menu
                     self.mainmenu = MainMenu(self)
@@ -106,29 +95,12 @@ class Game:
                               self.event_manager.update_changing_settings()
                               self.event_manager.update_fps_toggle()
 
-          def update_variables(self):
-                    # Update game state variables each frame
-                    self.keys = pygame.key.get_pressed()
-                    self.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.display.width)),
-                                      max(0, min(pygame.mouse.get_pos()[1], self.display.height)))
-                    self.correct_mouse_pos = (int(self.mouse_pos[0] * REN_RES[0] / self.display.width),
-                                              int(self.mouse_pos[1] * REN_RES[1] / self.display.height))
-                    if self.mouse_pos != pygame.mouse.get_pos():
-                              pygame.mouse.set_pos(self.mouse_pos)
-                    self.mouse_state = pygame.mouse.get_pressed()
-                    if self.clock.get_fps() != 0:
-                              self.dt = 1 / self.clock.get_fps()
-                    else:
-                              self.dt = 0
-                    if not self.changing_settings:
-                              self.game_time += self.dt
-
           #@profile
           def run_game(self):
                     # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
-                              self.update_variables()
+                              self.game_variables.update()
                               self.manage_events()
                               self.update_groups()
                               self.draw_groups()
