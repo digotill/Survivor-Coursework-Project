@@ -1,4 +1,5 @@
-import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading, platform, functools, math, os, random, pygame
+import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading
+import platform, functools, math, os, random, pygame, gc
 import pandas as pd
 import numpy as np
 from pympler import asizeof
@@ -8,10 +9,12 @@ from copy import deepcopy
 from itertools import product
 from pstats import Stats
 from Code.Shaders import pygame_shaders
-from memory_profiler import profile
+#from memory_profiler import profile
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *
 from Code.Variables.LoadAssets import *
+from line_profiler import LineProfiler
+import atexit
 
 pygame.init()
 
@@ -20,6 +23,9 @@ REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info(
 GAME_SIZE = 2000, 2000
 
 DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+
+profile = LineProfiler()
+atexit.register(profile.print_stats)
 
 physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
