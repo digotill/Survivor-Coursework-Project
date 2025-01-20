@@ -1,8 +1,4 @@
-import functools
-import math
-import os
-import random
-import pygame
+import functools, math, os, random, pygame
 
 
 def random_xy(rect1, rect2, sprite_width, sprite_height):

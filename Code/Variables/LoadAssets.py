@@ -39,12 +39,8 @@ class LoadAssets:
                                         frames.append(pygame_image)
                     self.assets[name] = frames
 
-          def load_image(self, file_path, name, res=None, *color_keys):
+          def load_image(self, file_path, name):
                     img = pygame.image.load(file_path).convert_alpha()
-                    if res:
-                              img = pygame.transform.scale(img, res)
-                    for color_key in color_keys:
-                              img.set_colorkey(color_key)
                     self.assets[name] = img
 
           def load_sound(self, file_path, name):
