@@ -43,51 +43,25 @@ General_Settings = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20),  # main menu
+          'animation_speeds': (15, 20),  # main menu. transition
           "rock": (100, False),  # amount, collisions
           "tree": (0.2, 25),  # density, spreadoutness
 }
 
-Camera_Attributes = {
-          'lerp_speed': 5,
-          'mouse_smoothing': v2(10, 10),
-          'window_mouse_smoothing_amount': 5,
-          'deadzone': 1,
-          'window_max_offset': 0.3,
-          'shake_speed': 200,
-          'reduced_screen_shake': 1,
+Camera_Attributes = { 'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,
+          'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1,
 }
 
-Grass_Attributes = {
-          "tile_size": 16,
-          "shade_amount": 100,
-          "stiffness": 300,
-          "max_unique": 5,
-          "vertical_place_range": (0, 1),
-          "wind_effect": (13, 25),
+
+Grass_Attributes = {"tile_size": 16,"shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
           "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
-          "density": 0.4,
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
 }
 
-Player_Attributes = {
-          'name': 'player',
-          'health': 100,
-          "animations": {
-                    "idle": AM.assets["player_idle"],
-                    "run": AM.assets["player_running"],
-          },
-          'vel': 90,
-          "sprint_vel": 140,
-          'damage': 30,
-          'acceleration': 200,
-          "offset": (10, 10, -10, -10),  # distance from edge of area
-          'animation_speed': 10,
-          "hit_cooldown": 0.5,
-          'stamina': 100,
-          "stamina_consumption": 20,
-          "stamina_recharge_rate": 30,
-          "grass_force": 10,  # grass force drop off
+Player_Attributes = {'name': 'player', 'health': 100,
+                    "animations": {"idle": AM.assets["player_idle"], "run": AM.assets["player_running"],},
+          'vel': 90, "sprint_vel": 140, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),  'animation_speed': 10, "hit_cooldown": 0.5,
+          'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10,
 }
 
 Enemies = {"enemy1": create_enemy_settings(name="enemy1", health=100, vel=100, damage=20, stopping_distance=25, steering_strength=0.8,
@@ -131,32 +105,23 @@ Weapons = {
                                             ),
 }
 
-Button_config = {
-          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
-                     "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "image": AM.assets["button5"],
-                     },
-          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3, "circle_base_colour": (255, 255, 255),
-                     "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120), "image": AM.assets["button7"]
-                     }
-}
-
 AllButtons = {
-          "In_Game": {"resume": create_button("resume", v2(240, 135), Button_config["button"]),
-                      "fullscreen": create_button("fullscreen", v2(240, 170), Button_config["button"]),
-                      "quit": create_button("quit", v2(240, 240), Button_config["button"]),
-                      "return": create_button("return", v2(240, 90), Button_config["button"])
+          "In_Game": {"resume": create_button("resume", v2(240, 135), AM.assets["button5"]),
+                      "fullscreen": create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
+                      "quit": create_button("quit", v2(240, 240), AM.assets["button5"]),
+                      "return": create_button("return", v2(240, 90), AM.assets["button5"])
                       },
-          "Weapons": {"ak47": create_button("ak47", v2(140, 240), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["ak47"])}),
-                      "shotgun": create_button("shotgun", v2(140, 215), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["shotgun"])}),
-                      "minigun": create_button("minigun", v2(140, 180), Button_config["button"], {"text_pos": "left", "image": perfect_outline(AM.assets["minigun"])}),
+          "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), {"text_pos": "left"}),
+                      "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), {"text_pos": "left"}),
+                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), {"text_pos": "left"}),
                       },
-          "Menu_Buttons": {"play": create_button("play", v2(200, 240), Button_config["button"]),
-                           "quit": create_button("quit", v2(280, 240), Button_config["button"]),
-                           "easy": create_button("easy", v2(200, 190), Button_config["button"]),
-                           "medium": create_button("medium", v2(200, 150), Button_config["button"]),
-                           "hard": create_button("hard", v2(280, 190), Button_config["button"]),
+          "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button5"]),
+                           "quit": create_button("quit", v2(280, 240), AM.assets["button5"]),
+                           "easy": create_button("easy", v2(200, 190), AM.assets["button5"]),
+                           "medium": create_button("medium", v2(200, 150), AM.assets["button5"]),
+                           "hard": create_button("hard", v2(280, 190), AM.assets["button5"]),
                            },
-          "Sliders": {"brightness": create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, Button_config["slider"]),
-                      "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, Button_config["slider"])
+          "Sliders": {"brightness": create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
+                      "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])
                       },
 }
