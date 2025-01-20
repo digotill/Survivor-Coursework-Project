@@ -46,6 +46,7 @@ General_Settings = {
           'animation_speeds': (15, 20),  # main menu. transition
           "rock": (100, False),  # amount, collisions
           "tree": (0.2, 25),  # density, spreadoutness
+          "screen_effect": (3, 5)   # time
 }
 
 Camera_Attributes = { 'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,

@@ -13,7 +13,8 @@ class Game:
                     self.display = DISPLAY
                     self.display_surface = pygame.Surface(REN_RES).convert()
                     self.ui_surface = pygame.Surface(REN_RES).convert()
-                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_surface)
+                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
+                                                        pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_surface)
 
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
@@ -49,7 +50,8 @@ class Game:
           def update_groups(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player, self.player.gun, self.button_manager]:
+                              for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager,
+                                              self.rain_manager, self.player, self.player.gun, self.button_manager]:
                                         manager.update()
                     elif self.in_menu:
                               for manager in [self.button_manager]:
@@ -58,8 +60,9 @@ class Game:
           def draw_groups(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager, self.bullet_manager, self.spark_manager,
-                                           self.rain_manager, self.ui_manager, self.button_manager, self.screen_effect_manager]:
+                              for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager,
+                                        self.bullet_manager, self.spark_manager,self.rain_manager, self.ui_manager,
+                                              self.button_manager, self.screen_effect_manager]:
                                         manager.draw()
                     elif self.in_menu:
                               for manager in [self.background_manager, self.button_manager, self.screen_effect_manager]:
@@ -68,7 +71,7 @@ class Game:
           def update_display(self):
                     # Update the display with all drawn elements
                     self.ui_manager.update_display()
-                    self.shader.render_direct()
+                    self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                     pygame.display.flip()
 
           #@profile
