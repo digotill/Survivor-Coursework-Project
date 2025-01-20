@@ -76,6 +76,7 @@ class TileMapManager:
 
           def apply_transition_tiles(self, transition_array, count=0):
                     directions = [(0, -1), (0, 1), (1, 0), (-1, 0)]  # "top", "bottom", "right", "left"
+                    changes = 0
                     for tile in self.grid.items:
                               if tile.tile_type == transition_array[1]:
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
@@ -91,6 +92,7 @@ class TileMapManager:
                                         if neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 0:
                                                   tile.images = [self.game.assets[transition_array[0]][0].copy()]
                                                   tile.tile_type = transition_array[0]
+                                                  changes += 1
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
                                         elif neighbours_string in ["0101", "0110", "1001", "1010"] and count == 2:
@@ -100,7 +102,8 @@ class TileMapManager:
                                                   if neighbour_check is not True:
                                                             self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbour_check)
 
-                    count += 1
+                    if changes == 0:
+                              count += 1
                     if count < 4:
                               self.apply_transition_tiles(transition_array, count)
                     self.grid2.rebuild()
