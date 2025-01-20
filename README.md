@@ -63,7 +63,7 @@ Simply run the provided "run.exe" file to start the game.
 To create an executable, use pyinstaller:
 
 ```bash
-pyinstaller Run.py --onefile --windowed --noconsole --add-data "Assets;Assets"
+pyinstaller Run.py --onefile --windowed --noconsole --add-data "Assets:Assets" --add-data "Code:Code"
 ```
 
 ## 👨‍💻 Authors

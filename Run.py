@@ -12,6 +12,8 @@ elif operating_system == "Darwin":  # macOS
                     AppKit.NSApplication.sharedApplication().setActivationPolicy_(1)
           except ImportError:
                     print("AppKit not available. Unable to set activation policy on macOS.")
+elif operating_system == "Linux":
+          print("No DPI awareness set for Linux. Please ensure you have the necessary libraries installed.")
 else:
           print(f"Unknown operating system: {operating_system}")
 
