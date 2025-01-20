@@ -12,14 +12,15 @@ class RainManager:
                     self.grid.rebuild()
 
           def update(self):
-                    for rain_droplet in self.grid.items:
-                              rain_droplet.update()
-                              if rain_droplet.hit_ground:
-                                        rain_droplet.update_frame()
-                                        self.game.drawing_manager.drawables.append(rain_droplet)
-                    self.create()
-                    self.check_dead()
-                    self.grid.rebuild()
+                    if not self.game.changing_settings:
+                              for rain_droplet in self.grid.items:
+                                        rain_droplet.update()
+                                        if rain_droplet.hit_ground:
+                                                  rain_droplet.update_frame()
+                                                  self.game.drawing_manager.drawables.append(rain_droplet)
+                              self.create()
+                              self.check_dead()
+                              self.grid.rebuild()
 
           def draw(self):
                     for rain_droplet in self.grid.window_query():

@@ -54,8 +54,8 @@ class GrassManager():
                                                   self.grass_tiles[pos].apply_force(location, radius, dropoff)
 
           # an update and render combination function
-          def update(self):
-                    surf = self.game.display_screen
+          def draw(self):
+                    surf = self.game.display_surface
                     offset = self.game.camera.offset_rect.topleft
 
                     # Increase the rendering area by adding a buffer
@@ -259,7 +259,7 @@ class GrassTile:
                                         self.custom_blade_data = None
 
           def draw(self):
-                    self.render(self.game.display_screen, self.game.dt, offset=self.game.camera.offset_rect.topleft)
+                    self.render(self.game.display_surface, self.game.dt, offset=self.game.camera.offset_rect.topleft)
                     self.set_rotation(Grass_Attributes["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
 
           @staticmethod

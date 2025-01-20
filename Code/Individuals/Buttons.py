@@ -45,7 +45,7 @@ class UIElement:
 
           def is_visible_on_screen(self):
                     # Check if the UI element is visible on the screen
-                    screen_rect = self.game.display_screen.get_rect()
+                    screen_rect = self.game.display_surface.get_rect()
                     return self.rect.colliderect(screen_rect)
 
           def check_for_input(self):

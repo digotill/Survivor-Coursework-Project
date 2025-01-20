@@ -36,7 +36,7 @@ class Gun(main):
                               math.radians(self.angle)) * self.distance -
                              self.game.camera.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
-                    self.game.display_screen.blit(self.rotated_image, self.rect)
+                    self.game.display_surface.blit(self.rotated_image, self.rect)
 
           def calc_angle(self):
                     change_in_x = self.game.player.rect.centerx - self.game.camera.offset_rect.x - \
@@ -69,8 +69,8 @@ class Gun(main):
 
                     start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
-                              self.game.particle_manager.create_spark(270 - self.angle, start_coordinates,
-                                                                      Sparks_Settings['muzzle_flash'])
+                              self.game.spark_manager.create_spark(270 - self.angle, start_coordinates,
+                                                                   Sparks_Settings['muzzle_flash'])
                               if self.shots == 1:
                                         self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
                                                                             "Player Bullet", spread_factor)

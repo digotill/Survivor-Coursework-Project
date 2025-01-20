@@ -12,15 +12,16 @@ class EnemyManager:
                     self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
 
           def update(self):
-                    # Update all enemies and apply separation forces
-                    for enemy in self.grid.items:
-                              enemy.update()
-                              separation_force = self.calculate_separation(enemy)
-                              enemy.apply_force(separation_force)
+                    if not self.game.changing_settings:
+                              # Update all enemies and apply separation forces
+                              for enemy in self.grid.items:
+                                        enemy.update()
+                                        separation_force = self.calculate_separation(enemy)
+                                        enemy.apply_force(separation_force)
 
-                    self.remove_dead_enemies()  # Remove enemies with no health
-                    self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
-                    self.grid.rebuild()  # Rebuild the spatial hash grid
+                              self.remove_dead_enemies()  # Remove enemies with no health
+                              self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
+                              self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached

@@ -50,7 +50,7 @@ class TileMapManager:
                     for grid in [self.grid, self.grid2]:
                               for tile in grid.window_query():
                                         frame = self.frames.get(tile.tile_type, 0)
-                                        tile.draw(self.game.display_screen, self.game.camera.offset_rect.topleft, frame)
+                                        tile.draw(self.game.display_surface, self.game.camera.offset_rect.topleft, frame)
 
           def get_tile_type(self, x, y):
                     noise_value = self.perlin_noise([x * Map_Config["overworld_map"][0], y * Map_Config["overworld_map"][0]])

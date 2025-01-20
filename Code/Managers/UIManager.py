@@ -84,22 +84,31 @@ class UIManager:
           def darken_screen(self):
                     if self.game.changing_settings:
                               a = General_Settings['brightness'][2]
-                              self.game.display_screen.fill((a, a, a),
-                                                            special_flags=pygame.BLEND_RGB_SUB)
+                              self.game.display_surface.fill((a, a, a),
+                                                             special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
                     if self.brightness == 50: return None
                     if self.brightness > 50:
-                              self.game.display_screen.fill([int(General_Settings['brightness'][1] * (
+                              self.game.display_surface.fill([int(General_Settings['brightness'][1] * (
                                       self.brightness - 50)) for _ in range(3)],
-                                                            special_flags=pygame.BLEND_RGB_ADD)
+                                                             special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < 50:
-                              self.game.display_screen.fill([int(General_Settings['brightness'][0] * (
+                              self.game.display_surface.fill([int(General_Settings['brightness'][0] * (
                                       50 - self.brightness)) for _ in range(3)],
-                                                            special_flags=pygame.BLEND_RGB_SUB)
+                                                             special_flags=pygame.BLEND_RGB_SUB)
 
           def draw(self):
                     self.darken_screen()
                     self.draw_bars()
                     self.draw_fps()
                     self.draw_time()
+
+          def update_display(self):
+                    self.display_mouse()
+                    self.draw_ui_surface()
+                    self.draw_brightness()
+
+          def draw_ui_surface(self):
+                    self.game.display_surface.blit(self.game.ui_surface, (0, 0))
+                    self.game.ui_surface.fill((0, 0, 0, 0))

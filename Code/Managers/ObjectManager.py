@@ -59,7 +59,7 @@ class ObjectManager:
                               y = base_y + random.randint(-v, v)
                               if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
                                         rect = pygame.Rect(x - size[0] * 0.25, y + size[1] * 0.5, size[0] / 2, size[1] / 10)
-                                        if not self.game.tilemap.tile_collision(rect, "water_tile"):
+                                        if not self.game.tilemap_manager.tile_collision(rect, "water_tile"):
                                                   return v2(x, y)
                     return None
 

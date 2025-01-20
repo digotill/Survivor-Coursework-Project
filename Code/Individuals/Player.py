@@ -2,10 +2,10 @@ from Code.Individuals.Parent import *
 from Code.Individuals.Gun import *
 
 class Player(main):
-          def __init__(self, game, dictionary):
+          def __init__(self, game):
                     self.game = game
 
-                    self.set_attributes(dictionary)
+                    self.set_attributes(Player_Attributes)
                     self.res = AM.assets["player_idle"][0].size
                     self.pos = self.find_spawn_position()
                     self.set_rect()
@@ -26,7 +26,7 @@ class Player(main):
 
                                         if 0 <= x < GAME_SIZE[0] and 0 <= y < GAME_SIZE[1]:
                                                   test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
-                                                  if not self.game.tilemap.tile_collision(test_rect, "water_tile"):
+                                                  if not self.game.tilemap_manager.tile_collision(test_rect, "water_tile"):
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
@@ -69,10 +69,10 @@ class Player(main):
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
                               x_rect = pygame.Rect(new_x, self.pos.y + self.res[1] / 2, 0, 0)
-                              x_water_collision = self.game.tilemap.tile_collision(x_rect, "water_tile")
+                              x_water_collision = self.game.tilemap_manager.tile_collision(x_rect, "water_tile")
 
                               y_rect = pygame.Rect(self.pos.x, new_y + self.res[1] / 2, 0, 0)
-                              y_water_collision = self.game.tilemap.tile_collision(y_rect, "water_tile")
+                              y_water_collision = self.game.tilemap_manager.tile_collision(y_rect, "water_tile")
 
                               if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
                                       self.offset[2] and not x_water_collision:
@@ -98,8 +98,8 @@ class Player(main):
                               image = pygame.transform.flip(image, True, False)
 
                     shadow_image = self.generate_shadow_image(image)
-                    self.game.display_screen.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
-                    self.game.display_screen.blit(image, self.get_position())
+                    self.game.display_surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
+                    self.game.display_surface.blit(image, self.get_position())
 
                     self.gun.draw()
 

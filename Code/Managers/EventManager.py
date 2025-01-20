@@ -28,7 +28,7 @@ class EventManager:
 
           def update_fps_toggle(self):
                     if self.game.keys[Keys[
-                              'fps']] and self.Last_FPS_Toggle + self.FPS_Cooldown < pygame.time.get_ticks() / 1000:
+                              'fps']] and self.Last_FPS_Toggle + self.FPS_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.in_menu:
                               self.game.ui_manager.fps_enabled = not self.game.ui_manager.fps_enabled
                               self.Last_FPS_Toggle = pygame.time.get_ticks() / 1000
 
@@ -42,6 +42,13 @@ class EventManager:
 
           def update_changing_settings(self):
                     if self.game.keys[Keys[
-                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000:
+                              'ungrab']] and self.Last_Changing_settings + self.Changing_settings_Cooldown < pygame.time.get_ticks() / 1000 and not self.game.in_menu:
                               self.game.changing_settings = not self.game.changing_settings
                               self.Last_Changing_settings = pygame.time.get_ticks() / 1000
+
+          def handle_all_events(self):
+                    self.handle_quitting()
+                    self.update_grab()
+                    self.fullscreen_toggle()
+                    self.update_changing_settings()
+                    self.update_fps_toggle()

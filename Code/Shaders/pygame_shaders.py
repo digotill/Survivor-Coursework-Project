@@ -119,7 +119,7 @@ class Shader:
                               elif len(data) == 2:
                                         self.shader[key].value = (data[0], data[1])
 
-          def render_direct(self, rect: pygame.Rect, update_surface: bool = True, autoscale: bool = False) -> None:
+          def render_direct(self, rect: pygame.Rect = None, update_surface: bool = True, autoscale: bool = False) -> None:
                     """
                     Render the shader directly onto the opengl context. Instead of rendering onto the shader
                     onto a surface which we can then perform standard pygame functionality on, we instead render
@@ -127,6 +127,9 @@ class Shader:
                     """
                     # this rect is in the pygame coordinate system, our goal is to convert it into our custom coordinate systems
                     # (0,0);pygame -> (-600, 600) in ours
+                    if rect is None:
+                              rect = pygame.Rect(0, 0, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+
                     if autoscale:
                               size = (self.target_surface.get_width(), self.target_surface.get_height())
                     else:

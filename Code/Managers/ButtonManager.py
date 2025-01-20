@@ -72,7 +72,7 @@ class ButtonManager:
                                         elif self.game_buttons['fullscreen'].check_for_input():
                                                   pygame.display.toggle_fullscreen()
                                         elif self.game_buttons['quit'].check_for_input():
-                                                  self.game.immidiate_quit = True
+                                                  self.game.running = False
                                         elif self.game_buttons['return'].check_for_input():
                                                   self.game.restart = True
                                         else:
@@ -92,7 +92,6 @@ class ButtonManager:
                                                   self.game.playing_transition = True
                                         elif self.menu_buttons['quit'].check_for_input():
                                                   self.game.running = False
-                                                  self.game.immidiate_quit = True
                                         else:
                                                   for button in self.difficulty_switches:
                                                             if button.can_change():

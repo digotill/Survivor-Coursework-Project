@@ -39,8 +39,8 @@ class Rain(main):
           def draw(self):
                     pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     if not self.hit_ground:
-                              self.game.display_screen.blit(self.animation[0], pos)
+                              self.game.display_surface.blit(self.animation[0], pos)
                     else:
-                              self.game.display_screen.blit(
+                              self.game.display_surface.blit(
                                         self.animation[
                                                   int(self.frame % len(self.animation))], pos)

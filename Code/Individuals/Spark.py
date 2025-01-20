@@ -42,7 +42,7 @@ class Spark(main):
           def draw(self):
                     offset = self.game.camera.offset_rect.topleft
                     points = self.calculate_points(offset)
-                    pygame.draw.polygon(self.game.display_screen, self.color, points)
+                    pygame.draw.polygon(self.game.display_surface, self.color, points)
 
           def update_rect(self):
                     points = self.calculate_points(offset=(0, 0))

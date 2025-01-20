@@ -1,15 +1,17 @@
 from Code.Variables.SettingsVariables import *
 
 class ScreenEffect:
-          def __init__(self, frames):
+          def __init__(self, game, frames, animation_speed):
+                    self.game = game
                     self.frame = 0
                     self.length = len(frames) - 1
                     self.images = frames
+                    self.animation_speed = animation_speed
 
-          def draw(self, surface, animation_speed, dt):
+          def draw(self):
                     if self.frame < self.length:
-                              surface.blit(self.images[int(self.transition_frame) % self.length])
-                              self.frame += animation_speed * dt
-                              return True
-                    else:
+                              self.game.ui_surface.blit(self.images[int(self.frame) % self.length])
+                              self.frame += self.animation_speed * self.game.dt
                               return False
+                    else:
+                              return True

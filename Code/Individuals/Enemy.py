@@ -61,10 +61,10 @@ class Enemy(main):
           def draw(self):
                     current_sprite = self.get_current_sprite()
                     shadow_image = self.generate_shadow_image(current_sprite)
-                    self.game.display_screen.blit(shadow_image, (
+                    self.game.display_surface.blit(shadow_image, (
                               self.get_position()[0],
                               self.get_position()[1] + self.res[1] - shadow_image.height / 2))
-                    self.game.display_screen.blit(current_sprite, self.get_position())
+                    self.game.display_surface.blit(current_sprite, self.get_position())
 
           def get_current_sprite(self):
                     sprite = self.images[int(self.frame) % len(self.images)]

@@ -9,20 +9,21 @@ class BulletManager:
                     self.bullet_pool = set()
 
           def update(self):
-                    current_time = self.game.game_time
-                    for bullet in self.grid.items:
-                              bullet.update()
-                              if current_time - bullet.creation_time > bullet.lifetime:
-                                        bullet.dead = True
-                    self.check_for_collisions()
-                    self.check_dead_bullets()
-                    self.grid.rebuild()
+                    if not self.game.changing_settings:
+                              current_time = self.game.game_time
+                              for bullet in self.grid.items:
+                                        bullet.update()
+                                        if current_time - bullet.creation_time > bullet.lifetime:
+                                                  bullet.dead = True
+                              self.check_for_collisions()
+                              self.check_dead_bullets()
+                              self.grid.rebuild()
 
           def draw(self):
                     offset_x, offset_y = self.game.camera.offset_rect.topleft
                     for bullet in self.grid.window_query():
-                              self.game.display_screen.blit(bullet.image,
-                                                            (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
+                              self.game.display_surface.blit(bullet.image,
+                                                             (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
 
           def add_bullet(self, pos, angle, name, spread):
                     if self.bullet_pool:
@@ -46,7 +47,7 @@ class BulletManager:
                                         if bullet.rect.colliderect(enemy.rect) and not bullet.dead:
                                                   enemy.deal_damage(bullet.damage)
                                                   bullet.check_if_alive()
-                                                  self.game.particle_manager.create_spark(270 - bullet.angle,
-                                                                                          bullet.pos,
-                                                                                          Sparks_Settings[
+                                                  self.game.spark_manager.create_spark(270 - bullet.angle,
+                                                                                       bullet.pos,
+                                                                                       Sparks_Settings[
                                                                                                     'enemy_hit'])
