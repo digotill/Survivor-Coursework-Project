@@ -13,47 +13,38 @@ class Game:
                     # Set up display and rendering surfaces
                     self.display = DISPLAY
                     self.display_screen = pygame.Surface(REN_RES).convert()
-                    # Initialize shader for post-processing effects
-                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
-
-                    # Create a separate surface for UI elements
                     self.ui_surface = pygame.Surface(REN_RES).convert()
-                    self.ui_surface.set_colorkey((0, 0, 0))  # Set black as transparent for UI surface
+                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_screen)
 
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
                     self.game_variables = GameVariables(self)
-
-                    # Initialize DataFrame for storing game statistics
-                    self.stats = pd.DataFrame(columns=['Coins', 'Score', 'Enemies Killed', 'Difficulty'])
 
                     # Initialize various game managers
                     self.event_manager = EventManager(self)
                     self.enemy_manager = EnemyManager(self)
                     self.particle_manager = SparkManager(self)
                     self.bullet_manager = BulletManager(self)
-                    self.button_manager = ButtonManager(self)
                     self.sound_manager = SoundManager(self)
                     self.grass_manager = GrassManager(self)
                     self.rain_manager = RainManager(self)
+                    self.button_manager = ButtonManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
                     self.tilemap = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
 
-                    # Initialize and run the main menu
-                    self.mainmenu = MainMenu(self)
-
-                    # Initialize camera
+                    self.player = Player(self, Player_Attributes)
                     self.camera = CameraManager(self)
 
+                    # Initialize and run the main menu
+                    self.mainmenu = MainMenu(self)
                     self.run_game()
 
           def refresh(self):
                     # Refresh the display and restart the game
                     pygame.display.flip()
                     self.__init__()
-                    self.run_game()
 
           def update_groups(self):
                     # Update game entities and managers

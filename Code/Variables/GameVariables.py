@@ -1,4 +1,5 @@
 from Code.Variables.SettingsVariables import *
+from Code.Individuals.Player import *
 
 class GameVariables:
           def __init__(self, game):
@@ -9,11 +10,12 @@ class GameVariables:
                     self.game.restart = False
                     self.game.running = True
                     self.game.game_time = 0
-                    self.game.background_frame = 0
-                    self.game.transition_frame = 0
                     self.game.playing_transition = False
                     self.game.fps = refresh_rate
                     self.game.assets = AM.assets
+                    self.game.difficulty = "medium"
+                    self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])
+                    self.game.ui_surface.set_colorkey((0, 0, 0))
                     self.update()
 
           def update(self):

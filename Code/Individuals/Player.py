@@ -1,7 +1,8 @@
 from Code.Individuals.Parent import *
+from Code.Individuals.Gun import *
 
 class Player(main):
-          def __init__(self, game, gun, dictionary):
+          def __init__(self, game, dictionary):
                     self.game = game
 
                     self.set_attributes(dictionary)
@@ -9,8 +10,8 @@ class Player(main):
                     self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
+                    self.gun = Gun(self.game, Weapons["ak47"])
                     self.base_max_vel = self.max_vel
-                    self.gun = gun
                     self.current_animation = 'idle'
                     self.is_sprinting = False
 
