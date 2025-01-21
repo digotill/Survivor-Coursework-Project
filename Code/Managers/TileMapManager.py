@@ -31,10 +31,9 @@ class TileMapManager:
 
                     self.animation_speed = Tiles_Congifig["animation_speed"]
                     self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
-                    self.perlin_noise = PerlinNoise(Map_Config["overworld_map"][1], random.randint(0, 100000))
+                    self.perlin_noise = PerlinNoise(Map_Config["tiles_map"][1], random.randint(0, 100000))
 
                     self.terrain_generator()
-                    self.grass_generator()
 
                     self.grid.rebuild()
 
@@ -53,7 +52,7 @@ class TileMapManager:
                                         tile.draw(self.game.display_surface, self.game.camera.offset_rect.topleft, frame)
 
           def get_tile_type(self, x, y):
-                    noise_value = self.perlin_noise([x * Map_Config["overworld_map"][0], y * Map_Config["overworld_map"][0]])
+                    noise_value = self.perlin_noise([x * Map_Config["tiles_map"][0], y * Map_Config["tiles_map"][0]])
                     for tile in Tiles_Congifig["Tile_Ranges"].keys():
                               if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
                                         return tile
@@ -75,12 +74,11 @@ class TileMapManager:
                     return None
 
           def apply_transition_tiles(self, transition_array, count=0):
-                    directions = [(0, -1), (0, 1), (1, 0), (-1, 0)]  # "top", "bottom", "right", "left"
                     changes = 0
                     for tile in self.grid.items:
                               if tile.tile_type == transition_array[1]:
                                         grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
-                                        neighbours = [self.get((grid_x + dx, grid_y + dy)) for dx, dy in directions]
+                                        neighbours = [self.get((grid_x + dx, grid_y + dy)) for dx, dy in [(0, -1), (0, 1), (1, 0), (-1, 0)]]  # "top", "bottom", "right", "left"
 
                                         def neighbor_value(n):
                                                   if not n or n.tile_type != transition_array[1]:

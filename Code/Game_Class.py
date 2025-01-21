@@ -2,6 +2,7 @@ from Code.Variables.SettingsVariables import *
 from Code.Managers import *
 from Code.Variables.GameVariables import *
 from Code.Variables.LoadAssets import *
+from Code.Individuals.Player import *
 
 
 class Game:
@@ -26,11 +27,11 @@ class Game:
                     self.spark_manager = SparkManager(self)
                     self.bullet_manager = BulletManager(self)
                     self.sound_manager = SoundManager(self)
-                    self.grass_manager = GrassManager(self)
                     self.rain_manager = RainManager(self)
                     self.button_manager = ButtonManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
+                    self.grass_manager = GrassManager(self)
                     self.tilemap_manager = TileMapManager(self)
                     self.object_manager = ObjectManager(self)
                     self.screen_effect_manager = ScreenEffectManager(self)
@@ -61,7 +62,7 @@ class Game:
                     # Draw game elements in order
                     if not self.in_menu:
                               for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager,
-                                        self.bullet_manager, self.spark_manager,self.rain_manager, self.ui_manager,
+                                        self.bullet_manager, self.spark_manager, self.rain_manager, self.ui_manager,
                                               self.button_manager, self.screen_effect_manager]:
                                         manager.draw()
                     elif self.in_menu:
@@ -78,7 +79,6 @@ class Game:
           #@profile
           def run_game(self):
                     # Main game loop
-                    gc_counter = 0
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
                               self.game_variables.update()
@@ -86,8 +86,5 @@ class Game:
                               self.update_groups()
                               self.draw_groups()
                               self.update_display()
-                              gc_counter += 1
-                              if gc_counter % 100 == 0:
-                                        gc.collect()
                               if self.restart:
                                         self.refresh()

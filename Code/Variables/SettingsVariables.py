@@ -9,7 +9,7 @@ from copy import deepcopy
 from itertools import product
 from pstats import Stats
 from Code.Shaders import pygame_shaders
-#from memory_profiler import profile
+# from memory_profiler import profile
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *
 from Code.Variables.LoadAssets import *
@@ -44,32 +44,35 @@ General_Settings = {
           'volume': 0.5,
           'peaceful_mode': False,  # no enemies spawn
           'difficulty': (0.8, 1, 1.3),  # easy, medium, hard
-          'enemies': (50, 0.2),  # max, spawn rate
+          'enemies': (300, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 20),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20),  # main menu. transition
           "rock": (100, False),  # amount, collisions
-          "tree": (0.2, 25),  # density, spreadoutness
-          "screen_effect": (1, 5)   # time
+          "tree": (0.2, 30),  # density, spreadoutness
+          "screen_effect": (1, 5)  # time
 }
 
-Camera_Attributes = { 'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,
-          'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1,
-}
+Camera_Attributes = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,
+                     'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1,
+                     }
 
+Grass_Attributes = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
+                    "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
+                    "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
+                    }
 
-Grass_Attributes = {"tile_size": 16,"shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
-          "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
-          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
-}
+Grass_positions = {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19],
+                   "wasteland_grass": [20, 21, 22, 23, 24]
+                   }
 
 Player_Attributes = {'name': 'player', 'health': 100,
-                    "animations": {"idle": AM.assets["player_idle"], "run": AM.assets["player_running"],},
-          'vel': 90, "sprint_vel": 140, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),  'animation_speed': 10, "hit_cooldown": 0.5,
-          'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10,
-}
+                     "animations": {"idle": AM.assets["player_idle"], "run": AM.assets["player_running"], },
+                     'vel': 90, "sprint_vel": 140, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10, "hit_cooldown": 0.5,
+                     'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10,
+                     }
 
 Enemies = {"enemy1": create_enemy_settings(name="enemy1", health=100, vel=100, damage=20, stopping_distance=25, steering_strength=0.8,
                                            friction=0.2, animation_speed=5, hit_cooldown=0, separation_radius=20, separation_strength=5)
@@ -88,10 +91,10 @@ Sparks_Settings = {"enemy_hit": create_spark_settings(spread=60, scale=1, colour
                    "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
                    }
 
-Map_Config = {"biome_map": (0.004, 1), "density_map": (0.05, 4), "overworld_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
+Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.1, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
               }
 
-Biomes_Config = {"dead": (0.3, 1), "yellowish": (0.4, 1), "green": (0.5, 1), "ripe": (0.6, 1), "lush": (1, 1),  # chance, tree density
+Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), "lush": (0.55, 1), "cherryblossom": (1, 1),  # chance, tree density
                  }
 
 Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],

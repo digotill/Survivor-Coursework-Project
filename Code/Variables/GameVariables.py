@@ -1,11 +1,11 @@
 from Code.Variables.SettingsVariables import *
-from Code.Individuals.Player import *
 
 class GameVariables:
           def __init__(self, game):
                     self.game = game
                     self.game.changing_settings = False
                     self.game.immidiate_quit = False
+                    self.game.gc_counter = 0
                     self.game.in_menu = True
                     self.game.restart = False
                     self.game.running = True
@@ -34,3 +34,6 @@ class GameVariables:
                               self.game.dt = 0
                     if not self.game.changing_settings and not self.game.in_menu:
                               self.game.game_time += self.game.dt
+                    self.game.gc_counter += 1
+                    if self.game.gc_counter % 100 == 0:
+                              gc.collect()
