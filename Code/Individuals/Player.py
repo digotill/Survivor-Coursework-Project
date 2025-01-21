@@ -30,18 +30,14 @@ class Player(main):
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
-                    if animation_name in self.animations and animation_name != self.current_animation:
+                    if self.current_animation != animation_name:
                               self.current_animation = animation_name
                               self.frame = 0
 
           def update_animation(self):
-                    if self.is_sprinting:
-                              self.change_animation('sprinting')
-                    elif (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
-                          self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]):
-                              self.change_animation('run')
-                    else:
-                              self.change_animation('idle')
+                    new_animation = 'running' if (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
+                                                  self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]) else 'idle'
+                    self.change_animation(new_animation)
 
           def update(self):
                     dx, dy = 0, 0
@@ -58,6 +54,11 @@ class Player(main):
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
                     if not self.game.changing_settings: self.handle_stamina()
                     self.max_vel = self.sprint_vel if self.is_sprinting else self.base_max_vel
+                    x_water_collision = self.game.tilemap_manager.tile_collision(pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
+                    y_water_collision = self.game.tilemap_manager.tile_collision(pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
+                    if x_water_collision or y_water_collision:
+                              self.max_vel = self.slowed_vel
+                              self.health -= Damages["acid"] * self.game.dt
 
                     if not self.game.changing_settings: self.update_frame()
                     self.update_velocity(dy, dx)
@@ -68,19 +69,14 @@ class Player(main):
 
                     move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              x_rect = pygame.Rect(new_x, self.pos.y + self.res[1] / 2, 0, 0)
-                              x_water_collision = self.game.tilemap_manager.tile_collision(x_rect, "water_tile")
-
-                              y_rect = pygame.Rect(self.pos.x, new_y + self.res[1] / 2, 0, 0)
-                              y_water_collision = self.game.tilemap_manager.tile_collision(y_rect, "water_tile")
 
                               if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
-                                      self.offset[2] and not x_water_collision:
+                                      self.offset[2]:
                                         self.pos.x = new_x
                                         self.rect.centerx = self.pos.x
                                         move_hor = True
                               if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + \
-                                      self.offset[3] and not y_water_collision:
+                                      self.offset[3]:
                                         self.pos.y = new_y
                                         self.rect.centery = self.pos.y
                                         move_vert = True
@@ -90,12 +86,9 @@ class Player(main):
                     self.update_animation()
 
           def draw(self):
-                    current_animation = self.animations[self.current_animation]
+                    current_animation = self.game.assets["player_" + self.current_animation + "_" + self.facing]
                     frame_index = int(self.frame) % len(current_animation)
                     image = current_animation[frame_index]
-
-                    if self.facing == "left":
-                              image = pygame.transform.flip(image, True, False)
 
                     shadow_image = self.generate_shadow_image(image)
                     self.game.display_surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
@@ -115,6 +108,10 @@ class Player(main):
 
                     if self.stamina <= 0:
                               self.is_sprinting = False
+
+          def update_frame(self):
+                    factor = self.max_vel / self.base_max_vel
+                    self.frame += self.animation_speed * factor * self.game.dt
 
           def update_facing(self):
                     if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:

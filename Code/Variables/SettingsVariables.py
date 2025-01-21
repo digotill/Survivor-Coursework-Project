@@ -56,82 +56,60 @@ General_Settings = {
 }
 
 Camera_Attributes = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,
-                     'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1,
-                     }
+                     'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1,}
 
 Grass_Attributes = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
                     "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
-                    "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)
-                    }
+                    "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15 + math.cos(game_time * 1.5 + y_val / 120 + x_val / 180) * 5)}
 
 Grass_positions = {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19],
-                   "wasteland_grass": [20, 21, 22, 23, 24]
-                   }
+                   "wasteland_grass": [20, 21, 22, 23, 24]}
 
-Player_Attributes = {'name': 'player', 'health': 100,
-                     "animations": {"idle": AM.assets["player_idle"], "run": AM.assets["player_running"], },
-                     'vel': 90, "sprint_vel": 140, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10, "hit_cooldown": 0.5,
-                     'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10,
-                     }
+Player_Attributes = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
+                     "hit_cooldown": 0.5, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10}
+
+Damages = {"acid": 3, "enemy1": 20}
 
 Enemies = {"enemy1": create_enemy_settings(name="enemy1", health=100, vel=100, damage=20, stopping_distance=25, steering_strength=0.8,
-                                           friction=0.2, animation_speed=5, hit_cooldown=0, separation_radius=20, separation_strength=5)
-           }
+                                           friction=0.2, animation_speed=5, hit_cooldown=0, separation_radius=20, separation_strength=5)}
 
-Keys = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
-        }
+Keys = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,}
 
-UI_Settings = {"health_bar": (80, 30), "stamina_bar": (80, 30),
-               }
+UI_Settings = {"health_bar": (80, 30), "stamina_bar": (80, 30),}
 
-Screen_Shake = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1),  # magnitude, duration
-                }
+Screen_Shake = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1),}  # magnitude, duration
 
 Sparks_Settings = {"enemy_hit": create_spark_settings(spread=60, scale=1, colour=(255, 0, 0), amount=5, min_vel=3, max_vel=10),
-                   "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
-                   }
+                   "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)}
 
-Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.9, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
-              }
+Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.9, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
-Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), "lush": (0.55, 1), "cherryblossom": (1, 1),  # chance, tree density
-                 }
+Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), "lush": (0.55, 1), "cherryblossom": (1, 1),}  # chance, tree density
 
-Tiles_Congifig = {"Tile_Ranges": {"water_tile": 0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],
-                  }
+Tiles_Congifig = {"Tile_Ranges": {"water_tile": 0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],}
 
-Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,
-               }
+Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,}
 
 Weapons = {
           "ak47": create_weapon_settings(vel=750, spread=3, reload_time=2, fire_rate=0.1, clip_size=30, lifetime=3, lifetime_randomness=0.2, damage=16,
-                                         distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=3, shots=1, name="ak47"
-                                         ),
+                                         distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=3, shots=1, name="ak47"),
           "shotgun": create_weapon_settings(vel=900, spread=15, reload_time=0.5, fire_rate=0.8, clip_size=8, lifetime=0.5, lifetime_randomness=0.2, damage=50,
-                                            distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=1, shots=20, name="shotgun"
-                                            ),
+                                            distance=-2, friction=0.1, animation_speed=5, spread_time=2, pierce=1, shots=20, name="shotgun"),
           "minigun": create_weapon_settings(vel=600, spread=5, reload_time=10, fire_rate=0.01, clip_size=100, lifetime=2, lifetime_randomness=0.2, damage=5,
-                                            distance=-12, friction=0.1, animation_speed=5, spread_time=0.2, pierce=0, shots=1, name="minigun"
-                                            ),
-}
+                                            distance=-12, friction=0.1, animation_speed=5, spread_time=0.2, pierce=0, shots=1, name="minigun")}
 
 AllButtons = {
           "In_Game": {"resume": create_button("resume", v2(240, 135), AM.assets["button5"]),
                       "fullscreen": create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
                       "quit": create_button("quit", v2(240, 240), AM.assets["button5"]),
-                      "return": create_button("return", v2(240, 90), AM.assets["button5"])
-                      },
+                      "return": create_button("return", v2(240, 90), AM.assets["button5"])},
           "Weapons": {"ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), {"text_pos": "left"}),
                       "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), {"text_pos": "left"}),
-                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), {"text_pos": "left"}),
-                      },
+                      "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), {"text_pos": "left"}),},
           "Menu_Buttons": {"play": create_button("play", v2(200, 240), AM.assets["button5"]),
                            "quit": create_button("quit", v2(280, 240), AM.assets["button5"]),
                            "easy": create_button("easy", v2(200, 190), AM.assets["button5"]),
                            "medium": create_button("medium", v2(200, 150), AM.assets["button5"]),
-                           "hard": create_button("hard", v2(280, 190), AM.assets["button5"]),
-                           },
+                           "hard": create_button("hard", v2(280, 190), AM.assets["button5"]),},
           "Sliders": {"brightness": create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                      "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])
-                      },
-}
+                      "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])},}
