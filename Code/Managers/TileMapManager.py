@@ -88,7 +88,23 @@ class TileMapManager:
                                         neighbours_string = ''.join(map(neighbor_value, neighbours))
 
                                         if neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 0:
-                                                  tile.images = [self.game.assets[transition_array[0]][0].copy()]
+                                                  tile.images = self.game.assets[transition_array[0]]
+                                                  tile.tile_type = transition_array[0]
+                                                  changes += 1
+                                        elif self.count_surrounding_tiles(tile) == 4 and count == 0:
+                                                  string = self.get_surrounding_tiles_string(tile)
+                                                  if string in ["11100100", "00111001", "01001110", "10010011"]:   # top, top-right, right, bottom, bottom-left, left, top-left
+                                                            tile.images = self.game.assets[transition_array[0]]
+                                                            tile.tile_type = transition_array[0]
+                                                            changes += 1
+                                        elif self.count_surrounding_tiles(tile) == 4 and count == 1:
+                                                  string = self.get_surrounding_tiles_string(tile)
+                                                  if "101" in string or string in ["1100010"]:   # top, top-right, right, bottom, bottom-left, left, top-left
+                                                            tile.images = self.game.assets[transition_array[0]]
+                                                            tile.tile_type = transition_array[0]
+                                                            changes += 1
+                                        elif neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 1:
+                                                  tile.images = self.game.assets[transition_array[0]]
                                                   tile.tile_type = transition_array[0]
                                                   changes += 1
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
@@ -99,12 +115,41 @@ class TileMapManager:
                                                   neighbour_check = self.check_corners(tile)
                                                   if neighbour_check is not True:
                                                             self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbour_check)
-
+                                        elif count == 4:
+                                                  grid2tile = self.get((grid_x, grid_y))
+                                                  if grid2tile and tile.tile_type == transition_array[0]:
+                                                            self.grid.remove(grid2tile)
                     if changes == 0:
                               count += 1
-                    if count < 4:
+                    if count < 5:
                               self.apply_transition_tiles(transition_array, count)
                     self.grid2.rebuild()
+
+          def get_surrounding_tiles_string(self, tile):
+                    grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
+
+                    # Define all 8 directions (including diagonals) in clockwise order
+                    directions = [
+                              (0, -1),  # Top
+                              (1, -1),  # Top-Right
+                              (1, 0),  # Right
+                              (1, 1),  # Bottom-Right
+                              (0, 1),  # Bottom
+                              (-1, 1),  # Bottom-Left
+                              (-1, 0),  # Left
+                              (-1, -1)  # Top-Left
+                    ]
+
+                    surrounding_tiles = ""
+
+                    for dx, dy in directions:
+                              neighbor = self.get((grid_x + dx, grid_y + dy))
+                              if neighbor and neighbor.tile_type == tile.tile_type:
+                                        surrounding_tiles += "1"
+                              else:
+                                        surrounding_tiles += "0"
+
+                    return surrounding_tiles
 
           def check_corners(self, tile):
                     grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
@@ -121,6 +166,44 @@ class TileMapManager:
                               return "1"
                     else:
                               return "2"
+
+          def count_adjacent_tiles(self, tile):
+                    grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
+
+                    # Define the four adjacent directions
+                    directions = [
+                              (0, -1),  # Top
+                              (-1, 0),  # Left
+                              (1, 0),  # Right
+                              (0, 1)  # Bottom
+                    ]
+
+                    count = 0
+                    for dx, dy in directions:
+                              neighbor = self.get((grid_x + dx, grid_y + dy))
+                              if neighbor and neighbor.tile_type == tile.tile_type:
+                                        count += 1
+
+                    return count
+
+          def count_surrounding_tiles(self, tile):
+                    grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
+
+                    # Define all 8 directions (including diagonals)
+                    directions = [
+                              (-1, -1), (0, -1), (1, -1),
+                              (-1, 0), (1, 0),
+                              (-1, 1), (0, 1), (1, 1)
+                    ]
+
+                    tile_count = 0
+
+                    for dx, dy in directions:
+                              neighbor = self.get((grid_x + dx, grid_y + dy))
+                              if neighbor is None or neighbor.tile_type != tile.tile_type:
+                                        tile_count += 1
+
+                    return tile_count
 
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)

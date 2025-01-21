@@ -91,13 +91,13 @@ Sparks_Settings = {"enemy_hit": create_spark_settings(spread=60, scale=1, colour
                    "muzzle_flash": create_spark_settings(spread=20, scale=0.8, colour=(255, 255, 255), amount=10, min_vel=3, max_vel=10)
                    }
 
-Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.1, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
+Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.9, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)
               }
 
 Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), "lush": (0.55, 1), "cherryblossom": (1, 1),  # chance, tree density
                  }
 
-Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],
+Tiles_Congifig = {"Tile_Ranges": {"water_tile": 0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [],
                   }
 
 Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8,
