@@ -58,13 +58,19 @@ class Game:
                               for manager in [self.button_manager]:
                                         manager.update()
 
+          @profile
           def draw_groups(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager,
-                                        self.bullet_manager, self.spark_manager, self.rain_manager, self.ui_manager,
-                                              self.button_manager, self.screen_effect_manager]:
-                                        manager.draw()
+                              self.tilemap_manager.draw()
+                              self.grass_manager.draw()
+                              self.drawing_manager.draw()
+                              self.bullet_manager.draw()
+                              self.spark_manager.draw()
+                              self.rain_manager.draw()
+                              self.ui_manager.draw()
+                              self.button_manager.draw()
+                              self.screen_effect_manager.draw()
                     elif self.in_menu:
                               for manager in [self.background_manager, self.button_manager, self.screen_effect_manager]:
                                         manager.draw()
@@ -76,7 +82,6 @@ class Game:
                     self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                     pygame.display.flip()
 
-          #@profile
           def run_game(self):
                     # Main game loop
                     while self.running:

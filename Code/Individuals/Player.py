@@ -71,6 +71,7 @@ class Player(main):
                               self.dy /= magnitude
 
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (self.dx != 0 or self.dy != 0)
+                    self.move_hor = self.move_vert = False
                     if not self.game.changing_settings:
                               self.handle_stamina()
                               self.handle_slowdown()
@@ -81,8 +82,8 @@ class Player(main):
 
                     if not self.game.changing_settings:
                               self.update_position()
+                              self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
-                    self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
                     self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
                     self.update_animation()
 
