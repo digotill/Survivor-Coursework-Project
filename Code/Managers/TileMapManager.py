@@ -86,6 +86,9 @@ class TileMapManager:
                                                   return '2' if count > 2 and n.transition else '1'
 
                                         def change_tile(change):
+                                                  grid2tile = self.get((grid_x, grid_y))
+                                                  if grid2tile and grid2tile in self.grid2.items:
+                                                            self.grid2.remove(grid2tile)
                                                   tile.images = self.game.assets[transition_array[0]]
                                                   tile.tile_type = transition_array[0]
                                                   return change + 1
@@ -115,6 +118,13 @@ class TileMapManager:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
                                         elif neighbours_string in ["2121", "2112", "1221", "1212", "1222", "2122", "2212", "2221", "2222"] and count == 3 and corner_string is not True:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, corner_string)
+                                        elif self.count_surrounding_tiles(tile) == 3 and count == 4:
+                                                  if string in ["01011011", "01101101", "10110101", "11010110"]:
+                                                            changes = change_tile(changes)
+                                        elif count == 4 and tile.tile_type == transition_array[0]:
+                                                  grid2tile = self.get((grid_x, grid_y))
+                                                  if grid2tile and grid2tile in self.grid2.items:
+                                                            self.grid2.remove(grid2tile)
 
                     if changes == 0:
                               count += 1
@@ -124,21 +134,13 @@ class TileMapManager:
 
           @staticmethod
           def find_if_corner(string1, string2):
-                    if string2 in ["00111011", "01111011"]:
+                    if string2 in ["00111011", "01111011", "10111001", "10111101"]:
                               return "0110"
-                    elif string2 in ["01101110", "01101111"]:
+                    elif string2 in ["01101110", "01101111", "11001110", "11011110"]:
                               return "0101"
-                    elif string2 in ["10110011", "10110111"]:
+                    elif string2 in ["10110011", "10110111", "10011011", "11011011"]:   #
                               return "1001"
-                    elif string2 in ["11100110", "11110110"]:
-                              return "1010"
-                    elif string2 in ["11001110", "11011110"]:
-                              return "0101"
-                    elif string2 in ["00111011", "01111011"]:
-                              return "0110"
-                    elif string2 in ["10111001", "10111101"]:
-                              return "0110"
-                    elif string2 in ["11101100", "11101101"]:
+                    elif string2 in ["11100110", "11110110", "11101100", "11101101"]:
                               return "1010"
                     else:
                               return string1

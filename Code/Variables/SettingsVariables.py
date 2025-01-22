@@ -72,7 +72,7 @@ Damages = {"acid": 3}
 Player_Attributes = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
                      "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10}
 
-Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 20, "attack_range": 30, "stopping_range": 25, "steering_strength": 0.4,
+Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25, "steering_strength": 0.4,
                       "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 225}}
 
 Keys = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT, }
