@@ -85,45 +85,63 @@ class TileMapManager:
                                                             return '0'
                                                   return '2' if count > 2 and n.transition else '1'
 
+                                        def change_tile(change):
+                                                  tile.images = self.game.assets[transition_array[0]]
+                                                  tile.tile_type = transition_array[0]
+                                                  return change + 1
+
                                         neighbours_string = ''.join(map(neighbor_value, neighbours))
+                                        string = self.get_surrounding_tiles_string(tile)
+                                        corner_string = self.check_corners(tile)
+
+                                        # top, top-right, right, bottom-right, bottom, bottom-left, left, top-left
+                                        # "top", "bottom", "right", "left"
+                                        #  0 = diffrent    1 = same
 
                                         if neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 0:
-                                                  tile.images = self.game.assets[transition_array[0]]
-                                                  tile.tile_type = transition_array[0]
-                                                  changes += 1
+                                                  changes = change_tile(changes)
                                         elif self.count_surrounding_tiles(tile) == 4 and count == 0:
-                                                  string = self.get_surrounding_tiles_string(tile)
-                                                  if string in ["11100100", "00111001", "01001110", "10010011"]:   # top, top-right, right, bottom, bottom-left, left, top-left
-                                                            tile.images = self.game.assets[transition_array[0]]
-                                                            tile.tile_type = transition_array[0]
-                                                            changes += 1
+                                                  if string in ["11100100", "00111001", "01001110", "10010011", "10100100", "00101001", "01001010", "10010010"]:
+                                                            changes = change_tile(changes)
                                         elif self.count_surrounding_tiles(tile) == 4 and count == 1:
-                                                  string = self.get_surrounding_tiles_string(tile)
-                                                  if "101" in string or string in ["1100010"]:   # top, top-right, right, bottom, bottom-left, left, top-left
-                                                            tile.images = self.game.assets[transition_array[0]]
-                                                            tile.tile_type = transition_array[0]
-                                                            changes += 1
+                                                  if "101" in string or string in ["1100010"]:
+                                                            changes = change_tile(changes)
                                         elif neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 1:
-                                                  tile.images = self.game.assets[transition_array[0]]
-                                                  tile.tile_type = transition_array[0]
-                                                  changes += 1
+                                                  changes = change_tile(changes)
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
-                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
+                                                  new_string = self.find_if_corner(neighbours_string, string)
+                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, new_string)  #
                                         elif neighbours_string in ["0101", "0110", "1001", "1010"] and count == 2:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
-                                        elif neighbours_string in ["2121", "2112", "1221", "1212", "1222", "2122", "2212", "2221", "2222"] and count == 3:
-                                                  neighbour_check = self.check_corners(tile)
-                                                  if neighbour_check is not True:
-                                                            self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbour_check)
-                                        elif count == 4:
-                                                  grid2tile = self.get((grid_x, grid_y))
-                                                  if grid2tile and tile.tile_type == transition_array[0]:
-                                                            self.grid.remove(grid2tile)
+                                        elif neighbours_string in ["2121", "2112", "1221", "1212", "1222", "2122", "2212", "2221", "2222"] and count == 3 and corner_string is not True:
+                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, corner_string)
+
                     if changes == 0:
                               count += 1
                     if count < 5:
                               self.apply_transition_tiles(transition_array, count)
                     self.grid2.rebuild()
+
+          @staticmethod
+          def find_if_corner(string1, string2):
+                    if string2 in ["00111011", "01111011"]:
+                              return "0110"
+                    elif string2 in ["01101110", "01101111"]:
+                              return "0101"
+                    elif string2 in ["10110011", "10110111"]:
+                              return "1001"
+                    elif string2 in ["11100110", "11110110"]:
+                              return "1010"
+                    elif string2 in ["11001110", "11011110"]:
+                              return "0101"
+                    elif string2 in ["00111011", "01111011"]:
+                              return "0110"
+                    elif string2 in ["10111001", "10111101"]:
+                              return "0110"
+                    elif string2 in ["11101100", "11101101"]:
+                              return "1010"
+                    else:
+                              return string1
 
           def get_surrounding_tiles_string(self, tile):
                     grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
@@ -205,8 +223,30 @@ class TileMapManager:
 
                     return tile_count
 
+          def count_corners(self, tile):
+                    grid_x, grid_y = int(tile.position.x // self.tile_size), int(tile.position.y // self.tile_size)
+
+                    # Define the four corner directions
+                    directions = [
+                              (-1, -1),  # Top-Left
+                              (1, -1),  # Top-Right
+                              (-1, 1),  # Bottom-Left
+                              (1, 1)  # Bottom-Right
+                    ]
+
+                    count = 0
+                    for dx, dy in directions:
+                              neighbor = self.get((grid_x + dx, grid_y + dy))
+                              if neighbor and neighbor.tile_type == tile.tile_type:
+                                        count += 1
+
+                    return count
+
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)
+                    grid2tile = self.get((grid_x, grid_y))
+                    if grid2tile and grid2tile in self.grid2.items:
+                              self.grid2.remove(grid2tile)
                     new_tile = Tile(self.game, transition_array[0], pixel_position)
                     new_tile.images = self.game.assets[transition_array[0][:6] + "tileset"][index]
                     tile.transition = True

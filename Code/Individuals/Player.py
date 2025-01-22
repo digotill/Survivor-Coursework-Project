@@ -6,7 +6,7 @@ class Player(main):
                     self.game = game
 
                     self.set_attributes(Player_Attributes)
-                    self.res = AM.assets["player_idle"][0].size
+                    self.res = 16, 16
                     self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
