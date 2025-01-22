@@ -36,11 +36,13 @@ class Rain(main):
                               self.pos += self.vel_vector * self.game.dt
                               self.rect.center = self.pos
 
-          def draw(self):
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.display_surface
                     pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     if not self.hit_ground:
-                              self.game.display_surface.blit(self.animation[0], pos)
+                              surface.blit(self.animation[0], pos)
                     else:
-                              self.game.display_surface.blit(
+                              surface.blit(
                                         self.animation[
                                                   int(self.frame % len(self.animation))], pos)

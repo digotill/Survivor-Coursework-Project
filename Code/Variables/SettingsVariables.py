@@ -50,7 +50,7 @@ General_Settings = {
           'enemies': (100, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 20),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 10, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
+          'hash_maps': (50, 40, 16, 50, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20),  # main menu. transition
           "rock": (100, False),  # amount, collisions

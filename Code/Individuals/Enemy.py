@@ -72,13 +72,15 @@ class Enemy(main):
                               self.is_attacking = False
                     self.update_animation()
 
-          def draw(self):
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.display_surface
                     current_sprite = self.get_current_sprite()
                     shadow_image = self.generate_shadow_image(current_sprite)
                     self.game.display_surface.blit(shadow_image, (
                               self.get_position()[0],
                               self.get_position()[1] + self.res[1] - shadow_image.height / 2))
-                    self.game.display_surface.blit(current_sprite, self.get_position())
+                    surface.blit(current_sprite, self.get_position())
 
           def get_current_sprite(self):
                     current_animation = self.game.assets[self.name + "_" + self.current_animation + "_" + self.facing]

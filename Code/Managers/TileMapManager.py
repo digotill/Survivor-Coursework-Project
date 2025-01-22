@@ -35,7 +35,38 @@ class TileMapManager:
 
                     self.terrain_generator()
 
+                    self.cached_surface = None
+                    self.create_cached_surface()
+
                     self.grid.rebuild()
+
+          def create_cached_surface(self):
+                    # Calculate the size of the entire map
+                    all_tiles = list(self.grid.items) + list(self.grid2.items)
+
+                    min_x = min(tile.position.x for tile in all_tiles)
+                    min_y = min(tile.position.y for tile in all_tiles)
+                    max_x = max(tile.position.x + self.tile_size for tile in all_tiles)
+                    max_y = max(tile.position.y + self.tile_size for tile in all_tiles)
+
+                    width = int(max_x - min_x)
+                    height = int(max_y - min_y)
+
+                    # Create a surface big enough to hold the entire map
+                    self.cached_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+                    self.cache_offset = pygame.math.Vector2(min_x, min_y)
+
+                    # Draw all tiles to the cached surface
+                    for grid in [self.grid, self.grid2]:
+                              for tile in grid.items:
+                                        draw_position = (int(tile.position.x - self.cache_offset.x),
+                                                         int(tile.position.y - self.cache_offset.y))
+                                        if tile.images:
+                                                  self.cached_surface.blit(tile.images[0], draw_position)
+
+                    # For animated tiles, we'll need to keep track of them separately
+                    self.animated_tiles = [tile for tile in all_tiles
+                                           if tile.tile_type in Tiles_Congifig["animated_tiles"]]
 
           def add_tile(self, tile_type, grid_position):
                     pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
@@ -46,10 +77,21 @@ class TileMapManager:
                     if not self.game.changing_settings:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
-                    for grid in [self.grid, self.grid2]:
-                              for tile in grid.window_query():
-                                        frame = self.frames.get(tile.tile_type, 0)
-                                        tile.draw(self.game.display_surface, self.game.camera.offset_rect.topleft, frame)
+
+                    # Calculate visible area
+                    camera_rect = self.game.camera.offset_rect
+                    visible_area = pygame.Rect(camera_rect.left, camera_rect.top,
+                                               self.game.display_surface.get_width(),
+                                               self.game.display_surface.get_height())
+
+                    # Draw the cached surface
+                    draw_position = (int(self.cache_offset.x - camera_rect.left),
+                                     int(self.cache_offset.y - camera_rect.top))
+                    self.game.display_surface.blit(self.cached_surface, draw_position)
+
+                    # Draw debug rectangle
+                    pygame.draw.rect(self.game.display_surface, (255, 0, 0),
+                                     pygame.Rect(draw_position, self.cached_surface.get_size()), 1)
 
           def get_tile_type(self, x, y):
                     noise_value = self.perlin_noise([x * Map_Config["tiles_map"][0], y * Map_Config["tiles_map"][0]])

@@ -87,16 +87,18 @@ class Player(main):
                     self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
                     self.update_animation()
 
-          def draw(self):
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.display_surface
                     current_animation = self.game.assets["player_" + self.current_animation + "_" + self.facing]
                     frame_index = int(self.frame) % len(current_animation)
                     image = current_animation[frame_index]
 
                     shadow_image = self.generate_shadow_image(image)
-                    self.game.display_surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
-                    self.game.display_surface.blit(image, self.get_position())
+                    surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
+                    surface.blit(image, self.get_position())
 
-                    self.gun.draw()
+                    self.gun.draw(surface)
 
           def handle_stamina(self):
                     if self.is_sprinting and self.current_vel > 0:

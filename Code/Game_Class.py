@@ -58,7 +58,6 @@ class Game:
                               for manager in [self.button_manager]:
                                         manager.update()
 
-          @profile
           def draw_groups(self):
                     # Draw game elements in order
                     if not self.in_menu:
@@ -75,7 +74,6 @@ class Game:
                               for manager in [self.background_manager, self.button_manager, self.screen_effect_manager]:
                                         manager.draw()
 
-          #@profile
           def update_display(self):
                     # Update the display with all drawn elements
                     self.ui_manager.update_display()

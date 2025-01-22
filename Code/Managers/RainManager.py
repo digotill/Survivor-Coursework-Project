@@ -8,7 +8,7 @@ class RainManager:
                     self.grid = HashMap(game, General_Settings["hash_maps"][3])
 
                     self.spawn_timer = Timer(Rain_Config['spawn_rate'], self.game.game_time, self.spawn_rain)
-
+                    self.rain_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)
                     self.grid.rebuild()
 
           def update(self):
@@ -28,9 +28,14 @@ class RainManager:
                               self.grid.rebuild()
 
           def draw(self):
+                    self.rain_surface.fill((0, 0, 0, 0))  # Clear the surface with transparent color
                     for rain_droplet in self.grid.window_query():
                               if not rain_droplet.hit_ground:
-                                        rain_droplet.draw()
+                                        pos = (rain_droplet.rect.x - self.game.camera.offset_rect.x,
+                                               rain_droplet.rect.y - self.game.camera.offset_rect.y)
+                                        self.rain_surface.blit(rain_droplet.animation[0], pos)
+
+                    self.game.display_surface.blit(self.rain_surface, (0, 0))
 
           def spawn_rain(self):
                     for _ in range(Rain_Config['amount_spawning']):

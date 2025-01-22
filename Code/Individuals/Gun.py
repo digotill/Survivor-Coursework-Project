@@ -22,7 +22,7 @@ class Gun(main):
                     self.calc_angle()
                     self.update_shooting()
 
-          def draw(self):
+          def draw(self, surface):
                     if self.game.player.facing == "right":
                               self.rotated_image = pygame.transform.rotate(self.gun_image, self.angle + 90)
                     else:
@@ -36,7 +36,7 @@ class Gun(main):
                               math.radians(self.angle)) * self.distance -
                              self.game.camera.offset_rect.y)
                     self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
-                    self.game.display_surface.blit(self.rotated_image, self.rect)
+                    surface.blit(self.rotated_image, self.rect)
 
           def calc_angle(self):
                     change_in_x = self.game.player.rect.centerx - self.game.camera.offset_rect.x - \

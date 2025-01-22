@@ -68,25 +68,23 @@ class GrassManager():
                               int(offset[1] // self.tile_size)
                     )
 
-                    # get list of grass tiles to render based on visible area plus buffer
-                    render_list = []
-                    for y in range(visible_tile_range[1]):
-                              for x in range(visible_tile_range[0]):
-                                        pos = (base_pos[0] + x, base_pos[1] + y)
-                                        if pos in self.grass_tiles:
-                                                  render_list.append(pos)
+                    # Create a list of tiles to render
+                    render_list = [
+                              (base_pos[0] + x, base_pos[1] + y)
+                              for y in range(visible_tile_range[1])
+                              for x in range(visible_tile_range[0])
+                              if (base_pos[0] + x, base_pos[1] + y) in self.grass_tiles
+                    ]
 
-                    # render shadow if applicable
+                    # Render shadows if applicable
                     if self.ground_shadow[0]:
+                              shadow_offset = (offset[0] - self.ground_shadow[3][0], offset[1] - self.ground_shadow[3][1])
                               for pos in render_list:
-                                        self.grass_tiles[pos].render_shadow(surf, offset=(
-                                                  offset[0] - self.ground_shadow[3][0],
-                                                  offset[1] - self.ground_shadow[3][1]))
+                                        self.grass_tiles[pos].render_shadow(surf, offset=shadow_offset)
 
-                    # render the grass tiles
-                    for pos in render_list:
-                              tile = self.grass_tiles[pos]
-                              self.game.drawing_manager.drawables.append(tile)
+                    # Prepare grass tiles for rendering
+                    drawables = [self.grass_tiles[pos] for pos in render_list]
+                    self.game.drawing_manager.drawables.extend(drawables)
 
 
 # an asset manager that contains functionality for rendering blades of grass
@@ -258,8 +256,10 @@ class GrassTile:
                               if matching:
                                         self.custom_blade_data = None
 
-          def draw(self):
-                    self.render(self.game.display_surface, self.game.dt, offset=self.game.camera.offset_rect.topleft)
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.display_surface
+                    self.render(surface, self.game.dt, offset=self.game.camera.offset_rect.topleft)
                     self.set_rotation(Grass_Attributes["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
 
           @staticmethod
