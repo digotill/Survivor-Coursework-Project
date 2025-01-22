@@ -1,5 +1,7 @@
 import Code.Shaders.texture as texture
 import Code.Shaders.screen_rect as screen_rect
+from memory_profiler import profile
+from pympler import asizeof
 
 import moderngl
 import pygame

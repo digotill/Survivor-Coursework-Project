@@ -15,8 +15,9 @@ class EnemyManager:
                               # Update all enemies and apply separation forces
                               for enemy in self.grid.items:
                                         enemy.update()
-                                        separation_force = self.calculate_separation(enemy)
-                                        enemy.apply_force(separation_force)
+                                        if random.random() < 0.005:
+                                                  separation_force = self.calculate_separation(enemy)
+                                                  enemy.apply_force(separation_force)
 
                               self.remove_dead_enemies()  # Remove enemies with no health
 
@@ -24,7 +25,8 @@ class EnemyManager:
                                         self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
                                         self.spawn_timer.reactivate(self.game.game_time)
 
-                              self.grid.rebuild()  # Rebuild the spatial hash grid
+                              if random.random() > 0.9:
+                                        self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
@@ -55,23 +57,45 @@ class EnemyManager:
                                         self.enemy_pool.add(enemy)
 
           def calculate_separation(self, enemy):
-                    # Calculate separation force to prevent enemies from clustering too closely
                     steering = v2(0, 0)
                     total = 0
                     nearby_enemies = self.grid.query(
                               enemy.rect.inflate(enemy.separation_radius * 2, enemy.separation_radius * 2))
 
+                    enemy_pos = enemy.pos
+                    separation_radius_sq = enemy.separation_radius ** 2
+
                     for other in nearby_enemies:
-                              if other != enemy:
-                                        distance = enemy.pos.distance_to(other.pos)
-                                        if distance < enemy.separation_radius:
-                                                  diff = (enemy.pos - other.pos).normalize() / distance
-                                                  steering += diff
+                              if other is not enemy:
+                                        dx = enemy_pos.x - other.pos.x
+                                        dy = enemy_pos.y - other.pos.y
+                                        distance_sq = dx * dx + dy * dy
+
+                                        if distance_sq < separation_radius_sq:
+                                                  inv_dist = 1.0 / (distance_sq ** 0.5 + 1e-6)  # Add small epsilon to avoid division by zero
+                                                  steering.x += dx * inv_dist
+                                                  steering.y += dy * inv_dist
                                                   total += 1
 
                     if total > 0:
-                              steering = (steering / total).normalize() * enemy.vel - enemy.vel_vector
-                              if steering.length() > enemy.vel:
-                                        steering = steering.normalize() * enemy.vel
+                              steering.x /= total
+                              steering.y /= total
+
+                              length = (steering.x ** 2 + steering.y ** 2) ** 0.5
+                              if length > 0:
+                                        inv_length = 1.0 / length
+                                        steering.x *= inv_length * enemy.vel
+                                        steering.y *= inv_length * enemy.vel
+
+                              rel_vel_x = steering.x - enemy.vel_vector.x
+                              rel_vel_y = steering.y - enemy.vel_vector.y
+                              rel_vel_length_sq = rel_vel_x ** 2 + rel_vel_y ** 2
+
+                              if rel_vel_length_sq > enemy.vel ** 2:
+                                        inv_rel_vel_length = enemy.vel / (rel_vel_length_sq ** 0.5)
+                                        steering.x = rel_vel_x * inv_rel_vel_length
+                                        steering.y = rel_vel_y * inv_rel_vel_length
 
                     return steering * enemy.separation_strength
+
+

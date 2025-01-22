@@ -5,7 +5,9 @@ class ScreenEffectManager:
           def __init__(self, game):
                     self.game = game
                     self.transition_screeneffect = ScreenEffect(self.game, self.game.assets["transition_screeneffect"], General_Settings['animation_speeds'][1])
+                    self.youdied_screeneffect = ScreenEffect(self.game, self.game.assets["youdied_screeneffect"], General_Settings['animation_speeds'][1])
                     self.inverted_transition = False
+                    self.youdied_opacity = 0
 
           def draw(self):
                     if self.game.playing_transition and self.game.in_menu:
@@ -18,3 +20,6 @@ class ScreenEffectManager:
                                         self.transition_screeneffect.frame = self.transition_screeneffect.length
                                         self.inverted_transition = True
                               self.transition_screeneffect.draw(-1)
+
+                    if self.game.player.health <= 0:
+                              self.transition_screeneffect.draw_frame(0)

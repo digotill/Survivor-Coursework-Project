@@ -14,12 +14,21 @@ class Enemy(main):
                     self.current_animation = 'moving'
                     self.is_attacking = False
 
+                    self.update_timer = Timer(General_Settings["update_fraction"][1], game.game_time)
+
           def apply_force(self, force):
                     self.vel_vector += force
                     if self.vel_vector.length() > self.vel:
                               self.vel_vector = self.vel_vector.normalize() * self.vel
 
           def update(self):
+                    if self.update_timer.update(self.game.game_time):
+                              self.full_update()
+                              self.update_timer.reactivate(self.game.game_time)
+                    else:
+                              self.partial_update()
+
+          def full_update(self):
                     if self.should_move():
                               self.move()
                     self.update_is_attacking()
@@ -28,18 +37,21 @@ class Enemy(main):
                     self.update_position()
                     self.attack_player()
 
+          def partial_update(self):
+                    if self.should_move():
+                              self.update_position()
+                    self.update_frame()
+
           def should_move(self):
-                    distance = self.distance_to_player()
-                    return distance > self.stopping_range
+                    return (self.game.player.rect.center - self.pos).length_squared() > self.stopping_range
 
           def attack_player(self):
-                    if self.is_attacking:
-                              if self.rect.colliderect(self.game.player.rect):
-                                        self.game.player.deal_damage(self.damage)
+                    if self.is_attacking and self.rect.colliderect(self.game.player.rect):
+                              self.game.player.deal_damage(self.damage)
 
           def move(self):
                     direction = self.game.player.rect.center - self.pos
-                    if direction.length() > 0:
+                    if direction.length_squared() > 0:
                               direction = direction.normalize()
 
                     desired_velocity = direction * self.max_vel
@@ -47,16 +59,15 @@ class Enemy(main):
                     self.apply_force(steering)
 
                     self.vel_vector += self.acceleration * self.game.dt
-                    if self.vel_vector.length() > self.max_vel:
+                    if self.vel_vector.length_squared() > self.max_vel ** 2:
                               self.vel_vector = self.vel_vector.normalize() * self.max_vel
 
                     self.vel_vector *= (1 - self.friction)
-
-                    self.acceleration = v2(0, 0)
+                    self.acceleration.update(0, 0)
 
           def update_position(self):
                     self.pos += self.vel_vector * self.game.dt
-                    self.rect.center = self.pos
+                    self.rect.center = (int(self.pos.x), int(self.pos.y))
 
           def update_facing(self):
                     self.facing = "right" if self.game.player.rect.centerx > self.pos.x else "left"
@@ -65,10 +76,10 @@ class Enemy(main):
                     return (self.game.player.rect.center - self.pos).length()
 
           def update_is_attacking(self):
-                    distance = self.distance_to_player()
-                    if distance <= self.attack_range:
+                    distance_squared = (self.game.player.rect.center - self.pos).length_squared()
+                    if distance_squared <= self.attack_range ** 2:
                               self.is_attacking = True
-                    elif self.is_attacking and self.frame > len(self.game.assets[self.name + "_" + self.current_animation + "_" + self.facing]):
+                    elif self.is_attacking and self.frame > len(self.game.assets[f"{self.name}_{self.current_animation}_{self.facing}"]):
                               self.is_attacking = False
                     self.update_animation()
 
@@ -97,5 +108,7 @@ class Enemy(main):
                               self.frame = 0
 
           def update_animation(self):
-                    new_animation = 'moving' if not self.is_attacking else 'attacking'
-                    self.change_animation(new_animation)
+                    new_animation = 'attacking' if self.is_attacking else 'moving'
+                    if self.current_animation != new_animation:
+                              self.current_animation = new_animation
+                              self.frame = 0

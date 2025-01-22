@@ -6,8 +6,8 @@ class Rain(main):
                     self.animation = AM.assets["rain"]
                     self.res = AM.assets["rain"][0].size
                     self.set_attributes(dictionary)
-                    self.pos = v2(change_by_diff(self.game.camera.offset_rect.x, self.game.camera.offset_rect.width),
-                                  self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 2)
+                    self.pos = v2(change_by_diff(self.game.camera.offset_rect.x * 1.1, self.game.camera.offset_rect.width / 1.1),
+                                  self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 4)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel

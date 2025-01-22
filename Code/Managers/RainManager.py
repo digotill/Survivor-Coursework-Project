@@ -39,7 +39,8 @@ class RainManager:
 
           def spawn_rain(self):
                     for _ in range(Rain_Config['amount_spawning']):
-                              self.grid.insert(Rain(self.game, Rain_Config))
+                              rain = Rain(self.game, Rain_Config)
+                              self.grid.insert(rain)
 
           def check_dead(self):
                     for rain_droplet in self.grid.items.copy():

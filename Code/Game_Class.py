@@ -51,9 +51,13 @@ class Game:
           def update_groups(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager,
-                                              self.rain_manager, self.player, self.player.gun, self.button_manager]:
-                                        manager.update()
+                              self.enemy_manager.update()
+                              self.spark_manager.update()
+                              self.bullet_manager.update()
+                              self.rain_manager.update()
+                              self.player.update()
+                              self.player.gun.update()
+                              self.button_manager.update()
                     elif self.in_menu:
                               for manager in [self.button_manager]:
                                         manager.update()
@@ -61,15 +65,9 @@ class Game:
           def draw_groups(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              self.tilemap_manager.draw()
-                              self.grass_manager.draw()
-                              self.drawing_manager.draw()
-                              self.bullet_manager.draw()
-                              self.spark_manager.draw()
-                              self.rain_manager.draw()
-                              self.ui_manager.draw()
-                              self.button_manager.draw()
-                              self.screen_effect_manager.draw()
+                              for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager, self.bullet_manager,
+                                              self.spark_manager, self.rain_manager, self.ui_manager, self.button_manager, self.screen_effect_manager]:
+                                        manager.draw()
                     elif self.in_menu:
                               for manager in [self.background_manager, self.button_manager, self.screen_effect_manager]:
                                         manager.draw()

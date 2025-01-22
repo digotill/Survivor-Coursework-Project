@@ -9,13 +9,16 @@ from copy import deepcopy
 from itertools import product
 from pstats import Stats
 from Code.Shaders import pygame_shaders
-# from memory_profiler import profile
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *
 from Code.Variables.LoadAssets import *
 from Code.DataStructures.Timer import *
-from line_profiler import LineProfiler
+"""from line_profiler import LineProfiler
 import atexit
+profile = LineProfiler()
+atexit.register(profile.print_stats)"""
+
+from memory_profiler import profile
 
 pygame.init()
 
@@ -26,9 +29,6 @@ GAME_SIZE = 2000, 2000
 DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
-
-profile = LineProfiler()
-atexit.register(profile.print_stats)
 
 physical_cores = psutil.cpu_count(logical=False)
 logical_cores = psutil.cpu_count(logical=True)
@@ -50,12 +50,13 @@ General_Settings = {
           'enemies': (100, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 20),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 50, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
+          'hash_maps': (50, 40, 16, 100, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20),  # main menu. transition
           "rock": (100, False),  # amount, collisions
           "tree": (0.2, 30),  # density, spreadoutness
-          "screen_effect": (1, 5)  # time
+          "screen_effect": (1, 5),  # time
+          "update_fraction": (0.35, 0.3)  # rain update fraction, enemy update fraction
 }
 
 Camera_Attributes = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1,
@@ -73,8 +74,8 @@ Damages = {"acid": 3}
 Player_Attributes = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
                      "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.2}
 
-Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25, "steering_strength": 0.4,
-                      "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 225}}
+Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25 ** 2, "steering_strength": 0.4,
+                      "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2}}
 
 Keys = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT, }
 
@@ -91,7 +92,7 @@ Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), 
 
 Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
 
-Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8, }
+Rain_Config = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle": 40, "vel": 800, "vel_randomness": 50, "lifetime": 0.5, "lifetime_randomness": 0.8, }
 
 Weapons = {
           "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 16, "distance": -2, "friction": 0.1,
