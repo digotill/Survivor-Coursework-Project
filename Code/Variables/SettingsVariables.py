@@ -13,7 +13,6 @@ from Code.Shaders import pygame_shaders
 from Code.Utilities.Functions import *
 from Code.Utilities.CreateDict import *
 from Code.Variables.LoadAssets import *
-from Code.DataStructures.Timer import *
 from line_profiler import LineProfiler
 import atexit
 
@@ -71,7 +70,7 @@ Grass_positions = {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9
 Damages = {"acid": 3}
 
 Player_Attributes = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
-                     "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.2}
+                     "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10}
 
 Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25, "steering_strength": 0.4,
                       "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 225}}
@@ -85,11 +84,11 @@ Screen_Shake = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), }  
 Sparks_Settings = {"enemy_hit": {"spread": 60, "scale": 1, "colour": (255, 0, 0), "amount": 5, "min_vel": 3, "max_vel": 10},
                    "muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
 
-Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
+Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.9, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 Biomes_Config = {"wasteland": (0.3, 1), "spring": (0.4, 1), "forest": (0.5, 1), "lush": (0.55, 1), "cherryblossom": (1, 1), }  # chance, tree density
 
-Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
+Tiles_Congifig = {"Tile_Ranges": {"water_tile": 0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
 
 Rain_Config = {"spawn_rate": 0.05, "amount_spawning": 12, "animation_speed": 30, "angle": 40, "vel": 600, "vel_randomness": 50, "lifetime": 0.9, "lifetime_randomness": 0.8, }
 

@@ -1,10 +1,10 @@
 from Code.Individuals.Parent import *
 from Code.Individuals.Gun import *
 
-
 class Player(main):
           def __init__(self, game):
                     self.game = game
+
                     self.set_attributes(Player_Attributes)
                     self.res = 16, 16
                     self.pos = self.find_spawn_position()
@@ -14,25 +14,6 @@ class Player(main):
                     self.base_max_vel = self.max_vel
                     self.current_animation = 'idle'
                     self.is_sprinting = False
-                    self.slow_timer = Timer(self.slow_cooldown, 0)
-                    self.is_slowed = False
-                    self.dx = self.dy = 0
-                    self.cached_water_collision = False
-                    self.water_check_timer = Timer(0.5, 0)
-
-          def update_position(self):
-                    new_x = self.pos.x + self.dx * self.current_vel * self.game.dt
-                    new_y = self.pos.y + self.dy * self.current_vel * self.game.dt
-
-                    self.move_hor = self.move_vert = False
-                    if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2]:
-                              self.pos.x = new_x
-                              self.rect.centerx = self.pos.x
-                              self.move_hor = True
-                    if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3]:
-                              self.pos.y = new_y
-                              self.rect.centery = self.pos.y
-                              self.move_vert = True
 
           def find_spawn_position(self):
                     center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
@@ -59,31 +40,49 @@ class Player(main):
                     self.change_animation(new_animation)
 
           def update(self):
-                    self.dx = self.dy = 0
-                    if self.game.keys[pygame.K_a]: self.dx -= 1
-                    if self.game.keys[pygame.K_d]: self.dx += 1
-                    if self.game.keys[pygame.K_s]: self.dy += 1
-                    if self.game.keys[pygame.K_w]: self.dy -= 1
+                    dx, dy = 0, 0
+                    if self.game.keys[pygame.K_a]: dx -= 1
+                    if self.game.keys[pygame.K_d]: dx += 1
+                    if self.game.keys[pygame.K_s]: dy += 1
+                    if self.game.keys[pygame.K_w]: dy -= 1
 
-                    magnitude = math.hypot(self.dx, self.dy)
+                    magnitude = math.sqrt(dx ** 2 + dy ** 2)
                     if magnitude != 0:
-                              self.dx /= magnitude
-                              self.dy /= magnitude
+                              dx /= magnitude
+                              dy /= magnitude
 
-                    self.is_sprinting = self.game.keys[Keys['sprint']] and (self.dx != 0 or self.dy != 0)
-                    if not self.game.changing_settings:
-                              self.handle_stamina()
-                              self.handle_slowdown()
-                              self.update_frame()
+                    self.is_sprinting = self.game.keys[Keys['sprint']] and (dx != 0 or dy != 0)
+                    if not self.game.changing_settings: self.handle_stamina()
+                    self.max_vel = self.sprint_vel if self.is_sprinting else self.base_max_vel
+                    x_water_collision = self.game.tilemap_manager.tile_collision(pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
+                    y_water_collision = self.game.tilemap_manager.tile_collision(pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
+                    if x_water_collision or y_water_collision:
+                              self.max_vel = self.slowed_vel
+                              self.health -= Damages["acid"] * self.game.dt
 
-                    self.update_velocity()
+                    if not self.game.changing_settings: self.update_frame()
+                    self.update_velocity(dy, dx)
                     self.update_facing()
 
+                    new_x = self.pos.x + dx * self.current_vel * self.game.dt
+                    new_y = self.pos.y + dy * self.current_vel * self.game.dt
+
+                    move_hor, move_vert = False, False
                     if not self.game.changing_settings:
-                              self.update_position()
+
+                              if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + \
+                                      self.offset[2]:
+                                        self.pos.x = new_x
+                                        self.rect.centerx = self.pos.x
+                                        move_hor = True
+                              if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + \
+                                      self.offset[3]:
+                                        self.pos.y = new_y
+                                        self.rect.centery = self.pos.y
+                                        move_vert = True
 
                     self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
-                    self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
+                    self.game.camera.move(dx, dy, move_hor, move_vert)
                     self.update_animation()
 
           def draw(self):
@@ -120,28 +119,8 @@ class Player(main):
                     else:
                               self.facing = "right"
 
-          def update_velocity(self):
-                    if self.dx != 0 or self.dy != 0:
+          def update_velocity(self, dy, dx):
+                    if dy != 0 or dx != 0:
                               self.current_vel = min(self.current_vel + self.acceleration * self.game.dt, self.max_vel)
                     else:
                               self.current_vel = max(self.current_vel - self.acceleration * self.game.dt, 0)
-
-          def should_be_slowed(self):
-                    if self.water_check_timer.update(self.game.game_time):
-                              self.cached_water_collision = self.game.tilemap_manager.tile_collision(
-                                        pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
-                              self.water_check_timer.reactivate(self.game.game_time)
-                    return self.cached_water_collision
-
-          def handle_slowdown(self):
-                    if self.should_be_slowed():
-                              if not self.is_slowed:
-                                        self.is_slowed = True
-                                        self.slow_timer.reactivate(self.game.game_time)
-                              elif self.slow_timer.update(self.game.game_time):
-                                        # Player has been slowed for more than the cooldown period
-                                        self.max_vel = self.slowed_vel
-                                        self.health -= Damages["acid"] * self.game.dt
-                    else:
-                              self.is_slowed = False
-                              self.max_vel = self.sprint_vel if self.is_sprinting else self.vel

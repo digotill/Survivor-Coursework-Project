@@ -82,7 +82,7 @@ class Game:
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
                               self.game_variables.update()
-                              self.event_manager.handle_events()
+                              self.event_manager.handle_all_events()
                               self.update_groups()
                               self.draw_groups()
                               self.update_display()

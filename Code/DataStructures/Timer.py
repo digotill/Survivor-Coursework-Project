@@ -21,11 +21,6 @@ class Timer:
                                         if self.func:
                                                   self.func()
                                         self.active = False
-                                        return True
-                    return False
-
-          def check(self, current_time):
-                    return current_time - self.start_time >= self.duration
 
           @property
           def elapsed(self):

@@ -7,7 +7,8 @@ class EnemyManager:
                     self.game = game
                     self.grid = HashMap(game, General_Settings["hash_maps"][0])  # Spatial hash grid for efficient enemy management
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
-                    self.spawn_timer = Timer(General_Settings["enemies"][1], self.game.game_time)
+                    self.spawn_cooldown = General_Settings["enemies"][1]
+                    self.last_spawn = - General_Settings["enemies"][1]
                     self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
 
           def update(self):
@@ -19,16 +20,15 @@ class EnemyManager:
                                         enemy.apply_force(separation_force)
 
                               self.remove_dead_enemies()  # Remove enemies with no health
-
-                              if self.spawn_timer.update(self.game.game_time):
-                                        self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
-                                        self.spawn_timer.reactivate(self.game.game_time)
-
+                              self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
                               self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
-                    if len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings["peaceful_mode"]:
+                    if (self.last_spawn + self.spawn_cooldown < self.game.game_time and
+                            len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings[
+                                      "peaceful_mode"]):
+                              self.last_spawn = self.game.game_time
 
                               # Generate random coordinates for the new enemy
                               coordinates = random_xy(
