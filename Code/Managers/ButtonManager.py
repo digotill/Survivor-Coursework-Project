@@ -8,18 +8,20 @@ class ButtonManager:
 
                     self.game_buttons = {}
                     self.menu_buttons = {}
+                    self.end_buttons = {}
                     self.sliders = {}
 
                     self._create_ingame_buttons()
                     self._create_sliders()
                     self.create_buttons()
                     self.create_weapons()
+                    self.create_end_buttons()
 
                     self.button_cooldown_timer = Timer(General_Settings['cooldowns'][0], self.game.ticks)
                     self.value_cooldown_timer = Timer(General_Settings['cooldowns'][1], self.game.ticks)
 
           def _create_ingame_buttons(self):
-                    for name, config in AllButtons["In_Game"].items():
+                    for name, config in AllButtons["In_Game_Buttons"].items():
                               self.game_buttons[name] = Button(
                                         self.game,
                                         copy.deepcopy(config)
@@ -33,24 +35,25 @@ class ButtonManager:
                               )
 
           def create_buttons(self):
-                    button_configs = AllButtons["Weapons"] | AllButtons["Menu_Buttons"]
+                    button_configs = AllButtons["Weapon_Buttons"] | AllButtons["Menu_Buttons"]
                     for name, config in button_configs.items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun', 'minigun'] else Button
                               self.menu_buttons[name] = button_class(self.game, copy.deepcopy(config))
-                              self.menu_buttons[name].active = True
-
-                    self.menu_buttons['medium'].on = True
-                    self.menu_buttons['ak47'].on = True
 
                     self.difficulty_switches = [self.menu_buttons[d] for d in ['easy', 'medium', 'hard']]
                     self.weapons_switches = [self.menu_buttons[w] for w in ['ak47', 'shotgun', 'minigun']]
 
+          def create_end_buttons(self):
+                    button_configs = AllButtons["End_Screen_Buttons"]
+                    for name, config in button_configs.items():
+                              self.end_buttons[name] = Button(self.game, copy.deepcopy(config))
+
           def create_weapons(self):
-                    self.weapons = {weapon_type: Gun(self.game, Weapons[weapon_type])
-                                    for weapon_type in ["ak47", "shotgun", "minigun"]}
+                    button_configs = AllButtons["Weapon_Buttons"]
+                    self.weapons = {weapon_type: Gun(self.game, Weapons[weapon_type]) for weapon_type in button_configs.keys()}
 
           def update(self):
-                    if not self.game.in_menu:
+                    if not self.game.in_menu and not self.game.died:
                               for buttons in list(self.game_buttons.values()) + list(self.sliders.values()):
                                         buttons.active = self.game.changing_settings
                                         buttons.update()
@@ -70,9 +73,6 @@ class ButtonManager:
                                                             self.game.running = False
                                                   elif self.game_buttons['return'].check_for_input():
                                                             self.game.restart = True
-                                        else:
-                                                  # Handle other in-game button presses here
-                                                  pass
 
                                         # Reset the cooldown timer after any button press
                                         self.button_cooldown_timer.reactivate(self.game.ticks)
@@ -82,7 +82,7 @@ class ButtonManager:
                                         self.game.ui_manager.brightness = self.sliders['brightness'].value
                                         self.value_cooldown_timer.reactivate(self.game.ticks)
 
-                    elif self.game.in_menu:
+                    elif self.game.in_menu and not self.game.died:
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
                                         button.update()
                                         button.changeColor()
@@ -111,6 +111,19 @@ class ButtonManager:
                                         # Reset the cooldown timer after any button press in the menu
                                         self.button_cooldown_timer.reactivate(self.game.ticks)
 
+                    if self.game.died:
+                              for button in sorted(self.end_buttons.values(), key=lambda b: b.pos.y):
+                                        button.active = True
+                                        button.update()
+                                        button.changeColor()
+                              if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
+                                        if self.end_buttons['restart'].check_for_input():
+                                                  self.game.restart = True
+                                        elif self.end_buttons['quit'].check_for_input():
+                                                  self.game.running = False
+
+                                        self.button_cooldown_timer.reactivate(self.game.ticks)
+
           def draw(self):
                     # Sort all elements by their y position
                     if not self.game.in_menu:
@@ -118,4 +131,7 @@ class ButtonManager:
                                         button.draw()
                     elif self.game.in_menu:
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
+                                        button.draw()
+                    if self.game.died:
+                              for button in sorted(self.end_buttons.values(), key=lambda b: b.pos.y):
                                         button.draw()

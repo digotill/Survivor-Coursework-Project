@@ -22,10 +22,11 @@ def create_weapon_settings(vel, spread, reload_time, fire_rate, clip_size, lifet
 
 Button_config = {
           "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
-                     "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30,
+                     "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "on": False, "active": False, "current_hover_offset": 0,
                      },
-          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3, "circle_base_colour": (255, 255, 255),
-                     "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30, "line_thickness": 2, "line_colour": (120, 120, 120),
+          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
+                     "circle_base_colour": (255, 255, 255), "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30,
+                     "line_thickness": 2, "line_colour": (120, 120, 120), "on": False, "active": False, "current_hover_offset": 0,
                      }
 }
 

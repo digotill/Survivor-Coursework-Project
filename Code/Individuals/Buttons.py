@@ -106,9 +106,7 @@ class Button(UIElement):
                     self.game = game
 
                     self.set_attributes(dictionary)
-                    self.res = self.image.size
-                    self.active = False
-                    self.current_hover_offset = 0
+
                     self.init_positions()
 
           def changeColor(self):
@@ -126,11 +124,6 @@ class Slider(UIElement):
                     self.game = game
 
                     self.set_attributes(dictionary)
-
-                    self.res = self.image.size
-                    self.is_dragging = False
-                    self.active = False
-                    self.current_hover_offset = 0
 
                     self.init_positions()
 
@@ -229,11 +222,6 @@ class Switch(UIElement):
                     self.game = game
 
                     self.set_attributes(dictionary)
-
-                    self.res = self.image.size
-                    self.on = False
-                    self.active = False
-                    self.current_hover_offset = 0
 
                     self.init_positions()
 
