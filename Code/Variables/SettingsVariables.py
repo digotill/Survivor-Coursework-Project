@@ -1,5 +1,4 @@
-import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading
-import platform, functools, math, os, random, pygame, gc
+import copy, traceback, cProfile, os, ctypes, logging, moderngl, psutil, time, threading, platform, functools, math, os, random, pygame, gc
 import pandas as pd
 import numpy as np
 from pympler import asizeof
@@ -52,7 +51,7 @@ General_Settings = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 100, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20),  # main menu. transition
+          'animation_speeds': (15, 20, 10),  # main menu. transition, you died
           "rock": (100, False),  # amount, collisions
           "tree": (0.2, 30),  # density, spreadoutness
           "screen_effect": (1, 5),  # time

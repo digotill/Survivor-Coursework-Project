@@ -5,12 +5,11 @@ class EventManager:
           def __init__(self, game):
                     self.game = game
 
-                    cooldown = General_Settings['cooldowns'][0]
-                    current_time = pygame.time.get_ticks() / 1000
+                    current_time = self.game.ticks
 
-                    self.fullscreen_timer = Timer(cooldown, current_time)
-                    self.fps_timer = Timer(cooldown, current_time)
-                    self.settings_timer = Timer(cooldown, current_time)
+                    self.fullscreen_timer = Timer(General_Settings['cooldowns'][0], current_time)
+                    self.fps_timer = Timer(General_Settings['cooldowns'][0], current_time)
+                    self.settings_timer = Timer(General_Settings['cooldowns'][0], current_time)
 
           def handle_quitting(self):
                     for event in pygame.event.get():
@@ -18,13 +17,13 @@ class EventManager:
                                         self.game.running = False
 
           def toggle_fullscreen(self):
-                    current_time = pygame.time.get_ticks() / 1000
+                    current_time = self.game.ticks
                     if self.game.keys[Keys['fullscreen']] and self.fullscreen_timer.check(current_time):
                               pygame.display.toggle_fullscreen()
                               self.fullscreen_timer.reactivate(current_time)
 
           def toggle_fps(self):
-                    current_time = pygame.time.get_ticks() / 1000
+                    current_time = self.game.ticks
                     if self.game.keys[Keys['fps']] and self.fps_timer.check(current_time) and not self.game.in_menu:
                               self.game.ui_manager.fps_enabled = not self.game.ui_manager.fps_enabled
                               self.fps_timer.reactivate(current_time)
@@ -34,10 +33,12 @@ class EventManager:
                               pygame.event.set_grab(True)
                     elif self.game.keys[Keys['ungrab']] or self.game.in_menu:
                               pygame.event.set_grab(False)
+                    if self.game.died:
+                              pygame.event.set_grab(False)
 
           def toggle_settings(self):
-                    current_time = pygame.time.get_ticks() / 1000
-                    if self.game.keys[Keys['ungrab']] and self.settings_timer.check(current_time) and not self.game.in_menu:
+                    current_time = self.game.ticks
+                    if self.game.keys[Keys['ungrab']] and self.settings_timer.check(current_time) and not self.game.in_menu and not self.game.died:
                               self.game.changing_settings = not self.game.changing_settings
                               self.settings_timer.reactivate(current_time)
 

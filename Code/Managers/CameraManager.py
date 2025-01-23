@@ -29,16 +29,17 @@ class CameraManager(main_camera):
                     self.noise_map = PerlinNoise(Map_Config["camera_shake_map"][0], random.randint(0, 100000))
 
           def move(self, dx, dy, move_horizontally, move_vertically):
-                    if move_horizontally:
-                              self.pos.x += dx * self.game.player.current_vel * self.game.dt
-                    if move_vertically:
-                              self.pos.y += dy * self.game.player.current_vel * self.game.dt
+                    if not self.game.died:
+                              if move_horizontally:
+                                        self.pos.x += dx * self.game.player.current_vel * self.game.dt
+                              if move_vertically:
+                                        self.pos.y += dy * self.game.player.current_vel * self.game.dt
 
-                    self.update_mouse_smoothing()
-                    rounded_offset = self.calculate_offset()
-                    shake_offset = self.calculate_shake()
-                    self.update_offset_rect(rounded_offset, shake_offset)
-                    self.ensure_player_in_bounds()
+                              self.update_mouse_smoothing()
+                              rounded_offset = self.calculate_offset()
+                              shake_offset = self.calculate_shake()
+                              self.update_offset_rect(rounded_offset, shake_offset)
+                              self.ensure_player_in_bounds()
 
           def update_mouse_smoothing(self):
                     mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],

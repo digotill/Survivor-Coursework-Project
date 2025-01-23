@@ -15,11 +15,8 @@ class ButtonManager:
                     self.create_buttons()
                     self.create_weapons()
 
-                    self.cooldown = General_Settings['cooldowns'][0]
-                    self.last_pressed_time = - General_Settings['cooldowns'][0]
-
-                    self.value_cooldown = General_Settings['cooldowns'][1]
-                    self.last_value_set = -General_Settings['cooldowns'][1]
+                    self.button_cooldown_timer = Timer(General_Settings['cooldowns'][0], self.game.ticks)
+                    self.value_cooldown_timer = Timer(General_Settings['cooldowns'][1], self.game.ticks)
 
           def _create_ingame_buttons(self):
                     for name, config in AllButtons["In_Game"].items():
@@ -59,35 +56,38 @@ class ButtonManager:
                                         buttons.update()
                                         buttons.changeColor()
 
-                              if self.game.changing_settings and self.game.mouse_state[
-                                        0] and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown:
-                                        temp_time = self.last_pressed_time
-                                        self.last_pressed_time = pygame.time.get_ticks() / 1000
-                                        if self.game_buttons['resume'].check_for_input():
-                                                  self.game.changing_settings = False
-                                        elif self.sliders['fps'].update_value:
-                                                  self.game.fps = self.sliders['fps'].value
-                                        elif self.sliders['brightness'].update_value:
-                                                  self.game.ui_manager.brightness = self.sliders['brightness'].value
-                                        elif self.game_buttons['fullscreen'].check_for_input():
-                                                  pygame.display.toggle_fullscreen()
-                                        elif self.game_buttons['quit'].check_for_input():
-                                                  self.game.running = False
-                                        elif self.game_buttons['return'].check_for_input():
-                                                  self.game.restart = True
+                              if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
+                                        if self.game.changing_settings:
+                                                  if self.game_buttons['resume'].check_for_input():
+                                                            self.game.changing_settings = False
+                                                  elif self.sliders['fps'].update_value:
+                                                            self.game.fps = self.sliders['fps'].value
+                                                  elif self.sliders['brightness'].update_value:
+                                                            self.game.ui_manager.brightness = self.sliders['brightness'].value
+                                                  elif self.game_buttons['fullscreen'].check_for_input():
+                                                            pygame.display.toggle_fullscreen()
+                                                  elif self.game_buttons['quit'].check_for_input():
+                                                            self.game.running = False
+                                                  elif self.game_buttons['return'].check_for_input():
+                                                            self.game.restart = True
                                         else:
-                                                  self.last_pressed_time = temp_time
+                                                  # Handle other in-game button presses here
+                                                  pass
 
-                              if self.game.changing_settings and pygame.time.get_ticks() / 1000 - self.last_value_set > self.value_cooldown:
+                                        # Reset the cooldown timer after any button press
+                                        self.button_cooldown_timer.reactivate(self.game.ticks)
+
+                              if self.game.changing_settings and self.value_cooldown_timer.check(self.game.ticks):
                                         self.game.fps = self.sliders['fps'].value
                                         self.game.ui_manager.brightness = self.sliders['brightness'].value
-                                        self.last_value_set = pygame.time.get_ticks() / 1000
+                                        self.value_cooldown_timer.reactivate(self.game.ticks)
+
                     elif self.game.in_menu:
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
                                         button.update()
                                         button.changeColor()
 
-                              if self.game.mouse_state[0]:
+                              if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                                         if self.menu_buttons['play'].check_for_input():
                                                   self.game.playing_transition = True
                                         elif self.menu_buttons['quit'].check_for_input():
@@ -107,6 +107,9 @@ class ButtonManager:
                                                                       for other_button in self.weapons_switches:
                                                                                 if other_button != button:
                                                                                           other_button.on = False
+
+                                        # Reset the cooldown timer after any button press in the menu
+                                        self.button_cooldown_timer.reactivate(self.game.ticks)
 
           def draw(self):
                     # Sort all elements by their y position

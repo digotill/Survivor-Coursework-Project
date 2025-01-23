@@ -10,6 +10,7 @@ class GameVariables:
                     self.game.in_menu = True
                     self.game.restart = False
                     self.game.running = True
+                    self.game.died = False
                     self.game.game_time = 0
                     self.game.playing_transition = False
                     self.game.fps = refresh_rate
@@ -17,6 +18,7 @@ class GameVariables:
                     self.game.difficulty = "medium"
                     self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])
                     self.game.ui_surface.set_colorkey((0, 0, 0))
+                    self.game.player = None
                     self.update()
 
           def update(self):
@@ -31,5 +33,7 @@ class GameVariables:
                     else:
                               self.game.dt = 0
                     if not self.game.changing_settings and not self.game.in_menu: self.game.game_time += self.game.dt
+                    self.game.ticks = pygame.time.get_ticks() / 1000
                     self.game.gc_counter += 1
                     if self.game.gc_counter % 100 == 0: gc.collect()
+                    if self.game.player is not None and self.game.player.health <= 0: self.game.died = True

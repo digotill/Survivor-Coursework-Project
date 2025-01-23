@@ -237,8 +237,7 @@ class Switch(UIElement):
 
                     self.init_positions()
 
-                    self.cooldown = General_Settings['cooldowns'][0]
-                    self.last_pressed_time = 0
+                    self.cooldown_timer = Timer(General_Settings['cooldowns'][0], self.game.ticks)
 
           def changeColor(self):
                     # Change the color of the switch text based on its state (on/off)
@@ -248,10 +247,11 @@ class Switch(UIElement):
 
           def can_change(self):
                     # Check if the switch can change its state (based on cooldown and current state)
-                    return self.rect.collidepoint(
-                              self.game.correct_mouse_pos) and pygame.time.get_ticks() / 1000 - self.last_pressed_time > self.cooldown and not self.on
+                    return (self.rect.collidepoint(self.game.correct_mouse_pos) and
+                            self.cooldown_timer.check(self.game.ticks) and
+                            not self.on)
 
           def change_on(self):
-                    # Toggle the switch's state and update the last pressed time
+                    # Toggle the switch's state and reset the cooldown timer
                     self.on = not self.on
-                    self.last_pressed_time = pygame.time.get_ticks() / 1000
+                    self.cooldown_timer.reactivate(self.game.ticks)

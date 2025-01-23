@@ -72,7 +72,7 @@ class Player(main):
 
                     self.is_sprinting = self.game.keys[Keys['sprint']] and (self.dx != 0 or self.dy != 0)
                     self.move_hor = self.move_vert = False
-                    if not self.game.changing_settings:
+                    if not self.game.changing_settings or not self.game.died:
                               self.handle_stamina()
                               self.handle_slowdown()
                               self.update_frame()
@@ -80,7 +80,7 @@ class Player(main):
                     self.update_velocity()
                     self.update_facing()
 
-                    if not self.game.changing_settings:
+                    if not self.game.changing_settings and not self.game.died:
                               self.update_position()
                               self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
@@ -114,14 +114,16 @@ class Player(main):
                               self.is_sprinting = False
 
           def update_frame(self):
-                    factor = self.max_vel / self.base_max_vel
-                    self.frame += self.animation_speed * factor * self.game.dt
+                    if not self.game.died:
+                              factor = self.max_vel / self.base_max_vel
+                              self.frame += self.animation_speed * factor * self.game.dt
 
           def update_facing(self):
-                    if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
-                              self.facing = "left"
-                    else:
-                              self.facing = "right"
+                    if not self.game.died:
+                              if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
+                                        self.facing = "left"
+                              else:
+                                        self.facing = "right"
 
           def update_velocity(self):
                     if self.dx != 0 or self.dy != 0:

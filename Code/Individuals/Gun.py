@@ -23,20 +23,21 @@ class Gun(main):
                     self.update_shooting()
 
           def draw(self, surface):
-                    if self.game.player.facing == "right":
-                              self.rotated_image = pygame.transform.rotate(self.gun_image, self.angle + 90)
-                    else:
-                              self.rotated_image = pygame.transform.flip(
-                                        pygame.transform.rotate(self.gun_image, -self.angle + 90), True, False)
+                     if not self.game.died:
+                              if self.game.player.facing == "right":
+                                        self.rotated_image = pygame.transform.rotate(self.gun_image, self.angle + 90)
+                              else:
+                                        self.rotated_image = pygame.transform.flip(
+                                                  pygame.transform.rotate(self.gun_image, -self.angle + 90), True, False)
 
-                    pos_x = (self.game.player.rect.centerx + math.sin(
-                              math.radians(self.angle)) * self.distance -
-                             self.game.camera.offset_rect.x)
-                    pos_y = (self.game.player.rect.centery + math.cos(
-                              math.radians(self.angle)) * self.distance -
-                             self.game.camera.offset_rect.y)
-                    self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
-                    surface.blit(self.rotated_image, self.rect)
+                              pos_x = (self.game.player.rect.centerx + math.sin(
+                                        math.radians(self.angle)) * self.distance -
+                                       self.game.camera.offset_rect.x)
+                              pos_y = (self.game.player.rect.centery + math.cos(
+                                        math.radians(self.angle)) * self.distance -
+                                       self.game.camera.offset_rect.y)
+                              self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))
+                              surface.blit(self.rotated_image, self.rect)
 
           def calc_angle(self):
                     change_in_x = self.game.player.rect.centerx - self.game.camera.offset_rect.x - \
@@ -55,7 +56,7 @@ class Gun(main):
           def can_shoot(self, current_time):
                     return (self.fire_rate + self.last_shot < current_time and
                             self.game.mouse_state[0] and
-                            not self.game.changing_settings)
+                            not self.game.changing_settings and not self.game.died)
 
           def shoot(self, current_time):
                     if self.continuous_fire_start is None:
