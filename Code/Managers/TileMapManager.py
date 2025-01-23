@@ -8,9 +8,9 @@ class Tile:
                     self.position = v2(position)
                     self.size = General_Settings["hash_maps"][2]
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size - 1, self.size - 1)
-                    if tile_type in Tiles_Congifig["animated_tiles"]:
+                    if tile_type in Tiles_Congifig["animated_tiles"] and tile_type != "padding":
                               self.images = self.game.assets[tile_type]
-                    else:
+                    elif tile_type != "padding":
                               self.images = [random.choice(self.game.assets[tile_type])]
                     self.transition = False
 
@@ -26,6 +26,7 @@ class TileMapManager:
                     self.tile_size = General_Settings["hash_maps"][2]
                     self.grid = HashMap(game, self.tile_size)
                     self.grid2 = HashMap(game, self.tile_size)
+                    self.grid3 = HashMap(game, self.tile_size)
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
@@ -33,12 +34,31 @@ class TileMapManager:
                     self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
                     self.perlin_noise = PerlinNoise(Map_Config["tiles_map"][1], random.randint(0, 100000))
 
+                    self.biome_map, self.density_map = self._generate_maps()
+
                     self.terrain_generator()
 
                     self.cached_surface = None
                     self.create_cached_surface()
+                    self.padding_generator()
 
                     self.grid.rebuild()
+                    self.grid2.rebuild()
+
+          def _generate_maps(self):
+                    biome_noise = PerlinNoise(octaves=Map_Config["biomes_map"][1], seed=random.randint(0, 100000))
+                    density_noise = PerlinNoise(octaves=Map_Config["biomes_density_map"][1], seed=random.randint(0, 100000))
+                    return (
+                              self._generate_noise_map(biome_noise, Map_Config["biomes_map"][0]),
+                              self._generate_noise_map(density_noise, Map_Config["biomes_density_map"][0])
+                    )
+
+          @staticmethod
+          def _generate_noise_map(noise, scale):
+                    size = General_Settings["tree"][1]
+                    width, height = GAME_SIZE[0] // size + 1, GAME_SIZE[1] // size + 1
+                    noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
+                    return (np.array(noise_map) + 1) / 2
 
           def create_cached_surface(self):
                     # Calculate the size of the entire map
@@ -77,12 +97,7 @@ class TileMapManager:
                     if not self.game.changing_settings:
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
-
-                    # Calculate visible area
                     camera_rect = self.game.camera.offset_rect
-                    visible_area = pygame.Rect(camera_rect.left, camera_rect.top,
-                                               self.game.display_surface.get_width(),
-                                               self.game.display_surface.get_height())
 
                     # Draw the cached surface
                     draw_position = (int(self.cache_offset.x - camera_rect.left),
@@ -172,7 +187,6 @@ class TileMapManager:
                               count += 1
                     if count < 5:
                               self.apply_transition_tiles(transition_array, count)
-                    self.grid2.rebuild()
 
           @staticmethod
           def find_if_corner(string1, string2):
@@ -304,13 +318,45 @@ class TileMapManager:
 
                     for array in Tiles_Congifig["transitions"]: self.apply_transition_tiles(array)
 
-          def grass_generator(self):
-                    for tile in self.grid.items:
-                              if tile.tile_type == "grass_tile":
-                                        v = random.random()
-                                        if v < self.game.grass_manager.density:
-                                                  self.game.grass_manager.place_tile(
-                                                            (tile.position.x // Grass_Attributes["tile_size"],
-                                                             tile.position.y // Grass_Attributes["tile_size"]),
-                                                            int(v * 12),
-                                                            [0, 1, 2, 3, 4])
+          def get_biome_at(self, x, y):
+                    # Ensure x and y are within the bounds of the biome_map
+                    y = min(y, self.biome_map.shape[0] - 1)
+                    x = min(x, self.biome_map.shape[1] - 1)
+
+                    biome_value = self.biome_map[y][x]
+                    for biome, (chance, _, has, density) in Biomes_Config.items():
+                              if biome_value < chance:
+                                        return biome
+                    return list(Biomes_Config.keys())[-1]  # Return the last biome if no match found
+
+          def draw_padding(self, x, y, images):
+                    padding_image = random.choice(images)
+
+                    # Create a new tile for the padding
+                    padding_tile = Tile(self.game, 'padding', (x, y))
+                    padding_tile.images = [padding_image]
+
+                    # Insert the padding tile into grid3
+                    self.grid3.insert(padding_tile)
+
+                    # Update the cached surface with the new padding
+                    draw_position = (int(x - self.cache_offset.x), int(y - self.cache_offset.y))
+                    self.cached_surface.blit(padding_image, draw_position)
+
+          def padding_generator(self):
+                    height, width = self.biome_map.shape
+                    for y in range(height):
+                              for x in range(width):
+                                        tile = self.get((x, y))
+                                        if tile and tile.tile_type == 'grass_tile' and not tile.transition:
+                                                  biome = self.get_biome_at(x, y)
+                                                  _, _, has_padding, padding_density = Biomes_Config[biome]
+
+                                                  if has_padding:
+                                                            density_value = self.density_map[y][x]
+                                                            normalized_density = (density_value + 1) / 2
+                                                            combined_density = padding_density * normalized_density
+
+                                                            if random.random() < combined_density:
+                                                                      padding_images = self.game.assets[biome + '_padding']
+                                                                      self.draw_padding(x * self.tile_size, y * self.tile_size, padding_images)

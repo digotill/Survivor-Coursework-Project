@@ -51,13 +51,10 @@ class Game:
           def update_groups(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              self.enemy_manager.update()
-                              self.spark_manager.update()
-                              self.bullet_manager.update()
-                              self.rain_manager.update()
-                              self.player.update()
-                              self.player.gun.update()
-                              self.button_manager.update()
+                              for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player,
+                                              self.player.gun, self.button_manager
+                                              ]:
+                                        manager.update()
                     elif self.in_menu:
                               for manager in [self.button_manager]:
                                         manager.update()

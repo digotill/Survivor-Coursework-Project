@@ -11,4 +11,3 @@ class EffectManager:
           def update(self):
                     for effect in self.effects:
                               effect.update()
-

@@ -6,17 +6,9 @@ class ObjectManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game, General_Settings["hash_maps"][4])
-                    self.biome_map, self.density_map = self._generate_maps()
+                    self.biome_map, self.density_map = self.game.tilemap_manager.biome_map, self.game.tilemap_manager.density_map
                     self.generate_objects()
                     self.generate_grass()
-
-          def _generate_maps(self):
-                    biome_noise = PerlinNoise(octaves=Map_Config["biomes_map"][1], seed=random.randint(0, 100000))
-                    density_noise = PerlinNoise(octaves=Map_Config["biomes_density_map"][1], seed=random.randint(0, 100000))
-                    return (
-                              self._generate_noise_map(biome_noise, Map_Config["biomes_map"][0]),
-                              self._generate_noise_map(density_noise, Map_Config["biomes_density_map"][0])
-                    )
 
           def generate_objects(self):
                     self._generate_trees()
@@ -76,13 +68,7 @@ class ObjectManager:
                     return sorted_biomes[-1][0]
 
           @staticmethod
-          def _generate_noise_map(noise, scale):
-                    size = General_Settings["tree"][1]
-                    width, height = GAME_SIZE[0] // size + 1, GAME_SIZE[1] // size + 1
-                    noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
-                    return (np.array(noise_map) + 1) / 2
-
-          def _get_biome_info(self, biome_value, sorted_biomes):
+          def _get_biome_info(biome_value, sorted_biomes):
                     biome = "forest"
                     biome_density_factor = 1
                     for biome_name, data in sorted_biomes:
@@ -92,7 +78,8 @@ class ObjectManager:
                                         break
                     return biome, biome_density_factor
 
-          def _should_place_tree(self, density_value, biome_density_factor):
+          @staticmethod
+          def _should_place_tree(density_value, biome_density_factor):
                     return random.random() < density_value * General_Settings["tree"][0] * biome_density_factor
 
           def _place_tree(self, x, y, biome):

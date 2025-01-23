@@ -79,3 +79,41 @@ def rename_files_recursive(directory):
                                                             print(f"Renamed: {old_path} -> {new_path}")
                                                   else:
                                                             print(f"Skipped: {old_path} (Target name already exists)")
+
+
+Button_config = {
+          "button": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "center", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
+                     "hovering_colour": (85, 107, 47), "hover_slide": True, "hover_offset": 15, "hover_speed": 30, "on": False, "active": False, "current_hover_offset": 0,
+                     },
+          "slider": {"res": (46, 15), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
+                     "circle_base_colour": (255, 255, 255), "circle_hovering_colour": (255, 0, 0), "hover_slide": False, "hover_offset": 15, "hover_speed": 30,
+                     "line_thickness": 2, "line_colour": (120, 120, 120), "on": False, "active": False, "current_hover_offset": 0,
+                     }
+}
+
+
+def create_button(text_input, pos, image, dictionary2=None):
+          value = {
+                    "text_input": text_input,
+                    "pos": pos,
+                    "image": image,
+          }
+          value.update(Button_config["button"])
+          if dictionary2 is not None:
+                    value.update(dictionary2)
+          return value
+
+
+def create_slider(pos, text_input, min_value, max_value, initial_value, image, dictionary2=None):
+          value = {
+                    "text_input": text_input,
+                    "pos": pos,
+                    "min_value": min_value,
+                    "max_value": max_value,
+                    "value": initial_value,
+                    "image": image,
+          }
+          value.update(Button_config["slider"])
+          if dictionary2 is not None:
+                    value.update(dictionary2)
+          return value
