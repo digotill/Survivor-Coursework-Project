@@ -17,6 +17,8 @@ class GrassManager():
                     self.grass_tiles = {}
 
                     self.set_attributes(Grass_Attributes)
+                    self.count = 0
+                    self.rendered_shadows = None
 
           def set_attributes(self, attributes):
                     for key, value in attributes.items():
@@ -55,6 +57,10 @@ class GrassManager():
 
           # an update and render combination function
           def draw(self):
+                    self.count += 1
+                    if self.rendered_shadows is None and self.count > 1:
+                              self.draw_shadows()
+                              self.rendered_shadows = True
                     surf = self.game.display_surface
                     offset = self.game.camera.offset_rect.topleft
 
@@ -76,15 +82,14 @@ class GrassManager():
                               if (base_pos[0] + x, base_pos[1] + y) in self.grass_tiles
                     ]
 
-                    # Render shadows if applicable
-                    if self.ground_shadow[0]:
-                              shadow_offset = (offset[0] - self.ground_shadow[3][0], offset[1] - self.ground_shadow[3][1])
-                              for pos in render_list:
-                                        self.grass_tiles[pos].render_shadow(surf, offset=shadow_offset)
-
                     # Prepare grass tiles for rendering
                     drawables = [self.grass_tiles[pos] for pos in render_list]
                     self.game.drawing_manager.drawables.extend(drawables)
+
+          def draw_shadows(self):
+                    for pos in self.grass_tiles:
+                              self.grass_tiles[pos].render_shadow(self.game.tilemap_manager.cached_surface,
+                                                                  offset=(-self.ground_shadow[3][0], -self.ground_shadow[3][1]))
 
 
 # an asset manager that contains functionality for rendering blades of grass

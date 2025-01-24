@@ -18,7 +18,7 @@ class Player(main):
                     self.is_slowed = False
                     self.dx = self.dy = 0
                     self.cached_water_collision = False
-                    self.water_check_timer = Timer(0.5, 0)
+                    self.water_check_timer = Timer(0.2, 0)
 
           def update_position(self):
                     new_x = self.pos.x + self.dx * self.current_vel * self.game.dt

@@ -126,10 +126,10 @@ class ButtonManager:
 
           def draw(self):
                     # Sort all elements by their y position
-                    if not self.game.in_menu:
+                    if not self.game.in_menu and not self.game.died:
                               for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()), key=lambda element: element.pos.y):
                                         button.draw()
-                    elif self.game.in_menu:
+                    elif self.game.in_menu and not self.game.died:
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
                                         button.draw()
                     if self.game.died:

@@ -55,7 +55,7 @@ General_Settings = {
           "rock": (100, False),  # amount, collisions
           "tree": (0.05, 16),  # density, spreadoutness
           "screen_effect": (1, 5),  # time
-          "update_fraction": (0.35, 0.3),  # rain update fraction, enemy update fraction
+          "update_fraction": (0.35, 0.05),  # rain update fraction, enemy update fraction
           "damages": (3, 5)   # acid damage
 }
 
@@ -70,7 +70,7 @@ Grass_positions = {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9
                    "wasteland_grass": [20, 21, 22, 23, 24]}
 
 Player_Attributes = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
-                     "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.2}
+                     "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
 
 Enemies = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25 ** 2, "steering_strength": 0.4,
                       "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2}}
@@ -86,7 +86,7 @@ Sparks_Settings = {"enemy_hit": {"spread": 60, "scale": 1, "colour": (255, 0, 0)
 
 Map_Config = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
-Biomes_Config = {"wasteland": (0.4, 1, False, 0.5), "spring": (0.45, 1, True, 0.5), "forest": (0.5, 1, True, 0.5), "lush": (0.55, 1, False, 0.5), "cherryblossom": (1, 1, True, 0.5), }  # chance, tree density, has padding, padding density
+Biomes_Config = {"wasteland": (0.35, 1, True, 0.5), "spring": (0.45, 1, True, 0.5), "forest": (0.55, 1, True, 0.5), "lush": (0.6, 1, True, 1), "cherryblossom": (1, 1, True, 0.5), }  # chance, tree density, has padding, padding density
 
 Tiles_Congifig = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
 

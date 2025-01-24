@@ -14,17 +14,14 @@ class Enemy(main):
                     self.current_animation = 'moving'
                     self.is_attacking = False
 
-                    self.update_timer = Timer(General_Settings["update_fraction"][1], game.game_time)
-
           def apply_force(self, force):
                     self.vel_vector += force
                     if self.vel_vector.length() > self.vel:
                               self.vel_vector = self.vel_vector.normalize() * self.vel
 
           def update(self):
-                    if self.update_timer.update(self.game.game_time):
+                    if random.random() < General_Settings["update_fraction"][1]:
                               self.full_update()
-                              self.update_timer.reactivate(self.game.game_time)
                     else:
                               self.partial_update()
 

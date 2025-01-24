@@ -37,5 +37,5 @@ class GameVariables:
                     if not self.game.changing_settings and not self.game.in_menu: self.game.game_time += self.game.dt
                     self.game.ticks = pygame.time.get_ticks() / 1000
                     self.game.gc_counter += 1
-                    if self.game.gc_counter % 100 == 0: gc.collect()
+                    if self.game.gc_counter % 1000 == 0: gc.collect()
                     if self.game.player is not None and self.game.player.health <= 0: self.game.died = True

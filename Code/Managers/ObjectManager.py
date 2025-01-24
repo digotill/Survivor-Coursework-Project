@@ -9,6 +9,11 @@ class ObjectManager:
                     self.biome_map, self.density_map = self.game.tilemap_manager.biome_map, self.game.tilemap_manager.density_map
                     self.generate_objects()
                     self.generate_grass()
+                    self.draw_shadows()
+
+          def draw_shadows(self):
+                    for object1 in self.grid.items:
+                              object1.draw_shadow(self.game.tilemap_manager.cached_surface)
 
           def generate_objects(self):
                     self._generate_trees()
