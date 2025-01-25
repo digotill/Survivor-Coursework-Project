@@ -7,7 +7,7 @@ class ScreenEffect:
                     self.length = len(frames) - 1
                     self.images = frames
                     self.animation_speed = animation_speed
-                    self.opacity = 1
+                    self.alpha = 0
 
           def draw(self, order=1, surface=None):
                     if surface is None:
@@ -24,8 +24,5 @@ class ScreenEffect:
                               return True
 
           def blit(self, image, surface):
-                    temp_surface = self.game.methods.get_transparent_image(image, self.opacity * 255)
+                    temp_surface = self.game.methods.get_transparent_image(image, self.alpha)
                     surface.blit(temp_surface)
-
-          def set_opacity(self, opacity):
-                    self.opacity = max(0, min(1, opacity))

@@ -1,14 +1,14 @@
-from Code.Individuals.Parent import *
+from Code.Variables.SettingsVariables import *
 
-class Gun(main):
+class Gun:
           def __init__(self, game, dictionary):
                     self.game = game
 
-                    self.set_attributes(dictionary)
+                    self.game.methods.set_attributes(self, dictionary)
 
-                    self.gun_image = AM.assets[self.name]
-                    self.res = AM.assets[self.name].size
-                    self.bullet_image = AM.assets[self.name + "_bullet"]
+                    self.gun_image = self.game.assets[self.name]
+                    self.res = self.game.assets[self.name].size
+                    self.bullet_image = self.game.assets[self.name + "_bullet"]
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])

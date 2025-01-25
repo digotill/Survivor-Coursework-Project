@@ -18,6 +18,7 @@ class GrassManager():
 
                     self.set_attributes(GRASS)
                     self.count = 0
+                    self.ground_shadow = (self.shadow_radius, (0, 0, 1), self.shadow_strength, self.shadow_shift)
                     self.rendered_shadows = None
 
           def set_attributes(self, attributes):

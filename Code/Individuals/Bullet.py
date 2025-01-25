@@ -1,6 +1,6 @@
-from Code.Individuals.Parent import *
+from Code.Variables.SettingsVariables import *
 
-class Bullet(main):
+class Bullet:
           def __init__(self, game, gun, pos, angle, name, spread_factor, shake_map):
                     self.game = game
                     self.gun = gun
@@ -45,6 +45,7 @@ class Bullet(main):
                               self.hit_list.append(target)
                               angle = self.angle if self.angle > 0 else 360 + self.angle
                               self.game.effect_manager.add_effect(self.pos, angle, EFFECTS["blood"])
+                              target.hit_count = 0
                               if self.pierce <= 0:
                                         self.dead = True
                               return True

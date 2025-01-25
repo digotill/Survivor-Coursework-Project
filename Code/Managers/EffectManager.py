@@ -15,11 +15,8 @@ class EffectManager:
                     self.grid.rebuild()
 
           def draw(self):
-                    array = self.grid.window_query()
-                    for effect in array:
-                              rect = pygame.Rect(effect.pos.x, effect.pos.y, effect.res[0] / 3, effect.res[1] / 3)
-                              if not self.game.tilemap_manager.tile_collision(rect, "water_tile") or effect.frame < effect.end_frame:
-                                        effect.draw()
+                    for effect in self.grid.window_query():
+                              effect.draw()
 
           def add_effect(self, pos, direction, dictionary):
                     effect = Effect(self.game, pos, direction, dictionary)

@@ -1,12 +1,11 @@
-from Code.Individuals.Parent import *
+from Code.Variables.SettingsVariables import *
 
-class Object(main):
-          def __init__(self, game, image, res, pos, collisions):
+class Object:
+          def __init__(self, game, image, res, pos):
                     self.game = game
                     self.original_image = image
                     self.image = image
                     self.res = v2(res)
-                    self.collisions = collisions
                     self.pos = pos
                     self.rect = self.image.get_rect(center=self.pos)
 

@@ -23,7 +23,8 @@ class ScreenEffectManager:
                               self.transition_screeneffect.draw(-1)
 
                     if self.game.died:
-                              self.youdied_start_time = self.game.game_time if self.youdied_start_time is None else self.youdied_start_time
-                              self.youdied_screeneffect.set_opacity(max(min(0.8, self.game.game_time - self.youdied_start_time / self.youdied_duration), 0.2))
+                              if self.youdied_start_time is None:
+                                        self.youdied_start_time = self.game.game_time
+                              self.youdied_screeneffect.alpha = (max(min(0.8, (self.game.game_time - self.youdied_start_time) / self.youdied_duration), 0.2)) * 255
                               self.youdied_screeneffect.draw()
 

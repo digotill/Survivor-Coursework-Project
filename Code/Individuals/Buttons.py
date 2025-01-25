@@ -127,6 +127,7 @@ class Slider(UIElement):
 
                     self.init_positions()
 
+                    self.is_dragging = False
                     self.circle_radius = 0.3 * self.rect.height
                     self.padding = self.circle_radius * 2
                     self.circle_surface = pygame.Surface((self.circle_radius * 2, self.circle_radius * 2))

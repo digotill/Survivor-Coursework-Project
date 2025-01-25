@@ -1,24 +1,30 @@
-from Code.Individuals.Parent import *
 from Code.Individuals.Gun import *
 
-
-class Player(main):
+class Player:
           def __init__(self, game):
                     self.game = game
-                    self.set_attributes(PLAYER)
+                    self.game.methods.set_attributes(self, PLAYER)
                     self.res = 16, 16
                     self.pos = self.find_spawn_position()
-                    self.set_rect()
+                    self.game.methods.set_rect(self)
                     self.current_vel = 0
                     self.gun = Gun(self.game, WEAPONS["ak47"])
+                    self.max_vel = self.vel
                     self.base_max_vel = self.max_vel
                     self.current_animation = 'idle'
+                    self.facing = "right"
                     self.is_sprinting = False
+                    self.dead = False
+                    self.frame = 0
+                    self.max_health = self.health
+                    self.max_stamina = self.stamina
+                    self.last_hit = - self.hit_cooldown
                     self.slow_timer = Timer(self.slow_cooldown, 0)
                     self.is_slowed = False
                     self.dx = self.dy = 0
                     self.cached_water_collision = False
                     self.water_check_timer = Timer(0.2, 0)
+                    self.hit_count = None
 
           def update_position(self):
                     new_x = self.pos.x + self.dx * self.current_vel * self.game.dt
@@ -96,9 +102,17 @@ class Player(main):
 
                     shadow_image = self.game.methods.get_shadow_image(self, image)
                     surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
+                    if self.hit_count is not None:
+                              image = self.game.methods.get_image_mask(image)
+                              self.hit_count += MISC["hit_effect"][1] * self.game.dt
+                              if self.hit_count >= MISC["hit_effect"][0]:
+                                        self.hit_count = None
                     surface.blit(image, self.get_position())
 
                     self.gun.draw(surface)
+
+          def get_position(self):
+                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
 
           def handle_stamina(self):
                     if self.is_sprinting and self.current_vel > 0:
@@ -118,12 +132,27 @@ class Player(main):
                               factor = self.max_vel / self.base_max_vel
                               self.frame += self.animation_speed * factor * self.game.dt
 
+          def get_mid_position(self):
+                    return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y
+
           def update_facing(self):
                     if not self.game.died:
                               if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
                                         self.facing = "left"
                               else:
                                         self.facing = "right"
+
+          def deal_damage(self, damage):
+                    if self.game.game_time - self.last_hit > self.hit_cooldown:
+                              self.health -= damage
+                              self.check_if_alive()
+                              self.last_hit = self.game.game_time
+                              self.hit_count = 0
+
+          def check_if_alive(self):
+                    if self.health <= 0:
+                              self.dead = True
+                              self.health = 0
 
           def update_velocity(self):
                     if self.dx != 0 or self.dy != 0:

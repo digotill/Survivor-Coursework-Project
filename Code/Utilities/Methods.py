@@ -39,6 +39,13 @@ class Methods:
                     return outlined_img
 
           @staticmethod
+          def get_image_mask(image):
+                    mask = pygame.mask.from_surface(image)
+                    image = pygame.Surface(image.get_size(), pygame.SRCALPHA)
+                    image.set_colorkey((0, 0, 0))
+                    return mask.to_surface(image)
+
+          @staticmethod
           def lerp(start, end, amount):
                     return start + (end - start) * amount
 
@@ -125,6 +132,5 @@ class Methods:
                               setattr(object1, key, value)
 
           @staticmethod
-          def set_rect(self):
-                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
-                                            self.res[1])
+          def set_rect(object1):
+                    object1.rect = pygame.Rect(object1.pos.x - object1.res[0] / 2, object1.pos.y - object1.res[1] / 2, object1.res[0], object1.res[1])

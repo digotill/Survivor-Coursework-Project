@@ -1,22 +1,25 @@
-from Code.Individuals.Parent import *
+from Code.Variables.SettingsVariables import *
 
-class Rain(main):
+class Rain:
           def __init__(self, game, dictionary):
                     self.game = game
-                    self.animation = AM.assets["rain"]
-                    self.res = AM.assets["rain"][0].size
-                    self.set_attributes(dictionary)
+                    self.animation = self.game.assets["rain"]
+                    self.res = self.game.assets["rain"][0].size
+                    self.game.methods.set_attributes(self, dictionary)
                     self.pos = v2(self.game.methods.change(self.game.camera.offset_rect.x * 1.1, self.game.camera.offset_rect.width / 1.1),
                                   self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 4)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
                     self.hit_ground = False
-                    self.lifetime = self.game.methods.change(self.lifetime, self.lifetime_randomness)
-                    self.vel = self.game.methods.change(self.vel, self.vel_randomness)
+                    self.lifetime = self.game.methods.change(self.lifetime[0], self.lifetime[1])
+                    self.vel = self.game.methods.change(self.vel[0], self.vel[1])
                     self.vel_vector = self.calculate_vel_vector()
-                    self.set_rect()
+                    self.game.methods.set_rect(self)
                     self.frame = 0
+
+          def update_frame(self):
+                    self.frame += self.animation_speed * self.game.dt
 
           def calculate_vel_vector(self):
                     angle_rad = math.radians(self.angle)

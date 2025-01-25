@@ -22,35 +22,21 @@ class EnemyManager:
                               self.remove_dead_enemies()  # Remove enemies with no health
 
                               if self.spawn_timer.update(self.game.game_time):
-                                        self.add_enemies("enemy1")  # Spawn new enemies if conditions are met
+                                        self.add_enemies("mantis")  # Spawn new enemies if conditions are met
                                         self.spawn_timer.reactivate(self.game.game_time)
 
                               if random.random() > 0.9:
                                         self.grid.rebuild()  # Rebuild the spatial hash grid
 
-          @staticmethod
-          def random_xy(rect1, rect2, sprite_width, sprite_height):
-                    while True:
-                              x = random.randint(rect1.left, rect1.right - sprite_width)
-                              y = random.randint(rect1.top, rect1.bottom - sprite_height)
-                              if not rect2.collidepoint(x, y): return x, y
-
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
                     if len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings["peaceful_mode"]:
-
-                              # Generate random coordinates for the new enemy
-                              coordinates = self.random_xy(
-                                        pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
-                                        self.game.camera.rect, AM.assets[enemy_type][0].width, AM.assets[enemy_type][0].height
-                              )
-
                               # Reuse an enemy from the pool if available, otherwise create a new one
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()
-                                        enemy.reset(coordinates, ENEMIES[enemy_type])
+                                        enemy.reset(ENEMIES[enemy_type])
                               else:
-                                        enemy = Enemy(self.game, coordinates, ENEMIES[enemy_type])
+                                        enemy = Enemy(self.game, ENEMIES[enemy_type])
 
                               self.grid.insert(enemy)  # Add the enemy to the spatial hash grid
 

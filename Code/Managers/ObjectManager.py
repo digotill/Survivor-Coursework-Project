@@ -37,7 +37,7 @@ class ObjectManager:
                               image = random.choice(AM.assets["rock"])
                               pos = self.generate_valid_position(image.size)
                               if pos:
-                                        self.grid.insert(Object(self.game, image, image.size, pos, General_Settings["rock"][1]))
+                                        self.grid.insert(Object(self.game, image, image.size, pos))
 
           def generate_grass(self):
                     size = General_Settings["tree"][1]
@@ -91,7 +91,7 @@ class ObjectManager:
                     tree_image = random.choice(self.game.assets[biome + "_tree"])
                     pos = self.generate_valid_position(tree_image.size, x, y)
                     if pos:
-                              self.grid.insert(Object(self.game, tree_image, tree_image.size, pos, True))
+                              self.grid.insert(Object(self.game, tree_image, tree_image.size, pos))
 
           def _is_valid_biome_position(self, biome_x, biome_y):
                     return 0 <= biome_x < len(self.biome_map[0]) and 0 <= biome_y < len(self.biome_map)
