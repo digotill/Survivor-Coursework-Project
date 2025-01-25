@@ -53,7 +53,7 @@ class Game:
                     # Update game entities and managers
                     if not self.in_menu:
                               for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player,
-                                              self.player.gun, self.button_manager
+                                              self.player.gun, self.button_manager, self.effect_manager
                                               ]:
                                         manager.update()
                     elif self.in_menu:
@@ -63,7 +63,7 @@ class Game:
           def draw_managers(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager, self.bullet_manager,
+                              for manager in [self.tilemap_manager, self.effect_manager, self.grass_manager, self.drawing_manager, self.bullet_manager,
                                               self.spark_manager, self.rain_manager, self.ui_manager, self.button_manager, self.screen_effect_manager]:
                                         manager.draw()
                     elif self.in_menu:

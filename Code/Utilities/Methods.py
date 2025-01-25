@@ -61,8 +61,7 @@ class Methods:
                     color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
                     for colour in color_list: print(colour)
 
-          @staticmethod
-          def rename_files_recursive(directory):
+          def rename_files_recursive(self, directory):
                     image_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.bmp')
 
                     for root, _, files in os.walk(directory):
@@ -78,7 +77,7 @@ class Methods:
 
                                                   if filename != new_filename:
                                                             new_path = os.path.join(root, new_filename)
-                                                            new_path = get_unique_filename(new_path)
+                                                            new_path = self.get_unique_filename(new_path)
 
                                                             try:
                                                                       os.rename(old_path, new_path)
@@ -119,3 +118,13 @@ class Methods:
                     if dictionary2 is not None:
                               value.update(dictionary2)
                     return value
+
+          @staticmethod
+          def set_attributes(object1, attributes):
+                    for key, value in attributes.items():
+                              setattr(object1, key, value)
+
+          @staticmethod
+          def set_rect(self):
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
+                                            self.res[1])

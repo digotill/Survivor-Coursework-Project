@@ -1,5 +1,5 @@
 from Code.Individuals.Objects import *
-from Code.DataStructures.Grid import *
+from Code.DataStructures.HashMap import *
 
 
 class ObjectManager:

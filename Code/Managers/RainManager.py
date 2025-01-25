@@ -1,5 +1,5 @@
 from Code.Individuals.Rain import *
-from Code.DataStructures.Grid import *
+from Code.DataStructures.HashMap import *
 
 
 class RainManager:
@@ -17,7 +17,6 @@ class RainManager:
                                         rain_droplet.update()
                                         if rain_droplet.hit_ground:
                                                   rain_droplet.update_frame()
-                                                  self.game.drawing_manager.drawables.append(rain_droplet)
 
                               # Update the timer
                               if self.spawn_timer.update(self.game.game_time):

@@ -1,5 +1,5 @@
 from Code.Individuals.Buttons import *
-from Code.DataStructures.Grid import *
+from Code.DataStructures.HashMap import *
 from Code.Individuals.Gun import *
 
 class ButtonManager:

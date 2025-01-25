@@ -1,5 +1,5 @@
 from Code.Individuals.Bullet import *
-from Code.DataStructures.Grid import *
+from Code.DataStructures.HashMap import *
 
 
 class BulletManager:
@@ -47,7 +47,5 @@ class BulletManager:
                                         if bullet.rect.colliderect(enemy.rect) and not bullet.dead:
                                                   enemy.deal_damage(bullet.damage)
                                                   bullet.check_if_alive()
-                                                  self.game.spark_manager.create_spark(270 - bullet.angle,
-                                                                                       bullet.pos,
-                                                                                       SPARKS[
-                                                                                                    'enemy_hit'])
+                                                  angle = bullet.angle if bullet.angle > 0 else 360 + bullet.angle
+                                                  self.game.effect_manager.add_effect(bullet.pos, angle, EFFECTS["blood"])

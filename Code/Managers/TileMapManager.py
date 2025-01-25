@@ -1,4 +1,4 @@
-from Code.DataStructures.Grid import *
+from Code.DataStructures.HashMap import *
 
 
 class Tile:

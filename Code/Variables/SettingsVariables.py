@@ -15,11 +15,10 @@ from memory_profiler import profile
 
 pygame.init()
 
-WIN_RES = 1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
 GAME_SIZE = 2000, 2000
 
-DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+DISPLAY = pygame.display.set_mode((1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h))), pygame.OPENGL | pygame.DOUBLEBUF)
 
 pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
@@ -30,7 +29,7 @@ refresh_rate = pygame.display.get_current_refresh_rate()
 M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
-Performance_Profile = False
+PF = False
 
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["cover"])
@@ -43,7 +42,7 @@ General_Settings = {
           'enemies': (100, 0.2),  # max, spawn rate
           'brightness': (1.5, 1.5, 20),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 100, 90, 30),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles
+          'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10),  # main menu. transition, you died
           "rock": (100, False),  # amount, collisions
@@ -58,11 +57,8 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
                     "ground_shadow": (3, (0, 0, 1), 60, (1, 2)),  # radius, colour, strength, shift
-                    "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15),
-                    "positions": {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
-
-Grass_positions = {"forest_grass": [0, 1, 2, 3, 4], "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19],
-                   "wasteland_grass": [20, 21, 22, 23, 24]}
+                    "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
+                    "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 PLAYER = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
                      "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
@@ -70,7 +66,10 @@ PLAYER = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage
 ENEMIES = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25 ** 2, "steering_strength": 0.4,
                       "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2}}
 
-KEYS = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT, }
+KEYS = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
+                    "movement": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d], "dodge": pygame.K_SPACE}
+
+EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (600, 100), "direction": 10, "animation_speed": 30},}
 
 UI = {"health_bar": (80, 30), "stamina_bar": (80, 30), }
 
