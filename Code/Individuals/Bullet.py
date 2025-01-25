@@ -31,6 +31,12 @@ class Bullet(main):
                     self.pos += self.vel_vector * self.game.dt
                     self.rect.center = self.pos
 
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.display_surface
+                    pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                    surface.blit(self.image, pos)
+
           def check_collision(self, target):
                     if self.rect.colliderect(target.rect):
                               target.health -= self.damage

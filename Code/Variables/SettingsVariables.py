@@ -69,7 +69,7 @@ ENEMIES = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 1
 KEYS = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
                     "movement": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d], "dodge": pygame.K_SPACE}
 
-EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (600, 100), "direction": 10, "animation_speed": 30},}
+EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (600, 100), "direction": 10, "animation_speed": 30, "vanish_time": (3, 3)},}
 
 UI = {"health_bar": (80, 30), "stamina_bar": (80, 30), }
 

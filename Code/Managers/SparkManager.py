@@ -14,10 +14,6 @@ class SparkManager:
                               self.check_if_remove()
                               self.grid.rebuild()
 
-          def draw(self):
-                    for spark in self.grid.window_query():
-                              spark.draw()
-
           def create_spark(self, angle, pos, dictionary):
                     for _ in range(dictionary['amount']):
                               spark_angle = math.radians(random.randint(

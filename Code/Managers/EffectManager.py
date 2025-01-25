@@ -9,8 +9,10 @@ class EffectManager:
                     self.grid = HashMap(self.game, General_Settings["hash_maps"][6])
 
           def update(self):
-                    for effect in self.grid.items:
+                    for effect in self.grid.items.copy():
                               effect.update()
+                              if effect.alpha <= 0 and effect in self.grid.items: self.grid.remove(effect)
+                    self.grid.rebuild()
 
           def draw(self):
                     array = self.grid.window_query()

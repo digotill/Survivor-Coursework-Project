@@ -32,6 +32,8 @@ class DrawingManager:
 
                     self.drawables.extend(self.game.object_manager.grid.window_query())
                     self.drawables.extend(self.game.enemy_manager.grid.window_query())
+                    self.drawables.extend(self.game.spark_manager.grid.window_query())
+                    self.drawables.extend(self.game.bullet_manager.grid.window_query())
                     self.drawables.extend([rain_droplet for rain_droplet in self.game.rain_manager.grid.window_query() if rain_droplet.hit_ground])
                     self.drawables.append(self.game.player)
 

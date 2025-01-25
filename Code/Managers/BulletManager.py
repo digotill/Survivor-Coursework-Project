@@ -19,12 +19,6 @@ class BulletManager:
                               self.check_dead_bullets()
                               self.grid.rebuild()
 
-          def draw(self):
-                    offset_x, offset_y = self.game.camera.offset_rect.topleft
-                    for bullet in self.grid.window_query():
-                              self.game.display_surface.blit(bullet.image,
-                                                             (bullet.rect.x - offset_x, bullet.rect.y - offset_y))
-
           def add_bullet(self, pos, angle, name, spread):
                     if self.bullet_pool:
                               bullet = self.bullet_pool.pop()
