@@ -5,12 +5,12 @@ from Code.Individuals.Gun import *
 class Player(main):
           def __init__(self, game):
                     self.game = game
-                    self.set_attributes(Player_Attributes)
+                    self.set_attributes(PLAYER)
                     self.res = 16, 16
                     self.pos = self.find_spawn_position()
                     self.set_rect()
                     self.current_vel = 0
-                    self.gun = Gun(self.game, Weapons["ak47"])
+                    self.gun = Gun(self.game, WEAPONS["ak47"])
                     self.base_max_vel = self.max_vel
                     self.current_animation = 'idle'
                     self.is_sprinting = False
@@ -70,7 +70,7 @@ class Player(main):
                               self.dx /= magnitude
                               self.dy /= magnitude
 
-                    self.is_sprinting = self.game.keys[Keys['sprint']] and (self.dx != 0 or self.dy != 0)
+                    self.is_sprinting = self.game.keys[KEYS['sprint']] and (self.dx != 0 or self.dy != 0)
                     self.move_hor = self.move_vert = False
                     if not self.game.changing_settings or not self.game.died:
                               self.handle_stamina()

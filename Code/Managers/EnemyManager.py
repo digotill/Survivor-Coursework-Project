@@ -48,9 +48,9 @@ class EnemyManager:
                               # Reuse an enemy from the pool if available, otherwise create a new one
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()
-                                        enemy.reset(coordinates, Enemies[enemy_type])
+                                        enemy.reset(coordinates, ENEMIES[enemy_type])
                               else:
-                                        enemy = Enemy(self.game, coordinates, Enemies[enemy_type])
+                                        enemy = Enemy(self.game, coordinates, ENEMIES[enemy_type])
 
                               self.grid.insert(enemy)  # Add the enemy to the spatial hash grid
 

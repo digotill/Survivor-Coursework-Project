@@ -22,7 +22,7 @@ class ObjectManager:
 
           def _generate_trees(self):
                     size = General_Settings["tree"][1]
-                    sorted_biomes = sorted(Biomes_Config.items(), key=lambda x: x[1])
+                    sorted_biomes = sorted(BIOMES.items(), key=lambda x: x[1])
                     for y in range(0, GAME_SIZE[1], size):
                               for x in range(0, GAME_SIZE[0], size):
                                         biome_value = self.biome_map[y // size][x // size]
@@ -66,7 +66,7 @@ class ObjectManager:
 
           @staticmethod
           def _get_biome_from_value(biome_value):
-                    sorted_biomes = sorted(Biomes_Config.items(), key=lambda x: x[1][0])
+                    sorted_biomes = sorted(BIOMES.items(), key=lambda x: x[1][0])
                     for biome_name, data in sorted_biomes:
                               if biome_value < data[0]:
                                         return biome_name
@@ -102,10 +102,10 @@ class ObjectManager:
                     v = random.random()
                     if v < self.game.grass_manager.density:
                               grass_asset_key = f"{biome}_grass"
-                              grass_x = int(tile.position.x) // Grass_Attributes["tile_size"]
-                              grass_y = int(tile.position.y) // Grass_Attributes["tile_size"]
+                              grass_x = int(tile.position.x) // GRASS["tile_size"]
+                              grass_y = int(tile.position.y) // GRASS["tile_size"]
                               self.game.grass_manager.place_tile(
                                         (grass_x, grass_y),
                                         int(v * 12),
-                                        Grass_positions[grass_asset_key]
+                                        GRASS["positions"][grass_asset_key]
                               )

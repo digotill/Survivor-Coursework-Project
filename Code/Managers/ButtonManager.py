@@ -21,21 +21,21 @@ class ButtonManager:
                     self.value_cooldown_timer = Timer(General_Settings['cooldowns'][1], self.game.ticks)
 
           def _create_ingame_buttons(self):
-                    for name, config in AllButtons["In_Game_Buttons"].items():
+                    for name, config in BUTTONS["In_Game_Buttons"].items():
                               self.game_buttons[name] = Button(
                                         self.game,
                                         copy.deepcopy(config)
                               )
 
           def _create_sliders(self):
-                    for name, config in AllButtons["Sliders"].items():
+                    for name, config in BUTTONS["Sliders"].items():
                               self.sliders[name] = Slider(
                                         self.game,
                                         copy.deepcopy(config)
                               )
 
           def create_buttons(self):
-                    button_configs = AllButtons["Weapon_Buttons"] | AllButtons["Menu_Buttons"]
+                    button_configs = BUTTONS["Weapon_Buttons"] | BUTTONS["Menu_Buttons"]
                     for name, config in button_configs.items():
                               button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun', 'minigun'] else Button
                               self.menu_buttons[name] = button_class(self.game, copy.deepcopy(config))
@@ -44,13 +44,13 @@ class ButtonManager:
                     self.weapons_switches = [self.menu_buttons[w] for w in ['ak47', 'shotgun', 'minigun']]
 
           def create_end_buttons(self):
-                    button_configs = AllButtons["End_Screen_Buttons"]
+                    button_configs = BUTTONS["End_Screen_Buttons"]
                     for name, config in button_configs.items():
                               self.end_buttons[name] = Button(self.game, copy.deepcopy(config))
 
           def create_weapons(self):
-                    button_configs = AllButtons["Weapon_Buttons"]
-                    self.weapons = {weapon_type: Gun(self.game, Weapons[weapon_type]) for weapon_type in button_configs.keys()}
+                    button_configs = BUTTONS["Weapon_Buttons"]
+                    self.weapons = {weapon_type: Gun(self.game, WEAPONS[weapon_type]) for weapon_type in button_configs.keys()}
 
           def update(self):
                     if not self.game.in_menu and not self.game.died:

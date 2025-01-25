@@ -16,18 +16,18 @@ class UIManager:
                               bar_image=self.game.assets["health_bar"],
                               outer_image=self.game.assets["bar_outline"],
                               ratio=health_ratio,
-                              position=UI_Settings["health_bar"],
+                              position=UI["health_bar"],
                               is_flipped=False
                     )
 
                     # Draw Stamina Bar
                     stamina = max(self.game.player.stamina, 1)
-                    stamina_ratio = stamina / Player_Attributes['stamina']
+                    stamina_ratio = stamina / PLAYER['stamina']
                     self._draw_bar(
                               bar_image=self.game.assets["stamina_bar"],
                               outer_image=self.game.assets["bar_outline"],
                               ratio=stamina_ratio,
-                              position=UI_Settings["stamina_bar"],
+                              position=UI["stamina_bar"],
                               is_flipped=True
                     )
 
@@ -56,11 +56,11 @@ class UIManager:
           def draw_fps(self):
                     if self.fps_enabled:
                               fps = str(int(
-                                        max(min(AllButtons["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
-                                            AllButtons["Sliders"]["fps"]["min_value"])))
+                                        max(min(BUTTONS["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
+                                            BUTTONS["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False,
                                                                        pygame.Color("orange"))
-                              text_rect = text.get_rect(center=(UI_Settings["health_bar"][0], UI_Settings["health_bar"][1] - 20))
+                              text_rect = text.get_rect(center=(UI["health_bar"][0], UI["health_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def draw_time(self):
@@ -68,7 +68,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))
                               text_rect = text.get_rect(center=(
-                                        REN_RES[0] - UI_Settings["stamina_bar"][0], UI_Settings["stamina_bar"][1] - 20))
+                                        REN_RES[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def display_mouse(self):

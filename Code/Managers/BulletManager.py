@@ -32,7 +32,7 @@ class BulletManager:
                     else:
                               bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread, self.game.player.gun.noise_map)
                     self.grid.insert(bullet)
-                    array = Screen_Shake[self.game.player.gun.name]
+                    array = SCREENSHAKE[self.game.player.gun.name]
                     self.game.camera.add_screen_shake(array[1], array[0])
 
           def check_dead_bullets(self):
@@ -49,5 +49,5 @@ class BulletManager:
                                                   bullet.check_if_alive()
                                                   self.game.spark_manager.create_spark(270 - bullet.angle,
                                                                                        bullet.pos,
-                                                                                       Sparks_Settings[
+                                                                                       SPARKS[
                                                                                                     'enemy_hit'])

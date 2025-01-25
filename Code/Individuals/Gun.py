@@ -12,7 +12,7 @@ class Gun(main):
 
                     self.pos = v2(0, 0)
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])
-                    self.noise_map = PerlinNoise(Map_Config["gun_shake_map"][1], random.randint(0, 100000))
+                    self.noise_map = PerlinNoise(MAP["gun_shake_map"][1], random.randint(0, 100000))
 
                     self.last_shot = - self.fire_rate
                     self.initial_vel = self.vel
@@ -71,7 +71,7 @@ class Gun(main):
                     start_coordinates = self.calculate_bullet_start_position()
                     for _ in range(self.shots):
                               self.game.spark_manager.create_spark(270 - self.angle, start_coordinates,
-                                                                   Sparks_Settings['muzzle_flash'])
+                                                                   SPARKS['muzzle_flash'])
                               if self.shots == 1:
                                         self.game.bullet_manager.add_bullet(start_coordinates, self.angle,
                                                                             "Player Bullet", spread_factor)

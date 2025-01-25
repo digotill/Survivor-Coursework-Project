@@ -8,7 +8,7 @@ class Tile:
                     self.position = v2(position)
                     self.size = General_Settings["hash_maps"][2]
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size - 1, self.size - 1)
-                    if tile_type in Tiles_Congifig["animated_tiles"] and tile_type != "padding":
+                    if tile_type in TILES["animated_tiles"] and tile_type != "padding":
                               self.images = self.game.assets[tile_type]
                     elif tile_type != "padding":
                               self.images = [random.choice(self.game.assets[tile_type])]
@@ -30,9 +30,9 @@ class TileMapManager:
                     self.width = GAME_SIZE[0] // self.tile_size + 1
                     self.height = GAME_SIZE[1] // self.tile_size + 1
 
-                    self.animation_speed = Tiles_Congifig["animation_speed"]
-                    self.frames = {tile_type: 0 for tile_type in Tiles_Congifig["animated_tiles"]}
-                    self.perlin_noise = PerlinNoise(Map_Config["tiles_map"][1], random.randint(0, 100000))
+                    self.animation_speed = TILES["animation_speed"]
+                    self.frames = {tile_type: 0 for tile_type in TILES["animated_tiles"]}
+                    self.perlin_noise = PerlinNoise(MAP["tiles_map"][1], random.randint(0, 100000))
 
                     self.biome_map, self.density_map = self._generate_maps()
 
@@ -46,11 +46,11 @@ class TileMapManager:
                     self.grid2.rebuild()
 
           def _generate_maps(self):
-                    biome_noise = PerlinNoise(octaves=Map_Config["biomes_map"][1], seed=random.randint(0, 100000))
-                    density_noise = PerlinNoise(octaves=Map_Config["biomes_density_map"][1], seed=random.randint(0, 100000))
+                    biome_noise = PerlinNoise(octaves=MAP["biomes_map"][1], seed=random.randint(0, 100000))
+                    density_noise = PerlinNoise(octaves=MAP["biomes_density_map"][1], seed=random.randint(0, 100000))
                     return (
-                              self._generate_noise_map(biome_noise, Map_Config["biomes_map"][0]),
-                              self._generate_noise_map(density_noise, Map_Config["biomes_density_map"][0])
+                              self._generate_noise_map(biome_noise, MAP["biomes_map"][0]),
+                              self._generate_noise_map(density_noise, MAP["biomes_density_map"][0])
                     )
 
           @staticmethod
@@ -86,7 +86,7 @@ class TileMapManager:
 
                     # For animated tiles, we'll need to keep track of them separately
                     self.animated_tiles = [tile for tile in all_tiles
-                                           if tile.tile_type in Tiles_Congifig["animated_tiles"]]
+                                           if tile.tile_type in TILES["animated_tiles"]]
 
           def add_tile(self, tile_type, grid_position):
                     pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
@@ -109,9 +109,9 @@ class TileMapManager:
                                      pygame.Rect(draw_position, self.cached_surface.get_size()), 1)
 
           def get_tile_type(self, x, y):
-                    noise_value = self.perlin_noise([x * Map_Config["tiles_map"][0], y * Map_Config["tiles_map"][0]])
-                    for tile in Tiles_Congifig["Tile_Ranges"].keys():
-                              if noise_value < Tiles_Congifig["Tile_Ranges"][tile]:
+                    noise_value = self.perlin_noise([x * MAP["tiles_map"][0], y * MAP["tiles_map"][0]])
+                    for tile in TILES["Tile_Ranges"].keys():
+                              if noise_value < TILES["Tile_Ranges"][tile]:
                                         return tile
 
           def tile_collision(self, rect, *tile_types):
@@ -316,7 +316,7 @@ class TileMapManager:
                                         tile_type = self.get_tile_type(x, y)
                                         self.add_tile(tile_type, (x, y))
 
-                    for array in Tiles_Congifig["transitions"]: self.apply_transition_tiles(array)
+                    for array in TILES["transitions"]: self.apply_transition_tiles(array)
 
           def get_biome_at(self, x, y):
                     # Ensure x and y are within the bounds of the biome_map
@@ -324,7 +324,7 @@ class TileMapManager:
                     x = min(x, self.biome_map.shape[1] - 1)
 
                     biome_value = self.biome_map[y][x]
-                    for biome, (chance, _, has, density) in Biomes_Config.items():
+                    for biome, (chance, _, has, density) in BIOMES.items():
                               if biome_value < chance:
                                         return biome
                     return list(Biomes_Config.keys())[-1]  # Return the last biome if no match found
@@ -350,7 +350,7 @@ class TileMapManager:
                                         tile = self.get((x, y))
                                         if tile and tile.tile_type == 'grass_tile' and not tile.transition:
                                                   biome = self.get_biome_at(x, y)
-                                                  _, _, has_padding, padding_density = Biomes_Config[biome]
+                                                  _, _, has_padding, padding_density = BIOMES[biome]
 
                                                   if has_padding:
                                                             density_value = self.density_map[y][x]

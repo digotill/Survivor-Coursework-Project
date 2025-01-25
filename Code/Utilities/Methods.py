@@ -54,11 +54,7 @@ class Methods:
 
           @staticmethod
           def change(number, diff):
-                    diff = random.random() * diff
-                    if random.randint(0, 1) == 0:
-                              return number - diff
-                    else:
-                              return number + diff
+                    return number + random.uniform(-diff, diff)
 
           @staticmethod
           def lookup_colour(colour):

@@ -7,7 +7,7 @@ class RainManager:
                     self.game = game
                     self.grid = HashMap(game, General_Settings["hash_maps"][3])
 
-                    self.spawn_timer = Timer(Rain_Config['spawn_rate'], self.game.game_time, self.spawn_rain)
+                    self.spawn_timer = Timer(RAIN['spawn_rate'], self.game.game_time, self.spawn_rain)
                     self.rain_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)
                     self.grid.rebuild()
 
@@ -38,8 +38,8 @@ class RainManager:
                     self.game.display_surface.blit(self.rain_surface, (0, 0))
 
           def spawn_rain(self):
-                    for _ in range(Rain_Config['amount_spawning']):
-                              rain = Rain(self.game, Rain_Config)
+                    for _ in range(RAIN['amount_spawning']):
+                              rain = Rain(self.game, RAIN)
                               self.grid.insert(rain)
 
           def check_dead(self):
