@@ -45,7 +45,3 @@ class main:
                               self.dead = True
                               self.health = 0
 
-          @staticmethod
-          def generate_shadow_image(image):
-                    shadow_image = AM.assets["shadow"].copy()
-                    return pygame.transform.scale(shadow_image, (image.width, shadow_image.height))

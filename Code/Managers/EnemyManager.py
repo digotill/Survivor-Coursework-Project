@@ -28,12 +28,19 @@ class EnemyManager:
                               if random.random() > 0.9:
                                         self.grid.rebuild()  # Rebuild the spatial hash grid
 
+          @staticmethod
+          def random_xy(rect1, rect2, sprite_width, sprite_height):
+                    while True:
+                              x = random.randint(rect1.left, rect1.right - sprite_width)
+                              y = random.randint(rect1.top, rect1.bottom - sprite_height)
+                              if not rect2.collidepoint(x, y): return x, y
+
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
                     if len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings["peaceful_mode"]:
 
                               # Generate random coordinates for the new enemy
-                              coordinates = random_xy(
+                              coordinates = self.random_xy(
                                         pygame.Rect(0, 0, GAME_SIZE[0], GAME_SIZE[1]),
                                         self.game.camera.rect, AM.assets[enemy_type][0].width, AM.assets[enemy_type][0].height
                               )

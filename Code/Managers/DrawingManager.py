@@ -7,15 +7,7 @@ class DrawingManager:
           def __init__(self, game):
                     self.game = game
                     self.drawables = []
-                    self.transparent_cache = {}
                     self.batch_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)
-
-          def get_transparent_image(self, thing, alpha):
-                    if (thing, alpha) not in self.transparent_cache:
-                              transparent_image = thing.original_image.copy()
-                              transparent_image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
-                              self.transparent_cache[(thing, alpha)] = transparent_image
-                    return self.transparent_cache[(thing, alpha)]
 
           def transparent_objects(self):
                     player_rect = self.game.player.rect
@@ -31,7 +23,7 @@ class DrawingManager:
                                         if player_bottom > thing.rect.bottom:
                                                   alpha = 255
 
-                                        thing.image = self.get_transparent_image(thing, alpha)
+                                        thing.image = self.game.methods.get_transparent_image(thing.original_image, alpha)
                               else:
                                         thing.image = thing.original_image
 

@@ -16,7 +16,7 @@ class Bullet(main):
                     self.rect = self.image.get_rect(center=self.pos)
                     self.res = self.rect.size
 
-                    self.lifetime = change_by_diff(self.gun.lifetime, self.gun.lifetime_randomness)
+                    self.lifetime = self.game.methods.change(self.gun.lifetime, self.gun.lifetime_randomness)
                     self.dead = False
                     self.creation_time = game.game_time
                     self.friction = self.gun.friction

@@ -15,7 +15,7 @@ class ScreenEffectManager:
                               if self.transition_screeneffect.draw():
                                         self.game.in_menu = False
                     elif not self.game.in_menu and self.game.game_time < General_Settings["screen_effect"][0]:
-                              self.transition_screeneffect.draw_frame(self.transition_screeneffect.length)
+                              self.transition_screeneffect.draw()
                     elif not self.game.in_menu and self.game.game_time >= General_Settings["screen_effect"][0]:
                               if not self.inverted_transition:
                                         self.transition_screeneffect.frame = self.transition_screeneffect.length
@@ -24,9 +24,6 @@ class ScreenEffectManager:
 
                     if self.game.died:
                               self.youdied_start_time = self.game.game_time if self.youdied_start_time is None else self.youdied_start_time
-                              current_time = self.game.game_time
-                              elapsed_time = current_time - self.youdied_start_time
-                              opacity = max(min(1, elapsed_time / self.youdied_duration), 0)
-                              self.youdied_screeneffect.set_opacity(opacity)
-                              self.youdied_screeneffect.draw_frame(self.youdied_screeneffect.length)
+                              self.youdied_screeneffect.set_opacity(max(min(0.8, self.game.game_time - self.youdied_start_time / self.youdied_duration), 0.2))
+                              self.youdied_screeneffect.draw()
 

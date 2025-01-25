@@ -6,14 +6,14 @@ class Rain(main):
                     self.animation = AM.assets["rain"]
                     self.res = AM.assets["rain"][0].size
                     self.set_attributes(dictionary)
-                    self.pos = v2(change_by_diff(self.game.camera.offset_rect.x * 1.1, self.game.camera.offset_rect.width / 1.1),
+                    self.pos = v2(self.game.methods.change(self.game.camera.offset_rect.x * 1.1, self.game.camera.offset_rect.width / 1.1),
                                   self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 4)
 
                     self.spawn_time = self.game.game_time
                     self.initial_vel = self.vel
                     self.hit_ground = False
-                    self.lifetime = change_by_diff(self.lifetime, self.lifetime_randomness)
-                    self.vel = change_by_diff(self.vel, self.vel_randomness)
+                    self.lifetime = self.game.methods.change(self.lifetime, self.lifetime_randomness)
+                    self.vel = self.game.methods.change(self.vel, self.vel_randomness)
                     self.vel_vector = self.calculate_vel_vector()
                     self.set_rect()
                     self.frame = 0

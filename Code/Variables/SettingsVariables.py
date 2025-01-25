@@ -8,15 +8,9 @@ from copy import deepcopy
 from itertools import product
 from pstats import Stats
 from Code.Shaders import pygame_shaders
-from Code.Utilities.Functions import *
 from Code.Variables.LoadAssets import *
 from Code.DataStructures.Timer import *
-
-"""from line_profiler import LineProfiler
-import atexit
-profile = LineProfiler()
-atexit.register(profile.print_stats)"""
-
+from Code.Utilities.Methods import *
 from memory_profiler import profile
 
 pygame.init()
@@ -26,15 +20,15 @@ REN_RES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info(
 GAME_SIZE = 2000, 2000
 
 DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
+
 pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
 
-physical_cores = psutil.cpu_count(logical=False)
-logical_cores = psutil.cpu_count(logical=True)
 operating_system = platform.system()
 refresh_rate = pygame.display.get_current_refresh_rate()
 
-rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
+M = Methods()
+M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
 Performance_Profile = False
 
@@ -94,37 +88,37 @@ Rain_Config = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "
 
 Weapons = {
           "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 16, "distance": -2, "friction": 0.1,
-                   "animation_speed": 5, "spread_time": 2, "pierce": 3, "shots": 1, "name": "ak47"},
+                   "spread_time": 2, "pierce": 3, "shots": 1, "name": "ak47"},
           "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
-                      "animation_speed": 5, "spread_time": 2, "pierce": 1, "shots": 20, "name": "shotgun"},
+                      "spread_time": 2, "pierce": 1, "shots": 20, "name": "shotgun"},
           "minigun": {"vel": 600, "spread": 5, "fire_rate": 0.01, "lifetime": 2, "lifetime_randomness": 0.2, "damage": 5, "distance": -12, "friction": 0.1,
-                      "animation_speed": 5, "spread_time": 0.2, "pierce": 0, "shots": 1, "name": "minigun"}}
+                      "spread_time": 0.2, "pierce": 0, "shots": 1, "name": "minigun"}}
 
 AllButtons = {
           "In_Game_Buttons": {
-                    "resume": create_button("resume", v2(240, 135), AM.assets["button5"]),
-                    "fullscreen": create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
-                    "quit": create_button("quit", v2(240, 240), AM.assets["button5"]),
-                    "return": create_button("return", v2(240, 90), AM.assets["button5"])
+                    "resume": M.create_button("resume", v2(240, 135), AM.assets["button5"]),
+                    "fullscreen": M.create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
+                    "quit": M.create_button("quit", v2(240, 240), AM.assets["button5"]),
+                    "return": M.create_button("return", v2(240, 90), AM.assets["button5"])
           },
           "Weapon_Buttons": {
-                    "ak47": create_button("ak47", v2(140, 240), perfect_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
-                    "shotgun": create_button("shotgun", v2(140, 215), perfect_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
-                    "minigun": create_button("minigun", v2(140, 180), perfect_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}),
+                    "ak47": M.create_button("ak47", v2(140, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
+                    "shotgun": M.create_button("shotgun", v2(140, 215), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
+                    "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}),
           },
           "Menu_Buttons": {
-                    "play": create_button("play", v2(200, 240), AM.assets["button5"], {"active": True}),
-                    "quit": create_button("quit", v2(280, 240), AM.assets["button5"], {"active": True}),
-                    "easy": create_button("easy", v2(200, 190), AM.assets["button5"], {"active": True}),
-                    "medium": create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
-                    "hard": create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})
+                    "play": M.create_button("play", v2(200, 240), AM.assets["button5"], {"active": True}),
+                    "quit": M.create_button("quit", v2(280, 240), AM.assets["button5"], {"active": True}),
+                    "easy": M.create_button("easy", v2(200, 190), AM.assets["button5"], {"active": True}),
+                    "medium": M.create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
+                    "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})
           },
           "Sliders": {
-                    "brightness": create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                    "fps": create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])
+                    "brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
+                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])
           },
           "End_Screen_Buttons": {
-                    "restart": create_button("restart", v2(240, 40), AM.assets["button5"]),
-                    "quit": create_button("quit", v2(400, 40), AM.assets["button5"])
+                    "restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
+                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])
           }
 }

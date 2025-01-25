@@ -27,6 +27,7 @@ class Game:
                     self.spark_manager = SparkManager(self)
                     self.bullet_manager = BulletManager(self)
                     self.sound_manager = SoundManager(self)
+                    self.effect_manager = EffectManager(self)
                     self.rain_manager = RainManager(self)
                     self.button_manager = ButtonManager(self)
                     self.ui_manager = UIManager(self)
@@ -48,7 +49,7 @@ class Game:
                     pygame.display.flip()
                     self.__init__()
 
-          def update_groups(self):
+          def update_managers(self):
                     # Update game entities and managers
                     if not self.in_menu:
                               for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player,
@@ -59,7 +60,7 @@ class Game:
                               for manager in [self.button_manager]:
                                         manager.update()
 
-          def draw_groups(self):
+          def draw_managers(self):
                     # Draw game elements in order
                     if not self.in_menu:
                               for manager in [self.tilemap_manager, self.grass_manager, self.drawing_manager, self.bullet_manager,
@@ -81,8 +82,8 @@ class Game:
                               self.clock.tick_busy_loop(self.fps)
                               self.game_variables.update()
                               self.event_manager.handle_events()
-                              self.update_groups()
-                              self.draw_groups()
+                              self.update_managers()
+                              self.draw_managers()
                               self.update_display()
                               if self.restart:
                                         self.refresh()

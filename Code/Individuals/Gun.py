@@ -77,7 +77,7 @@ class Gun(main):
                                                                             "Player Bullet", spread_factor)
                               else:
                                         self.game.bullet_manager.add_bullet(start_coordinates,
-                                                                            change_by_diff(self.angle, self.spread),
+                                                                            self.game.methods.change(self.angle, self.spread),
                                                                             "Player Bullet", spread_factor)
 
           def calculate_bullet_start_position(self):

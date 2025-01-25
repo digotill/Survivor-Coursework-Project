@@ -84,7 +84,7 @@ class Enemy(main):
                     if surface is None:
                               surface = self.game.display_surface
                     current_sprite = self.get_current_sprite()
-                    shadow_image = self.generate_shadow_image(current_sprite)
+                    shadow_image = self.game.methods.get_shadow_image(self, current_sprite)
                     self.game.display_surface.blit(shadow_image, (
                               self.get_position()[0],
                               self.get_position()[1] + self.res[1] - shadow_image.height / 2))

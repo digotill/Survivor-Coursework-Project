@@ -47,9 +47,9 @@ class CameraManager(main_camera):
 
                     dt = min(self.game.dt, 1 / 20)
                     self.mouse_smoothing = v2(
-                              self.lerp(self.mouse_smoothing.x, mouse_target.x,
+                              self.game.methods.lerp(self.mouse_smoothing.x, mouse_target.x,
                                         self.window_mouse_smoothing_amount * dt),
-                              self.lerp(self.mouse_smoothing.y, mouse_target.y,
+                              self.game.methods.lerp(self.mouse_smoothing.y, mouse_target.y,
                                         self.window_mouse_smoothing_amount * dt)
                     )
 
@@ -65,8 +65,8 @@ class CameraManager(main_camera):
                     )
 
                     self.current_offset = v2(
-                              self.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
-                              self.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt)
+                              self.game.methods.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
+                              self.game.methods.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt)
                     )
 
                     return v2(round(self.current_offset.x), round(self.current_offset.y))
@@ -131,7 +131,3 @@ class CameraManager(main_camera):
                               self.shake_start_time = self.game.game_time
                               self.shake_seed = self.game.game_time
                               self.shake_direction = v2(random.uniform(-1, 1), random.uniform(-1, 1)).normalize()
-
-          @staticmethod
-          def lerp(start, end, amount):
-                    return start + (end - start) * amount

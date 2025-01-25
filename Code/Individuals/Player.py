@@ -94,7 +94,7 @@ class Player(main):
                     frame_index = int(self.frame) % len(current_animation)
                     image = current_animation[frame_index]
 
-                    shadow_image = self.generate_shadow_image(image)
+                    shadow_image = self.game.methods.get_shadow_image(self, image)
                     surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
                     surface.blit(image, self.get_position())
 
