@@ -179,7 +179,7 @@ class Player:
                               elif self.slow_timer.update(self.game.game_time):
                                         # Player has been slowed for more than the cooldown period
                                         self.max_vel = self.slowed_vel
-                                        self.health -= GENERAL["damages"][0] * self.game.dt
+                                        self.health -= MISC["acid_damage"] * self.game.dt
                     else:
                               self.is_slowed = False
                               self.max_vel = self.sprint_vel if self.is_sprinting else self.vel

@@ -25,7 +25,7 @@ pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
 
 OS = platform.system()
-FPS = pygame.display.get_current_refresh_rate()
+HZ = pygame.display.get_current_refresh_rate()
 
 M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
@@ -45,12 +45,9 @@ GENERAL = {
           'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10),  # main menu. transition, you died
-          "rock": (100, False),  # amount, collisions
-          "tree": (0.05, 16),  # density, spreadoutness
-          "damages": (3, 5),  # acid damage
 }
 
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 100)}
 
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
           'shake_speed': 200, 'reduced_screen_shake': 1, }
@@ -115,7 +112,7 @@ BUTTONS = {
           },
           "Sliders": {
                     "brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, FPS, AM.assets["button7"])
+                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])
           },
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),

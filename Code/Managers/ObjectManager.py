@@ -21,7 +21,7 @@ class ObjectManager:
                     self.grid.rebuild()
 
           def _generate_trees(self):
-                    size = GENERAL["tree"][1]
+                    size = MISC["enviroment_density"][1]
                     sorted_biomes = sorted(BIOMES.items(), key=lambda x: x[1])
                     for y in range(0, GAME_SIZE[1], size):
                               for x in range(0, GAME_SIZE[0], size):
@@ -33,14 +33,14 @@ class ObjectManager:
                                                   self._place_tree(x, y, biome)
 
           def _generate_rocks(self):
-                    for _ in range(GENERAL["rock"][0]):
+                    for _ in range(MISC["enviroment_density"][2]):
                               image = random.choice(AM.assets["rock"])
                               pos = self.generate_valid_position(image.size)
                               if pos:
                                         self.grid.insert(Object(self.game, image, image.size, pos))
 
           def generate_grass(self):
-                    size = GENERAL["tree"][1]
+                    size = MISC["enviroment_density"][1]
                     for tile in self.game.tilemap_manager.grid.items:
                               if tile.tile_type == "grass_tile":
                                         biome_x, biome_y = int(tile.position.x) // size, int(tile.position.y) // size
@@ -85,7 +85,7 @@ class ObjectManager:
 
           @staticmethod
           def _should_place_tree(density_value, biome_density_factor):
-                    return random.random() < density_value * GENERAL["tree"][0] * biome_density_factor
+                    return random.random() < density_value * MISC["enviroment_density"][0] * biome_density_factor
 
           def _place_tree(self, x, y, biome):
                     tree_image = random.choice(self.game.assets[biome + "_tree"])

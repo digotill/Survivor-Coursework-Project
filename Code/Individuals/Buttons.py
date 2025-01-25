@@ -52,6 +52,7 @@ class UIElement:
                     # Check if the mouse is over the UI element
                     return self.rect.collidepoint(self.game.correct_mouse_pos)
 
+
           def draw(self):
                     # Draw the UI element and its text if visible
                     if self.is_visible_on_screen():

@@ -60,6 +60,7 @@ class ButtonManager:
                                         buttons.changeColor()
 
                               if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
+
                                         if self.game.changing_settings:
                                                   if self.game_buttons['resume'].check_for_input():
                                                             self.game.changing_settings = False
