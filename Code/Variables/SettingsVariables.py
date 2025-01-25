@@ -64,12 +64,12 @@ PLAYER = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage
                      "hit_cooldown": 0.3, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
 
 ENEMIES = {"enemy1": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 5, "attack_range": 30, "stopping_range": 25 ** 2, "steering_strength": 0.4,
-                      "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2}}
+                      "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2, "armour": 1}}
 
 KEYS = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, 'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT,
                     "movement": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d], "dodge": pygame.K_SPACE}
 
-EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (600, 100), "direction": 10, "animation_speed": 30, "vanish_time": (3, 3)},}
+EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (700, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5)},}
 
 UI = {"health_bar": (80, 30), "stamina_bar": (80, 30), }
 
@@ -87,12 +87,12 @@ TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [[
 RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle": 40, "vel": 800, "vel_randomness": 50, "lifetime": 0.5, "lifetime_randomness": 0.8, }
 
 WEAPONS = {
-          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 16, "distance": -2, "friction": 0.1,
-                   "spread_time": 2, "pierce": 3, "shots": 1, "name": "ak47"},
+          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
+                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
           "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
-                      "spread_time": 2, "pierce": 1, "shots": 20, "name": "shotgun"},
+                      "spread_time": 2, "pierce": 2, "shots": 10, "name": "shotgun"},
           "minigun": {"vel": 600, "spread": 5, "fire_rate": 0.01, "lifetime": 2, "lifetime_randomness": 0.2, "damage": 5, "distance": -12, "friction": 0.1,
-                      "spread_time": 0.2, "pierce": 0, "shots": 1, "name": "minigun"}}
+                      "spread_time": 0.2, "pierce": 1, "shots": 1, "name": "minigun"}}
 
 BUTTONS = {
           "In_Game_Buttons": {

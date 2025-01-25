@@ -16,13 +16,14 @@ class Bullet(main):
                     self.rect = self.image.get_rect(center=self.pos)
                     self.res = self.rect.size
 
+                    self.hit_list = []
+
                     self.lifetime = self.game.methods.change(self.gun.lifetime, self.gun.lifetime_randomness)
                     self.dead = False
                     self.creation_time = game.game_time
                     self.friction = self.gun.friction
                     self.damage = self.gun.damage
                     self.pierce = self.gun.pierce
-                    self.health = self.pierce
 
           def update(self):
                     if self.friction > 0:
@@ -37,11 +38,14 @@ class Bullet(main):
                     pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
                     surface.blit(self.image, pos)
 
-          def check_collision(self, target):
-                    if self.rect.colliderect(target.rect):
+          def collide(self, target):
+                    if self.rect.colliderect(target.rect) and target not in self.hit_list:
                               target.health -= self.damage
-                              self.health -= 1
-                              if self.health <= 0:
+                              self.pierce -= target.armour
+                              self.hit_list.append(target)
+                              angle = self.angle if self.angle > 0 else 360 + self.angle
+                              self.game.effect_manager.add_effect(self.pos, angle, EFFECTS["blood"])
+                              if self.pierce <= 0:
                                         self.dead = True
                               return True
                     return False

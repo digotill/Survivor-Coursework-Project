@@ -38,8 +38,4 @@ class BulletManager:
           def check_for_collisions(self):
                     for bullet in self.grid.items:
                               for enemy in self.game.enemy_manager.grid.query(bullet.rect):
-                                        if bullet.rect.colliderect(enemy.rect) and not bullet.dead:
-                                                  enemy.deal_damage(bullet.damage)
-                                                  bullet.check_if_alive()
-                                                  angle = bullet.angle if bullet.angle > 0 else 360 + bullet.angle
-                                                  self.game.effect_manager.add_effect(bullet.pos, angle, EFFECTS["blood"])
+                                        bullet.collide(enemy)

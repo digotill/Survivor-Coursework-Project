@@ -24,12 +24,14 @@ class Effect:
 
           def update(self):
                     if not self.grounded:
-                              if self.frame >= self.end_frame:
+                              rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0] / 3, self.res[1] / 3)
+                              if self.frame >= self.end_frame and not self.game.tilemap_manager.tile_collision(rect, "water_tile"):
                                         self.grounded = True
                               else:
                                         self.pos += self.vel_vector * self.game.dt
                                         self.rect.center = self.pos
-                                        self.frame += self.animation_speed * self.game.dt
+                                        if not self.game.tilemap_manager.tile_collision(rect, "water_tile"):
+                                                  self.frame += self.animation_speed * self.game.dt
                     elif self.grounded:
                               if self.time_when_grounded is None:
                                         self.time_when_grounded = self.game.game_time
