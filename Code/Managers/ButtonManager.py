@@ -17,8 +17,8 @@ class ButtonManager:
                     self.create_weapons()
                     self.create_end_buttons()
 
-                    self.button_cooldown_timer = Timer(General_Settings['cooldowns'][0], self.game.ticks)
-                    self.value_cooldown_timer = Timer(General_Settings['cooldowns'][1], self.game.ticks)
+                    self.button_cooldown_timer = Timer(GENERAL['cooldowns'][0], self.game.ticks)
+                    self.value_cooldown_timer = Timer(GENERAL['cooldowns'][1], self.game.ticks)
 
           def _create_ingame_buttons(self):
                     for name, config in BUTTONS["In_Game_Buttons"].items():

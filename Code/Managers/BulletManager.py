@@ -5,7 +5,7 @@ from Code.DataStructures.HashMap import *
 class BulletManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, General_Settings["hash_maps"][1])
+                    self.grid = HashMap(game, GENERAL["hash_maps"][1])
                     self.bullet_pool = set()
 
           def update(self):
@@ -26,7 +26,7 @@ class BulletManager:
                     else:
                               bullet = Bullet(self.game, self.game.player.gun, pos, angle, name, spread, self.game.player.gun.noise_map)
                     self.grid.insert(bullet)
-                    array = SCREENSHAKE[self.game.player.gun.name]
+                    array = SHAKE[self.game.player.gun.name]
                     self.game.camera.add_screen_shake(array[1], array[0])
 
           def check_dead_bullets(self):

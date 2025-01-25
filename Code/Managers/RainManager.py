@@ -5,7 +5,7 @@ from Code.DataStructures.HashMap import *
 class RainManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, General_Settings["hash_maps"][3])
+                    self.grid = HashMap(game, GENERAL["hash_maps"][3])
 
                     self.spawn_timer = Timer(RAIN['spawn_rate'], self.game.game_time, self.spawn_rain)
                     self.rain_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)

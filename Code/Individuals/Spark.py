@@ -28,13 +28,13 @@ class Spark(main):
                     self.pos.x += movement[0]
                     self.pos.y += movement[1]
 
-                    deceleration_factor = 1 - (General_Settings["sparks"][0] * self.game.dt)
+                    deceleration_factor = 1 - (GENERAL["sparks"][0] * self.game.dt)
 
                     deceleration_factor = max(0, min(1, deceleration_factor))
 
                     self.speed *= deceleration_factor
 
-                    if self.speed <= General_Settings["sparks"][3]:
+                    if self.speed <= GENERAL["sparks"][3]:
                               self.alive = False
 
                     self.update_rect()
@@ -56,8 +56,8 @@ class Spark(main):
                     self.rect = pygame.Rect(min_x, min_y, width, height)
 
           def calculate_points(self, offset):
-                    height = General_Settings["sparks"][2]
-                    width = General_Settings["sparks"][1]
+                    height = GENERAL["sparks"][2]
+                    width = GENERAL["sparks"][1]
                     front_point = self.calculate_point(self.angle, self.speed * self.scale, offset)
                     back_point = self.calculate_point(self.angle + math.pi, self.speed * self.scale * height,
                                                       offset)

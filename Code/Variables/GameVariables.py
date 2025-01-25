@@ -17,7 +17,7 @@ class GameVariables:
 
                     self.game.game_time = 0
                     self.game.difficulty = "medium"
-                    self.game.fps = refresh_rate
+                    self.game.fps = FPS
                     self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])
                     self.game.ui_surface.set_colorkey((0, 0, 0))
                     self.game.player = None

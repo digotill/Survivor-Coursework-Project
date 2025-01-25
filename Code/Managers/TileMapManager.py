@@ -6,7 +6,7 @@ class Tile:
                     self.game = game
                     self.tile_type = tile_type
                     self.position = v2(position)
-                    self.size = General_Settings["hash_maps"][2]
+                    self.size = GENERAL["hash_maps"][2]
                     self.rect = pygame.Rect(self.position.x, self.position.y, self.size - 1, self.size - 1)
                     if tile_type in TILES["animated_tiles"] and tile_type != "padding":
                               self.images = self.game.assets[tile_type]
@@ -23,7 +23,7 @@ class TileMapManager:
           def __init__(self, game):
                     self.game = game
 
-                    self.tile_size = General_Settings["hash_maps"][2]
+                    self.tile_size = GENERAL["hash_maps"][2]
                     self.grid = HashMap(game, self.tile_size)
                     self.grid2 = HashMap(game, self.tile_size)
                     self.grid3 = HashMap(game, self.tile_size)
@@ -55,7 +55,7 @@ class TileMapManager:
 
           @staticmethod
           def _generate_noise_map(noise, scale):
-                    size = General_Settings["tree"][1]
+                    size = GENERAL["tree"][1]
                     width, height = GAME_SIZE[0] // size + 1, GAME_SIZE[1] // size + 1
                     noise_map = [[noise([i * scale, j * scale]) for j in range(width)] for i in range(height)]
                     return (np.array(noise_map) + 1) / 2

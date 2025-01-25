@@ -6,7 +6,7 @@ from Code.DataStructures.HashMap import *
 class EffectManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(self.game, General_Settings["hash_maps"][6])
+                    self.grid = HashMap(self.game, GENERAL["hash_maps"][6])
 
           def update(self):
                     for effect in self.grid.items.copy():

@@ -4,7 +4,7 @@ from Code.Individuals.Spark import *
 class SparkManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, General_Settings["hash_maps"][5])
+                    self.grid = HashMap(game, GENERAL["hash_maps"][5])
                     self.spark_pool = set()
 
           def update(self):

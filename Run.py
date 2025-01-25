@@ -1,21 +1,21 @@
 from Code.Utilities.ErrorLogger import *
 from Code.Game_Class import *
 
-if operating_system == "Windows":
+if OS == "Windows":
           try:
                     ctypes.windll.shcore.SetProcessDpiAwareness(2)
           except Exception as e:
                     print(f"Failed to set DPI awareness on Windows: {e}")
-elif operating_system == "Darwin":  # macOS
+elif OS == "Darwin":  # macOS
           try:
                     import AppKit
                     AppKit.NSApplication.sharedApplication().setActivationPolicy_(1)
           except ImportError:
                     print("AppKit not available. Unable to set activation policy on macOS.")
-elif operating_system == "Linux":
+elif OS == "Linux":
           print("No DPI awareness set for Linux. Please ensure you have the necessary libraries installed.")
 else:
-          print(f"Unknown operating system: {operating_system}")
+          print(f"Unknown operating system: {OS}")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)

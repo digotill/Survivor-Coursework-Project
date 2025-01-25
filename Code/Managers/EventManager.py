@@ -7,9 +7,9 @@ class EventManager:
 
                     current_time = self.game.ticks
 
-                    self.fullscreen_timer = Timer(General_Settings['cooldowns'][0], current_time)
-                    self.fps_timer = Timer(General_Settings['cooldowns'][0], current_time)
-                    self.settings_timer = Timer(General_Settings['cooldowns'][0], current_time)
+                    self.fullscreen_timer = Timer(GENERAL['cooldowns'][0], current_time)
+                    self.fps_timer = Timer(GENERAL['cooldowns'][0], current_time)
+                    self.settings_timer = Timer(GENERAL['cooldowns'][0], current_time)
 
           def handle_quitting(self):
                     for event in pygame.event.get():

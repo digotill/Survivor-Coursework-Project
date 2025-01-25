@@ -226,7 +226,7 @@ class Switch(UIElement):
 
                     self.init_positions()
 
-                    self.cooldown_timer = Timer(General_Settings['cooldowns'][0], self.game.ticks)
+                    self.cooldown_timer = Timer(GENERAL['cooldowns'][0], self.game.ticks)
 
           def changeColor(self):
                     # Change the color of the switch text based on its state (on/off)

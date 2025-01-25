@@ -24,8 +24,8 @@ DISPLAY = pygame.display.set_mode(WIN_RES, pygame.OPENGL | pygame.DOUBLEBUF)
 pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
 
-operating_system = platform.system()
-refresh_rate = pygame.display.get_current_refresh_rate()
+OS = platform.system()
+FPS = pygame.display.get_current_refresh_rate()
 
 M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
@@ -36,11 +36,10 @@ pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0
 pygame.display.set_icon(AM.assets["cover"])
 pygame.display.set_caption("Survivor Game")
 
-General_Settings = {
+GENERAL = {
           'volume': 0.5,
-          'peaceful_mode': False,  # no enemies spawn
           'difficulty': (0.8, 1, 1.3),  # easy, medium, hard
-          'enemies': (100, 0.2),  # max, spawn rate
+          'enemies': (100, 0.2, True),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 20),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
@@ -48,12 +47,10 @@ General_Settings = {
           'animation_speeds': (15, 20, 10),  # main menu. transition, you died
           "rock": (100, False),  # amount, collisions
           "tree": (0.05, 16),  # density, spreadoutness
-          "screen_effect": (1, 5),  # time
-          "update_fraction": (0.35, 0.05),  # rain update fraction, enemy update fraction
           "damages": (3, 5),  # acid damage
 }
 
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1}
 
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
           'shake_speed': 200, 'reduced_screen_shake': 1, }
@@ -63,7 +60,7 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
           "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
           "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
-PLAYER = {'health': 100, 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
+PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
                      "hit_cooldown": 0.8, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
 
 ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
@@ -76,10 +73,9 @@ EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "dire
 
 UI = {"health_bar": (80, 30), "stamina_bar": (80, 30), }
 
-SCREENSHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), }  # magnitude, duration
+SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), }  # magnitude, duration
 
-SPARKS = {"enemy_hit": {"spread": 60, "scale": 1, "colour": (255, 0, 0), "amount": 5, "min_vel": 3, "max_vel": 10},
-                   "muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
+SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
 
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
@@ -119,7 +115,7 @@ BUTTONS = {
           },
           "Sliders": {
                     "brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, refresh_rate, AM.assets["button7"])
+                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, FPS, AM.assets["button7"])
           },
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),

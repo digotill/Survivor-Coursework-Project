@@ -5,9 +5,9 @@ from Code.DataStructures.HashMap import *
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
-                    self.grid = HashMap(game, General_Settings["hash_maps"][0])  # Spatial hash grid for efficient enemy management
+                    self.grid = HashMap(game, GENERAL["hash_maps"][0])  # Spatial hash grid for efficient enemy management
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
-                    self.spawn_timer = Timer(General_Settings["enemies"][1], self.game.game_time)
+                    self.spawn_timer = Timer(GENERAL["enemies"][1], self.game.game_time)
                     self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
 
           def update(self):
@@ -15,7 +15,7 @@ class EnemyManager:
                               # Update all enemies and apply separation forces
                               for enemy in self.grid.items:
                                         enemy.update()
-                                        if random.random() < 0.005:
+                                        if random.random() < 0.05:
                                                   separation_force = self.calculate_separation(enemy)
                                                   enemy.apply_force(separation_force)
 
@@ -25,12 +25,12 @@ class EnemyManager:
                                         self.add_enemies("mantis")  # Spawn new enemies if conditions are met
                                         self.spawn_timer.reactivate(self.game.game_time)
 
-                              if random.random() > 0.9:
+                              if random.random() < 0.01:
                                         self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_type):
                     # Check if it's time to spawn a new enemy and if the max enemy limit hasn't been reached
-                    if len(self.grid.items) < General_Settings["enemies"][0] and not General_Settings["peaceful_mode"]:
+                    if len(self.grid.items) < GENERAL["enemies"][0] and GENERAL["enemies"][2]:
                               # Reuse an enemy from the pool if available, otherwise create a new one
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()

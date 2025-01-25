@@ -39,7 +39,7 @@ class Bullet:
                     surface.blit(self.image, pos)
 
           def collide(self, target):
-                    if self.rect.colliderect(target.rect) and target not in self.hit_list:
+                    if self.rect.colliderect(target.rect) and target not in self.hit_list and not target.dead:
                               target.health -= self.damage
                               self.pierce -= target.armour
                               self.hit_list.append(target)

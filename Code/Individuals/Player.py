@@ -3,10 +3,12 @@ from Code.Individuals.Gun import *
 class Player:
           def __init__(self, game):
                     self.game = game
+
                     self.game.methods.set_attributes(self, PLAYER)
-                    self.res = 16, 16
+
                     self.pos = self.find_spawn_position()
                     self.game.methods.set_rect(self)
+
                     self.current_vel = 0
                     self.gun = Gun(self.game, WEAPONS["ak47"])
                     self.max_vel = self.vel
@@ -93,6 +95,8 @@ class Player:
                     self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
                     self.update_animation()
 
+                    self.gun.update()
+
           def draw(self, surface=None):
                     if surface is None:
                               surface = self.game.display_surface
@@ -175,7 +179,7 @@ class Player:
                               elif self.slow_timer.update(self.game.game_time):
                                         # Player has been slowed for more than the cooldown period
                                         self.max_vel = self.slowed_vel
-                                        self.health -= General_Settings["damages"][0] * self.game.dt
+                                        self.health -= GENERAL["damages"][0] * self.game.dt
                     else:
                               self.is_slowed = False
                               self.max_vel = self.sprint_vel if self.is_sprinting else self.vel

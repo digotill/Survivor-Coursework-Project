@@ -37,7 +37,7 @@ class Enemy:
                                         break
 
           def update(self):
-                    if random.random() < General_Settings["update_fraction"][1]: self.full_update()
+                    if random.random() < 0.1: self.full_update()
                     else: self.partial_update()
 
           def full_update(self):
