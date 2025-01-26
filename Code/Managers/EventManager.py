@@ -22,12 +22,6 @@ class EventManager:
                               pygame.display.toggle_fullscreen()
                               self.fullscreen_timer.reactivate(current_time)
 
-          def toggle_fps(self):
-                    current_time = self.game.ticks
-                    if self.game.keys[KEYS['fps']] and self.fps_timer.check(current_time) and not self.game.in_menu:
-                              self.game.ui_manager.fps_enabled = not self.game.ui_manager.fps_enabled
-                              self.fps_timer.reactivate(current_time)
-
           def toggle_grab(self):
                     if self.game.mouse_state[0] and not self.game.changing_settings and not self.game.in_menu:
                               pygame.event.set_grab(True)
@@ -35,6 +29,12 @@ class EventManager:
                               pygame.event.set_grab(False)
                     if self.game.died:
                               pygame.event.set_grab(False)
+
+          def toggle_fps(self):
+                    current_time = self.game.ticks
+                    if self.game.keys[KEYS['fps']] and self.fps_timer.check(current_time) and not self.game.in_menu:
+                              self.game.ui_manager.fps_enabled = not self.game.ui_manager.fps_enabled
+                              self.fps_timer.reactivate(current_time)
 
           def toggle_settings(self):
                     current_time = self.game.ticks

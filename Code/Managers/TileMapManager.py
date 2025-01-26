@@ -88,11 +88,6 @@ class TileMapManager:
                     self.animated_tiles = [tile for tile in all_tiles
                                            if tile.tile_type in TILES["animated_tiles"]]
 
-          def add_tile(self, tile_type, grid_position):
-                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
-                    tile = Tile(self.game, tile_type, pixel_position)
-                    self.grid.insert(tile)
-
           def draw(self):
                     if not self.game.changing_settings:
                               for tile_type in self.frames:
@@ -107,6 +102,11 @@ class TileMapManager:
                     # Draw debug rectangle
                     pygame.draw.rect(self.game.display_surface, (255, 0, 0),
                                      pygame.Rect(draw_position, self.cached_surface.get_size()), 1)
+
+          def add_tile(self, tile_type, grid_position):
+                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
+                    tile = Tile(self.game, tile_type, pixel_position)
+                    self.grid.insert(tile)
 
           def get_tile_type(self, x, y):
                     noise_value = self.perlin_noise([x * MAP["tiles_map"][0], y * MAP["tiles_map"][0]])
@@ -153,36 +153,27 @@ class TileMapManager:
                                         neighbours_string = ''.join(map(neighbor_value, neighbours))
                                         string = self.get_surrounding_tiles_string(tile)
                                         corner_string = self.check_corners(tile)
-
-                                        # top, top-right, right, bottom-right, bottom, bottom-left, left, top-left
-                                        # "top", "bottom", "right", "left"
-                                        #  0 = diffrent    1 = same
-
+                                        new_string = self.find_if_corner(neighbours_string, string)
                                         if neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 0:
                                                   changes = change_tile(changes)
-                                        elif self.count_surrounding_tiles(tile) == 4 and count == 0:
-                                                  if string in ["11100100", "00111001", "01001110", "10010011", "10100100", "00101001", "01001010", "10010010"]:
-                                                            changes = change_tile(changes)
-                                        elif self.count_surrounding_tiles(tile) == 4 and count == 1:
-                                                  if "101" in string or string in ["1100010"]:
-                                                            changes = change_tile(changes)
+                                        elif self.count_surrounding_tiles(tile) == 4 and count == 0 and string in ["11100100", "00111001", "01001110", "10010011", "10100100", "00101001", "01001010", "10010010"]:
+                                                  changes = change_tile(changes)
+                                        elif self.count_surrounding_tiles(tile) == 4 and count == 1 and "101" in string or string in ["1100010"]:
+                                                  changes = change_tile(changes)
                                         elif neighbours_string in ["1100", "0011", "0000", "1000", "0100", "0010", "0001"] and count == 1:
                                                   changes = change_tile(changes)
                                         elif neighbours_string in ["1101", "1011", "0111", "1110"] and count == 1:
-                                                  new_string = self.find_if_corner(neighbours_string, string)
-                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, new_string)  #
+                                                  self.add_grid2_tile(tile, grid_x, grid_y, transition_array, new_string)
                                         elif neighbours_string in ["0101", "0110", "1001", "1010"] and count == 2:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, neighbours_string)
                                         elif neighbours_string in ["2121", "2112", "1221", "1212", "1222", "2122", "2212", "2221", "2222"] and count == 3 and corner_string is not True:
                                                   self.add_grid2_tile(tile, grid_x, grid_y, transition_array, corner_string)
-                                        elif self.count_surrounding_tiles(tile) == 3 and count == 4:
-                                                  if string in ["01011011", "01101101", "10110101", "11010110"]:
-                                                            changes = change_tile(changes)
+                                        elif self.count_surrounding_tiles(tile) == 3 and count == 4 and string in ["01011011", "01101101", "10110101", "11010110"]:
+                                                  changes = change_tile(changes)
                                         elif count == 4 and tile.tile_type == transition_array[0]:
                                                   grid2tile = self.get((grid_x, grid_y))
                                                   if grid2tile and grid2tile in self.grid2.items:
                                                             self.grid2.remove(grid2tile)
-
                     if changes == 0:
                               count += 1
                     if count < 5:
