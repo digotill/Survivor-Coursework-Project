@@ -88,6 +88,11 @@ class TileMapManager:
                     self.animated_tiles = [tile for tile in all_tiles
                                            if tile.tile_type in TILES["animated_tiles"]]
 
+          def add_tile(self, tile_type, grid_position):
+                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
+                    tile = Tile(self.game, tile_type, pixel_position)
+                    self.grid.insert(tile)
+
           def draw(self):
                     if not self.game.changing_settings:
                               for tile_type in self.frames:
@@ -102,11 +107,6 @@ class TileMapManager:
                     # Draw debug rectangle
                     pygame.draw.rect(self.game.display_surface, (255, 0, 0),
                                      pygame.Rect(draw_position, self.cached_surface.get_size()), 1)
-
-          def add_tile(self, tile_type, grid_position):
-                    pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)
-                    tile = Tile(self.game, tile_type, pixel_position)
-                    self.grid.insert(tile)
 
           def get_tile_type(self, x, y):
                     noise_value = self.perlin_noise([x * MAP["tiles_map"][0], y * MAP["tiles_map"][0]])

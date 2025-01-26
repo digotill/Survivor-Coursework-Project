@@ -115,9 +115,6 @@ class Player:
 
                     self.gun.draw(surface)
 
-          def get_position(self):
-                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
-
           def handle_stamina(self):
                     if self.is_sprinting and self.current_vel > 0:
                               self.stamina -= self.stamina_consumption * self.game.dt
@@ -135,6 +132,9 @@ class Player:
                     if not self.game.died:
                               factor = self.max_vel / self.base_max_vel
                               self.frame += self.animation_speed * factor * self.game.dt
+
+          def get_position(self):
+                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
 
           def get_mid_position(self):
                     return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y

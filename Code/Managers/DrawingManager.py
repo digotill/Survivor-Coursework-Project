@@ -7,7 +7,6 @@ class DrawingManager:
           def __init__(self, game):
                     self.game = game
                     self.drawables = []
-                    self.batch_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)
 
           def transparent_objects(self):
                     player_rect = self.game.player.rect
@@ -43,11 +42,3 @@ class DrawingManager:
                               drawable.draw()
 
                     self.drawables.clear()
-
-          def batch_draw(self, surface: Surface):
-                    drawables_data: List[Tuple[Surface, Tuple[int, int]]] = [
-                              (drawable.image, (drawable.rect.x - self.game.camera.offset_rect.x,
-                                                drawable.rect.y - self.game.camera.offset_rect.y))
-                              for drawable in self.drawables
-                    ]
-                    surface.blits(drawables_data)
