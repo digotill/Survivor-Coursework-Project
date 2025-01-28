@@ -25,7 +25,7 @@ class EnemyManager:
                                         self.add_enemies("mantis")  # Spawn new enemies if conditions are met
                                         self.spawn_timer.reactivate(self.game.game_time)
 
-                              if random.random() < 0.01:
+                              if random.random() < 0.1:
                                         self.grid.rebuild()  # Rebuild the spatial hash grid
 
           def add_enemies(self, enemy_type):

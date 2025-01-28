@@ -7,8 +7,6 @@ from Code.Individuals.Player import *
 
 class Game:
           def __init__(self):
-                    # Initialize Pygame
-                    pygame.init()
 
                     # Set up display and rendering surfaces
                     self.display = DISPLAY

@@ -188,7 +188,7 @@ class TileMapManager:
                               return "0110"
                     elif string2 in ["01101110", "01101111", "11001110", "11011110"]:
                               return "0101"
-                    elif string2 in ["10110011", "10110111", "10011011", "11011011"]:  #
+                    elif string2 in ["10110011", "10110111", "10011011", "11011011"]:
                               return "1001"
                     elif string2 in ["11100110", "11110110", "11101100", "11101101"]:
                               return "1010"
@@ -295,13 +295,26 @@ class TileMapManager:
                     return count
 
           def add_grid2_tile(self, tile, grid_x, grid_y, transition_array, index):
+                    # Calculate the pixel position from the grid coordinates
                     pixel_position = (grid_x * self.tile_size, grid_y * self.tile_size)
+
+                    # Check if there's already a tile in grid2 at this position
                     grid2tile = self.get((grid_x, grid_y))
                     if grid2tile and grid2tile in self.grid2.items:
+                              # If a tile exists, remove it from grid2
                               self.grid2.remove(grid2tile)
+
+                    # Create a new transition tile
                     new_tile = Tile(self.game, transition_array[0], pixel_position)
+
+                    # Set the image for the new tile based on the transition type and index
+                    # The index determines which specific transition image to use
                     new_tile.images = self.game.assets[transition_array[0][:6] + "tileset"][index]
+
+                    # Mark the original tile as transitioned
                     tile.transition = True
+
+                    # Insert the new transition tile into grid2
                     self.grid2.insert(new_tile)
 
           def terrain_generator(self):
