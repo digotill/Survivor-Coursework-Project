@@ -1,10 +1,16 @@
 from Code.Individuals.Background import *
 
+
 class BackgroundManager:
           def __init__(self, game):
-                    self.game = game
+                    self.game = game  # Reference to the main game object
+
+                    # Create the main menu background
+                    # AM.assets['main_menu'] likely contains the frame images for the main menu background
+                    # GENERAL['animation_speeds'][0] is the animation speed for the main menu background
                     self.main_background = Background(self.game, AM.assets['main_menu'], GENERAL['animation_speeds'][0])
 
           def draw(self):
+                    # Draw the main menu background only when the game is in the menu state
                     if self.game.in_menu:
                               self.main_background.draw()

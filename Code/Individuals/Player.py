@@ -1,14 +1,18 @@
 from Code.Individuals.Gun import *
 
+
 class Player:
           def __init__(self, game):
                     self.game = game
 
+                    # Set player attributes from PLAYER settings
                     self.game.methods.set_attributes(self, PLAYER)
 
+                    # Find a suitable spawn position and set up the player's rectangle
                     self.pos = self.find_spawn_position()
                     self.game.methods.set_rect(self)
 
+                    # Initialize player state variables
                     self.current_vel = 0
                     self.gun = Gun(self.game, WEAPONS["ak47"])
                     self.max_vel = self.vel
@@ -24,14 +28,16 @@ class Player:
                     self.slow_timer = Timer(self.slow_cooldown, 0)
                     self.is_slowed = False
                     self.dx = self.dy = 0
-                    self.cached_water_collision = False
+                    self.water_collision = False
                     self.water_check_timer = Timer(0.2, 0)
                     self.hit_count = None
 
           def update_position(self):
+                    # Calculate new position based on velocity and delta time
                     new_x = self.pos.x + self.dx * self.current_vel * self.game.dt
                     new_y = self.pos.y + self.dy * self.current_vel * self.game.dt
 
+                    # Check if new position is within game boundaries and update accordingly
                     self.move_hor = self.move_vert = False
                     if self.offset[0] + self.res[0] / 2 < new_x < GAMESIZE[0] - self.res[0] / 2 + self.offset[2]:
                               self.pos.x = new_x
@@ -43,6 +49,7 @@ class Player:
                               self.move_vert = True
 
           def find_spawn_position(self):
+                    # Find a suitable spawn position that's not on a water tile
                     center_x, center_y = GAMESIZE[0] // 2, GAMESIZE[1] // 2
                     max_distance = max(GAMESIZE[0], GAMESIZE[1])
 
@@ -57,89 +64,113 @@ class Player:
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
+                    # Change the current animation if it's different from the new one
                     if self.current_animation != animation_name:
                               self.current_animation = animation_name
                               self.frame = 0
 
           def update_animation(self):
+                    # Update the animation based on player movement
                     new_animation = 'running' if (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
-                                                  self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]) else 'idle'
+                                                  self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]) and not self.game.changing_settings else 'idle'
                     self.change_animation(new_animation)
 
           def update(self):
+                    # Reset movement direction
                     self.dx = self.dy = 0
+
+                    # Check for movement input
                     if self.game.keys[pygame.K_a]: self.dx -= 1
                     if self.game.keys[pygame.K_d]: self.dx += 1
                     if self.game.keys[pygame.K_s]: self.dy += 1
                     if self.game.keys[pygame.K_w]: self.dy -= 1
 
+                    # Normalize diagonal movement
                     magnitude = math.hypot(self.dx, self.dy)
                     if magnitude != 0:
                               self.dx /= magnitude
                               self.dy /= magnitude
 
-                    self.is_sprinting = self.game.keys[KEYS['sprint']] and (self.dx != 0 or self.dy != 0)
+                    # Check for sprint input
+                    self.is_sprinting = self.game.keys[KEYS['sprint']] and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
                     self.move_hor = self.move_vert = False
+
+                    # Update player state if game is not paused or player hasn't died
                     if not self.game.changing_settings or not self.game.died:
                               self.handle_stamina()
                               self.handle_slowdown()
                               self.update_frame()
+                              self.update_velocity()
+                              self.update_facing()
 
-                    self.update_velocity()
-                    self.update_facing()
-
+                    # Update position and apply grass force if game is not paused and player is alive
                     if not self.game.changing_settings and not self.game.died:
                               self.update_position()
                               self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
+                    # Update camera position
                     self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
                     self.update_animation()
 
+                    # Update gun
                     self.gun.update()
 
           def draw(self, surface=None):
+                    # Draw the player on the given surface (or game display if none provided)
                     if surface is None:
                               surface = self.game.display_surface
+
+                    # Get the current animation frame
                     current_animation = self.game.assets["player_" + self.current_animation + "_" + self.facing]
                     frame_index = int(self.frame) % len(current_animation)
                     image = current_animation[frame_index]
 
+                    # Draw player shadow
                     shadow_image = self.game.methods.get_shadow_image(self, image)
                     surface.blit(shadow_image, (self.get_position()[0], self.get_position()[1] + self.res[1] - shadow_image.height / 2))
+
+                    # Apply hit effect if player was recently hit
                     if self.hit_count is not None:
                               image = self.game.methods.get_image_mask(image)
                               self.hit_count += MISC["hit_effect"][1] * self.game.dt
                               if self.hit_count >= MISC["hit_effect"][0]:
                                         self.hit_count = None
+
+                    # Draw player
                     surface.blit(image, self.get_position())
 
+                    # Draw gun
                     self.gun.draw(surface)
 
           def handle_stamina(self):
+                    # Decrease stamina while sprinting, increase while not sprinting
                     if self.is_sprinting and self.current_vel > 0:
                               self.stamina -= self.stamina_consumption * self.game.dt
-                              self.stamina = max(0,
-                                                 self.stamina)
+                              self.stamina = max(0, self.stamina)
                     else:
                               self.stamina += self.stamina_recharge_rate * self.game.dt
-                              self.stamina = min(self.max_stamina,
-                                                 self.stamina)
+                              self.stamina = min(self.max_stamina, self.stamina)
 
+                    # Disable sprinting if stamina is depleted
                     if self.stamina <= 0:
                               self.is_sprinting = False
 
           def update_frame(self):
+                    # Update animation frame based on velocity
                     if not self.game.died:
                               factor = self.max_vel / self.base_max_vel
                               self.frame += self.animation_speed * factor * self.game.dt
 
           def get_position(self):
+                    # Get player's position relative to the camera
                     return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
 
           def get_mid_position(self):
+                    # Get player's center position relative to the camera
                     return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y
 
           def update_facing(self):
+                    # Update player's facing direction based on mouse position
                     if not self.game.died:
                               if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
                                         self.facing = "left"
@@ -147,6 +178,7 @@ class Player:
                                         self.facing = "right"
 
           def deal_damage(self, damage):
+                    # Apply damage to player if not in hit cooldown
                     if self.game.game_time - self.last_hit > self.hit_cooldown:
                               self.health -= damage
                               self.check_if_alive()
@@ -154,24 +186,28 @@ class Player:
                               self.hit_count = 0
 
           def check_if_alive(self):
+                    # Check if player's health has depleted
                     if self.health <= 0:
                               self.dead = True
                               self.health = 0
 
           def update_velocity(self):
+                    # Update player's velocity based on movement and acceleration
                     if self.dx != 0 or self.dy != 0:
                               self.current_vel = min(self.current_vel + self.acceleration * self.game.dt, self.max_vel)
                     else:
                               self.current_vel = max(self.current_vel - self.acceleration * self.game.dt, 0)
 
           def should_be_slowed(self):
+                    # Check if player is in contact with water tiles
                     if self.water_check_timer.update(self.game.game_time):
-                              self.cached_water_collision = self.game.tilemap_manager.tile_collision(
+                              self.water_collision = self.game.tilemap_manager.tile_collision(
                                         pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
                               self.water_check_timer.reactivate(self.game.game_time)
-                    return self.cached_water_collision
+                    return self.water_collision
 
           def handle_slowdown(self):
+                    # Apply slowdown effect and damage when in water
                     if self.should_be_slowed():
                               if not self.is_slowed:
                                         self.is_slowed = True
