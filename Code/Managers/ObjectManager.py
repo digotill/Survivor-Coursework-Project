@@ -10,6 +10,8 @@ class ObjectManager:
                     self.generate_objects()
                     self.generate_grass()
 
+                    self.draw_shadows()
+
           def draw_shadows(self):
                     for object1 in self.grid.items:
                               object1.draw_shadow(self.game.tilemap_manager.cached_surface)
@@ -22,8 +24,8 @@ class ObjectManager:
           def _generate_trees(self):
                     size = MISC["enviroment_density"][1]
                     sorted_biomes = sorted(BIOMES.items(), key=lambda x: x[1])
-                    for y in range(0, GAME_SIZE[1], size):
-                              for x in range(0, GAME_SIZE[0], size):
+                    for y in range(0, GAMESIZE[1], size):
+                              for x in range(0, GAMESIZE[0], size):
                                         biome_value = self.biome_map[y // size][x // size]
                                         density_value = self.density_map[y // size][x // size]
                                         biome, biome_density_factor = self._get_biome_info(biome_value, sorted_biomes)
@@ -47,8 +49,8 @@ class ObjectManager:
                                                   self._place_grass(tile, biome_x, biome_y)
 
           def generate_valid_position(self, size, base_x=None, base_y=None):
-                    base_x = base_x or random.randint(0, GAME_SIZE[0])
-                    base_y = base_y or random.randint(0, GAME_SIZE[1])
+                    base_x = base_x or random.randint(0, GAMESIZE[0])
+                    base_y = base_y or random.randint(0, GAMESIZE[1])
                     v = 30
                     for _ in range(10):
                               x = base_x + random.randint(-v, v)
@@ -58,7 +60,7 @@ class ObjectManager:
                     return None
 
           def _is_valid_position(self, x, y, size):
-                    if 0 <= x < GAME_SIZE[0] - size[0] and 0 <= y < GAME_SIZE[1] - size[1]:
+                    if 0 <= x < GAMESIZE[0] - size[0] and 0 <= y < GAMESIZE[1] - size[1]:
                               rect = pygame.Rect(x - size[0] * 0.25, y + size[1] * 0.5, size[0] / 2, size[1] / 10)
                               return not self.game.tilemap_manager.tile_collision(rect, "water_tile")
                     return False

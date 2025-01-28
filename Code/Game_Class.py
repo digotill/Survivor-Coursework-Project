@@ -12,8 +12,8 @@ class Game:
 
                     # Set up display and rendering surfaces
                     self.display = DISPLAY
-                    self.display_surface = pygame.Surface(REN_RES).convert()
-                    self.ui_surface = pygame.Surface(REN_RES).convert()
+                    self.display_surface = pygame.Surface(RENRES).convert()
+                    self.ui_surface = pygame.Surface(RENRES).convert()
                     self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
                                                         pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_surface)
 
@@ -53,8 +53,7 @@ class Game:
                     # Update game entities and managers
                     if not self.in_menu:
                               for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player,
-                                              self.button_manager, self.effect_manager
-                                              ]:
+                                              self.button_manager, self.effect_manager]:
                                         manager.update()
                     elif self.in_menu:
                               for manager in [self.button_manager]:

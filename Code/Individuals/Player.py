@@ -33,25 +33,25 @@ class Player:
                     new_y = self.pos.y + self.dy * self.current_vel * self.game.dt
 
                     self.move_hor = self.move_vert = False
-                    if self.offset[0] + self.res[0] / 2 < new_x < GAME_SIZE[0] - self.res[0] / 2 + self.offset[2]:
+                    if self.offset[0] + self.res[0] / 2 < new_x < GAMESIZE[0] - self.res[0] / 2 + self.offset[2]:
                               self.pos.x = new_x
                               self.rect.centerx = self.pos.x
                               self.move_hor = True
-                    if self.offset[1] + self.res[1] / 2 < new_y < GAME_SIZE[1] - self.res[1] / 2 + self.offset[3]:
+                    if self.offset[1] + self.res[1] / 2 < new_y < GAMESIZE[1] - self.res[1] / 2 + self.offset[3]:
                               self.pos.y = new_y
                               self.rect.centery = self.pos.y
                               self.move_vert = True
 
           def find_spawn_position(self):
-                    center_x, center_y = GAME_SIZE[0] // 2, GAME_SIZE[1] // 2
-                    max_distance = max(GAME_SIZE[0], GAME_SIZE[1])
+                    center_x, center_y = GAMESIZE[0] // 2, GAMESIZE[1] // 2
+                    max_distance = max(GAMESIZE[0], GAMESIZE[1])
 
                     for distance in range(0, max_distance, 16):
                               for angle in range(0, 360, 10):
                                         x = center_x + int(distance * math.cos(math.radians(angle)))
                                         y = center_y + int(distance * math.sin(math.radians(angle)))
 
-                                        if 0 <= x < GAME_SIZE[0] and 0 <= y < GAME_SIZE[1]:
+                                        if 0 <= x < GAMESIZE[0] and 0 <= y < GAMESIZE[1]:
                                                   test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
                                                   if not self.game.tilemap_manager.tile_collision(test_rect, "water_tile"):
                                                             return v2(x, y)

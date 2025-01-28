@@ -9,7 +9,7 @@ class main_camera:
 class CameraManager(main_camera):
           def __init__(self, game):
                     self.game = game
-                    self.res = REN_RES
+                    self.res = RENRES
 
                     self.set_attributes(CAMERA)
 
@@ -42,8 +42,8 @@ class CameraManager(main_camera):
                               self.ensure_player_in_bounds()
 
           def update_mouse_smoothing(self):
-                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * REN_RES[0],
-                                      self.game.correct_mouse_pos[1] - 0.5 * REN_RES[1])
+                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * RENRES[0],
+                                      self.game.correct_mouse_pos[1] - 0.5 * RENRES[1])
 
                     dt = min(self.game.dt, 1 / 20)
                     self.mouse_smoothing = v2(
@@ -73,9 +73,9 @@ class CameraManager(main_camera):
 
           def update_offset_rect(self, rounded_offset, shake_offset):
                     self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
-                                                    GAME_SIZE[0] - self.res[0]))
+                                                    GAMESIZE[0] - self.res[0]))
                     self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
-                                                    GAME_SIZE[1] - self.res[1]))
+                                                    GAMESIZE[1] - self.res[1]))
 
           def ensure_player_in_bounds(self):
                     player = self.game.player
@@ -94,8 +94,8 @@ class CameraManager(main_camera):
                     elif player_bottom > self.res[1] - player.offset[3]:
                               self.offset_rect.y += player_bottom - (self.res[1] - player.offset[3])
 
-                    self.offset_rect.x = max(0, min(self.offset_rect.x, GAME_SIZE[0] - self.res[0]))
-                    self.offset_rect.y = max(0, min(self.offset_rect.y, GAME_SIZE[1] - self.res[1]))
+                    self.offset_rect.x = max(0, min(self.offset_rect.x, GAMESIZE[0] - self.res[0]))
+                    self.offset_rect.y = max(0, min(self.offset_rect.y, GAMESIZE[1] - self.res[1]))
 
           def calculate_shake(self):
                     current_time = self.game.game_time

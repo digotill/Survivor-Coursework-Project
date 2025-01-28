@@ -6,11 +6,11 @@ class UIElement:
           def calculate_starting_position(self):
                     # Calculate the starting position of the UI element based on its axis and alignment
                     if self.axis == "x":
-                              x = REN_RES[
+                              x = RENRES[
                                             0] + self.rect.width / 2 + 1 if self.axisl == "max" else -self.rect.width / 2 - 1
                               return x, self.pos.y
                     else:
-                              y = REN_RES[
+                              y = RENRES[
                                             1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
                               return self.pos.x, y
 

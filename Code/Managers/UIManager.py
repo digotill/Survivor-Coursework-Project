@@ -39,8 +39,8 @@ class UIManager:
                     bar_surface.blit(bar_image, (0, 0))
 
                     if is_flipped:
-                              bar_x = REN_RES[0] - (position[0] + 0.5 * bar_rect.width)
-                              outer_x = REN_RES[0] - (position[0] + 0.5 * outer_rect.width) - 1
+                              bar_x = RENRES[0] - (position[0] + 0.5 * bar_rect.width)
+                              outer_x = RENRES[0] - (position[0] + 0.5 * outer_rect.width) - 1
                     else:
                               bar_x = position[0] - 0.5 * bar_rect.width
                               outer_x = position[0] - 0.5 * outer_rect.width + 1
@@ -68,7 +68,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))
                               text_rect = text.get_rect(center=(
-                                        REN_RES[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))
+                                        RENRES[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))
                               self.game.ui_surface.blit(text, text_rect)
 
           def display_mouse(self):
