@@ -27,7 +27,7 @@ class Game:
                     self.sound_manager = SoundManager(self)
                     self.effect_manager = EffectManager(self)
                     self.rain_manager = RainManager(self)
-                    self.button_manager = ButtonManager(self)
+                    self.button_manager = UIElementsManager(self)
                     self.ui_manager = UIManager(self)
                     self.drawing_manager = DrawingManager(self)
                     self.grass_manager = GrassManager(self)

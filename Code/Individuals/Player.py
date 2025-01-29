@@ -80,10 +80,10 @@ class Player:
                     self.dx = self.dy = 0
 
                     # Check for movement input
-                    if self.game.keys[pygame.K_a]: self.dx -= 1
-                    if self.game.keys[pygame.K_d]: self.dx += 1
-                    if self.game.keys[pygame.K_s]: self.dy += 1
-                    if self.game.keys[pygame.K_w]: self.dy -= 1
+                    if self.game.keys[pygame.K_a]: self.dx -= KEYS["movement"][1]
+                    if self.game.keys[pygame.K_d]: self.dx += KEYS["movement"][3]
+                    if self.game.keys[pygame.K_s]: self.dy += KEYS["movement"][2]
+                    if self.game.keys[pygame.K_w]: self.dy -= KEYS["movement"][0]
 
                     # Normalize diagonal movement
                     magnitude = math.hypot(self.dx, self.dy)

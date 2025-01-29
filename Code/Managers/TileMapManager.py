@@ -331,7 +331,7 @@ class TileMapManager:
                     x = min(x, self.biome_map.shape[1] - 1)  # Clamp x coordinate
 
                     biome_value = self.biome_map[y][x]  # Get biome value from map
-                    for biome, (chance, _, has, density) in BIOMES.items():  # Determine biome based on value
+                    for biome, (chance, _, density) in BIOMES.items():  # Determine biome based on value
                               if biome_value < chance:
                                         return biome
                     return list(Biomes_Config.keys())[-1]  # Return the last biome if no match found
@@ -357,13 +357,12 @@ class TileMapManager:
                                         tile = self.get((x, y))
                                         if tile and tile.tile_type == 'grass_tile' and not tile.transition:
                                                   biome = self.get_biome_at(x, y)  # Get the biome at the current position
-                                                  _, _, has_padding, padding_density = BIOMES[biome]  # Get biome properties
+                                                  _, _, padding_density = BIOMES[biome]  # Get biome properties
 
-                                                  if has_padding:
-                                                            density_value = self.density_map[y][x]  # Get density value from density map
-                                                            normalized_density = (density_value + 1) / 2  # Normalize density to [0, 1]
-                                                            combined_density = padding_density * normalized_density  # Combine with biome-specific density
+                                                  density_value = self.density_map[y][x]  # Get density value from density map
+                                                  normalized_density = (density_value + 1) / 2  # Normalize density to [0, 1]
+                                                  combined_density = padding_density * normalized_density  # Combine with biome-specific density
 
-                                                            if random.random() < combined_density:  # Randomly decide to add padding based on combined density
-                                                                      padding_images = self.game.assets[biome + '_padding']  # Get padding images for the biome
-                                                                      self.draw_padding(x * self.tile_size, y * self.tile_size, padding_images)  # Draw padding
+                                                  if random.random() < combined_density:  # Randomly decide to add padding based on combined density
+                                                            padding_images = self.game.assets[biome + '_padding']  # Get padding images for the biome
+                                                            self.draw_padding(x * self.tile_size, y * self.tile_size, padding_images)  # Draw padding

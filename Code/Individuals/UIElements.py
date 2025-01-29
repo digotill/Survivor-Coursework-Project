@@ -3,21 +3,6 @@ from Code.Variables.SettingsVariables import *
 
 # Base class for UI elements
 class UIElement:
-          def calculate_starting_position(self):
-                    # Calculate the starting position of the UI element based on its axis and alignment
-                    if self.axis == "x":
-                              x = RENRES[
-                                            0] + self.rect.width / 2 + 1 if self.axisl == "max" else -self.rect.width / 2 - 1
-                              return x, self.pos.y
-                    else:
-                              y = RENRES[
-                                            1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
-                              return self.pos.x, y
-
-          def set_attributes(self, attributes):
-                    for key, value in attributes.items():
-                              setattr(self, key, value)
-
           def set_rect(self):
                     self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
                                             self.res[1])
@@ -28,6 +13,15 @@ class UIElement:
                     self.text = self.font.render(self.text_input, False, self.base_colour)
                     self.text_rect = self.text.get_rect(center=self.rect.center)
                     self.has_text = True
+
+          def calculate_starting_position(self):
+                    # Calculate the starting position of the UI element based on its axis and alignment
+                    if self.axis == "x":
+                              x = RENRES[0] + self.rect.width / 2 + 1 if self.axisl == "max" else -self.rect.width / 2 - 1
+                              return x, self.pos.y
+                    else:
+                              y = RENRES[1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
+                              return self.pos.x, y
 
           def update_text_position(self):
                     # Update the position of the text based on the specified text_pos
@@ -100,31 +94,31 @@ class UIElement:
                     self.setup_text()
 
 
-# Button class, inherits from UIElement and main
+# Button class, inherits from UIElement
 class Button(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the button with game instance and attributes from dictionary
                     self.game = game
 
-                    self.set_attributes(dictionary)
+                    self.game.methods.set_attributes(self, dictionary)
 
                     self.init_positions()
 
-          def changeColor(self):
+          def change_colour(self):
                     # Change the color of the button text based on hover state
                     if self.has_text:
                               colour = self.hovering_colour if self.rect.collidepoint(self.game.correct_mouse_pos) else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
 
 
-# Slider class, inherits from UIElement and main
+# Slider class, inherits from UIElement
 class Slider(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the slider with game instance and attributes from dictionary
                     # Set up the slider's visual components (line and circle)
                     self.game = game
 
-                    self.set_attributes(dictionary)
+                    self.game.methods.set_attributes(self, dictionary)
 
                     self.init_positions()
 
@@ -194,7 +188,7 @@ class Slider(UIElement):
                     self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_colour)
                     self.update_text_position()
 
-          def changeColor(self):
+          def change_colour(self):
                     # Change the color of the slider's circle based on interaction state
                     if self.is_dragging or self.circle_rect.collidepoint(self.game.correct_mouse_pos):
                               self.current_colour = self.circle_hovering_colour
@@ -217,19 +211,19 @@ class Slider(UIElement):
                     self.update_value = True
 
 
-# Switch class, inherits from UIElement and main
+# Switch class, inherits from UIElement
 class Switch(UIElement):
           def __init__(self, game, dictionary):
                     # Initialize the switch with game instance and attributes from dictionary
                     self.game = game
 
-                    self.set_attributes(dictionary)
+                    self.game.methods.set_attributes(self, dictionary)
 
                     self.init_positions()
 
                     self.cooldown_timer = Timer(GENERAL['cooldowns'][0], self.game.ticks)
 
-          def changeColor(self):
+          def change_colour(self):
                     # Change the color of the switch text based on its state (on/off)
                     if self.has_text:
                               colour = self.hovering_colour if self.on else self.base_colour

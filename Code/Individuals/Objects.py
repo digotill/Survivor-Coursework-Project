@@ -28,5 +28,4 @@ class Object:
                     shadow_image = self.game.methods.get_shadow_image(self, self.image)
 
                     # Draw the shadow image below the object
-                    surface.blit(shadow_image, (self.rect.x,
-                                                self.rect.y + self.res[1] - shadow_image.height))
+                    surface.blit(shadow_image, (self.rect.x, self.rect.y + self.res[1] - shadow_image.height / 2 - 2))

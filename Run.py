@@ -1,5 +1,8 @@
 from Code.Utilities.ErrorLogger import *
 from Code.Game_Class import *
+import platform
+
+OS = platform.system()
 
 if OS == "Windows":
           try:

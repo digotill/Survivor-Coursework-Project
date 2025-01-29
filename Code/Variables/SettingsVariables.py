@@ -1,5 +1,5 @@
 # Standard library imports
-import copy, traceback, cProfile, os, ctypes, logging, time, threading, platform, functools, math, random, gc
+import copy, traceback, cProfile, os, ctypes, logging, time, threading, functools, math, random, gc
 
 # Third-party library imports
 import pygame  # For game development
@@ -32,12 +32,11 @@ GAMESIZE = 3000, 3000
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
 
-# Toggle fullscreen twice (possibly to fix a display issue)
+# Toggle fullscreen twice (to fix a display issue)
 pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
 
 # Get system information
-OS = platform.system()
 HZ = pygame.display.get_current_refresh_rate()
 
 # Initialize Methods class and rename files
@@ -73,12 +72,12 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 # Grass settings
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
-         "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 150) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-                                                                                                                                      "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+         "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
+          "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), 'animation_speed': 10,
-          "hit_cooldown": 0.8, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
+PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+          'animation_speed': 10, "hit_cooldown": 0.8, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Enemy settings
 ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
@@ -105,8 +104,8 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings
-BIOMES = {"wasteland": (0.35, 1, True, 0.5), "spring": (0.45, 1, True, 0.5), "forest": (0.55, 1, True, 0.5), "lush": (0.6, 1, True, 1),
-          "cherryblossom": (1, 1, True, 0.5), }  # chance, tree density, has padding, padding density
+BIOMES = {"wasteland": (0.35, 2, 0.5), "spring": (0.45, 1, 0.5), "forest": (0.55, 1, 0.5), "lush": (0.6, 1, 1),
+          "cherryblossom": (1, 1, 0.5), }  # chance of biome spawning, tree density, padding density
 
 # Tile settings
 TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
@@ -126,30 +125,19 @@ WEAPONS = {
 
 # Button settings for various game states
 BUTTONS = {
-          "In_Game_Buttons": {
-                    "resume": M.create_button("resume", v2(240, 135), AM.assets["button5"]),
+          "In_Game_Buttons": {"resume": M.create_button("resume", v2(240, 135), AM.assets["button5"]),
                     "fullscreen": M.create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
                     "quit": M.create_button("quit", v2(240, 240), AM.assets["button5"]),
-                    "return": M.create_button("return", v2(240, 90), AM.assets["button5"])
-          },
-          "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(140, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
+                    "return": M.create_button("return", v2(240, 90), AM.assets["button5"])},
+          "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(140, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
                     "shotgun": M.create_button("shotgun", v2(140, 215), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
-                    "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}),
-          },
-          "Menu_Buttons": {
-                    "play": M.create_button("play", v2(200, 240), AM.assets["button5"], {"active": True}),
+                    "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}),},
+          "Menu_Buttons": {"play": M.create_button("play", v2(200, 240), AM.assets["button5"], {"active": True}),
                     "quit": M.create_button("quit", v2(280, 240), AM.assets["button5"], {"active": True}),
                     "easy": M.create_button("easy", v2(200, 190), AM.assets["button5"], {"active": True}),
                     "medium": M.create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
-                    "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})
-          },
-          "Sliders": {
-                    "brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])
-          },
-          "End_Screen_Buttons": {
-                    "restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
-                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])
-          }
-}
+                    "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})},
+          "Sliders": {"brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
+                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])},
+          "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
+                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}

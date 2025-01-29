@@ -1,9 +1,9 @@
-from Code.Individuals.Buttons import *
+from Code.Individuals.UIElements import *
 from Code.DataStructures.HashMap import *
 from Code.Individuals.Gun import *
 
 
-class ButtonManager:
+class UIElementsManager:
           def __init__(self, game):
                     self.game = game
 
@@ -81,7 +81,7 @@ class ButtonManager:
                     for buttons in list(self.game_buttons.values()) + list(self.sliders.values()):
                               buttons.active = self.game.changing_settings
                               buttons.update()
-                              buttons.changeColor()
+                              buttons.change_colour()
 
                     if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                               if self.game.changing_settings:
@@ -101,10 +101,6 @@ class ButtonManager:
                     # Handle button interactions in the settings menu
                     if self.game_buttons['resume'].check_for_input():
                               self.game.changing_settings = False
-                    elif self.sliders['fps'].update_value:
-                              self.game.fps = self.sliders['fps'].value
-                    elif self.sliders['brightness'].update_value:
-                              self.game.ui_manager.brightness = self.sliders['brightness'].value
                     elif self.game_buttons['fullscreen'].check_for_input():
                               pygame.display.toggle_fullscreen()
                     elif self.game_buttons['quit'].check_for_input():
@@ -116,7 +112,7 @@ class ButtonManager:
                     # Update and handle interactions for menu buttons
                     for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
                               button.update()
-                              button.changeColor()
+                              button.change_colour()
 
                     if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                               self._handle_menu_interactions()
@@ -157,7 +153,7 @@ class ButtonManager:
                     for button in sorted(self.end_buttons.values(), key=lambda b: b.pos.y):
                               button.active = True
                               button.update()
-                              button.changeColor()
+                              button.change_colour()
                     if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                               if self.end_buttons['restart'].check_for_input():
                                         self.game.restart = True
