@@ -1,4 +1,4 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 class SoundManager:
           def __init__(self, game):

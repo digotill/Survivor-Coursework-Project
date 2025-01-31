@@ -1,25 +1,4 @@
-# Standard library imports
-import copy, traceback, cProfile, os, ctypes, logging, time, threading, functools, math, random, gc
-
-# Third-party library imports
-import pygame  # For game development
-import moderngl  # For OpenGL rendering
-import psutil  # For system and process utilities
-import pandas as pd  # For data manipulation and analysis
-import numpy as np  # For numerical operations
-from pympler import asizeof  # For memory usage analysis
-from perlin_noise import PerlinNoise  # For generating Perlin noise
-from pygame.math import Vector2 as v2  # Vector2 class for 2D vector operations
-from copy import deepcopy  # For creating deep copies of objects
-from itertools import product  # For creating cartesian products of iterables
-from pstats import Stats  # For profiling statistics
-from memory_profiler import profile  # For memory profiling
-
-# Local imports
-from Code.Shaders import pygame_shaders  # Custom shader module
-from Code.Variables.LoadAssets import *  # Asset loading module
-from Code.DataStructures.Timer import *  # Custom timer module
-from Code.Utilities.Methods import *  # Utility methods module
+from Code.Variables.ImportDependencies import *
 
 # Initialize Pygame
 pygame.init()
@@ -27,7 +6,7 @@ pygame.init()
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h)))
 RENRES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
-GAMESIZE = 3000, 3000
+GAMESIZE = 1500, 1500
 
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
@@ -63,11 +42,11 @@ GENERAL = {
 }
 
 # Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 1000)}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
-          'shake_speed': 200, 'reduced_screen_shake': 1, }
+          'shake_speed': 200, 'reduced_screen_shake': 5, }
 
 # Grass settings
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,

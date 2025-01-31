@@ -1,4 +1,4 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 
 class GameVariables:
@@ -15,6 +15,7 @@ class GameVariables:
 
                     self.game.assets = AM.assets  # Store game assets
                     self.game.methods = M  # Store game methods
+                    self.game.render_resolution = RENRES  # Set render resolution
 
                     self.game.game_time = 0  # Initialize game time
                     self.game.difficulty = "medium"  # Set default difficulty
@@ -30,8 +31,8 @@ class GameVariables:
                     self.game.keys = pygame.key.get_pressed()  # Get current keyboard state
                     self.game.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.game.display.width)),
                                            max(0, min(pygame.mouse.get_pos()[1], self.game.display.height)))  # Get clamped mouse position
-                    self.game.correct_mouse_pos = (int(self.game.mouse_pos[0] * RENRES[0] / self.game.display.width),
-                                                   int(self.game.mouse_pos[1] * RENRES[1] / self.game.display.height))  # Calculate corrected mouse position
+                    self.game.correct_mouse_pos = (int(self.game.mouse_pos[0] * self.game.render_resolution[0] / self.game.display.width),
+                                                   int(self.game.mouse_pos[1] * self.game.render_resolution[1] / self.game.display.height))  # Calculate corrected mouse position
                     if self.game.mouse_pos != pygame.mouse.get_pos(): pygame.mouse.set_pos(self.game.mouse_pos)  # Update mouse position if changed
                     self.game.mouse_state = pygame.mouse.get_pressed()  # Get current mouse button state
                     if self.game.clock.get_fps() != 0:

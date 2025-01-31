@@ -1,10 +1,10 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 
 class CameraManager():
           def __init__(self, game):
                     self.game = game
-                    self.res = RENRES  # Resolution of the game window
+                    self.res = self.game.render_resolution  # Resolution of the game window
 
                     # Set camera attributes from CAMERA settings
                     self.game.methods.set_attributes(self, CAMERA)
@@ -45,8 +45,8 @@ class CameraManager():
 
           def update_mouse_smoothing(self):
                     # Calculate target mouse position relative to screen center
-                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * RENRES[0],
-                                      self.game.correct_mouse_pos[1] - 0.5 * RENRES[1])
+                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * self.res[0],
+                                      self.game.correct_mouse_pos[1] - 0.5 * self.res[1])
 
                     # Apply smoothing to mouse movement
                     dt = min(self.game.dt, 1 / 20)

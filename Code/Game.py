@@ -1,5 +1,6 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 from Code.Managers import *
+from Code.Shaders import *
 from Code.Variables.GameVariables import *
 from Code.Variables.LoadAssets import *
 from Code.Individuals.Player import *
@@ -12,8 +13,7 @@ class Game:
                     self.display = DISPLAY
                     self.display_surface = pygame.Surface(RENRES).convert()
                     self.ui_surface = pygame.Surface(RENRES).convert()
-                    self.shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER,
-                                                        pygame_shaders.DEFAULT_FRAGMENT_SHADER, self.display_surface)
+                    self.shader = Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER, self.display_surface)
 
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()

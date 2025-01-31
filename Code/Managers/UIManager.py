@@ -1,4 +1,4 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 
 class UIManager:
@@ -40,8 +40,8 @@ class UIManager:
                     bar_surface.blit(bar_image, (0, 0))  # Draw bar image on surface
 
                     if is_flipped:  # Calculate positions based on flipped state
-                              bar_x = RENRES[0] - (position[0] + 0.5 * bar_rect.width)
-                              outer_x = RENRES[0] - (position[0] + 0.5 * outer_rect.width) - 1
+                              bar_x = self.game.render_resolution[0] - (position[0] + 0.5 * bar_rect.width)
+                              outer_x = self.game.render_resolution[0] - (position[0] + 0.5 * outer_rect.width) - 1
                     else:
                               bar_x = position[0] - 0.5 * bar_rect.width
                               outer_x = position[0] - 0.5 * outer_rect.width + 1
@@ -68,7 +68,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
-                                        RENRES[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))  # Position time text
+                                        self.game.render_resolution[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))  # Position time text
                               self.game.ui_surface.blit(text, text_rect)  # Draw time text on UI surface
 
           def display_mouse(self):

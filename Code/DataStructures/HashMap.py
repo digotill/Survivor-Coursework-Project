@@ -1,5 +1,4 @@
-from Code.Variables.SettingsVariables import *
-
+from Code.Variables.SettingVariables import *
 
 class HashMap:
           def __init__(self, game, size):

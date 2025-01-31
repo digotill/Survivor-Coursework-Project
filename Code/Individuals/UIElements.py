@@ -1,4 +1,4 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 
 # Base class for UI elements
@@ -17,10 +17,10 @@ class UIElement:
           def calculate_starting_position(self):
                     # Calculate the starting position of the UI element based on its axis and alignment
                     if self.axis == "x":
-                              x = RENRES[0] + self.rect.width / 2 + 1 if self.axisl == "max" else -self.rect.width / 2 - 1
+                              x = self.game.render_resolution[0] + self.rect.width / 2 + 1 if self.axisl == "max" else -self.rect.width / 2 - 1
                               return x, self.pos.y
                     else:
-                              y = RENRES[1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
+                              y = self.game.render_resolution[1] + self.rect.height / 2 + 1 if self.axisl == "max" else -self.rect.height / 2 - 1
                               return self.pos.x, y
 
           def update_text_position(self):

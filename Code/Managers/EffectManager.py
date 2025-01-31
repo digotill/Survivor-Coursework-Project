@@ -1,4 +1,4 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 from Code.Individuals.Effect import *
 from Code.DataStructures.HashMap import *
 

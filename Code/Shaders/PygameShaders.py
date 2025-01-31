@@ -1,5 +1,5 @@
-import Code.Shaders.texture as texture
-import Code.Shaders.screen_rect as screen_rect
+import Code.Shaders.Texture as texture
+import Code.Shaders.ScreenRect as screen_rect
 from memory_profiler import profile
 from pympler import asizeof
 

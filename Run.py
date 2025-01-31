@@ -1,5 +1,5 @@
 from Code.Utilities.ErrorLogger import *
-from Code.Game_Class import *
+from Code.Game import *
 import platform
 
 OS = platform.system()

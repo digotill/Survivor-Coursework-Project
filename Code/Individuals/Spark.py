@@ -1,6 +1,6 @@
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
-from Code.Variables.SettingsVariables import *
+from Code.Variables.SettingVariables import *
 
 
 class Spark():
