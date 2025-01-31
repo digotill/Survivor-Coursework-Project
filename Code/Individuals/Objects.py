@@ -12,17 +12,17 @@ class Object:
 
           def draw(self, surface=None):
                     if surface is None:
-                              surface = self.game.display_surface  # Use game's display surface if none provided
+                              surface = self.game.displayS  # Use game's display surface if none provided
 
                     # Calculate drawing position by subtracting camera offset
-                    draw_pos = (self.rect.x - self.game.camera.offset_rect.x,
-                                self.rect.y - self.game.camera.offset_rect.y)
+                    draw_pos = (self.rect.x - self.game.cameraM.offset_rect.x,
+                                self.rect.y - self.game.cameraM.offset_rect.y)
 
                     surface.blit(self.image, draw_pos)  # Draw the object on the surface
 
           def draw_shadow(self, surface=None):
                     if surface is None:
-                              surface = self.game.display_surface  # Use game's display surface if none provided
+                              surface = self.game.displayS  # Use game's display surface if none provided
 
                     # Generate a shadow image for the object
                     shadow_image = self.game.methods.get_shadow_image(self, self.image)

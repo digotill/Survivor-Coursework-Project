@@ -6,14 +6,14 @@ class ObjectManager:
           def __init__(self, game):
                     self.game = game
                     self.grid = HashMap(game, GENERAL["hash_maps"][4])  # Spatial hash grid for efficient object lookup and collision detection
-                    self.biome_map, self.density_map = self.game.tilemap_manager.biome_map, self.game.tilemap_manager.density_map  # Get biome and density maps for object placement
+                    self.biome_map, self.density_map = self.game.tilemapM.biome_map, self.game.tilemapM.density_map  # Get biome and density maps for object placement
                     self.generate_objects()  # Generate trees and rocks in the game world
                     self.generate_grass()  # Generate grass tiles throughout the map
                     self.draw_shadows()  # Pre-render shadows for all objects
 
           def draw_shadows(self):
                     for object1 in self.grid.items:
-                              object1.draw_shadow(self.game.tilemap_manager.cached_surface)  # Draw shadow for each object on the pre-rendered surface
+                              object1.draw_shadow(self.game.tilemapM.cached_surface)  # Draw shadow for each object on the pre-rendered surface
 
           def generate_objects(self):
                     self._generate_trees()  # Place trees based on biome and density
@@ -41,7 +41,7 @@ class ObjectManager:
 
           def generate_grass(self):
                     size = MISC["enviroment_density"][1]
-                    for tile in self.game.tilemap_manager.grid.items:
+                    for tile in self.game.tilemapM.grid.items:
                               if tile.tile_type == "grass_tile":  # Only place grass on grass tiles
                                         biome_x, biome_y = int(tile.position.x) // size, int(tile.position.y) // size
                                         if self._is_valid_biome_position(biome_x, biome_y):
@@ -61,7 +61,7 @@ class ObjectManager:
           def _is_valid_position(self, x, y, size):
                     if 0 <= x < GAMESIZE[0] - size[0] and 0 <= y < GAMESIZE[1] - size[1]:  # Check if position is within game bounds
                               rect = pygame.Rect(x - size[0] * 0.25, y + size[1] * 0.5, size[0] / 2, size[1] / 10)  # Create a rect for collision check
-                              return not self.game.tilemap_manager.tile_collision(rect, "water_tile")  # Check if not colliding with water tiles
+                              return not self.game.tilemapM.tile_collision(rect, "water_tile")  # Check if not colliding with water tiles
                     return False
 
           @staticmethod
@@ -100,11 +100,11 @@ class ObjectManager:
                     biome_value = self.biome_map[biome_y][biome_x]  # Get biome value for the current position
                     biome = self._get_biome_from_value(biome_value)  # Determine the biome type
                     v = random.random()  # Random value for grass density check
-                    if v < self.game.grass_manager.density:  # Check if grass should be placed based on density
+                    if v < self.game.grassM.density:  # Check if grass should be placed based on density
                               grass_asset_key = f"{biome}_grass"  # Get the appropriate grass asset for the biome
                               grass_x = int(tile.position.x) // GRASS["tile_size"]  # Calculate grass tile x coordinate
                               grass_y = int(tile.position.y) // GRASS["tile_size"]  # Calculate grass tile y coordinate
-                              self.game.grass_manager.place_tile(
+                              self.game.grassM.place_tile(
                                         (grass_x, grass_y),
                                         int(v * 12),  # Determine grass variation
                                         GRASS["positions"][grass_asset_key]  # Get grass positions for the biome

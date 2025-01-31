@@ -15,8 +15,7 @@ class CameraManager():
 
                     # Set initial camera position centered on the player
                     self.pos = v2(self.game.player.pos.x - self.res[0] / 2, self.game.player.pos.y - self.res[1] / 2)
-                    self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
-                    self.offset_rect = self.rect.copy()
+                    self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
 
                     # Initialize screen shake parameters
                     self.shake_start_time = 0
@@ -28,13 +27,10 @@ class CameraManager():
                     # Create a Perlin noise map for camera shake
                     self.noise_map = PerlinNoise(MAP["camera_shake_map"][0], random.randint(0, 100000))
 
-          def move(self, dx, dy, move_horizontally, move_vertically):
+          def update(self):
                     if not self.game.died:
                               # Update camera position based on player movement
-                              if move_horizontally:
-                                        self.pos.x += dx * self.game.player.current_vel * self.game.dt
-                              if move_vertically:
-                                        self.pos.y += dy * self.game.player.current_vel * self.game.dt
+                              self.pos = v2(self.game.player.pos.x - self.res[0] / 2, self.game.player.pos.y - self.res[1] / 2)
 
                               # Apply various camera effects
                               self.update_mouse_smoothing()

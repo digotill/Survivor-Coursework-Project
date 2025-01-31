@@ -28,7 +28,7 @@ class Effect:
                     if not self.grounded and not self.game.changing_settings:
                               # Check for collision with water tiles
                               rect = pygame.Rect(self.pos.x - self.res[0] / 6, self.pos.y - self.res[1] / 6, self.res[0] / 3, self.res[1] / 3)
-                              collision = self.game.tilemap_manager.tile_collision(rect, "water_tile")
+                              collision = self.game.tilemapM.tile_collision(rect, "water_tile")
 
                               if not collision and self.frame >= self.length:
                                         self.grounded = True
@@ -37,7 +37,7 @@ class Effect:
                                         self.pos += self.vel_vector * self.game.dt
                                         self.rect.center = self.pos
                                         self.frame += self.animation_speed * self.game.dt
-                                        if collision and self.frame >= self.length and self in self.game.effect_manager.grid.items:
+                                        if collision and self.frame >= self.length and self in self.game.effectM.grid.items:
                                                   self.should_draw = False
                     elif self.grounded and not self.game.changing_settings:
                               # Handle grounded state and fading
@@ -52,7 +52,7 @@ class Effect:
           def draw(self, surface=None):
                     if self.should_draw:
                               if surface is None:
-                                        surface = self.game.display_surface
+                                        surface = self.game.displayS
                               # Select the appropriate frame
                               frame = int(self.frame) % len(self.images) if not self.grounded else self.end_frame
                               image = self.images[frame]
@@ -60,7 +60,7 @@ class Effect:
                               # Apply transparency
                               image = self.game.methods.get_transparent_image(image, self.alpha)
                               # Draw the image, accounting for camera offset
-                              surface.blit(image, (self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y))
+                              surface.blit(image, (self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y))
 
           def set_rect(self):
                     # Set the rectangle for the effect

@@ -12,7 +12,7 @@ class ScreenEffect:
 
           def draw(self, order=1, surface=None):
                     if surface is None:
-                              surface = self.game.ui_surface  # Use game's UI surface if none provided
+                              surface = self.game.uiS  # Use game's UI surface if none provided
 
                     if 0 <= self.frame <= self.length:
                               # If within animation frames, draw current frame

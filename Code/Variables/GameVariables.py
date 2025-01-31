@@ -21,13 +21,14 @@ class GameVariables:
                     self.game.difficulty = "medium"  # Set default difficulty
                     self.game.fps = HZ  # Set frames per second
                     self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])  # Initialize stats
-                    self.game.ui_surface.set_colorkey((0, 0, 0))  # Set UI surface transparency
+                    self.game.uiS.set_colorkey((0, 0, 0))  # Set UI surface transparency
                     self.game.player = None  # Initialize player object
 
                     self.update()  # Call update method
 
           def update(self):
                     # Update game state variables each frame
+                    self.game.inputM.update()  # Update input manager
                     self.game.keys = pygame.key.get_pressed()  # Get current keyboard state
                     self.game.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.game.display.width)),
                                            max(0, min(pygame.mouse.get_pos()[1], self.game.display.height)))  # Get clamped mouse position

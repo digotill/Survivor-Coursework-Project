@@ -33,7 +33,7 @@ class EventManager:
           def toggle_fps(self):
                     current_time = self.game.ticks
                     if self.game.keys[KEYS['fps']] and self.fps_timer.check(current_time) and not self.game.in_menu:  # Toggle FPS display if key pressed, cooldown elapsed, and not in menu
-                              self.game.ui_manager.fps_enabled = not self.game.ui_manager.fps_enabled
+                              self.game.uiM.fps_enabled = not self.game.uiM.fps_enabled
                               self.fps_timer.reactivate(current_time)  # Reset the cooldown timer
 
           def toggle_settings(self):

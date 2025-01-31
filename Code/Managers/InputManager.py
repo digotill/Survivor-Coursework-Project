@@ -1,4 +1,7 @@
-from Code.DataStructures.Timer import *
+import pygame
+from pygame.math import Vector2 as v2
+from Code.DataStructures.Timer import Timer
+from Code.Variables.SettingVariables import *
 
 
 class InputManager:
@@ -17,20 +20,33 @@ class InputManager:
                               'ungrab': Input(self.game, pygame.K_ESCAPE)
                     }
                     self.mouse = {
-                              'left': False,
-                              'right': False,
-                              'position': v2(0, 0),
+                              "left": False,
+                              "right": False,
+                              "position": v2(0, 0),
                               "rel_position": v2(0, 0)
                     }
 
+          def get_mouse(self, key):
+                    return self.mouse.get(key, None)
+
+          def get(self, key):
+                    if key in self.keys:
+                              return self.keys[key].state
+                    elif key in self.mouse:
+                              return self.mouse[key]
+                    return None
+
           def update(self):
-                    pass
+                    keys = pygame.key.get_pressed()
+                    for input_obj in self.keys.values():
+                              input_obj.update(keys)
 
-          def update_keys(self):
-                    pass
-
-          def update_mouse(self):
-                    pass
+                    self.mouse["left"], _, self.mouse["right"] = pygame.mouse.get_pressed()
+                    mouse_pos = pygame.mouse.get_pos()
+                    self.mouse["real_position"] = v2(max(0, min(mouse_pos[0], self.game.display.width)),
+                                                max(0, min(mouse_pos[1], self.game.display.height)))
+                    self.mouse["position"] = v2(int(self.mouse["position"].x * self.game.render_resolution[0] / self.game.display.width),
+                                                    int(self.mouse["position"].y * self.game.render_resolution[1] / self.game.display.height))
 
 
 class Input:
@@ -38,13 +54,15 @@ class Input:
                     self.game = game
                     self.input = pygame_input
                     self.state = False
-                    self.timer = Timer(cooldown, self.game.ticks) if cooldown else None
+                    self.timer = Timer(cooldown, pygame.time.get_ticks() / 1000) if cooldown else None
 
-          def update(self):
+          def update(self, keys):
                     if self.timer is not None:
-                              if self.timer.check(self.game.ticks):
-                                        self.state = self.input
+                              if self.timer.check(pygame.time.get_ticks() / 1000):
+                                        self.state = keys[self.input]
+                                        if self.state:
+                                                  self.timer.reactivate(pygame.time.get_ticks() / 1000)
                               else:
                                         self.state = False
                     else:
-                              self.state = self.input
+                              self.state = keys[self.input]

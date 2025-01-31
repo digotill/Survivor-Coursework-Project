@@ -59,8 +59,8 @@ class GrassManager():
                     if self.rendered_shadows is None and self.count > 1:
                               self.draw_shadows()
                               self.rendered_shadows = True
-                    surf = self.game.display_surface
-                    offset = self.game.camera.offset_rect.topleft
+                    surf = self.game.displayS
+                    offset = self.game.cameraM.offset_rect.topleft
 
                     # Increase the rendering area by adding a buffer
                     visible_tile_range = (
@@ -82,11 +82,11 @@ class GrassManager():
 
                     # Prepare grass tiles for rendering
                     drawables = [self.grass_tiles[pos] for pos in render_list]
-                    self.game.drawing_manager.drawables.extend(drawables)
+                    self.game.drawingM.drawables.extend(drawables)
 
           def draw_shadows(self):
                     for pos in self.grass_tiles:
-                              self.grass_tiles[pos].render_shadow(self.game.tilemap_manager.cached_surface,
+                              self.grass_tiles[pos].render_shadow(self.game.tilemapM.cached_surface,
                                                                   offset=(-self.shadow_shift[0], -self.shadow_shift[1]))
 
 

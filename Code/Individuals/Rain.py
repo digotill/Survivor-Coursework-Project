@@ -10,8 +10,8 @@ class Rain:
                     self.game.methods.set_attributes(self, dictionary)  # Set attributes from dictionary
 
                     # Calculate initial position based on camera offset
-                    self.pos = v2(self.game.methods.change(self.game.camera.offset_rect.x * 1.1, self.game.camera.offset_rect.width / 1.1),
-                                  self.game.camera.offset_rect.y - self.game.camera.offset_rect.height / 4)
+                    self.pos = v2(self.game.methods.change(self.game.cameraM.offset_rect.x * 1.1, self.game.cameraM.offset_rect.width / 1.1),
+                                  self.game.cameraM.offset_rect.y - self.game.cameraM.offset_rect.height / 4)
 
                     self.spawn_time = self.game.game_time  # Record spawn time
                     self.initial_vel = self.vel  # Store initial velocity
@@ -43,10 +43,10 @@ class Rain:
 
           def draw(self, surface=None):
                     if surface is None:
-                              surface = self.game.display_surface  # Use game's display surface if none provided
+                              surface = self.game.displayS  # Use game's display surface if none provided
 
                     # Calculate drawing position
-                    pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                    pos = self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
 
                     if not self.hit_ground:
                               surface.blit(self.animation[0], pos)  # Draw falling raindrop

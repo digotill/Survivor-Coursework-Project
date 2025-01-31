@@ -39,9 +39,9 @@ class Spark():
 
           def draw(self):
                     # Draw the spark on the game's display surface
-                    offset = self.game.camera.offset_rect.topleft
+                    offset = self.game.cameraM.offset_rect.topleft
                     points = self.calculate_points(offset)
-                    pygame.draw.polygon(self.game.display_surface, self.color, points)
+                    pygame.draw.polygon(self.game.displayS, self.color, points)
 
           def update_rect(self):
                     # Update the spark's bounding rectangle

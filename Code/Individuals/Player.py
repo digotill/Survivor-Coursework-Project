@@ -42,11 +42,9 @@ class Player:
                     if self.offset[0] + self.res[0] / 2 < new_x < GAMESIZE[0] - self.res[0] / 2 + self.offset[2]:
                               self.pos.x = new_x
                               self.rect.centerx = self.pos.x
-                              self.move_hor = True
                     if self.offset[1] + self.res[1] / 2 < new_y < GAMESIZE[1] - self.res[1] / 2 + self.offset[3]:
                               self.pos.y = new_y
                               self.rect.centery = self.pos.y
-                              self.move_vert = True
 
           def find_spawn_position(self):
                     # Find a suitable spawn position that's not on a water tile
@@ -60,7 +58,7 @@ class Player:
 
                                         if 0 <= x < GAMESIZE[0] and 0 <= y < GAMESIZE[1]:
                                                   test_rect = pygame.Rect(x, y, self.res[0], self.res[1])
-                                                  if not self.game.tilemap_manager.tile_collision(test_rect, "water_tile"):
+                                                  if not self.game.tilemapM.tile_collision(test_rect, "water_tile"):
                                                             return v2(x, y)
 
           def change_animation(self, animation_name):
@@ -71,8 +69,8 @@ class Player:
 
           def update_animation(self):
                     # Update the animation based on player movement
-                    new_animation = 'running' if (self.game.keys[pygame.K_a] or self.game.keys[pygame.K_d] or
-                                                  self.game.keys[pygame.K_s] or self.game.keys[pygame.K_w]) and not self.game.changing_settings else 'idle'
+                    new_animation = 'running' if (self.game.inputM.get("move_left") or self.game.inputM.get("move_right") or
+                                                  self.game.inputM.get("move_down") or self.game.inputM.get("move_up")) and not self.game.changing_settings else 'idle'
                     self.change_animation(new_animation)
 
           def update(self):
@@ -80,10 +78,10 @@ class Player:
                     self.dx = self.dy = 0
 
                     # Check for movement input
-                    if self.game.keys[pygame.K_a]: self.dx -= KEYS["movement"][1]
-                    if self.game.keys[pygame.K_d]: self.dx += KEYS["movement"][3]
-                    if self.game.keys[pygame.K_s]: self.dy += KEYS["movement"][2]
-                    if self.game.keys[pygame.K_w]: self.dy -= KEYS["movement"][0]
+                    if self.game.inputM.get("move_left"): self.dx -= 1
+                    if self.game.inputM.get("move_right"): self.dx += 1
+                    if self.game.inputM.get("move_down"): self.dy += 1
+                    if self.game.inputM.get("move_up"): self.dy -= 1
 
                     # Normalize diagonal movement
                     magnitude = math.hypot(self.dx, self.dy)
@@ -92,8 +90,7 @@ class Player:
                               self.dy /= magnitude
 
                     # Check for sprint input
-                    self.is_sprinting = self.game.keys[KEYS['sprint']] and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
-                    self.move_hor = self.move_vert = False
+                    self.is_sprinting = self.game.inputM.get("sprint") and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
 
                     # Update player state if game is not paused or player hasn't died
                     if not self.game.changing_settings or not self.game.died:
@@ -106,10 +103,8 @@ class Player:
                     # Update position and apply grass force if game is not paused and player is alive
                     if not self.game.changing_settings and not self.game.died:
                               self.update_position()
-                              self.game.grass_manager.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
+                              self.game.grassM.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
-                    # Update camera position
-                    self.game.camera.move(self.dx, self.dy, self.move_hor, self.move_vert)
                     self.update_animation()
 
                     # Update gun
@@ -118,7 +113,7 @@ class Player:
           def draw(self, surface=None):
                     # Draw the player on the given surface (or game display if none provided)
                     if surface is None:
-                              surface = self.game.display_surface
+                              surface = self.game.displayS
 
                     # Get the current animation frame
                     current_animation = self.game.assets["player_" + self.current_animation + "_" + self.facing]
@@ -163,11 +158,11 @@ class Player:
 
           def get_position(self):
                     # Get player's position relative to the camera
-                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                    return self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
 
           def get_mid_position(self):
                     # Get player's center position relative to the camera
-                    return self.rect.centerx - self.game.camera.offset_rect.x, self.rect.centery - self.game.camera.offset_rect.y
+                    return self.rect.centerx - self.game.cameraM.offset_rect.x, self.rect.centery - self.game.cameraM.offset_rect.y
 
           def update_facing(self):
                     # Update player's facing direction based on mouse position
@@ -201,7 +196,7 @@ class Player:
           def should_be_slowed(self):
                     # Check if player is in contact with water tiles
                     if self.water_check_timer.update(self.game.game_time):
-                              self.water_collision = self.game.tilemap_manager.tile_collision(
+                              self.water_collision = self.game.tilemapM.tile_collision(
                                         pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
                               self.water_check_timer.reactivate(self.game.game_time)
                     return self.water_collision

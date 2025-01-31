@@ -150,8 +150,8 @@ class GrassTile:
 
           def draw(self, surface=None):
                     if surface is None:
-                              surface = self.game.display_surface
-                    self.render(surface, self.game.dt, offset=self.game.camera.offset_rect.topleft)
+                              surface = self.game.displayS
+                    self.render(surface, self.game.dt, offset=self.game.cameraM.offset_rect.topleft)
                     self.set_rotation(GRASS["Rot_Function"](self.pos.x, self.pos.y, self.game.game_time))
 
           @staticmethod

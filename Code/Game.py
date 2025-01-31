@@ -4,6 +4,7 @@ from Code.Shaders import *
 from Code.Variables.GameVariables import *
 from Code.Variables.LoadAssets import *
 from Code.Individuals.Player import *
+from Code.Managers.InputManager import *
 
 
 class Game:
@@ -11,33 +12,34 @@ class Game:
 
                     # Set up display and rendering surfaces
                     self.display = DISPLAY
-                    self.display_surface = pygame.Surface(RENRES).convert()
-                    self.ui_surface = pygame.Surface(RENRES).convert()
-                    self.shader = Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER, self.display_surface)
+                    self.displayS = pygame.Surface(RENRES).convert()
+                    self.uiS = pygame.Surface(RENRES).convert()
+                    self.shader = Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER, self.displayS)
 
                     # Initialize clock for managing frame rate
                     self.clock = pygame.time.Clock()
-                    self.game_variables = GameVariables(self)
+                    self.inputM = InputManager(self)
+                    self.gameV = GameVariables(self)
 
                     # Initialize various game managers
-                    self.event_manager = EventManager(self)
-                    self.enemy_manager = EnemyManager(self)
-                    self.spark_manager = SparkManager(self)
-                    self.bullet_manager = BulletManager(self)
-                    self.sound_manager = SoundManager(self)
-                    self.effect_manager = EffectManager(self)
-                    self.rain_manager = RainManager(self)
-                    self.button_manager = UIElementsManager(self)
-                    self.ui_manager = UIManager(self)
-                    self.drawing_manager = DrawingManager(self)
-                    self.grass_manager = GrassManager(self)
-                    self.tilemap_manager = TileMapManager(self)
-                    self.object_manager = ObjectManager(self)
-                    self.screen_effect_manager = ScreenEffectManager(self)
-                    self.background_manager = BackgroundManager(self)
+                    self.eventM = EventManager(self)
+                    self.enemyM = EnemyManager(self)
+                    self.sparkM = SparkManager(self)
+                    self.bulletM = BulletManager(self)
+                    self.soundM = SoundManager(self)
+                    self.effectM = EffectManager(self)
+                    self.rainM = RainManager(self)
+                    self.interactablesM = InteractablesManager(self)
+                    self.uiM = UIManager(self)
+                    self.drawingM = DrawingManager(self)
+                    self.grassM = GrassManager(self)
+                    self.tilemapM = TileMapManager(self)
+                    self.objectM = ObjectManager(self)
+                    self.screeneffectM = ScreenEffectManager(self)
+                    self.backgroundM = BackgroundManager(self)
 
                     self.player = Player(self)
-                    self.camera = CameraManager(self)
+                    self.cameraM = CameraManager(self)
 
                     # Initialize and run the main menu
                     self.run_game()
@@ -50,26 +52,21 @@ class Game:
           def update_managers(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemy_manager, self.spark_manager, self.bullet_manager, self.rain_manager, self.player,
-                                              self.button_manager, self.effect_manager]:
+                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.rainM, self.player, self.effectM, self.cameraM]:
                                         manager.update()
-                    elif self.in_menu:
-                              for manager in [self.button_manager]:
-                                        manager.update()
+                    self.interactablesM.update()
 
           def draw_managers(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemap_manager, self.effect_manager, self.grass_manager, self.drawing_manager,
-                                              self.rain_manager, self.ui_manager, self.button_manager, self.screen_effect_manager]:
+                              for manager in [self.tilemapM, self.effectM, self.grassM, self.drawingM, self.rainM, self.uiM]:
                                         manager.draw()
-                    elif self.in_menu:
-                              for manager in [self.background_manager, self.button_manager, self.screen_effect_manager]:
-                                        manager.draw()
+                    for manager in [self.backgroundM, self.interactablesM, self.screeneffectM]:
+                              manager.draw()
 
           def update_display(self):
                     # Update the display with all drawn elements
-                    self.ui_manager.update_display()
+                    self.uiM.update_display()
                     self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                     pygame.display.flip()
 
@@ -77,8 +74,8 @@ class Game:
                     # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
-                              self.game_variables.update()
-                              self.event_manager.handle_events()
+                              self.gameV.update()
+                              self.eventM.handle_events()
                               self.update_managers()
                               self.draw_managers()
                               self.update_display()

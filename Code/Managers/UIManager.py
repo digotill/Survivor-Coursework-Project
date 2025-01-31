@@ -49,10 +49,10 @@ class UIManager:
                     bar_y = position[1] - 0.5 * bar_rect.height  # Calculate y position for bar
                     outer_y = position[1] - 0.5 * outer_rect.height  # Calculate y position for outer image
 
-                    self.game.ui_surface.blit(bar_surface, (bar_x, bar_y))  # Draw bar on UI surface
+                    self.game.uiS.blit(bar_surface, (bar_x, bar_y))  # Draw bar on UI surface
                     if is_flipped:
                               outer_image = pygame.transform.flip(outer_image, True, False)  # Flip outer image if needed
-                    self.game.ui_surface.blit(outer_image, (outer_x, outer_y))  # Draw outer image on UI surface
+                    self.game.uiS.blit(outer_image, (outer_x, outer_y))  # Draw outer image on UI surface
 
           def draw_fps(self):
                     if self.fps_enabled:  # Only draw FPS if enabled
@@ -61,7 +61,7 @@ class UIManager:
                                             BUTTONS["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
                               text_rect = text.get_rect(center=(UI["health_bar"][0], UI["health_bar"][1] - 20))  # Position FPS text
-                              self.game.ui_surface.blit(text, text_rect)  # Draw FPS text on UI surface
+                              self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface
 
           def draw_time(self):
                     if self.fps_enabled:  # Only draw time if FPS is enabled
@@ -69,7 +69,7 @@ class UIManager:
                                                                        pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
                                         self.game.render_resolution[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))  # Position time text
-                              self.game.ui_surface.blit(text, text_rect)  # Draw time text on UI surface
+                              self.game.uiS.blit(text, text_rect)  # Draw time text on UI surface
 
           def display_mouse(self):
                     if pygame.mouse.get_focused():  # Only display cursor if mouse is focused
@@ -77,28 +77,28 @@ class UIManager:
                                         image = self.game.assets["cursor"][1]  # Use clicked cursor image
                               else:
                                         image = self.game.assets["cursor"][0]  # Use normal cursor image
-                              self.game.ui_surface.blit(image,  # Draw cursor on UI surface
-                                                        (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
+                              self.game.uiS.blit(image,  # Draw cursor on UI surface
+                                                 (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
                                                          self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
                     if self.game.changing_settings:  # Darken screen when changing settings
                               a = GENERAL['brightness'][2]
-                              self.game.display_surface.fill((a, a, a),
-                                                             special_flags=pygame.BLEND_RGB_SUB)
+                              self.game.displayS.fill((a, a, a),
+                                                      special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
                     if self.brightness == 50: return None  # No adjustment needed at 50% brightness
                     if self.brightness > 50:
                               # Increase brightness
-                              self.game.display_surface.fill([int(GENERAL['brightness'][1] * (
+                              self.game.displayS.fill([int(GENERAL['brightness'][1] * (
                                       self.brightness - 50)) for _ in range(3)],
-                                                             special_flags=pygame.BLEND_RGB_ADD)
+                                                      special_flags=pygame.BLEND_RGB_ADD)
                     elif self.brightness < 50:
                               # Decrease brightness
-                              self.game.display_surface.fill([int(GENERAL['brightness'][0] * (
+                              self.game.displayS.fill([int(GENERAL['brightness'][0] * (
                                       50 - self.brightness)) for _ in range(3)],
-                                                             special_flags=pygame.BLEND_RGB_SUB)
+                                                      special_flags=pygame.BLEND_RGB_SUB)
 
           def draw(self):
                     self.darken_screen()  # Apply screen darkening effect
@@ -112,5 +112,5 @@ class UIManager:
                     self.draw_brightness()  # Apply brightness adjustment
 
           def draw_ui_surface(self):
-                    self.game.display_surface.blit(self.game.ui_surface, (0, 0))  # Draw UI surface on main display
-                    self.game.ui_surface.fill((0, 0, 0, 0))  # Clear UI surface for next frame
+                    self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display
+                    self.game.uiS.fill((0, 0, 0, 0))  # Clear UI surface for next frame

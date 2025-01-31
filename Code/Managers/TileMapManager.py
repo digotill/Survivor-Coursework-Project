@@ -93,12 +93,12 @@ class TileMapManager:
                     if not self.game.changing_settings:  # Update animation frames if not changing settings
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
-                    camera_rect = self.game.camera.offset_rect  # Get camera offset
+                    camera_rect = self.game.cameraM.offset_rect  # Get camera offset
 
                     # Draw the cached surface
                     draw_position = (int(self.cache_offset.x - camera_rect.left),
                                      int(self.cache_offset.y - camera_rect.top))
-                    self.game.display_surface.blit(self.cached_surface, draw_position)  # Draw cached surface
+                    self.game.displayS.blit(self.cached_surface, draw_position)  # Draw cached surface
 
           def add_tile(self, tile_type, grid_position):
                     pixel_position = (grid_position[0] * self.tile_size, grid_position[1] * self.tile_size)  # Convert grid to pixel position

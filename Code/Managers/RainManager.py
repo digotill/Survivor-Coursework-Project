@@ -11,7 +11,7 @@ class RainManager:
                     self.spawn_timer = Timer(RAIN['spawn_rate'], self.game.game_time, self.spawn_rain)
 
                     # Surface to draw rain droplets, using alpha channel for transparency
-                    self.rain_surface = pygame.Surface(self.game.display_surface.get_size(), pygame.SRCALPHA)
+                    self.rain_surface = pygame.Surface(self.game.displayS.get_size(), pygame.SRCALPHA)
 
                     self.grid.rebuild()  # Initialize the spatial hash grid
 
@@ -38,12 +38,12 @@ class RainManager:
                     for rain_droplet in self.grid.window_query():
                               if not rain_droplet.hit_ground:
                                         # Calculate position relative to camera offset
-                                        pos = (rain_droplet.rect.x - self.game.camera.offset_rect.x,
-                                               rain_droplet.rect.y - self.game.camera.offset_rect.y)
+                                        pos = (rain_droplet.rect.x - self.game.cameraM.offset_rect.x,
+                                               rain_droplet.rect.y - self.game.cameraM.offset_rect.y)
                                         self.rain_surface.blit(rain_droplet.animation[0], pos)
 
                     # Blit the rain surface onto the main display surface
-                    self.game.display_surface.blit(self.rain_surface, (0, 0))
+                    self.game.displayS.blit(self.rain_surface, (0, 0))
 
           def spawn_rain(self):
                     # Spawn multiple rain droplets at once

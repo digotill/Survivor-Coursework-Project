@@ -1,9 +1,9 @@
-from Code.Individuals.UIElements import *
+from Code.Individuals.Interactable import *
 from Code.DataStructures.HashMap import *
 from Code.Individuals.Gun import *
 
 
-class UIElementsManager:
+class InteractablesManager:
           def __init__(self, game):
                     self.game = game
 
@@ -94,7 +94,7 @@ class UIElementsManager:
                     # Update game settings based on slider values
                     if self.game.changing_settings and self.value_cooldown_timer.check(self.game.ticks):
                               self.game.fps = self.sliders['fps'].value
-                              self.game.ui_manager.brightness = self.sliders['brightness'].value
+                              self.game.uiM.brightness = self.sliders['brightness'].value
                               self.value_cooldown_timer.reactivate(self.game.ticks)
 
           def _handle_settings_interactions(self):

@@ -36,12 +36,12 @@ class Enemy:
           def set_coordinates(self):
                     # Set initial coordinates for the enemy spawn
                     s = MISC["enemy_spawns"]
-                    rect2 = self.game.camera.offset_rect
+                    rect2 = self.game.cameraM.offset_rect
                     rect1 = pygame.Rect(rect2.left - s, rect2.top - s, rect2.width + 2 * s, rect2.height + 2 * s)
                     while True:
                               x = random.randint(rect1.left, rect1.right - self.res[0])
                               y = random.randint(rect1.top, rect1.bottom - self.res[1])
-                              if not self.game.camera.offset_rect.collidepoint(x, y):
+                              if not self.game.cameraM.offset_rect.collidepoint(x, y):
                                         self.pos = v2(x, y)
                                         break
 
@@ -126,16 +126,16 @@ class Enemy:
 
           def get_position(self):
                     # Get the enemy's position relative to the camera
-                    return self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                    return self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
 
           def draw(self, surface=None):
                     # Draw the enemy on the given surface
                     if surface is None:
-                              surface = self.game.display_surface
+                              surface = self.game.displayS
                     pos = self.get_position()
                     current_sprite = self.get_current_sprite()
                     shadow_image = self.game.methods.get_shadow_image(self, current_sprite)
-                    self.game.display_surface.blit(shadow_image, (pos[0], pos[1] + self.res[1] - shadow_image.height / 2))
+                    self.game.displayS.blit(shadow_image, (pos[0], pos[1] + self.res[1] - shadow_image.height / 2))
                     if self.hit_count is not None:
                               current_sprite = self.game.methods.get_image_mask(current_sprite)
                               self.hit_count += MISC["hit_effect"][1] * self.game.dt

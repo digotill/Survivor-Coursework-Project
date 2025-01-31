@@ -14,7 +14,7 @@ class Background:
                     current_frame = int(self.frame) % self.length
 
                     # Draw the current frame on the game's display surface
-                    self.game.display_surface.blit(self.images[current_frame], (0, 0))
+                    self.game.displayS.blit(self.images[current_frame], (0, 0))
 
                     # Update frame counter for next draw call, using delta time for consistent speed
                     self.frame += self.animation_speed * self.game.dt

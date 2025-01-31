@@ -15,7 +15,7 @@ class DrawingManager:
                     player_bottom = player_rect.bottom
 
                     # Iterate through objects that intersect with the player's rectangle
-                    for thing in self.game.object_manager.grid.query(player_rect):
+                    for thing in self.game.objectM.grid.query(player_rect):
                               if thing.rect.colliderect(player_rect):
                                         # Calculate the vertical distance between the object and player
                                         dy = thing.rect.bottom - player_bottom
@@ -40,12 +40,12 @@ class DrawingManager:
                     self.transparent_objects()
 
                     # Add drawable objects from various game managers to the drawables list
-                    self.drawables.extend(self.game.object_manager.grid.window_query())
-                    self.drawables.extend(self.game.enemy_manager.grid.window_query())
-                    self.drawables.extend(self.game.spark_manager.grid.window_query())
-                    self.drawables.extend(self.game.bullet_manager.grid.window_query())
+                    self.drawables.extend(self.game.objectM.grid.window_query())
+                    self.drawables.extend(self.game.enemyM.grid.window_query())
+                    self.drawables.extend(self.game.sparkM.grid.window_query())
+                    self.drawables.extend(self.game.bulletM.grid.window_query())
                     # Add only rain particles that have hit the ground
-                    self.drawables.extend([r for r in self.game.rain_manager.grid.window_query() if r.hit_ground])
+                    self.drawables.extend([r for r in self.game.rainM.grid.window_query() if r.hit_ground])
                     # Add the player to the drawables list
                     self.drawables.append(self.game.player)
 

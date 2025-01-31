@@ -45,8 +45,8 @@ class Bullet:
           def draw(self, surface=None):
                     # Draw the bullet on the given surface (or game display if None)
                     if surface is None:
-                              surface = self.game.display_surface
-                    pos = self.rect.x - self.game.camera.offset_rect.x, self.rect.y - self.game.camera.offset_rect.y
+                              surface = self.game.displayS
+                    pos = self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
                     surface.blit(self.image, pos)
 
           def collide(self, target):
@@ -58,7 +58,7 @@ class Bullet:
 
                               # Add blood effect
                               angle = self.angle if self.angle > 0 else 360 + self.angle
-                              self.game.effect_manager.add_effect(self.pos, angle, EFFECTS["blood"])
+                              self.game.effectM.add_effect(self.pos, angle, EFFECTS["blood"])
 
                               target.hit_count = 0
                               if self.pierce <= 0:

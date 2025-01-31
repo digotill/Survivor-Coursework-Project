@@ -35,18 +35,18 @@ class Gun:
 
                               pos_x = (self.game.player.rect.centerx +  # Calculate gun x position
                                        math.sin(math.radians(self.angle)) * self.distance -
-                                       self.game.camera.offset_rect.x)
+                                       self.game.cameraM.offset_rect.x)
                               pos_y = (self.game.player.rect.centery +  # Calculate gun y position
                                        math.cos(math.radians(self.angle)) * self.distance -
-                                       self.game.camera.offset_rect.y)
+                                       self.game.cameraM.offset_rect.y)
                               self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))  # Update gun rectangle
                               surface.blit(self.rotated_image, self.rect)  # Draw gun on surface
 
           def calc_angle(self):
                     # Calculate x difference to mouse
-                    change_in_x = self.game.player.rect.centerx - self.game.camera.offset_rect.x - self.game.correct_mouse_pos[0]
+                    change_in_x = self.game.player.rect.centerx - self.game.cameraM.offset_rect.x - self.game.correct_mouse_pos[0]
                     # Calculate y difference to mouse
-                    change_in_y = self.game.player.rect.centery - self.game.camera.offset_rect.y - self.game.correct_mouse_pos[1]
+                    change_in_y = self.game.player.rect.centery - self.game.cameraM.offset_rect.y - self.game.correct_mouse_pos[1]
                     self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))  # Calculate angle to mouse
 
           def update_shooting(self):
@@ -74,15 +74,15 @@ class Gun:
 
                     start_coordinates = self.calculate_bullet_start_position()  # Get bullet start position
                     for _ in range(self.shots):  # For each shot
-                              self.game.spark_manager.create_spark(  # Create muzzle flash
+                              self.game.sparkM.create_spark(  # Create muzzle flash
                                         270 - self.angle, start_coordinates,
                                         SPARKS['muzzle_flash'])
                               if self.shots == 1:  # If single shot
-                                        self.game.bullet_manager.add_bullet(  # Add bullet without spread
+                                        self.game.bulletM.add_bullet(  # Add bullet without spread
                                                   start_coordinates, self.angle,
                                                   "Player Bullet", spread_factor)
                               else:  # If multiple shots
-                                        self.game.bullet_manager.add_bullet(  # Add bullet with spread
+                                        self.game.bulletM.add_bullet(  # Add bullet with spread
                                                   start_coordinates,
                                                   self.game.methods.change(self.angle, self.spread),
                                                   "Player Bullet", spread_factor)

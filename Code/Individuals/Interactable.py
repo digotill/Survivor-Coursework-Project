@@ -2,7 +2,7 @@ from Code.Variables.SettingVariables import *
 
 
 # Base class for UI elements
-class UIElement:
+class Interactable:
           def set_rect(self):
                     self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0],
                                             self.res[1])
@@ -39,7 +39,7 @@ class UIElement:
 
           def is_visible_on_screen(self):
                     # Check if the UI element is visible on the screen
-                    screen_rect = self.game.display_surface.get_rect()
+                    screen_rect = self.game.displayS.get_rect()
                     return self.rect.colliderect(screen_rect)
 
           def check_for_input(self):
@@ -50,9 +50,9 @@ class UIElement:
           def draw(self):
                     # Draw the UI element and its text if visible
                     if self.is_visible_on_screen():
-                              self.game.ui_surface.blit(self.image, self.rect)
+                              self.game.uiS.blit(self.image, self.rect)
                               if self.has_text:
-                                        self.game.ui_surface.blit(self.text, self.text_rect)
+                                        self.game.uiS.blit(self.text, self.text_rect)
 
           def update(self):
                     # Update the position and state of the UI element
@@ -95,7 +95,7 @@ class UIElement:
 
 
 # Button class, inherits from UIElement
-class Button(UIElement):
+class Button(Interactable):
           def __init__(self, game, dictionary):
                     # Initialize the button with game instance and attributes from dictionary
                     self.game = game
@@ -112,7 +112,7 @@ class Button(UIElement):
 
 
 # Slider class, inherits from UIElement
-class Slider(UIElement):
+class Slider(Interactable):
           def __init__(self, game, dictionary):
                     # Initialize the slider with game instance and attributes from dictionary
                     # Set up the slider's visual components (line and circle)
@@ -137,17 +137,17 @@ class Slider(UIElement):
           def draw(self):
                     # Draw the slider, including the line and circle
                     if self.is_visible_on_screen():
-                              self.game.ui_surface.blit(self.image, self.rect)
+                              self.game.uiS.blit(self.image, self.rect)
 
                               line_start = (self.rect.left + self.padding, self.rect.centery)
                               line_end = (self.rect.right - self.padding, self.rect.centery)
-                              pygame.draw.line(self.game.ui_surface, self.line_colour, line_start, line_end,
+                              pygame.draw.line(self.game.uiS, self.line_colour, line_start, line_end,
                                                self.line_thickness)
 
-                              self.game.ui_surface.blit(self.circle_surface,
-                                                        (self.circle_rect.x, self.circle_rect.y + 1))
+                              self.game.uiS.blit(self.circle_surface,
+                                                 (self.circle_rect.x, self.circle_rect.y + 1))
                               if self.text_input is not None:
-                                        self.game.ui_surface.blit(self.text, self.text_rect)
+                                        self.game.uiS.blit(self.text, self.text_rect)
 
           def update(self):
                     # Update the slider's position, value, and handle user interaction
@@ -212,7 +212,7 @@ class Slider(UIElement):
 
 
 # Switch class, inherits from UIElement
-class Switch(UIElement):
+class Switch(Interactable):
           def __init__(self, game, dictionary):
                     # Initialize the switch with game instance and attributes from dictionary
                     self.game = game
