@@ -15,7 +15,7 @@ class CameraManager():
 
                     # Set initial camera position centered on the player
                     self.pos = v2(self.game.player.pos.x - self.res[0] / 2, self.game.player.pos.y - self.res[1] / 2)
-                    self.offset_rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
+                    self.rect = pygame.Rect(self.pos.x, self.pos.y, self.res[0], self.res[1])
 
                     # Initialize screen shake parameters
                     self.shake_start_time = 0
@@ -74,33 +74,33 @@ class CameraManager():
 
           def update_offset_rect(self, rounded_offset, shake_offset):
                     # Update the camera's offset rectangle, considering game boundaries
-                    self.offset_rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
-                                                    GAMESIZE[0] - self.res[0]))
-                    self.offset_rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
-                                                    GAMESIZE[1] - self.res[1]))
+                    self.rect.x = max(0, min(self.pos.x + rounded_offset.x + shake_offset.x,
+                                             GAMESIZE[0] - self.res[0]))
+                    self.rect.y = max(0, min(self.pos.y + rounded_offset.y + shake_offset.y,
+                                             GAMESIZE[1] - self.res[1]))
 
           def ensure_player_in_bounds(self):
                     # Ensure the player stays within the camera's view
                     player = self.game.player
-                    player_left = player.pos.x - self.offset_rect.x - player.res[0] / 2
+                    player_left = player.pos.x - self.rect.x - player.res[0] / 2
                     player_right = player_left + player.res[0]
-                    player_top = player.pos.y - self.offset_rect.y - player.res[1] / 2
+                    player_top = player.pos.y - self.rect.y - player.res[1] / 2
                     player_bottom = player_top + player.res[1]
 
                     # Adjust camera if player is too close to the edges
                     if player_left < player.offset[0]:
-                              self.offset_rect.x += player_left - player.offset[0]
+                              self.rect.x += player_left - player.offset[0]
                     elif player_right > self.res[0] - player.offset[2]:
-                              self.offset_rect.x += player_right - (self.res[0] - player.offset[2])
+                              self.rect.x += player_right - (self.res[0] - player.offset[2])
 
                     if player_top < player.offset[1]:
-                              self.offset_rect.y += player_top - player.offset[1]
+                              self.rect.y += player_top - player.offset[1]
                     elif player_bottom > self.res[1] - player.offset[3]:
-                              self.offset_rect.y += player_bottom - (self.res[1] - player.offset[3])
+                              self.rect.y += player_bottom - (self.res[1] - player.offset[3])
 
                     # Ensure camera stays within game boundaries
-                    self.offset_rect.x = max(0, min(self.offset_rect.x, GAMESIZE[0] - self.res[0]))
-                    self.offset_rect.y = max(0, min(self.offset_rect.y, GAMESIZE[1] - self.res[1]))
+                    self.rect.x = max(0, min(self.rect.x, GAMESIZE[0] - self.res[0]))
+                    self.rect.y = max(0, min(self.rect.y, GAMESIZE[1] - self.res[1]))
 
           def calculate_shake(self):
                     # Calculate screen shake effect

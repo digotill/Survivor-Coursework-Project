@@ -158,11 +158,11 @@ class Player:
 
           def get_position(self):
                     # Get player's position relative to the camera
-                    return self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
+                    return self.rect.x - self.game.cameraM.rect.x, self.rect.y - self.game.cameraM.rect.y
 
           def get_mid_position(self):
                     # Get player's center position relative to the camera
-                    return self.rect.centerx - self.game.cameraM.offset_rect.x, self.rect.centery - self.game.cameraM.offset_rect.y
+                    return self.rect.centerx - self.game.cameraM.rect.x, self.rect.centery - self.game.cameraM.rect.y
 
           def update_facing(self):
                     # Update player's facing direction based on mouse position

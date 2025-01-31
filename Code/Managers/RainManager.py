@@ -38,8 +38,8 @@ class RainManager:
                     for rain_droplet in self.grid.window_query():
                               if not rain_droplet.hit_ground:
                                         # Calculate position relative to camera offset
-                                        pos = (rain_droplet.rect.x - self.game.cameraM.offset_rect.x,
-                                               rain_droplet.rect.y - self.game.cameraM.offset_rect.y)
+                                        pos = (rain_droplet.rect.x - self.game.cameraM.rect.x,
+                                               rain_droplet.rect.y - self.game.cameraM.rect.y)
                                         self.rain_surface.blit(rain_droplet.animation[0], pos)
 
                     # Blit the rain surface onto the main display surface

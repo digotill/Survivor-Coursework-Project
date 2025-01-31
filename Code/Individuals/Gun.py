@@ -35,18 +35,18 @@ class Gun:
 
                               pos_x = (self.game.player.rect.centerx +  # Calculate gun x position
                                        math.sin(math.radians(self.angle)) * self.distance -
-                                       self.game.cameraM.offset_rect.x)
+                                       self.game.cameraM.rect.x)
                               pos_y = (self.game.player.rect.centery +  # Calculate gun y position
                                        math.cos(math.radians(self.angle)) * self.distance -
-                                       self.game.cameraM.offset_rect.y)
+                                       self.game.cameraM.rect.y)
                               self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))  # Update gun rectangle
                               surface.blit(self.rotated_image, self.rect)  # Draw gun on surface
 
           def calc_angle(self):
                     # Calculate x difference to mouse
-                    change_in_x = self.game.player.rect.centerx - self.game.cameraM.offset_rect.x - self.game.correct_mouse_pos[0]
+                    change_in_x = self.game.player.rect.centerx - self.game.cameraM.rect.x - self.game.correct_mouse_pos[0]
                     # Calculate y difference to mouse
-                    change_in_y = self.game.player.rect.centery - self.game.cameraM.offset_rect.y - self.game.correct_mouse_pos[1]
+                    change_in_y = self.game.player.rect.centery - self.game.cameraM.rect.y - self.game.correct_mouse_pos[1]
                     self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))  # Calculate angle to mouse
 
           def update_shooting(self):

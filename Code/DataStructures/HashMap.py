@@ -42,5 +42,5 @@ class HashMap:
 
           def window_query(self):
                     items = set()                               # Set to store visible items
-                    for cell in self._rect_cells(self.game.cameraM.offset_rect): items.update(self.grid.get(cell, ()))  # Get visible items
+                    for cell in self._rect_cells(self.game.cameraM.rect): items.update(self.grid.get(cell, ()))  # Get visible items
                     return items

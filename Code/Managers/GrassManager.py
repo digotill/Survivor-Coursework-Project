@@ -60,7 +60,7 @@ class GrassManager():
                               self.draw_shadows()
                               self.rendered_shadows = True
                     surf = self.game.displayS
-                    offset = self.game.cameraM.offset_rect.topleft
+                    offset = self.game.cameraM.rect.topleft
 
                     # Increase the rendering area by adding a buffer
                     visible_tile_range = (

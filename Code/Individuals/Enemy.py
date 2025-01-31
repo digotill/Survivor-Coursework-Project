@@ -36,12 +36,12 @@ class Enemy:
           def set_coordinates(self):
                     # Set initial coordinates for the enemy spawn
                     s = MISC["enemy_spawns"]
-                    rect2 = self.game.cameraM.offset_rect
+                    rect2 = self.game.cameraM.rect
                     rect1 = pygame.Rect(rect2.left - s, rect2.top - s, rect2.width + 2 * s, rect2.height + 2 * s)
                     while True:
                               x = random.randint(rect1.left, rect1.right - self.res[0])
                               y = random.randint(rect1.top, rect1.bottom - self.res[1])
-                              if not self.game.cameraM.offset_rect.collidepoint(x, y):
+                              if not self.game.cameraM.rect.collidepoint(x, y):
                                         self.pos = v2(x, y)
                                         break
 
@@ -126,7 +126,7 @@ class Enemy:
 
           def get_position(self):
                     # Get the enemy's position relative to the camera
-                    return self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
+                    return self.rect.x - self.game.cameraM.rect.x, self.rect.y - self.game.cameraM.rect.y
 
           def draw(self, surface=None):
                     # Draw the enemy on the given surface

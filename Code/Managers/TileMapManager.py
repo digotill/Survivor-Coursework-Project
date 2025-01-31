@@ -93,7 +93,7 @@ class TileMapManager:
                     if not self.game.changing_settings:  # Update animation frames if not changing settings
                               for tile_type in self.frames:
                                         self.frames[tile_type] += self.game.dt * self.animation_speed
-                    camera_rect = self.game.cameraM.offset_rect  # Get camera offset
+                    camera_rect = self.game.cameraM.rect  # Get camera offset
 
                     # Draw the cached surface
                     draw_position = (int(self.cache_offset.x - camera_rect.left),

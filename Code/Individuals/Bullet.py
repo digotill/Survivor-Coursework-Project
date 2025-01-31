@@ -46,7 +46,7 @@ class Bullet:
                     # Draw the bullet on the given surface (or game display if None)
                     if surface is None:
                               surface = self.game.displayS
-                    pos = self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y
+                    pos = self.rect.x - self.game.cameraM.rect.x, self.rect.y - self.game.cameraM.rect.y
                     surface.blit(self.image, pos)
 
           def collide(self, target):

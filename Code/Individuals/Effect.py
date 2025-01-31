@@ -60,7 +60,7 @@ class Effect:
                               # Apply transparency
                               image = self.game.methods.get_transparent_image(image, self.alpha)
                               # Draw the image, accounting for camera offset
-                              surface.blit(image, (self.rect.x - self.game.cameraM.offset_rect.x, self.rect.y - self.game.cameraM.offset_rect.y))
+                              surface.blit(image, (self.rect.x - self.game.cameraM.rect.x, self.rect.y - self.game.cameraM.rect.y))
 
           def set_rect(self):
                     # Set the rectangle for the effect

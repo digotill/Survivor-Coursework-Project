@@ -15,8 +15,8 @@ class Object:
                               surface = self.game.displayS  # Use game's display surface if none provided
 
                     # Calculate drawing position by subtracting camera offset
-                    draw_pos = (self.rect.x - self.game.cameraM.offset_rect.x,
-                                self.rect.y - self.game.cameraM.offset_rect.y)
+                    draw_pos = (self.rect.x - self.game.cameraM.rect.x,
+                                self.rect.y - self.game.cameraM.rect.y)
 
                     surface.blit(self.image, draw_pos)  # Draw the object on the surface
 
