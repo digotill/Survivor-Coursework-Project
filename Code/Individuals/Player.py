@@ -94,16 +94,16 @@ class Player:
 
                     # Update player state if game is not paused or player hasn't died
                     if not self.game.changing_settings or not self.game.died:
-                              self.handle_stamina()
                               self.handle_slowdown()
                               self.update_frame()
                               self.update_velocity()
                               self.update_facing()
+                              self.game.grassM.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
                     # Update position and apply grass force if game is not paused and player is alive
                     if not self.game.changing_settings and not self.game.died:
+                              self.handle_stamina()
                               self.update_position()
-                              self.game.grassM.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
 
                     self.update_animation()
 

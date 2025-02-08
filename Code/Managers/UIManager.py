@@ -17,7 +17,7 @@ class UIManager:
                               bar_image=self.game.assets["health_bar"],  # Image for health bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for health bar
                               ratio=health_ratio,  # Ratio of current health to max health
-                              position=UI["health_bar"],  # Position of health bar on screen
+                              position=MISC["ui_bars"],  # Position of health bar on screen
                               is_flipped=False  # Health bar is not flipped
                     )
 
@@ -28,7 +28,7 @@ class UIManager:
                               bar_image=self.game.assets["stamina_bar"],  # Image for stamina bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for stamina bar
                               ratio=stamina_ratio,  # Ratio of current stamina to max stamina
-                              position=UI["stamina_bar"],  # Position of stamina bar on screen
+                              position=MISC["ui_bars"],  # Position of stamina bar on screen
                               is_flipped=True  # Stamina bar is flipped
                     )
 
@@ -36,13 +36,18 @@ class UIManager:
                     bar_rect = bar_image.get_rect()  # Get rect for bar image
                     outer_rect = outer_image.get_rect()  # Get rect for outer image
 
-                    bar_surface = pygame.Surface((bar_rect.width * ratio, bar_rect.height))  # Create surface for bar
-                    bar_surface.blit(bar_image, (0, 0))  # Draw bar image on surface
+                    bar_surface = pygame.Surface((bar_rect.width, bar_rect.height), pygame.SRCALPHA)  # Create surface for bar
 
-                    if is_flipped:  # Calculate positions based on flipped state
-                              bar_x = self.game.render_resolution[0] - (position[0] + 0.5 * bar_rect.width)
-                              outer_x = self.game.render_resolution[0] - (position[0] + 0.5 * outer_rect.width) - 1
+                    if is_flipped:
+                              # For flipped bars (e.g., stamina), crop from the right
+                              crop_rect = pygame.Rect(bar_rect.width * (1 - ratio), 0, bar_rect.width * ratio, bar_rect.height)
+                              bar_surface.blit(bar_image, (bar_rect.width * (1 - ratio), 0), crop_rect)
+                              bar_x = self.game.render_resolution[0] - (position[0] + 0.5 * bar_rect.width) + 1
+                              outer_x = self.game.render_resolution[0] - (position[0] + 0.5 * outer_rect.width)
                     else:
+                              # For non-flipped bars (e.g., health), crop from the left
+                              crop_rect = pygame.Rect(0, 0, bar_rect.width * ratio, bar_rect.height)
+                              bar_surface.blit(bar_image, (0, 0), crop_rect)
                               bar_x = position[0] - 0.5 * bar_rect.width
                               outer_x = position[0] - 0.5 * outer_rect.width + 1
 
@@ -60,7 +65,7 @@ class UIManager:
                                         max(min(BUTTONS["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
                                             BUTTONS["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
-                              text_rect = text.get_rect(center=(UI["health_bar"][0], UI["health_bar"][1] - 20))  # Position FPS text
+                              text_rect = text.get_rect(center=(MISC["ui_bars"][0], MISC["ui_bars"][1] - 20))  # Position FPS text
                               self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface
 
           def draw_time(self):
@@ -68,7 +73,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
-                                        self.game.render_resolution[0] - UI["stamina_bar"][0], UI["stamina_bar"][1] - 20))  # Position time text
+                                        self.game.render_resolution[0] - MISC["ui_bars"][0], MISC["ui_bars"][1] - 20))  # Position time text
                               self.game.uiS.blit(text, text_rect)  # Draw time text on UI surface
 
           def display_mouse(self):
@@ -79,7 +84,7 @@ class UIManager:
                                         image = self.game.assets["cursor"][0]  # Use normal cursor image
                               self.game.uiS.blit(image,  # Draw cursor on UI surface
                                                  (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
-                                                         self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
+                                                  self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
                     if self.game.changing_settings:  # Darken screen when changing settings
