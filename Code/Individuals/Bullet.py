@@ -60,6 +60,11 @@ class Bullet:
                               angle = self.angle if self.angle > 0 else 360 + self.angle
                               self.game.effectM.add_effect(self.pos, angle, EFFECTS["blood"])
 
+                              if target.health > 0:
+                                        # Apply knockback if the enemy is still alive
+                                        knockback_force = self.vel_vector.normalize() * MISC["bullet_knockback"]
+                                        target.apply_force(knockback_force)
+
                               target.hit_count = 0
                               if self.pierce <= 0:
                                         self.dead = True

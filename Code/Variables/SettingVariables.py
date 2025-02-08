@@ -32,27 +32,27 @@ pygame.display.set_caption("Survivor Game")
 # General game settings
 GENERAL = {
           'volume': 0.5,
-          'difficulty': (0.8, 1, 1.3),  # easy, medium, hard
           'enemies': (100, 0.2, True),  # max, spawn rate, spawning on
-          'brightness': (1.5, 1.5, 20),  # max, min, paused
+          'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20, 10),  # main menu. transition, you died
-}
+          'animation_speeds': (15, 20, 10),}  # main menu. transition, you died
+
+DIFFICULTY = {"easy": (0.9, 0.8, 1, 1.1, 1), "medium": (1, 1, 1, 1, 1), "hard": (1.1, 1.2, 1, 1, 0.9)}  # enemy speed, enemy health, enemy damage, player health, player damage
 
 # Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250), "ui_bars": (80, 30)}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250), "ui_bars": (80, 30), "bullet_knockback": 1000}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
-          'shake_speed': 200, 'reduced_screen_shake': 5, }
+          'shake_speed': 200, 'reduced_screen_shake': 1}
 
 # Grass settings
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-          "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+                                                                                                                                      "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
 PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
@@ -61,17 +61,13 @@ PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_
 # Enemy settings
 ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2,
-                      "armour": 1, "attack_cooldown": 2}}
-
-# Key bindings
-KEYS = {'fullscreen': pygame.K_F11, 'fps': pygame.K_F12, 'escape': pygame.K_F10, "movement": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
-        'ungrab': pygame.K_ESCAPE, 'sprint': pygame.K_LSHIFT, "dodge": pygame.K_SPACE}
+                      "armour": 1, "attack_cooldown": 0.4}}
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
 
 # Screen shake settings
-SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), }  # magnitude, duration
+SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), "hit": (30, 0.5)}  # magnitude, duration
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -102,18 +98,18 @@ WEAPONS = {
 # Button settings for various game states
 BUTTONS = {
           "In_Game_Buttons": {"resume": M.create_button("resume", v2(240, 135), AM.assets["button5"]),
-                    "fullscreen": M.create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
-                    "quit": M.create_button("quit", v2(240, 240), AM.assets["button5"]),
-                    "return": M.create_button("return", v2(240, 90), AM.assets["button5"])},
+                              "fullscreen": M.create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
+                              "quit": M.create_button("quit", v2(240, 240), AM.assets["button5"]),
+                              "return": M.create_button("return", v2(240, 90), AM.assets["button5"])},
           "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(140, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
-                    "shotgun": M.create_button("shotgun", v2(140, 215), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
-                    "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}),},
+                             "shotgun": M.create_button("shotgun", v2(140, 215), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
+                             "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}), },
           "Menu_Buttons": {"play": M.create_button("play", v2(200, 240), AM.assets["button5"], {"active": True}),
-                    "quit": M.create_button("quit", v2(280, 240), AM.assets["button5"], {"active": True}),
-                    "easy": M.create_button("easy", v2(200, 190), AM.assets["button5"], {"active": True}),
-                    "medium": M.create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
-                    "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})},
+                           "quit": M.create_button("quit", v2(280, 240), AM.assets["button5"], {"active": True}),
+                           "easy": M.create_button("easy", v2(200, 190), AM.assets["button5"], {"active": True}),
+                           "medium": M.create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
+                           "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})},
           "Sliders": {"brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                    "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])},
+                      "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])},
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
-                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}
+                                 "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}

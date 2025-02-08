@@ -13,32 +13,32 @@ class EventManager:
 
           def handle_quitting(self):
                     for event in pygame.event.get():
-                              if event.type == pygame.QUIT or self.game.keys[KEYS['escape']]:  # Check for quit events (window close or escape key)
+                              if event.type == pygame.QUIT or self.game.inputM.get("quit"):  # Check for quit events (window close or escape key)
                                         self.game.running = False
 
           def toggle_fullscreen(self):
                     current_time = self.game.ticks
-                    if self.game.keys[KEYS['fullscreen']] and self.fullscreen_timer.check(current_time):  # Toggle fullscreen if key pressed and cooldown elapsed
+                    if self.game.inputM.get("toggle_fullscreen") and self.fullscreen_timer.check(current_time):  # Toggle fullscreen if key pressed and cooldown elapsed
                               pygame.display.toggle_fullscreen()
                               self.fullscreen_timer.reactivate(current_time)  # Reset the cooldown timer
 
           def toggle_grab(self):
                     if self.game.mouse_state[0] and not self.game.changing_settings and not self.game.in_menu:  # Grab mouse if clicked and not in menus
                               pygame.event.set_grab(True)
-                    elif self.game.keys[KEYS['ungrab']] or self.game.in_menu:  # Release mouse grab if key pressed or in menu
+                    elif self.game.inputM.get("ungrab") or self.game.in_menu:  # Release mouse grab if key pressed or in menu
                               pygame.event.set_grab(False)
                     if self.game.died:  # Release mouse if player died
                               pygame.event.set_grab(False)
 
           def toggle_fps(self):
                     current_time = self.game.ticks
-                    if self.game.keys[KEYS['fps']] and self.fps_timer.check(current_time) and not self.game.in_menu:  # Toggle FPS display if key pressed, cooldown elapsed, and not in menu
+                    if self.game.inputM.get("toggle_fps") and self.fps_timer.check(current_time) and not self.game.in_menu:  # Toggle FPS display if key pressed, cooldown elapsed, and not in menu
                               self.game.uiM.fps_enabled = not self.game.uiM.fps_enabled
                               self.fps_timer.reactivate(current_time)  # Reset the cooldown timer
 
           def toggle_settings(self):
                     current_time = self.game.ticks
-                    if self.game.keys[KEYS['ungrab']] and self.settings_timer.check(current_time) and not self.game.in_menu and not self.game.died:  # Toggle settings menu if conditions met
+                    if self.game.inputM.get("ungrab") and self.settings_timer.check(current_time) and not self.game.in_menu and not self.game.died:  # Toggle settings menu if conditions met
                               self.game.changing_settings = not self.game.changing_settings
                               self.settings_timer.reactivate(current_time)  # Reset the cooldown timer
 
