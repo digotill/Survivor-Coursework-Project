@@ -32,7 +32,7 @@ class BulletManager:
 
                     # Add screen shake effect
                     array = SHAKE[self.game.player.gun.name]
-                    self.game.cameraM.add_screen_shake(array[1], array[0])
+                    self.game.cameraM.add_screen_shake(array[1], array[0] * self.game.reduced_screen_shake)
 
           def check_dead_bullets(self):
                     for bullet in self.grid.items.copy():

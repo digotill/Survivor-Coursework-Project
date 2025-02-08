@@ -115,6 +115,25 @@ class UIManager:
                     self.display_mouse()  # Display custom mouse cursor
                     self.draw_ui_surface()  # Draw UI elements
                     self.draw_brightness()  # Apply brightness adjustment
+                    self.apply_color_filter()  # Apply color filter for color blindness modes
+
+          def apply_color_filter(self):
+                    if self.game.colour_mode == 50:  # Normal vision, no filter applied
+                              return
+
+                    filter_surface = pygame.Surface(self.game.render_resolution, pygame.SRCALPHA)
+
+                    if self.game.colour_mode < 50:  # Protanopia (red-green color blindness)
+                              red_value = max(0, min(255, int(200 * self.game.colour_mode / 50)))
+                              filter_color = (red_value, 255, 255, 255)
+                    elif self.game.colour_mode > 50:  # Deuteranopia (another type of red-green color blindness)
+                              green_value = max(0, min(255, int(200 * (100 - self.game.colour_mode) / 50)))
+                              filter_color = (255, green_value, 255, 255)
+                    else:
+                              return  # This case shouldn't occur, but just in case
+
+                    filter_surface.fill(filter_color)
+                    self.game.displayS.blit(filter_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
           def draw_ui_surface(self):
                     self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display

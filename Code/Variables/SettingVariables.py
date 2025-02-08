@@ -37,7 +37,7 @@ GENERAL = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20, 10),}  # main menu. transition, you died
+          'animation_speeds': (15, 20, 10), }  # main menu. transition, you died
 
 DIFFICULTY = {"easy": (0.9, 0.8, 1, 1.1, 1), "medium": (1, 1, 1, 1, 1), "hard": (1.1, 1.2, 1, 1, 0.9)}  # enemy speed, enemy health, enemy damage, player health, player damage
 
@@ -100,7 +100,7 @@ BUTTONS = {
           "In_Game_Buttons": {"resume": M.create_button("resume", v2(240, 135), AM.assets["button5"]),
                               "fullscreen": M.create_button("fullscreen", v2(240, 170), AM.assets["button5"]),
                               "quit": M.create_button("quit", v2(240, 240), AM.assets["button5"]),
-                              "return": M.create_button("return", v2(240, 90), AM.assets["button5"])},
+                              "return": M.create_button("return", v2(240, 90), AM.assets["button5"]), },
           "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(140, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True}),
                              "shotgun": M.create_button("shotgun", v2(140, 215), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True}),
                              "minigun": M.create_button("minigun", v2(140, 180), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True}), },
@@ -110,6 +110,9 @@ BUTTONS = {
                            "medium": M.create_button("medium", v2(200, 150), AM.assets["button5"], {"on": True, "active": True}),
                            "hard": M.create_button("hard", v2(280, 190), AM.assets["button5"], {"active": True})},
           "Sliders": {"brightness": M.create_slider(v2(360, 235), "brightness:  ", 0, 100, 50, AM.assets["button7"]),
-                      "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"])},
+                      "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"]),
+                      "shake": M.create_slider(v2(360, 130), "reduced shake:  ", 0, 100, 100, AM.assets["button7"]),
+                      "colour": M.create_slider(v2(360, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"]),
+                      },
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
                                  "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}

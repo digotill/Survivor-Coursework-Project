@@ -73,10 +73,10 @@ class Gun:
                     self.last_shot = current_time  # Update last shot time
 
                     start_coordinates = self.calculate_bullet_start_position()  # Get bullet start position
+
                     for _ in range(self.shots):  # For each shot
-                              self.game.sparkM.create_spark(  # Create muzzle flash
-                                        270 - self.angle, start_coordinates,
-                                        SPARKS['muzzle_flash'])
+                              self.game.sparkM.create_spark(270 - self.angle, start_coordinates, SPARKS['muzzle_flash'])   # Create muzzle flash
+
                               if self.shots == 1:  # If single shot
                                         self.game.bulletM.add_bullet(  # Add bullet without spread
                                                   start_coordinates, self.angle,

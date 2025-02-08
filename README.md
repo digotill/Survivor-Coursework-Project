@@ -4,7 +4,7 @@
 
 ## 🎮 About The Game
 
-Survivor is a thrilling 2D top-down game built with Python, leveraging the power of pygame and OpenGL. Immerse yourself in a world where survival is key, and every decision counts!
+2D survivor style game, inspired by vampire survivors. Procedurally generated map, different guns, enemies and more.
 
 ## 🚀 Features
 

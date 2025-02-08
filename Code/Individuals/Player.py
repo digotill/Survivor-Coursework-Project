@@ -180,7 +180,7 @@ class Player:
                               self.last_hit = self.game.game_time
                               self.hit_count = 0
 
-                              self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0])
+                              self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0] * self.game.reduced_screen_shake)
 
 
           def check_if_alive(self):
