@@ -17,7 +17,7 @@ Survivor is a thrilling 2D top-down game built with Python, leveraging the power
 
 ## 🖼 Screenshots
 
-![Gameplay Screenshot](Assets/UI/screenshot.png)
+![Gameplay Screenshot](Assets/UI/game_screenshot.png)
 
 ## 📦 Dependencies
 
