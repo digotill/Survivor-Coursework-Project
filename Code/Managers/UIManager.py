@@ -107,14 +107,14 @@ class UIManager:
 
           def draw(self):
                     self.darken_screen()  # Apply screen darkening effect
-                    #self.draw_xp_underbar()   # Draw XP underbar
+                    self.draw_xp_underbar()   # Draw XP underbar
                     self.draw_bars()  # Draw health and stamina bars
                     self.draw_fps()  # Draw FPS counter
                     self.draw_time()  # Draw game time
 
           def update_display(self):
                     self.display_mouse()  # Display custom mouse cursor
-                    #self.draw_xp_bar()  # Draw XP bar
+                    self.draw_xp_bar()  # Draw XP bar
                     self.draw_ui_surface()  # Draw UI elements
                     self.draw_brightness()  # Apply brightness adjustment
                     self.apply_color_filter()  # Apply color filter for color blindness modes

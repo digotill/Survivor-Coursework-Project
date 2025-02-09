@@ -14,7 +14,7 @@ class EffectManager:
                     for effect in self.grid.items.copy():
                               effect.update()
                               # Remove effect if it has completely faded (alpha <= 0)
-                              if effect.alpha <= 0 and effect in self.grid.items:
+                              if effect.has_been_drawn:
                                         self.grid.remove(effect)
                     # Rebuild the spatial hash map after updates
                     self.grid.rebuild()

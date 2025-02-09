@@ -78,6 +78,5 @@ class Game:
                               self.update_managers()
                               self.draw_managers()
                               self.update_display()
-
                               if self.restart:
                                         self.refresh()

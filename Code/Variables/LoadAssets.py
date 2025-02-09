@@ -24,8 +24,6 @@ class LoadAssets:
                                                   self.load_gif(file_path, file_name)
                                         elif file_ext.lower() in ['.wav', '.ogg', '.mp3']:
                                                   self.load_sound(file_path, file_name)
-                                        elif file_ext.lower() in ['.ttf']:
-                                                  self.load_font(file_path, file_name)
 
           def load_gif(self, path, name):
                     frames = []
@@ -62,6 +60,3 @@ class LoadAssets:
                               for j in range(4):
                                         add_tile(i * 4 + j, (j, i))
                     self.assets[name] = dictionary
-
-          def load_font(self, file_path, name):
-                    self.assets[name] = pygame.font.Font(file_path, int(name[4:]))
