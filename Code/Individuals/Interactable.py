@@ -68,7 +68,7 @@ class Interactable:
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / (self.speed * self.distance_factor), 1)
 
-                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide:
+                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
                               self.current_hover_offset = min(
                                         self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
                     else:
