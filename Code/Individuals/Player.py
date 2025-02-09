@@ -31,9 +31,9 @@ class Player:
                     self.water_collision = False
                     self.water_check_timer = Timer(0.2, 0)
                     self.hit_count = None
+
                     self.xp = 0
                     self.level = 1
-
                     self.calculate_max_xp()
 
           def update_position(self):
@@ -51,8 +51,8 @@ class Player:
                               self.rect.centery = self.pos.y
 
           def calculate_max_xp(self):
-                    base_xp = 100
-                    growth_factor = 1.2
+                    base_xp = XP["starting_max_xp"]
+                    growth_factor = XP["xp_progression_rate"]
                     self.max_xp = int(base_xp * (growth_factor ** (self.level - 1)))
 
           def find_spawn_position(self):

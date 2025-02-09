@@ -7,6 +7,8 @@ class InteractablesManager:
           def __init__(self, game):
                     self.game = game
 
+                    self.grabbing_slider = False
+
                     # Dictionaries to store different types of buttons and sliders
                     self.game_buttons = {}  # Buttons used during gameplay
                     self.menu_buttons = {}  # Buttons used in the main menu
@@ -87,10 +89,9 @@ class InteractablesManager:
                     self.xp_bar.update()
                     self.xp_bar.text_input = "level: " + str(self.game.player.level)
 
-                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
-                              if self.game.changing_settings:
-                                        # Handle various button interactions in the settings menu
-                                        self._handle_settings_interactions()
+                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider and self.game.changing_settings:
+                              # Handle various button interactions in the settings menu
+                              self._handle_settings_interactions()
 
                               # Reset the cooldown timer after any button press
                               self.button_cooldown_timer.reactivate(self.game.ticks)
@@ -122,7 +123,7 @@ class InteractablesManager:
                               button.update()
                               button.change_colour()
 
-                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
+                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider:
                               self._handle_menu_interactions()
                               self.button_cooldown_timer.reactivate(self.game.ticks)
 

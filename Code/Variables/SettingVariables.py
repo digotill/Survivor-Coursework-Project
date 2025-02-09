@@ -38,7 +38,11 @@ GENERAL = {
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10), }  # main menu. transition, you died
 
+# Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1, 1.1, 1), "medium": (1, 1, 1, 1, 1), "hard": (1.1, 1.2, 1, 1, 0.9)}  # enemy speed, enemy health, enemy damage, player health, player damage
+
+#Experience settings
+XP = {"starting_max_xp": 100, "xp_progression_rate": 1.2, }
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250),
@@ -114,6 +118,7 @@ BUTTONS = {
                       "shake": M.create_slider(v2(360, 130), "reduced shake:  ", 0, 100, 100, AM.assets["button7"]),
                       "colour": M.create_slider(v2(360, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"]),
                       "volume": M.create_slider(v2(360, 45), "sound volume:  ", 0, 100, 50, AM.assets["button7"]),
+                      "text_size": M.create_slider(v2(240, 45), "text size:  ", 0, 100, 0, AM.assets["button7"])
                       },
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
                     "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])},

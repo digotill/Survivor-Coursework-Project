@@ -176,12 +176,14 @@ class Slider(Interactable):
                     self.update_value = False
 
                     if self.game.mouse_state[0]:
-                              if self.circle_rect.collidepoint(self.game.correct_mouse_pos):
+                              if self.circle_rect.collidepoint(self.game.correct_mouse_pos) and not self.game.interactablesM.grabbing_slider:
                                         self.is_dragging = True
+                                        self.game.interactablesM.grabbing_slider = True
                               if self.is_dragging:
                                         self.set_value()
                     else:
                               self.is_dragging = False
+                              self.game.interactablesM.grabbing_slider = False
 
                     normalized_value = (self.value - self.min_value) / (self.max_value - self.min_value)
                     self.circle_rect.centerx = self.rect.left + self.padding + normalized_value * (
@@ -198,7 +200,7 @@ class Slider(Interactable):
 
           def change_colour(self):
                     # Change the color of the slider's circle based on interaction state
-                    if self.is_dragging or self.circle_rect.collidepoint(self.game.correct_mouse_pos):
+                    if self.is_dragging:
                               self.current_colour = self.circle_hovering_colour
                     else:
                               self.current_colour = self.circle_base_colour
