@@ -45,6 +45,7 @@ class Interactable:
           def update_text_render(self):
                     # Update the rendered text
                     if self.has_text:
+                              self.font = self.game.assets["font8"]
                               self.text = self.font.render(self.text_input, False, self.base_colour)
                               self.update_text_position()
 
@@ -195,6 +196,7 @@ class Slider(Interactable):
 
           def update_text(self):
                     # Update the text displayed on the slider
+                    self.font = self.game.assets["font8"]
                     self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_colour)
                     self.update_text_position()
 

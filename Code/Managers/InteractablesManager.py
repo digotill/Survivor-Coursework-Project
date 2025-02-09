@@ -104,6 +104,8 @@ class InteractablesManager:
                               self.game.colour_mode = self.sliders['colour'].value
                               self.game.volume = self.sliders['volume'].value / 100
 
+                              self.game.text_size = self.sliders['text_size'].value / 100
+
                               self.value_cooldown_timer.reactivate(self.game.ticks)
 
           def _handle_settings_interactions(self):
@@ -176,7 +178,7 @@ class InteractablesManager:
                               # Draw in-game buttons and sliders
                               for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()), key=lambda element: element.pos.y):
                                         button.draw()
-                              self.xp_bar.draw()
+                              #self.xp_bar.draw()
                     elif self.game.in_menu and not self.game.died:
                               # Draw menu buttons
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):

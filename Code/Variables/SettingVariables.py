@@ -118,8 +118,7 @@ BUTTONS = {
                       "shake": M.create_slider(v2(360, 130), "reduced shake:  ", 0, 100, 100, AM.assets["button7"]),
                       "colour": M.create_slider(v2(360, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"]),
                       "volume": M.create_slider(v2(360, 45), "sound volume:  ", 0, 100, 50, AM.assets["button7"]),
-                      "text_size": M.create_slider(v2(240, 45), "text size:  ", 100, 200, 100, AM.assets["button7"])
-                      },
+                      "text_size": M.create_slider(v2(240, 45), "text size:  ", 100, 150, 100, AM.assets["button7"])},
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
                     "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])},
           "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True, "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1})

@@ -23,12 +23,16 @@ class GameVariables:
                     self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])  # Initialize stats
                     self.game.uiS.set_colorkey((0, 0, 0))  # Set UI surface transparency
                     self.game.player = None  # Initialize player object
-
                     self.game.reduced_screen_shake = 1
                     self.game.colour_mode = 50
                     self.game.volume = 0.5
+                    self.game.text_size = 1
 
                     self.update()  # Call update method
+
+          def update_font_sizes(self):
+                    self.game.assets["font8"] = pygame.font.Font("Assets/Fonts/font8.ttf", int(8 * self.game.text_size))
+                    self.game.assets["font14"] = pygame.font.Font("Assets/Fonts/font14.ttf", int(14 * self.game.text_size))
 
           def update(self):
                     # Update game state variables each frame
@@ -48,3 +52,4 @@ class GameVariables:
                     self.game.ticks = pygame.time.get_ticks() / 1000  # Get current time in seconds
                     if self.game.ticks % 10 == 0: gc.collect()  # Perform garbage collection every 10 seconds
                     if self.game.player is not None and self.game.player.health <= 0: self.game.died = True  # Check for player death
+                    self.update_font_sizes()  # Update font sizes
