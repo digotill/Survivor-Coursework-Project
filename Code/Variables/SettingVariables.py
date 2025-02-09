@@ -22,7 +22,6 @@ HZ = pygame.display.get_current_refresh_rate()
 M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
-PF = False
 
 # Set up mouse cursor and window properties
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
@@ -113,6 +112,7 @@ BUTTONS = {
                       "fps": M.create_slider(v2(360, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"]),
                       "shake": M.create_slider(v2(360, 130), "reduced shake:  ", 0, 100, 100, AM.assets["button7"]),
                       "colour": M.create_slider(v2(360, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"]),
+                      "volume": M.create_slider(v2(360, 45), "sound volume:  ", 0, 100, 50, AM.assets["button7"]),
                       },
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
                                  "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}

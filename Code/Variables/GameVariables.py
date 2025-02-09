@@ -25,9 +25,8 @@ class GameVariables:
                     self.game.player = None  # Initialize player object
 
                     self.game.reduced_screen_shake = 1
-
                     self.game.colour_mode = 50
-
+                    self.game.volume = 0.5
 
                     self.update()  # Call update method
 

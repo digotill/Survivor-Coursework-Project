@@ -96,8 +96,8 @@ class InteractablesManager:
                               self.game.fps = self.sliders['fps'].value
                               self.game.uiM.brightness = self.sliders['brightness'].value
                               self.game.reduced_screen_shake = self.sliders['shake'].value / 100
-
                               self.game.colour_mode = self.sliders['colour'].value
+                              self.game.volume = self.sliders['volume'].value / 100
 
                               self.value_cooldown_timer.reactivate(self.game.ticks)
 
