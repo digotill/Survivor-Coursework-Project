@@ -107,15 +107,30 @@ class UIManager:
 
           def draw(self):
                     self.darken_screen()  # Apply screen darkening effect
+                    self.draw_xp_underbar()   # Draw XP underbar
                     self.draw_bars()  # Draw health and stamina bars
                     self.draw_fps()  # Draw FPS counter
                     self.draw_time()  # Draw game time
 
           def update_display(self):
                     self.display_mouse()  # Display custom mouse cursor
+                    self.draw_xp_bar()  # Draw XP bar
                     self.draw_ui_surface()  # Draw UI elements
                     self.draw_brightness()  # Apply brightness adjustment
                     self.apply_color_filter()  # Apply color filter for color blindness modes
+
+          def draw_xp_underbar(self):
+                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
+                              rect = self.game.assets["xp_bar_outline"].get_rect(center=(MISC["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, MISC["xp_bar"][1]))
+                              self.game.uiS.blit(self.game.assets["xp_bar_outline"], rect)  # Draw UI bar on UI surface
+
+          def draw_xp_bar(self):
+                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
+                              res = self.game.assets["xp_bar_coloured"].width * max(min(self.game.player.xp / self.game.player.max_xp, 1), 0), self.game.assets["xp_bar_uncoloured"].height
+                              surface = pygame.Surface(res)
+                              surface.blit(self.game.assets["xp_bar_coloured"])
+                              rect = surface.get_rect(center=(MISC["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, MISC["xp_bar"][1]))
+                              self.game.uiS.blit(surface, rect)  # Draw UI bar on UI surface
 
           def apply_color_filter(self):
                     if self.game.colour_mode == 50:  # Normal vision, no filter applied

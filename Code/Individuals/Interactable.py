@@ -42,6 +42,12 @@ class Interactable:
                     screen_rect = self.game.displayS.get_rect()
                     return self.rect.colliderect(screen_rect)
 
+          def update_text_render(self):
+                    # Update the rendered text
+                    if self.has_text:
+                              self.text = self.font.render(self.text_input, False, self.base_colour)
+                              self.update_text_position()
+
           def check_for_input(self):
                     # Check if the mouse is over the UI element
                     return self.rect.collidepoint(self.game.correct_mouse_pos)
@@ -84,6 +90,8 @@ class Interactable:
 
                     if self.has_text:
                               self.update_text_position()
+
+                    self.update_text_render()
 
           def init_positions(self):
                     # Initialize the positions and text for the UI element

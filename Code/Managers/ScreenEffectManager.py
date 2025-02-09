@@ -28,6 +28,8 @@ class ScreenEffectManager:
                                         self.transition_screeneffect.frame = self.transition_screeneffect.length
                                         self.inverted_transition = True  # Set flag to indicate transition is inverted
                               self.transition_screeneffect.draw(-1)  # Draw transition in reverse
+                              if self.transition_screeneffect.frame < 0:
+                                        self.game.playing_transition = False  # Exit transition when transition completes
 
                     # Handle "You Died" effect
                     if self.game.died:

@@ -41,7 +41,8 @@ GENERAL = {
 DIFFICULTY = {"easy": (0.9, 0.8, 1, 1.1, 1), "medium": (1, 1, 1, 1, 1), "hard": (1.1, 1.2, 1, 1, 0.9)}  # enemy speed, enemy health, enemy damage, player health, player damage
 
 # Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250), "ui_bars": (80, 30), "bullet_knockback": 1000}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250),
+        "ui_bars": (80, 30), "bullet_knockback": 1000, "xp_bar": (240, 30)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -51,7 +52,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-                                                                                                                                      "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+          "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
 PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
@@ -115,4 +116,6 @@ BUTTONS = {
                       "volume": M.create_slider(v2(360, 45), "sound volume:  ", 0, 100, 50, AM.assets["button7"]),
                       },
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
-                                 "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])}}
+                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])},
+          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True, "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1})
+}

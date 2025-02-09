@@ -12,6 +12,7 @@ class InteractablesManager:
                     self.menu_buttons = {}  # Buttons used in the main menu
                     self.end_buttons = {}  # Buttons used in the end screen
                     self.sliders = {}  # Sliders for adjusting settings
+                    self.xp_bar = Button(self.game, BUTTONS["XP_bar"])
 
                     # Initialize all buttons and sliders
                     self._create_ingame_buttons()
@@ -82,6 +83,9 @@ class InteractablesManager:
                               buttons.active = self.game.changing_settings
                               buttons.update()
                               buttons.change_colour()
+
+                    self.xp_bar.update()
+                    self.xp_bar.text_input = "level: " + str(self.game.player.level)
 
                     if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                               if self.game.changing_settings:
@@ -171,6 +175,7 @@ class InteractablesManager:
                               # Draw in-game buttons and sliders
                               for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()), key=lambda element: element.pos.y):
                                         button.draw()
+                              self.xp_bar.draw()
                     elif self.game.in_menu and not self.game.died:
                               # Draw menu buttons
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):

@@ -31,6 +31,10 @@ class Player:
                     self.water_collision = False
                     self.water_check_timer = Timer(0.2, 0)
                     self.hit_count = None
+                    self.xp = 0
+                    self.level = 1
+
+                    self.calculate_max_xp()
 
           def update_position(self):
                     # Calculate new position based on velocity and delta time
@@ -45,6 +49,11 @@ class Player:
                     if self.offset[1] + self.res[1] / 2 < new_y < GAMESIZE[1] - self.res[1] / 2 + self.offset[3]:
                               self.pos.y = new_y
                               self.rect.centery = self.pos.y
+
+          def calculate_max_xp(self):
+                    base_xp = 100
+                    growth_factor = 1.2
+                    self.max_xp = int(base_xp * (growth_factor ** (self.level - 1)))
 
           def find_spawn_position(self):
                     # Find a suitable spawn position that's not on a water tile
@@ -106,9 +115,11 @@ class Player:
                               self.update_position()
 
                     self.update_animation()
+                    self.xp += 0.01
 
                     # Update gun
                     self.gun.update()
+                    self.calculate_max_xp()
 
           def draw(self, surface=None):
                     # Draw the player on the given surface (or game display if none provided)
@@ -181,7 +192,6 @@ class Player:
                               self.hit_count = 0
 
                               self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0] * self.game.reduced_screen_shake)
-
 
           def check_if_alive(self):
                     # Check if player's health has depleted
