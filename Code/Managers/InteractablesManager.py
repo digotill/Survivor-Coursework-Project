@@ -142,7 +142,7 @@ class InteractablesManager:
                     # Handle difficulty selection in the main menu
                     for button in self.difficulty_switches:
                               if button.can_change():
-                                        self.difficulty = button.text_input
+                                        self.game.difficulty = button.text_input
                                         button.change_on()
                                         for other_button in self.difficulty_switches:
                                                   if other_button != button:
