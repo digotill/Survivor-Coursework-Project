@@ -44,6 +44,7 @@ class EnemyManager:
                               if enemy.dead:
                                         self.grid.items.remove(enemy)  # Remove dead enemy from grid
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
+                                        self.game.experienceM.add_experience("blue", enemy.rect.center)  # Add enemy's experience to player's total
 
           def calculate_separation(self, enemy):
                     steering = v2(0, 0)

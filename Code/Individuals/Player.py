@@ -51,8 +51,8 @@ class Player:
                               self.rect.centery = self.pos.y
 
           def calculate_max_xp(self):
-                    base_xp = XP["starting_max_xp"]
-                    growth_factor = XP["xp_progression_rate"]
+                    base_xp = EXPERIENCE["starting_max_xp"]
+                    growth_factor = EXPERIENCE["xp_progression_rate"]
                     self.max_xp = int(base_xp * (growth_factor ** (self.level - 1)))
 
           def find_spawn_position(self):
@@ -112,7 +112,6 @@ class Player:
                               self.update_position()
 
                     self.update_animation()
-                    self.xp += 0.2
 
                     # Update gun
                     self.gun.update()
@@ -121,8 +120,8 @@ class Player:
           def manage_xp(self):
                     if self.xp >= self.max_xp:
                               self.level += 1
+                              self.xp = self.max_xp - self.xp
                               self.calculate_max_xp()
-                              self.xp = 0
                     else:
                               self.calculate_max_xp()
 

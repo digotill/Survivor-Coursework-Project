@@ -36,6 +36,7 @@ class Game:
                     self.objectM = ObjectManager(self)
                     self.screeneffectM = ScreenEffectManager(self)
                     self.backgroundM = BackgroundManager(self)
+                    self.experienceM = ExperienceManager(self)
 
                     self.player = Player(self)
                     self.cameraM = CameraManager(self)
@@ -51,7 +52,7 @@ class Game:
           def update_managers(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.rainM, self.player, self.effectM, self.cameraM]:
+                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM]:
                                         manager.update()
                     self.interactablesM.update()
 

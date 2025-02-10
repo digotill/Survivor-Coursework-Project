@@ -34,15 +34,16 @@ GENERAL = {
           'enemies': (100, 0.2, True),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 100, 90, 30, 60),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects
+          'hash_maps': (50, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
+          'blood_amount': (1, 0.1, 1),  # normal
           'animation_speeds': (15, 20, 10), }  # main menu. transition, you died
 
 # Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
 
 #Experience settings
-XP = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 5, "orange": 20, "purple": 30, "green": 15}
+EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 5, "orange": 20, "purple": 30, "green": 15, "animation_speed": 10}
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250),

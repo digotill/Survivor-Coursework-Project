@@ -44,6 +44,7 @@ class DrawingManager:
                     self.drawables.extend(self.game.enemyM.grid.window_query())
                     self.drawables.extend(self.game.sparkM.grid.window_query())
                     self.drawables.extend(self.game.bulletM.grid.window_query())
+                    self.drawables.extend(self.game.experienceM.grid.window_query())
                     # Add only rain particles that have hit the ground
                     self.drawables.extend([r for r in self.game.rainM.grid.window_query() if r.hit_ground])
                     # Add the player to the drawables list
