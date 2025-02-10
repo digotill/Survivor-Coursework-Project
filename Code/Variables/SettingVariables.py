@@ -66,10 +66,10 @@ PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_
 # Enemy settings
 ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2,
-                      "armour": 1, "attack_cooldown": 0.4},
+                      "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.7, "orange": 0.8, "green": 0.9, "purple": 0.95}, "has_shadow": True},
            "beetle": {"name": "beetle", "res": (32, 32), "health": 200, "vel": 150, "damage": 10, "attack_range": 20, "stopping_range": 25 ** 2,
                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 30, "separation_strength": 0.2,
-                      "armour": 2, "attack_cooldown": 0.4}
+                      "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.7, "orange": 0.8, "green": 0.9, "purple": 0.95}, "has_shadow": False}
            }
 
 # Effect settings
@@ -115,9 +115,9 @@ BUTTONS = {
                              "minigun": M.create_button("minigun", v2(600, 160), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}), },
           "Menu_Buttons": {"play": M.create_button("play", v2(280, 180), AM.assets["button5"], {"active": True}),
                            "quit": M.create_button("quit", v2(360, 180), AM.assets["button5"], {"active": True}),
-                           "easy": M.create_button("easy", v2(50, 30), AM.assets["button5"], {"active": True, "axisl": "min"}),
-                           "medium": M.create_button("medium", v2(150, 30), AM.assets["button5"], {"on": True, "active": True, "axisl": "min"}),
-                           "hard": M.create_button("hard", v2(250, 30), AM.assets["button5"], {"active": True, "axisl": "min"})},
+                           "easy": M.create_button("easy", v2(220, 30), AM.assets["button5"], {"active": True, "axisl": "min"}),
+                           "medium": M.create_button("medium", v2(320, 30), AM.assets["button5"], {"on": True, "active": True, "axisl": "min"}),
+                           "hard": M.create_button("hard", v2(420, 30), AM.assets["button5"], {"active": True, "axisl": "min"})},
           "Sliders": {"brightness": M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
                       "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, HZ, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
                       "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button7"], {"axis": "x", "axisl": "min"}),

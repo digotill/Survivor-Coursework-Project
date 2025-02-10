@@ -48,7 +48,20 @@ class EnemyManager:
                                         self.grid.items.remove(enemy)  # Remove dead enemy from grid
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
 
-                                        self.game.experienceM.add_experience("blue", enemy.rect.center)  # Add enemy's experience to player's total
+                                        xp_type = self.get_experience(enemy)
+                                        self.game.experienceM.add_experience(xp_type, enemy.rect.center)  # Add enemy's experience to player's total
+
+          @staticmethod
+          def get_experience(enemy):
+                    random_value = random.random()
+
+                    for xp_type, chance in enemy.xp_chances.items():
+                              if random_value <= chance:
+                                        return xp_type
+
+                    # If no experience type is selected (which should be rare),
+                    # return the lowest tier experience type as a fallback
+                    return "blue"
 
           def calculate_separation(self, enemy):
                     steering = v2(0, 0)

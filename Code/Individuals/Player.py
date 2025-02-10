@@ -120,7 +120,7 @@ class Player:
           def manage_xp(self):
                     if self.xp >= self.max_xp:
                               self.level += 1
-                              self.xp = self.max_xp - self.xp
+                              self.xp = max(min(self.max_xp - self.xp, self.max_xp), 0)
                               self.calculate_max_xp()
                     else:
                               self.calculate_max_xp()
