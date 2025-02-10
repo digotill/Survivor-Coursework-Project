@@ -98,9 +98,6 @@ class Player:
                               self.dx /= magnitude
                               self.dy /= magnitude
 
-                    # Check for sprint input
-                    self.is_sprinting = self.game.inputM.get("sprint") and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
-
                     # Update player state if game is not paused or player hasn't died
                     if not self.game.changing_settings or not self.game.died:
                               self.handle_slowdown()
@@ -115,11 +112,19 @@ class Player:
                               self.update_position()
 
                     self.update_animation()
-                    self.xp += 0.01
+                    self.xp += 0.2
 
                     # Update gun
                     self.gun.update()
-                    self.calculate_max_xp()
+                    self.manage_xp()
+
+          def manage_xp(self):
+                    if self.xp >= self.max_xp:
+                              self.level += 1
+                              self.calculate_max_xp()
+                              self.xp = 0
+                    else:
+                              self.calculate_max_xp()
 
           def draw(self, surface=None):
                     # Draw the player on the given surface (or game display if none provided)
@@ -149,6 +154,7 @@ class Player:
                     self.gun.draw(surface)
 
           def handle_stamina(self):
+                    self.is_sprinting = self.game.inputM.get("sprint") and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
                     # Decrease stamina while sprinting, increase while not sprinting
                     if self.is_sprinting and self.current_vel > 0:
                               self.stamina -= self.stamina_consumption * self.game.dt
