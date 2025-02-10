@@ -25,7 +25,7 @@ from copy import deepcopy  # For creating deep copies of objects
 from itertools import product  # For creating cartesian products of iterables
 from pstats import Stats  # For profiling statistics
 #from memory_profiler import profile  # For memory profiling
-from line_profiler import profile    # For profiling Python code use kernprof -l -v run.py
+#from line_profiler import profile    # For profiling Python code use kernprof -l -v run.py
 
 # Local imports
 from Code.Shaders import PygameShaders  # Custom shader module

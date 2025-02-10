@@ -20,14 +20,17 @@ class EnemyManager:
 
                               self.remove_dead_enemies()  # Clean up dead enemies
 
-                              if self.spawn_timer.update(self.game.game_time):
-                                        self.add_enemies("mantis")  # Spawn new enemies if timer is up
-                                        self.spawn_timer.reactivate(self.game.game_time)
+                              self._add_enemies()  # Spawn new enemies if necessary
 
                               if random.random() < 0.1:  # 10% chance to rebuild grid
                                         self.grid.rebuild()  # Periodically rebuild spatial hash grid
 
-          def add_enemies(self, enemy_type):
+          def _add_enemies(self):
+                    if self.spawn_timer.update(self.game.game_time):
+                              self.add_enemy("mantis")  # Spawn new enemies if timer is up
+                              self.spawn_timer.reactivate(self.game.game_time)
+
+          def add_enemy(self, enemy_type):
                     if len(self.grid.items) < GENERAL["enemies"][0] and GENERAL["enemies"][2]:  # Check enemy limit and spawn flag
                               if self.enemy_pool:
                                         enemy = self.enemy_pool.pop()  # Reuse enemy from pool if available
@@ -44,6 +47,7 @@ class EnemyManager:
                               if enemy.dead:
                                         self.grid.items.remove(enemy)  # Remove dead enemy from grid
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
+
                                         self.game.experienceM.add_experience("blue", enemy.rect.center)  # Add enemy's experience to player's total
 
           def calculate_separation(self, enemy):

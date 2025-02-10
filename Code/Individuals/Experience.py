@@ -11,10 +11,7 @@ class Experience:
                     self.name = name
                     self.xp_amount = EXPERIENCE[name]
 
-                    # Movement properties
-                    self.speed = 200  # Adjust as needed
-                    self.attraction_distance = 100  # Distance at which the orb starts moving towards the player
-                    self.collection_distance = 20  # Distance at which the orb is collected
+                    self.game.methods.set_attributes(self, EXPERIENCE["attributes"])
 
                     self.is_moving = False
                     self.is_collected = False
