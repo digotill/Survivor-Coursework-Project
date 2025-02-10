@@ -43,7 +43,7 @@ class Experience:
 
           def collect(self):
                     # Add XP to the player
-                    self.game.player.xp += self.xp_amount
+                    self.game.player.xp_to_add += self.xp_amount
                     # You might want to add some visual or sound effect here
 
           def update_rect(self):

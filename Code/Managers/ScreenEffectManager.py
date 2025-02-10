@@ -11,7 +11,7 @@ class ScreenEffectManager:
                     self.youdied_screeneffect = ScreenEffect(self.game, self.game.assets["youdied_screeneffect"], GENERAL['animation_speeds'][2])
                     self.inverted_transition = None  # Flag to track if transition is inverted
                     self.youdied_start_time = None  # Timestamp for when "You Died" effect starts
-                    self.youdied_duration = 3  # Duration of "You Died" effect in seconds
+                    self.youdied_duration = MISC["youdied_duration"]   # Duration of "You Died" effect in seconds
 
           def draw(self):
                     # Handle transition from menu to game
@@ -36,5 +36,6 @@ class ScreenEffectManager:
                               if self.youdied_start_time is None:
                                         self.youdied_start_time = self.game.game_time  # Set start time when player dies
                               # Calculate alpha value for fade effect
-                              self.youdied_screeneffect.alpha = (max(min(0.8, (self.game.game_time - self.youdied_start_time) / self.youdied_duration), 0.2)) * 255
+                              self.youdied_screeneffect.alpha = (max(min(1, (self.game.game_time - self.youdied_start_time) / self.youdied_duration), 0)) * 255
                               self.youdied_screeneffect.draw()  # Draw "You Died" effect
+

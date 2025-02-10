@@ -12,6 +12,7 @@ class GameVariables:
                     self.game.running = True  # Flag for game running state
                     self.game.died = False  # Flag for player death
                     self.game.playing_transition = False  # Flag for transition state
+                    self.game.playing_end_trantition = False  # Flag for end screen transition state
 
                     self.game.assets = AM.assets  # Store game assets
                     self.game.methods = M  # Store game methods

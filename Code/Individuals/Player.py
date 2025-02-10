@@ -35,6 +35,7 @@ class Player:
                     self.xp = 0
                     self.level = 1
                     self.calculate_max_xp()
+                    self.xp_to_add = 0
 
           def update_position(self):
                     # Calculate new position based on velocity and delta time
@@ -120,10 +121,14 @@ class Player:
           def manage_xp(self):
                     if self.xp >= self.max_xp:
                               self.level += 1
-                              self.xp = max(min(self.max_xp - self.xp, self.max_xp), 0)
+                              self.xp = self.xp - self.max_xp
                               self.calculate_max_xp()
                     else:
                               self.calculate_max_xp()
+                              xp = EXPERIENCE["gradual_increase"] * self.game.dt * self.xp_to_add / self.max_xp
+                              if self.xp_to_add > xp:
+                                        self.xp += xp
+                                        self.xp_to_add -= xp
 
           def draw(self, surface=None):
                     # Draw the player on the given surface (or game display if none provided)
@@ -228,7 +233,6 @@ class Player:
                               elif self.slow_timer.update(self.game.game_time):
                                         # Player has been slowed for more than the cooldown period
                                         self.max_vel = self.slowed_vel
-                                        self.health -= MISC["acid_damage"] * self.game.dt
                     else:
                               self.is_slowed = False
                               self.max_vel = self.sprint_vel if self.is_sprinting else self.vel

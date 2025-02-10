@@ -27,7 +27,8 @@ class ScreenEffect:
                               self.frame += order * self.animation_speed * self.game.dt
                               return True  # Animation finished
                     else:
-                              return True  # Animation finished (frame < 0)
+                              return False
+
 
           def blit(self, image, surface):
                     # Create a transparent version of the image

@@ -47,7 +47,6 @@ class EnemyManager:
                               if enemy.dead:
                                         self.grid.items.remove(enemy)  # Remove dead enemy from grid
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
-
                                         xp_type = self.get_experience(enemy)
                                         self.game.experienceM.add_experience(xp_type, enemy.rect.center)  # Add enemy's experience to player's total
 

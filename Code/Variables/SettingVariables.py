@@ -42,12 +42,12 @@ GENERAL = {
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
 
 #Experience settings
-EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 5, "orange": 20, "purple": 30, "green": 15, "animation_speed": 10,
-              "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}}
+EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "orange": 50, "green": 200, "purple": 1000, "animation_speed": 10,
+              "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 150}
 
 # Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "acid_damage": 3, "enviroment_density": (0.05, 16, 250),
-        "ui_bars": (80, 30), "bullet_knockback": 1000, "xp_bar": (240, 30), "blood": 0.3}
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250),
+        "ui_bars": (80, 30), "bullet_knockback": 1000, "xp_bar": (240, 30), "blood": 0.3, "youdied_duration": 3}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -66,17 +66,17 @@ PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_
 # Enemy settings
 ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2,
-                      "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.7, "orange": 0.8, "green": 0.9, "purple": 0.95}, "has_shadow": True},
+                      "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.98, "green": 0.99, "purple": 1}, "has_shadow": True},
            "beetle": {"name": "beetle", "res": (32, 32), "health": 200, "vel": 150, "damage": 10, "attack_range": 20, "stopping_range": 25 ** 2,
                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 30, "separation_strength": 0.2,
-                      "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.7, "orange": 0.8, "green": 0.9, "purple": 0.95}, "has_shadow": False}
+                      "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": False}
            }
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
 
 # Screen shake settings
-SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), "hit": (30, 0.5)}  # magnitude, duration
+SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), "hit": (20, 0.5)}  # magnitude, duration
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -124,7 +124,7 @@ BUTTONS = {
                       "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
                       "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
                       "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button7"], {"axis": "x", "axisl": "min"})},
-          "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 40), AM.assets["button5"]),
-                    "quit": M.create_button("quit", v2(400, 40), AM.assets["button5"])},
+          "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
+                    "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
           "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True, "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1})
 }

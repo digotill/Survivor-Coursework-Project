@@ -48,6 +48,7 @@ class Game:
                     # Refresh the display and restart the game
                     pygame.display.flip()
                     self.__init__()
+                    self.screeneffectM.inverted_transition2 = True
 
           def update_managers(self):
                     # Update game entities and managers
