@@ -145,6 +145,7 @@ class Slider(Interactable):
                     self.circle_rect = pygame.Rect(self.rect.x + self.value * self.rect.width - self.circle_radius,
                                                    self.rect.y - self.circle_radius + 0.5 * self.rect.height,
                                                    self.circle_radius * 2, self.circle_radius * 2)
+                    self.current_hover_offset = 0  # Add this line
 
           def draw(self):
                     # Draw the slider, including the line and circle
@@ -168,14 +169,28 @@ class Slider(Interactable):
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / (self.speed * self.distance_factor), 1)
 
+                    # Add hover effect logic
+                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
+                        self.current_hover_offset = min(
+                            self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
+                    else:
+                        self.current_hover_offset = max(
+                            self.current_hover_offset - self.hover_speed * self.game.dt, 0)
+
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
                     if movement.length() > distance:
-                              self.current_pos = target
+                        self.current_pos = target
                     else:
-                              self.current_pos += movement
+                        self.current_pos += movement
 
-                    self.rect.center = self.current_pos
+                    # Apply hover offset
+                    if self.axis == "x":
+                        self.rect.centerx = round(self.current_pos.x + (self.current_hover_offset if self.hover_slide else 0))
+                        self.rect.centery = round(self.current_pos.y)
+                    else:  # axis is "y"
+                        self.rect.centerx = round(self.current_pos.x)
+                        self.rect.centery = round(self.current_pos.y + (self.current_hover_offset if self.hover_slide else 0))
 
                     self.update_value = False
 
