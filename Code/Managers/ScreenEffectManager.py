@@ -28,8 +28,11 @@ class ScreenEffectManager:
                     self.transition_effect.frame = self.transition_effect.length
 
           def add_blood_effect(self):
-                    self.has_blood_effect = True
-                    self.blood_effect_start_time = self.game.game_time
+                    if self.has_blood_effect:
+                              pass
+                    else:
+                              self.has_blood_effect = True
+                              self.blood_effect_start_time = self.game.game_time
 
           def draw(self):
                     self._draw_start_transition()
@@ -39,6 +42,7 @@ class ScreenEffectManager:
                     self._handle_you_died_effect()
                     self._handle_restart_transition()
                     self._draw_blood_effect()
+                    self._draw_blood_when_dead()
 
           def _draw_start_transition(self):
                     if self.play_start_transition:
@@ -84,10 +88,18 @@ class ScreenEffectManager:
                                         self.game.restart = True
 
           def _draw_blood_effect(self):
-                    if self.has_blood_effect:
+                    if self.has_blood_effect and not self.game.died:
                               elapsed_time = self.game.game_time - self.blood_effect_start_time
                               if elapsed_time < MISC["blood_effect_duration"]:
-                                        self.blood_effect.alpha = max(1 - (elapsed_time / MISC["blood_effect_duration"]), 0) * 255
                                         self.blood_effect.draw()
-                              else:
-                                        self.has_blood_effect = False
+                                        if self.blood_effect.frame > self.blood_effect.length:
+                                                  self.blood_effect.frame = self.blood_effect.length
+                              elif elapsed_time > MISC["blood_effect_duration"]:
+                                        self.blood_effect.draw(-1)
+                                        if self.blood_effect.frame < 0:
+                                                  self.has_blood_effect = False
+
+          def _draw_blood_when_dead(self):
+                    if self.game.died:
+                              self.blood_effect.frame = self.blood_effect.length
+                              self.blood_effect.draw()
