@@ -5,6 +5,7 @@ from Code.Variables.GameVariables import *
 from Code.Variables.LoadAssets import *
 from Code.Individuals.Player import *
 from Code.Managers.InputManager import *
+from Code.Variables.Data import *
 
 class Game:
           def __init__(self):
@@ -40,6 +41,9 @@ class Game:
 
                     self.player = Player(self)
                     self.cameraM = CameraManager(self)
+
+                    self.data = Data(self)
+                    self.data.load_data()
 
           def refresh(self):
                     # Refresh the display and restart the game
@@ -79,4 +83,6 @@ class Game:
                               self.draw_managers()
                               self.update_display()
                               if self.restart:
+                                        self.data.save_data()
                                         self.refresh()
+                    self.data.save_data()

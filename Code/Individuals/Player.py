@@ -198,13 +198,14 @@ class Player:
                     if self.game.game_time - self.last_hit > self.hit_cooldown:
                               self.health -= damage
                               self.check_if_alive()
-                              self.last_hit = self.game.game_time
-                              self.hit_count = 0
 
-                              self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0])
-                              self.game.screeneffectM.add_blood_effect()
-                              for _ in range(MISC["blood_on_player_hit"]):
-                                        self.game.effectM.add_effect(self.pos, random.random() * 360, EFFECTS["blood"])
+                              if not self.dead:
+                                        self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0])
+                                        self.last_hit = self.game.game_time
+                                        self.hit_count = 0
+                                        self.game.screeneffectM.add_blood_effect()
+                                        for _ in range(MISC["blood_on_player_hit"]):
+                                                  self.game.effectM.add_effect(self.pos, random.random() * 360, EFFECTS["blood"])
 
           def check_if_alive(self):
                     # Check if player's health has depleted

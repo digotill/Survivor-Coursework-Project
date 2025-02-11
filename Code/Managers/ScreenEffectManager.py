@@ -28,9 +28,7 @@ class ScreenEffectManager:
                     self.transition_effect.frame = self.transition_effect.length
 
           def add_blood_effect(self):
-                    if self.has_blood_effect:
-                              pass
-                    else:
+                    if not self.has_blood_effect:
                               self.has_blood_effect = True
                               self.blood_effect_start_time = self.game.game_time
 
@@ -40,9 +38,9 @@ class ScreenEffectManager:
                     self._handle_game_start_transition()
                     self._handle_in_game_transition()
                     self._handle_you_died_effect()
-                    self._handle_restart_transition()
                     self._draw_blood_effect()
                     self._draw_blood_when_dead()
+                    self._handle_restart_transition()
 
           def _draw_start_transition(self):
                     if self.play_start_transition:

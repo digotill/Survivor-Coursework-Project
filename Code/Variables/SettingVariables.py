@@ -38,6 +38,9 @@ GENERAL = {
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20), }  # main menu. transition, you died
 
+# Progression settings
+PROGRESSION = {30: {"mantis": 1}, 60: {"mantis"}}
+
 # Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
 

@@ -97,7 +97,7 @@ class InteractablesManager:
                               self.button_cooldown_timer.reactivate(self.game.ticks)
 
                     # Update game settings based on slider values
-                    if self.game.changing_settings and self.value_cooldown_timer.check(self.game.ticks):
+                    if self.value_cooldown_timer.check(self.game.ticks):
                               self.game.fps = self.sliders['fps'].value
                               self.game.uiM.brightness = self.sliders['brightness'].value
                               self.game.reduced_screen_shake = self.sliders['shake'].value / 100
