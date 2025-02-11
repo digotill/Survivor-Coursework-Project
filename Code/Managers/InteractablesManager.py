@@ -116,7 +116,7 @@ class InteractablesManager:
                     elif self.game_buttons['quit'].check_for_input():
                               self.game.running = False
                     elif self.game_buttons['return'].check_for_input():
-                              self.game.restart = True
+                              self.game.screeneffectM.draw_restart_transition = True
 
           def _update_menu_buttons(self):
                     # Update and handle interactions for menu buttons

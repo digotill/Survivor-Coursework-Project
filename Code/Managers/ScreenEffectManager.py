@@ -1,63 +1,93 @@
 from Code.Variables.SettingVariables import *
-from Code.Individuals.ScreenEffect import *
+from Code.Individuals.ScreenEffect import ScreenEffect
 
 
 class ScreenEffectManager:
           def __init__(self, game):
                     self.game = game
-                    # Create screen effect for transitions
-                    self.transition_screeneffect = ScreenEffect(self.game, self.game.assets["transition_screeneffect"], GENERAL['animation_speeds'][1])
-                    # Create screen effect for "You Died" message
-                    self.youdied_screeneffect = ScreenEffect(self.game, self.game.assets["youdied_screeneffect"], GENERAL['animation_speeds'][2])
-                    self.inverted_transition = None  # Flag to track if transition is inverted
-                    self.youdied_start_time = None  # Timestamp for when "You Died" effect starts
-                    self.youdied_duration = MISC["youdied_duration"]   # Duration of "You Died" effect in seconds
-                    self.draw_restart_transition = False  # Flag to indicate if restart transition should be drawn
-                    self.drawing_restart_transition = False  # Flag to indicate if restart transition should be drawn
-                    self.play_start_transition = False  # Flag to indicate if start transition should be played
+                    self._initialize_screen_effects()
+                    self._initialize_flags()
+
+          def _initialize_screen_effects(self):
+                    self.transition_effect = ScreenEffect(self.game, self.game.assets["transition_screeneffect"], GENERAL['animation_speeds'][1])
+                    self.youdied_effect = ScreenEffect(self.game, self.game.assets["youdied_screeneffect"], GENERAL['animation_speeds'][2])
+                    self.blood_effect = ScreenEffect(self.game, self.game.assets["blood_screeneffect"], GENERAL['animation_speeds'][3])
+
+          def _initialize_flags(self):
+                    self.inverted_transition = False
+                    self.youdied_start_time = None
+                    self.youdied_duration = MISC["youdied_duration"]
+                    self.draw_restart_transition = False
+                    self.drawing_restart_transition = False
+                    self.play_start_transition = False
+                    self.has_blood_effect = False
+                    self.blood_effect_start_time = None
 
           def set_transition_to_play(self):
                     self.play_start_transition = True
-                    self.transition_screeneffect.frame = self.transition_screeneffect.length
+                    self.transition_effect.frame = self.transition_effect.length
+
+          def add_blood_effect(self):
+                    self.has_blood_effect = True
+                    self.blood_effect_start_time = self.game.game_time
 
           def draw(self):
+                    self._draw_start_transition()
+                    self._handle_menu_to_game_transition()
+                    self._handle_game_start_transition()
+                    self._handle_in_game_transition()
+                    self._handle_you_died_effect()
+                    self._handle_restart_transition()
+                    self._draw_blood_effect()
+
+          def _draw_start_transition(self):
                     if self.play_start_transition:
-                              self.transition_screeneffect.draw(-1)
-                              if self.transition_screeneffect.frame < 0:
-                                        self.play_start_transition = False  # Stop playing start transition when complete
-                                        self.transition_screeneffect.frame = 0  # Reset frame for start transition
+                              self.transition_effect.draw(-1)
+                              if self.transition_effect.frame < 0:
+                                        self.play_start_transition = False
+                                        self.transition_effect.frame = 0
 
-                    # Handle transition from menu to game
+          def _handle_menu_to_game_transition(self):
                     if self.game.playing_transition and self.game.in_menu:
-                              if self.transition_screeneffect.draw():
-                                        self.game.in_menu = False  # Exit menu when transition completes
-                    # Handle transition at the start of the game
-                    elif not self.game.in_menu and self.game.game_time < MISC["transition_time"]:
-                              self.transition_screeneffect.draw()
-                    # Handle transition after game has started
-                    elif not self.game.in_menu and self.game.game_time >= MISC["transition_time"] and self.game.playing_transition:
-                              if self.inverted_transition is None:
-                                        # Set the frame to the last frame to start the reverse animation
-                                        self.transition_screeneffect.frame = self.transition_screeneffect.length
-                                        self.inverted_transition = True  # Set flag to indicate transition is inverted
-                              self.transition_screeneffect.draw(-1)  # Draw transition in reverse
-                              if self.transition_screeneffect.frame < 0:
-                                        self.game.playing_transition = False  # Exit transition when transition completes
+                              if self.transition_effect.draw():
+                                        self.game.in_menu = False
 
-                    # Handle "You Died" effect
+          def _handle_game_start_transition(self):
+                    if not self.game.in_menu and self.game.game_time < MISC["transition_time"]:
+                              self.transition_effect.draw()
+
+          def _handle_in_game_transition(self):
+                    if not self.game.in_menu and self.game.game_time >= MISC["transition_time"] and self.game.playing_transition:
+                              if not self.inverted_transition:
+                                        self.transition_effect.frame = self.transition_effect.length
+                                        self.inverted_transition = True
+                              self.transition_effect.draw(-1)
+                              if self.transition_effect.frame < 0:
+                                        self.game.playing_transition = False
+
+          def _handle_you_died_effect(self):
                     if self.game.died:
                               if self.youdied_start_time is None:
-                                        self.youdied_start_time = self.game.game_time  # Set start time when player dies
-                              # Calculate alpha value for fade effect
-                              self.youdied_screeneffect.alpha = (max(min(1, (self.game.game_time - self.youdied_start_time) / self.youdied_duration), 0)) * 255
-                              self.youdied_screeneffect.draw()  # Draw "You Died" effect
+                                        self.youdied_start_time = self.game.game_time
+                              elapsed_time = self.game.game_time - self.youdied_start_time
+                              self.youdied_effect.alpha = min(max(elapsed_time / self.youdied_duration, 0), 1) * 255
+                              self.youdied_effect.draw()
 
+          def _handle_restart_transition(self):
                     if self.draw_restart_transition:
-                              self.transition_screeneffect.frame = 0
+                              self.transition_effect.frame = 0
                               self.drawing_restart_transition = True
                               self.draw_restart_transition = False
                     if self.drawing_restart_transition:
-                              self.transition_screeneffect.draw()
-                              if self.transition_screeneffect.frame > self.transition_screeneffect.length + 3:
+                              self.transition_effect.draw()
+                              if self.transition_effect.frame > self.transition_effect.length + 3:
                                         self.game.restart = True
 
+          def _draw_blood_effect(self):
+                    if self.has_blood_effect:
+                              elapsed_time = self.game.game_time - self.blood_effect_start_time
+                              if elapsed_time < MISC["blood_effect_duration"]:
+                                        self.blood_effect.alpha = max(1 - (elapsed_time / MISC["blood_effect_duration"]), 0) * 255
+                                        self.blood_effect.draw()
+                              else:
+                                        self.has_blood_effect = False
