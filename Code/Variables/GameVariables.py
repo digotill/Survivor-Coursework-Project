@@ -20,7 +20,7 @@ class GameVariables:
 
                     self.game.game_time = 0  # Initialize game time
                     self.game.difficulty = "medium"  # Set default difficulty
-                    self.game.fps = HZ  # Set frames per second
+                    self.game.fps = 240  # Set frames per second
                     self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])  # Initialize stats
                     self.game.uiS.set_colorkey((0, 0, 0))  # Set UI surface transparency
                     self.game.player = None  # Initialize player object
