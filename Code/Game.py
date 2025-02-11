@@ -26,7 +26,6 @@ class Game:
                     self.enemyM = EnemyManager(self)
                     self.sparkM = SparkManager(self)
                     self.bulletM = BulletManager(self)
-                    self.soundM = SoundManager(self)
                     self.effectM = EffectManager(self)
                     self.rainM = RainManager(self)
                     self.interactablesM = InteractablesManager(self)
@@ -41,6 +40,8 @@ class Game:
 
                     self.player = Player(self)
                     self.cameraM = CameraManager(self)
+
+                    self.soundM = SoundManager(self)
 
                     self.data = Data(self)
                     self.data.load_data()
@@ -58,6 +59,7 @@ class Game:
                               for manager in [self.enemyM, self.sparkM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM]:
                                         manager.update()
                     self.interactablesM.update()
+                    self.soundM.update()
 
           def draw_managers(self):
                     # Draw game elements in order

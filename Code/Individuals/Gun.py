@@ -74,6 +74,8 @@ class Gun:
 
                     start_coordinates = self.calculate_bullet_start_position()  # Get bullet start position
 
+                    self.game.soundM.play_sound(self.name + "_shot", 0.1)  # Play gun shot sound
+
                     for _ in range(self.shots):  # For each shot
                               self.game.sparkM.create_spark(270 - self.angle, start_coordinates, SPARKS['muzzle_flash'])   # Create muzzle flash
 
