@@ -12,8 +12,21 @@ class ScreenEffectManager:
                     self.inverted_transition = None  # Flag to track if transition is inverted
                     self.youdied_start_time = None  # Timestamp for when "You Died" effect starts
                     self.youdied_duration = MISC["youdied_duration"]   # Duration of "You Died" effect in seconds
+                    self.draw_restart_transition = False  # Flag to indicate if restart transition should be drawn
+                    self.drawing_restart_transition = False  # Flag to indicate if restart transition should be drawn
+                    self.play_start_transition = False  # Flag to indicate if start transition should be played
+
+          def set_transition_to_play(self):
+                    self.play_start_transition = True
+                    self.transition_screeneffect.frame = self.transition_screeneffect.length
 
           def draw(self):
+                    if self.play_start_transition:
+                              self.transition_screeneffect.draw(-1)
+                              if self.transition_screeneffect.frame < 0:
+                                        self.play_start_transition = False  # Stop playing start transition when complete
+                                        self.transition_screeneffect.frame = 0  # Reset frame for start transition
+
                     # Handle transition from menu to game
                     if self.game.playing_transition and self.game.in_menu:
                               if self.transition_screeneffect.draw():
@@ -22,7 +35,7 @@ class ScreenEffectManager:
                     elif not self.game.in_menu and self.game.game_time < MISC["transition_time"]:
                               self.transition_screeneffect.draw()
                     # Handle transition after game has started
-                    elif not self.game.in_menu and self.game.game_time >= MISC["transition_time"]:
+                    elif not self.game.in_menu and self.game.game_time >= MISC["transition_time"] and self.game.playing_transition:
                               if self.inverted_transition is None:
                                         # Set the frame to the last frame to start the reverse animation
                                         self.transition_screeneffect.frame = self.transition_screeneffect.length
@@ -38,4 +51,13 @@ class ScreenEffectManager:
                               # Calculate alpha value for fade effect
                               self.youdied_screeneffect.alpha = (max(min(1, (self.game.game_time - self.youdied_start_time) / self.youdied_duration), 0)) * 255
                               self.youdied_screeneffect.draw()  # Draw "You Died" effect
+
+                    if self.draw_restart_transition:
+                              self.transition_screeneffect.frame = 0
+                              self.drawing_restart_transition = True
+                              self.draw_restart_transition = False
+                    if self.drawing_restart_transition:
+                              self.transition_screeneffect.draw()
+                              if self.transition_screeneffect.frame > self.transition_screeneffect.length + 3:
+                                        self.game.restart = True
 

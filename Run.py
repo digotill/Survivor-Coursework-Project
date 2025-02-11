@@ -37,7 +37,9 @@ if __name__ == "__main__":
                     profiler.enable()
 
           try:
-                    Game()
+                    game = Game()
+                    game.run_game()
+
           except Exception as e:
                     error_message = str(e)
                     error_traceback = traceback.format_exc()

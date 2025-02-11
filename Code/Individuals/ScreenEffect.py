@@ -27,6 +27,10 @@ class ScreenEffect:
                               self.frame += order * self.animation_speed * self.game.dt
                               return True  # Animation finished
                     else:
+                              # If past last frame, draw last frame
+                              self.blit(self.images[0], surface)
+                              # Continue updating frame counter (for potential looping)
+                              self.frame += order * self.animation_speed * self.game.dt
                               return False
 
 

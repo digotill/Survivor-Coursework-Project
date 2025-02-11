@@ -166,7 +166,7 @@ class InteractablesManager:
                               button.change_colour()
                     if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
                               if self.end_buttons['restart'].check_for_input():
-                                        self.game.restart = True
+                                        self.game.screeneffectM.draw_restart_transition = True
                               elif self.end_buttons['quit'].check_for_input():
                                         self.game.running = False
                               self.button_cooldown_timer.reactivate(self.game.ticks)

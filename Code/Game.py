@@ -41,14 +41,12 @@ class Game:
                     self.player = Player(self)
                     self.cameraM = CameraManager(self)
 
-                    # Initialize and run the main menu
-                    self.run_game()
-
           def refresh(self):
                     # Refresh the display and restart the game
                     pygame.display.flip()
                     self.__init__()
-                    self.screeneffectM.inverted_transition2 = True
+                    self.screeneffectM.set_transition_to_play()
+                    self.run_game()
 
           def update_managers(self):
                     # Update game entities and managers
