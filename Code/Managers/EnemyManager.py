@@ -50,11 +50,19 @@ class EnemyManager:
                               for enemy_type, prob in enemy_probabilities.items():
                                         cumulative_prob += prob
                                         if rand_num <= cumulative_prob:
-                                                  self.add_enemy(enemy_type)
+                                                  if enemy_type != "nothing":
+                                                            self.add_enemy(enemy_type)
                                                   break
 
                               # Reset the spawn timer
                               self.spawn_timer.reactivate(self.game.game_time)
+
+                    for key in BOSSES.keys():
+                              if self.game.game_time >= key and not getattr(self, BOSSES[key] + "_spawned", False):
+                                        enemy = Enemy(self.game, ENEMIES[BOSSES[key]])
+                                        self.grid.insert(enemy)
+                                        setattr(self, BOSSES[key] + "_spawned", True)
+                                        break
 
           def add_enemy(self, enemy_type):
                     if len(self.grid.items) < GENERAL["enemies"][0] and GENERAL["enemies"][2]:  # Check enemy limit and spawn flag

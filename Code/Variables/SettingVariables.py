@@ -37,7 +37,10 @@ GENERAL = {
 
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
-               90: {"canine_grey": 0, "canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_grey": 0, "canine_white": 0, "canine_black": 0.95, "werewolf": 1}}
+               90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}}
+
+# Boss settings
+BOSSES = {130: "werewolf"}
 
 # Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
@@ -48,7 +51,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "o
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 100, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4}
+        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -61,8 +64,8 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
           "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 100, "res": (16, 16), 'vel': 70, "sprint_vel": 100, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
-          'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
+PLAYER = {'health': 100, "res": (16, 16), 'vel': 70, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+          'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Enemy settings
 ENEMIES = {
@@ -71,13 +74,13 @@ ENEMIES = {
                           "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": True},
           "canine_white": {"name": "canine_white", "res": (48, 32), "health": 300, "vel": 150, "damage": 25, "attack_range": 50, "stopping_range": 25 ** 2,
                            "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                           "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, "has_shadow": True},
+                           "armour": 1, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, "has_shadow": True},
           "canine_black": {"name": "canine_black", "res": (48, 32), "health": 400, "vel": 150, "damage": 30, "attack_range": 50, "stopping_range": 25 ** 2,
                            "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                           "armour": 3, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
-          "werewolf": {"name": "werewolf", "res": (64, 64), "health": 500, "vel": 170, "damage": 50, "attack_range": 50, "stopping_range": 25 ** 2,
-                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                       "armour": 4, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.3, "orange": 0.5, "green": 0.7, "purple": 1}, "has_shadow": False}}
+                           "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
+          "werewolf": {"name": "werewolf", "res": (184, 64), "health": 8000, "vel": 200, "damage": 60, "attack_range": 50, "stopping_range": 25 ** 2,
+                       "steering_strength": 0.6, "friction": 0.2, "animation_speed": 30, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                       "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False}}
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
@@ -106,9 +109,7 @@ WEAPONS = {
           "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
                    "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
           "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
-                      "spread_time": 2, "pierce": 2, "shots": 10, "name": "shotgun"},
-          "minigun": {"vel": 600, "spread": 5, "fire_rate": 0.01, "lifetime": 2, "lifetime_randomness": 0.2, "damage": 5, "distance": -12, "friction": 0.1,
-                      "spread_time": 0.2, "pierce": 1, "shots": 1, "name": "minigun"}}
+                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "shotgun"}}
 
 # Button settings for various game states
 BUTTONS = {
@@ -117,8 +118,7 @@ BUTTONS = {
                               "quit": M.create_button("quit", v2(320, 180), AM.assets["button5"]),
                               "return": M.create_button("return", v2(320, 90), AM.assets["button5"]), },
           "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(600, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"}),
-                             "shotgun": M.create_button("shotgun", v2(600, 200), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}),
-                             "minigun": M.create_button("minigun", v2(600, 160), M.get_image_outline(AM.assets["minigun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}), },
+                             "shotgun": M.create_button("shotgun", v2(600, 200), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"})},
           "Menu_Buttons": {"play": M.create_button("play", v2(280, 180), AM.assets["button5"], {"active": True}),
                            "quit": M.create_button("quit", v2(360, 180), AM.assets["button5"], {"active": True}),
                            "easy": M.create_button("easy", v2(220, 30), AM.assets["button5"], {"active": True, "axisl": "min"}),

@@ -49,12 +49,12 @@ class InteractablesManager:
                     button_configs = BUTTONS["Weapon_Buttons"] | BUTTONS["Menu_Buttons"]
                     for name, config in button_configs.items():
                               # Use Switch class for specific buttons, Button class for others
-                              button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun', 'minigun'] else Button
+                              button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun',] else Button
                               self.menu_buttons[name] = button_class(self.game, copy.deepcopy(config))
 
                     # Group difficulty and weapon switches for easier management
                     self.difficulty_switches = [self.menu_buttons[d] for d in ['easy', 'medium', 'hard']]
-                    self.weapons_switches = [self.menu_buttons[w] for w in ['ak47', 'shotgun', 'minigun']]
+                    self.weapons_switches = [self.menu_buttons[w] for w in ['ak47', 'shotgun']]
 
           def create_end_buttons(self):
                     # Create buttons for the end screen
