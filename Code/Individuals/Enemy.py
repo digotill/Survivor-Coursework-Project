@@ -20,7 +20,7 @@ class Enemy:
                     self.vel_vector = v2(0, 0)
                     self.max_vel = self.vel
                     self.max_health = self.health
-                    self.current_animation = 'moving'
+                    self.current_animation = 'running'
                     self.is_attacking = False
                     self.hit_count = None
                     self.dead = False
@@ -167,7 +167,7 @@ class Enemy:
 
           def update_animation(self):
                     # Update the animation based on the enemy's state
-                    new_animation = 'attacking' if self.is_attacking else 'moving'
+                    new_animation = 'attacking' if self.is_attacking else 'running'
                     if self.current_animation != new_animation:
                               self.current_animation = new_animation
                               self.frame = 0

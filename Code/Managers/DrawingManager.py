@@ -1,6 +1,4 @@
-import pygame
-from pygame import Surface
-from typing import List, Tuple
+from Code.Variables.SettingVariables import *
 
 
 class DrawingManager:

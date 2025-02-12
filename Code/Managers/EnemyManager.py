@@ -9,25 +9,51 @@ class EnemyManager:
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
                     self.spawn_timer = Timer(GENERAL["enemies"][1], self.game.game_time)  # Timer for enemy spawning
                     self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
+                    self.seperation_timer = Timer(GENERAL["enemies"][3], self.game.game_time)
+                    self.rebuild_timer = Timer(GENERAL["enemies"][4], self.game.game_time)
 
           def update(self):
                     if not self.game.changing_settings:
                               for enemy in self.grid.items:
                                         enemy.update()  # Update each enemy's state
-                                        if random.random() < 0.05:  # 5% chance to apply separation force
+                                        if self.seperation_timer.update(self.game.game_time):
                                                   separation_force = self.calculate_separation(enemy)
                                                   enemy.apply_force(separation_force)  # Apply separation to avoid crowding
+                                                  self.seperation_timer.reactivate(self.game.game_time)
 
                               self.remove_dead_enemies()  # Clean up dead enemies
 
                               self._add_enemies()  # Spawn new enemies if necessary
 
-                              if random.random() < 0.1:  # 10% chance to rebuild grid
+                              if self.rebuild_timer.update(self.game.game_time):  # 10% chance to rebuild grid
                                         self.grid.rebuild()  # Periodically rebuild spatial hash grid
+                                        self.rebuild_timer.reactivate(self.game.game_time)
+
+          import random
 
           def _add_enemies(self):
                     if self.spawn_timer.update(self.game.game_time):
-                              self.add_enemy("mantis")  # Spawn new enemies if timer is up
+                              current_time = self.game.game_time
+
+                              # Find the appropriate progression stage
+                              current_stage = max([time for time in PROGRESSION.keys() if time <= current_time])
+                              enemy_probabilities = PROGRESSION[current_stage]
+
+                              # Calculate total probability
+                              total_prob = sum(enemy_probabilities.values())
+
+                              # Generate a random number
+                              rand_num = random.random() * total_prob
+
+                              # Select an enemy type based on probabilities
+                              cumulative_prob = 0
+                              for enemy_type, prob in enemy_probabilities.items():
+                                        cumulative_prob += prob
+                                        if rand_num <= cumulative_prob:
+                                                  self.add_enemy(enemy_type)
+                                                  break
+
+                              # Reset the spawn timer
                               self.spawn_timer.reactivate(self.game.game_time)
 
           def add_enemy(self, enemy_type):

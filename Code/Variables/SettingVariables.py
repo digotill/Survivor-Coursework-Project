@@ -27,8 +27,8 @@ pygame.display.set_caption("Survivor Game")
 
 # General game settings
 GENERAL = {
-          'volume': (0.05, 0.05),   # sound volume, music volume
-          'enemies': (50, 0.2, True),  # max, spawn rate, spawning on
+          'volume': (0.05, 0.05),  # sound volume, music volume
+          'enemies': (10, 0.2, True, 0.1, 0.1),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
@@ -36,7 +36,8 @@ GENERAL = {
           'animation_speeds': (15, 20, 10, 20), }  # main menu. transition, you died
 
 # Progression settings
-PROGRESSION = {30: {"mantis": 1}, 60: {"mantis"}}
+PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
+               90: {"canine_grey": 0, "canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_grey": 0, "canine_white": 0, "canine_black": 0.95, "werewolf": 1}}
 
 # Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
@@ -47,7 +48,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "o
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 1000, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4}
+        "ui_bars": (80, 30), "bullet_knockback": 100, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -57,20 +58,26 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-                                                                                                                                      "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+          "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 100, "res": (16, 16), 'vel': 90, "sprint_vel": 140, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
-          'animation_speed': 10, "hit_cooldown": 0.8, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
+PLAYER = {'health': 100, "res": (16, 16), 'vel': 70, "sprint_vel": 100, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+          'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 20, "stamina_recharge_rate": 30, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Enemy settings
-ENEMIES = {"mantis": {"name": "mantis", "res": (32, 32), "health": 100, "vel": 100, "damage": 15, "attack_range": 50, "stopping_range": 25 ** 2,
-                      "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 20, "separation_strength": 0.2,
-                      "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.98, "green": 0.99, "purple": 1}, "has_shadow": True},
-           "beetle": {"name": "beetle", "res": (32, 32), "health": 200, "vel": 150, "damage": 10, "attack_range": 20, "stopping_range": 25 ** 2,
-                      "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 30, "separation_strength": 0.2,
-                      "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": False}
-           }
+ENEMIES = {
+          "canine_grey": {"name": "canine_grey", "res": (48, 32), "health": 200, "vel": 140, "damage": 20, "attack_range": 50, "stopping_range": 25 ** 2,
+                          "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                          "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": True},
+          "canine_white": {"name": "canine_white", "res": (48, 32), "health": 300, "vel": 150, "damage": 25, "attack_range": 50, "stopping_range": 25 ** 2,
+                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                           "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, "has_shadow": True},
+          "canine_black": {"name": "canine_black", "res": (48, 32), "health": 400, "vel": 150, "damage": 30, "attack_range": 50, "stopping_range": 25 ** 2,
+                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                           "armour": 3, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
+          "werewolf": {"name": "werewolf", "res": (64, 64), "health": 500, "vel": 170, "damage": 50, "attack_range": 50, "stopping_range": 25 ** 2,
+                       "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                       "armour": 4, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.3, "orange": 0.5, "green": 0.7, "purple": 1}, "has_shadow": True}}
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
@@ -85,8 +92,8 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings
-BIOMES = {"wasteland": (0.35, 2, 0.5), "spring": (0.45, 1, 0.5), "forest": (0.55, 1, 0.5), "lush": (0.6, 1, 1),
-          "cherryblossom": (1, 1, 0.5), }  # chance of biome spawning, tree density, padding density
+BIOMES = {"wasteland": (0.35, 1, 0.5), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "lush": (0.6, 0.5, 0.5),
+          "cherryblossom": (1, 0.5, 0.5), }  # chance of biome spawning, tree density, padding density
 
 # Tile settings
 TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
@@ -101,8 +108,7 @@ WEAPONS = {
           "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
                       "spread_time": 2, "pierce": 2, "shots": 10, "name": "shotgun"},
           "minigun": {"vel": 600, "spread": 5, "fire_rate": 0.01, "lifetime": 2, "lifetime_randomness": 0.2, "damage": 5, "distance": -12, "friction": 0.1,
-                      "spread_time": 0.2, "pierce": 1, "shots": 1, "name": "minigun"}
-}
+                      "spread_time": 0.2, "pierce": 1, "shots": 1, "name": "minigun"}}
 
 # Button settings for various game states
 BUTTONS = {
