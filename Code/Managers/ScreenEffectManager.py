@@ -33,6 +33,7 @@ class ScreenEffectManager:
                               self.blood_effect_start_time = self.game.game_time
 
           def draw(self):
+                    self.game.uiM.draw_xp_bar()
                     self._draw_start_transition()
                     self._handle_menu_to_game_transition()
                     self._handle_game_start_transition()

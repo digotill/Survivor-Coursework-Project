@@ -82,7 +82,7 @@ class GrassManager():
 
                     # Prepare grass tiles for rendering
                     drawables = [self.grass_tiles[pos] for pos in render_list]
-                    self.game.drawingM.drawables.extend(drawables)
+                    return drawables
 
           def draw_shadows(self):
                     for pos in self.grass_tiles:

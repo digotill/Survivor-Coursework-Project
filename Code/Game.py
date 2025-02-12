@@ -64,7 +64,7 @@ class Game:
           def draw_managers(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemapM, self.effectM, self.grassM, self.drawingM, self.rainM, self.uiM]:
+                              for manager in [self.tilemapM, self.effectM, self.drawingM, self.rainM, self.uiM]:
                                         manager.draw()
                     for manager in [self.backgroundM, self.interactablesM, self.screeneffectM]:
                               manager.draw()

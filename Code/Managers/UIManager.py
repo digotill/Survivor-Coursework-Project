@@ -114,7 +114,6 @@ class UIManager:
 
           def update_display(self):
                     self.display_mouse()  # Display custom mouse cursor
-                    self.draw_xp_bar()  # Draw XP bar
                     self.draw_ui_surface()  # Draw UI elements
                     self.draw_brightness()  # Apply brightness adjustment
                     self.apply_color_filter()  # Apply color filter for color blindness modes
