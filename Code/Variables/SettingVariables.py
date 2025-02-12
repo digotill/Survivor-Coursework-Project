@@ -77,7 +77,7 @@ ENEMIES = {
                            "armour": 3, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
           "werewolf": {"name": "werewolf", "res": (64, 64), "health": 500, "vel": 170, "damage": 50, "attack_range": 50, "stopping_range": 25 ** 2,
                        "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                       "armour": 4, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.3, "orange": 0.5, "green": 0.7, "purple": 1}, "has_shadow": True}}
+                       "armour": 4, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.3, "orange": 0.5, "green": 0.7, "purple": 1}, "has_shadow": False}}
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
