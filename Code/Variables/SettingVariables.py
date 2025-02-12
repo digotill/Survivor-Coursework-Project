@@ -37,10 +37,12 @@ GENERAL = {
 
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
-               90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}}
+               90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8,
+               "golem": 1}, 220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1},
+               280: {"armoured_golem": 1},}
 
 # Boss settings
-BOSSES = {130: "werewolf"}
+BOSSES = {130: "werewolf", 290: "titan"}
 
 # Difficulty settings
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}  # enemy speed, enemy health, enemy damage
@@ -80,7 +82,20 @@ ENEMIES = {
                            "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
           "werewolf": {"name": "werewolf", "res": (184, 64), "health": 8000, "vel": 200, "damage": 60, "attack_range": 50, "stopping_range": 25 ** 2,
                        "steering_strength": 0.6, "friction": 0.2, "animation_speed": 30, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                       "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False}}
+                       "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False},
+          "pebble": {"name": "pebble", "res": (32, 32), "health": 500, "vel": 150, "damage": 40, "attack_range": 50, "stopping_range": 25 ** 2,
+                          "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                          "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.5, "orange": 0.65, "green": 0.85, "purple": 1}, "has_shadow": False},
+          "golem": {"name": "golem", "res": (32, 32), "health": 600, "vel": 160, "damage": 50, "attack_range": 50, "stopping_range": 25 ** 2,
+                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                           "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, "has_shadow": False},
+          "armoured_golem": {"name": "armoured_golem", "res": (32, 32), "health": 700, "vel": 160, "damage": 60, "attack_range": 50, "stopping_range": 25 ** 2,
+                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                           "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.35, "orange": 0.6, "green": 0.75, "purple": 1}, "has_shadow": False},
+          "titan": {"name": "titan", "res": (130, 100), "health": 16000, "vel": 220, "damage": 80, "attack_range": 50, "stopping_range": 25 ** 2,
+                       "steering_strength": 0.6, "friction": 0.2, "animation_speed": 30, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                       "armour": 10, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False}
+}
 
 # Effect settings
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
