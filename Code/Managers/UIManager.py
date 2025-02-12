@@ -128,7 +128,7 @@ class UIManager:
                     if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
                               res = self.game.assets["xp_bar_coloured"].width * max(min(self.game.player.xp / self.game.player.max_xp, 1), 0), self.game.assets["xp_bar_uncoloured"].height
                               surface = pygame.Surface(res)
-                              surface.blit(self.game.assets["xp_bar_coloured"])
+                              surface.blit(self.game.assets["xp_bar_coloured"], (-self.game.assets["xp_bar_coloured"].width / 2 + res[0] / 2, 0))
                               rect = surface.get_rect(center=(MISC["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, MISC["xp_bar"][1]))
                               self.game.uiS.blit(surface, rect)  # Draw UI bar on UI surface
 

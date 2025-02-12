@@ -6,7 +6,6 @@ import os  # For interacting with the operating system
 import ctypes  # For creating and manipulating C data types in Python
 import logging  # For flexible event logging system for applications and libraries
 import time  # For time-related functions
-import threading  # For thread-based parallelism
 import functools  # For higher-order functions and operations on callable objects
 import math  # For mathematical functions
 import random  # For generating random numbers

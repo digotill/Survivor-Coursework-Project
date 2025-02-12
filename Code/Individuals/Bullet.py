@@ -51,7 +51,8 @@ class Bullet:
 
           def collide(self, target):
                     # Check for collision with a target
-                    if self.rect.colliderect(target.rect) and target not in self.hit_list and not target.dead:
+                    rect = self.rect.inflate(self.res[0] / 2, self.res[1] / 2)
+                    if rect.colliderect(target.rect) and target not in self.hit_list and not target.dead:
                               target.health -= self.damage
                               self.pierce -= target.armour
                               self.hit_list.append(target)

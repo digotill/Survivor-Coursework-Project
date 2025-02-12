@@ -28,10 +28,10 @@ pygame.display.set_caption("Survivor Game")
 # General game settings
 GENERAL = {
           'volume': (0.05, 0.05),   # sound volume, music volume
-          'enemies': (100, 0.2, True),  # max, spawn rate, spawning on
+          'enemies': (50, 0.2, True),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (50, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
+          'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20), }  # main menu. transition, you died
 
