@@ -34,7 +34,8 @@ class ObjectManager:
 
           def _generate_rocks(self):
                     for _ in range(MISC["enviroment_density"][2]):  # Generate a fixed number of rocks
-                              image = random.choice(AM.assets["rock"])  # Choose a random rock image
+                              number = random.randint(1, 5)  # Randomly choose the number of rock images
+                              image = AM.assets["rock" + str(number)]  # Choose a random rock image
                               pos = self.generate_valid_position(image.size)  # Find a valid position for the rock
                               if pos:
                                         self.grid.insert(Object(self.game, image, image.size, pos))  # Add the rock to the game world

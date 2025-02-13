@@ -53,7 +53,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "o
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (10, 10)}
+        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -63,7 +63,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-         "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+         "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
 PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
@@ -82,7 +82,7 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings       chance of biome spawning, tree density, padding density
-BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "lush": (0.6, 0.5, 0.5), "cherryblossom": (1, 0.5, 0.5), }
+BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "snow": (0.6, 0.5, 0.5), "cherryblossom": (1, 0.5, 0.5), }
 
 # Tile settings
 TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
