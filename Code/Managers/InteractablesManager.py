@@ -78,6 +78,20 @@ class InteractablesManager:
                     if self.game.died:
                               # Update end screen buttons
                               self._update_end_buttons()
+                    self._update_slider_values()
+
+          def _update_slider_values(self):
+                    # Update game settings based on slider values
+                    if self.value_cooldown_timer.check(self.game.ticks):
+                              self.game.fps = self.sliders['fps'].value
+                              self.game.uiM.brightness = self.sliders['brightness'].value
+                              self.game.reduced_screen_shake = self.sliders['shake'].value / 100
+                              self.game.colour_mode = self.sliders['colour'].value
+                              self.game.volume = self.sliders['volume'].value / 100
+                              self.game.text_size = self.sliders['text_size'].value / 100
+
+                              self.value_cooldown_timer.reactivate(self.game.ticks)
+
 
           def _update_ingame_buttons(self):
                     # Update and handle interactions for in-game buttons and sliders
@@ -95,17 +109,6 @@ class InteractablesManager:
 
                               # Reset the cooldown timer after any button press
                               self.button_cooldown_timer.reactivate(self.game.ticks)
-
-                    # Update game settings based on slider values
-                    if self.value_cooldown_timer.check(self.game.ticks):
-                              self.game.fps = self.sliders['fps'].value
-                              self.game.uiM.brightness = self.sliders['brightness'].value
-                              self.game.reduced_screen_shake = self.sliders['shake'].value / 100
-                              self.game.colour_mode = self.sliders['colour'].value
-                              self.game.volume = self.sliders['volume'].value / 100
-                              self.game.text_size = self.sliders['text_size'].value / 100
-
-                              self.value_cooldown_timer.reactivate(self.game.ticks)
 
           def _handle_settings_interactions(self):
                     # Handle button interactions in the settings menu

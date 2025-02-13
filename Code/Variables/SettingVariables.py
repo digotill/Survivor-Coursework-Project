@@ -38,9 +38,8 @@ GENERAL = {
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
                90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8,
-               "golem": 1}, 220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1},
-               280: {"armoured_golem": 1}, 320: {"mini_peka": 1}, 350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1},
-               410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1},}
+               "golem": 1}, 220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
+               350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
 # Boss settings
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
@@ -54,7 +53,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "o
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4}
+        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (10, 10)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -67,7 +66,7 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
           "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 10000, "res": (16, 16), 'vel': 70, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Effect settings
@@ -83,7 +82,7 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings
-BIOMES = {"wasteland": (0.35, 1, 0.5), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "lush": (0.6, 0.5, 0.5),
+BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "lush": (0.6, 0.5, 0.5),
           "cherryblossom": (1, 0.5, 0.5), }  # chance of biome spawning, tree density, padding density
 
 # Tile settings
@@ -96,31 +95,31 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 WEAPONS = {
           "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
                    "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
-          "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 500, "distance": -2, "friction": 0.1,
+          "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -2, "friction": 0.1,
                       "spread_time": 2, "pierce": 5, "shots": 10, "name": "shotgun"}}
 
 # Button settings for various game states
 BUTTONS = {
-          "In_Game_Buttons": {"resume": M.create_button("resume", v2(320, 135), AM.assets["button5"]),
-                              "fullscreen": M.create_button("fullscreen", v2(580, 90), AM.assets["button5"], {"axis": "x", "axisl": "max"}),
-                              "quit": M.create_button("quit", v2(320, 180), AM.assets["button5"]),
-                              "return": M.create_button("return", v2(320, 90), AM.assets["button5"]), },
-          "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(600, 240), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"}),
-                             "shotgun": M.create_button("shotgun", v2(600, 200), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"})},
-          "Menu_Buttons": {"play": M.create_button("play", v2(280, 180), AM.assets["button5"], {"active": True}),
-                           "quit": M.create_button("quit", v2(360, 180), AM.assets["button5"], {"active": True}),
-                           "easy": M.create_button("easy", v2(220, 30), AM.assets["button5"], {"active": True, "axisl": "min"}),
-                           "medium": M.create_button("medium", v2(320, 30), AM.assets["button5"], {"on": True, "active": True, "axisl": "min"}),
-                           "hard": M.create_button("hard", v2(420, 30), AM.assets["button5"], {"active": True, "axisl": "min"})},
-          "Sliders": {"brightness": M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
-                      "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 240, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
-                      "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
-                      "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
-                      "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 50, AM.assets["button7"], {"axis": "x", "axisl": "min"}),
-                      "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button7"], {"axis": "x", "axisl": "min"})},
+          "In_Game_Buttons": {"resume": M.create_button("resume", v2(320, 135), AM.assets["button12"]),
+                              "fullscreen": M.create_button("fullscreen", v2(580, 90), AM.assets["button12"], {"axis": "x", "axisl": "max"}),
+                              "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
+                              "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
+          "Weapon_Buttons": {"ak47": M.create_button("ak47", v2(600, 220), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"}),
+                             "shotgun": M.create_button("shotgun", v2(600, 140), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"})},
+          "Menu_Buttons": {"play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
+                           "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),
+                           "easy": M.create_button("easy", v2(220, 30), AM.assets["button12"], {"active": True, "axisl": "min"}),
+                           "medium": M.create_button("medium", v2(320, 30), AM.assets["button12"], {"on": True, "active": True, "axisl": "min"}),
+                           "hard": M.create_button("hard", v2(420, 30), AM.assets["button12"], {"active": True, "axisl": "min"})},
+          "Sliders": {"brightness": M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                      "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 240, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                      "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                      "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                      "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                      "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
           "End_Screen_Buttons": {"restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
                                  "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
-          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True, "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1})
+          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True, "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1, "axisl": "min"})
 }
 
 # Enemy settings
@@ -137,7 +136,7 @@ ENEMIES = {
                            "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
                            "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
 
-          "werewolf": {"name": "werewolf", "res": (184, 64), "health": 8000, "vel": 200, "damage": 60, "attack_range": 50, "stopping_range": 25 ** 2,
+          "werewolf": {"name": "werewolf", "res": (184, 64), "health": 8000, "vel": 200, "damage": 60, "attack_range": 100, "stopping_range": 25 ** 2,
                        "steering_strength": 0.6, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
                        "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False},
 

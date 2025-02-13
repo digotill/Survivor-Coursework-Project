@@ -14,3 +14,4 @@ class BackgroundManager:
                     # Draw the main menu background only when the game is in the menu state
                     if self.game.in_menu:
                               self.main_background.draw()
+                              self.game.displayS.blit(self.game.assets["tutorial"], MISC["tutorial_pos"])
