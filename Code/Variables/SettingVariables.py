@@ -38,7 +38,7 @@ GENERAL = {
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
                90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8,
-               "golem": 1}, 220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
+                                                                                                                                "golem": 1}, 220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
                350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
 # Boss settings
@@ -63,7 +63,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-          "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+                                                                                                                                      "lush_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
 PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
@@ -124,51 +124,16 @@ BUTTONS = {
 
 # Enemy settings
 ENEMIES = {
-          "canine_grey": {"name": "canine_grey", "res": (48, 32), "health": 200, "vel": 140, "damage": 20, "attack_range": 50, "stopping_range": 25 ** 2,
-                          "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                          "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": True},
-
-          "canine_white": {"name": "canine_white", "res": (48, 32), "health": 300, "vel": 150, "damage": 25, "attack_range": 50, "stopping_range": 25 ** 2,
-                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                           "armour": 1, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, "has_shadow": True},
-
-          "canine_black": {"name": "canine_black", "res": (48, 32), "health": 400, "vel": 150, "damage": 30, "attack_range": 50, "stopping_range": 25 ** 2,
-                           "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                           "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, "has_shadow": True},
-
-          "werewolf": {"name": "werewolf", "res": (184, 64), "health": 8000, "vel": 200, "damage": 60, "attack_range": 100, "stopping_range": 25 ** 2,
-                       "steering_strength": 0.6, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                       "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False},
-
-          "pebble": {"name": "pebble", "res": (32, 32), "health": 500, "vel": 150, "damage": 40, "attack_range": 50, "stopping_range": 25 ** 2,
-                     "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                     "armour": 2, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.5, "orange": 0.65, "green": 0.85, "purple": 1}, "has_shadow": False},
-
-          "golem": {"name": "golem", "res": (32, 32), "health": 600, "vel": 160, "damage": 50, "attack_range": 50, "stopping_range": 25 ** 2,
-                    "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                    "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, "has_shadow": False},
-
-          "armoured_golem": {"name": "armoured_golem", "res": (32, 32), "health": 700, "vel": 160, "damage": 60, "attack_range": 50, "stopping_range": 25 ** 2,
-                             "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                             "armour": 5, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, "has_shadow": False},
-
-          "titan": {"name": "titan", "res": (130, 100), "health": 16000, "vel": 220, "damage": 80, "attack_range": 50, "stopping_range": 25 ** 2,
-                    "steering_strength": 0.6, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                    "armour": 10, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False},
-
-          "mini_peka": {"name": "mini_peka", "res": (32, 32), "health": 800, "vel": 160, "damage": 70, "attack_range": 50, "stopping_range": 25 ** 2,
-                        "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                        "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, "has_shadow": True},
-
-          "bat": {"name": "bat", "res": (64, 64), "health": 900, "vel": 165, "damage": 80, "attack_range": 50, "stopping_range": 25 ** 2,
-                  "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                  "armour": 1, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, "has_shadow": False},
-
-          "skinny": {"name": "skinny", "res": (64, 64), "health": 1000, "vel": 170, "damage": 90, "attack_range": 50, "stopping_range": 25 ** 2,
-                     "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                     "armour": 1, "attack_cooldown": 0.8, "xp_chances": {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, "has_shadow": False},
-
-          "brain": {"name": "brain", "res": (80, 64), "health": 30000, "vel": 210, "damage": 100, "attack_range": 50, "stopping_range": 25 ** 2,
-                    "steering_strength": 0.6, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
-                    "armour": 2, "attack_cooldown": 0.8, "xp_chances": {"blue": 0, "orange": 0, "green": 0, "purple": 1}, "has_shadow": False},
+          "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, True),
+          "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True),
+          "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True),
+          "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
+          "pebble": M.create_enemy("pebble", (32, 32), 500, 150, 40, 50, 2, {"blue": 0.5, "orange": 0.65, "green": 0.85, "purple": 1}, False),
+          "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, False),
+          "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, False),
+          "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
+          "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True),
+          "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, False),
+          "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, False),
+          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
 }

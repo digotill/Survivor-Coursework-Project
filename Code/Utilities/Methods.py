@@ -12,6 +12,9 @@ class Methods:
                                          "line_thickness": 2, "line_colour": (131, 64, 44), "on": False, "active": False, "current_hover_offset": 0,
                                          }
                     }
+                    self.enemy_config = {"name": "canine_grey", "res": (48, 32), "health": 200, "vel": 140, "damage": 20, "attack_range": 50, "stopping_range": 25 ** 2,
+                          "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100, "separation_strength": 0.2,
+                          "armour": 1, "attack_cooldown": 0.4, "xp_chances": {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, "has_shadow": True}
 
           @staticmethod
           def get_transparent_image(image, alpha):
@@ -135,6 +138,24 @@ class Methods:
                               "image": image,
                     }
                     value.update(self.button_config["slider"])
+                    if dictionary2 is not None:
+                              value.update(dictionary2)
+                    return value
+
+          def create_enemy(self, name, res, health, vel, damage, attack_range, armour, xp_chances, has_shadow, dictionary2=None):
+                    # Create a slider configuration dictionary
+                    value = {
+                              "name": name,
+                              "res": res,
+                              "health": health,
+                              "vel": vel,
+                              "damage": damage,
+                              "attack_range": attack_range,
+                              "armour": armour,
+                              "xp_chances": xp_chances,
+                              "has_shadow": has_shadow,
+                    }
+                    value.update(self.enemy_config)
                     if dictionary2 is not None:
                               value.update(dictionary2)
                     return value
