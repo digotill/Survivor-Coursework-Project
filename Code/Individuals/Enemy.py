@@ -40,12 +40,20 @@ class Enemy:
           def set_coordinates(self):
                     # Set initial coordinates for the enemy spawn
                     s = MISC["enemy_spawns"]
-                    rect2 = self.game.cameraM.rect
-                    rect1 = pygame.Rect(rect2.left - s, rect2.top - s, rect2.width + 2 * s, rect2.height + 2 * s)
+                    camera_rect = self.game.cameraM.rect
+                    spawn_area = pygame.Rect(camera_rect.left - s, camera_rect.top - s, camera_rect.width + 2 * s, camera_rect.height + 2 * s)
+
                     while True:
-                              x = random.randint(rect1.left, rect1.right - self.res[0])
-                              y = random.randint(rect1.top, rect1.bottom - self.res[1])
-                              if not self.game.cameraM.rect.collidepoint(x, y):
+                              x = random.randint(spawn_area.left, spawn_area.right - self.res[0])
+                              y = random.randint(spawn_area.top, spawn_area.bottom - self.res[1])
+
+                              # Create a rect for the potential enemy position
+                              enemy_rect = pygame.Rect(x, y, self.res[0], self.res[1])
+
+                              # Check if the enemy is outside the camera view and within the game boundaries
+                              if (not camera_rect.colliderect(enemy_rect) and
+                                      0 <= x < GAMESIZE[0] - self.res[0] and
+                                      0 <= y < GAMESIZE[1] - self.res[1]):
                                         self.pos = v2(x, y)
                                         break
 
