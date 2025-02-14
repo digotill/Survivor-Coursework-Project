@@ -29,6 +29,12 @@ class Methods:
                     return pygame.transform.scale(shadow_image, (image.width, shadow_image.height))
 
           @staticmethod
+          def get_shadow_image2(self, width):
+                    # Create a shadow image for the given image
+                    shadow_image = self.game.assets["shadow"].copy()
+                    return pygame.transform.scale(shadow_image, (width, shadow_image.height))
+
+          @staticmethod
           def get_image_outline(img, outline_color=(255, 255, 255)):
                     # Create an outline for the given image
                     mask = pygame.mask.from_surface(img)
@@ -141,7 +147,7 @@ class Methods:
                               value.update(dictionary2)
                     return value
 
-          def create_enemy(self, name, res, health, vel, damage, attack_range, armour, xp_chances, has_shadow, dictionary2=None):
+          def create_enemy(self, name, res, health, vel, damage, attack_range, armour, xp_chances, has_shadow, shadow_width, dictionary2=None):
                     # Create a slider configuration dictionary
                     value = {
                               "name": name,
@@ -153,6 +159,7 @@ class Methods:
                               "armour": armour,
                               "xp_chances": xp_chances,
                               "has_shadow": has_shadow,
+                              "shadow_width": shadow_width,
                     }
                     value.update(self.enemy_config)
                     if dictionary2 is not None:

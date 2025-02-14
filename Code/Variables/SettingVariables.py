@@ -58,7 +58,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 20}
+        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -71,7 +71,7 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
          "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+PLAYER = {'health': 20000, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Effect settings
@@ -134,16 +134,16 @@ BUTTONS = {
 
 # Enemy settings
 ENEMIES = {                                             # name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
-          "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, True),
-          "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True),
-          "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True),
-          "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
-          "pebble": M.create_enemy("pebble", (32, 32), 100, 150, 5, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.99, "purple": 1}, False),
-          "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, False),
-          "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, False),
+          "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, True, 48),
+          "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True, 48),
+          "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True, 48),
+          "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 100, {"knockback": 0.5}),
+          "pebble": M.create_enemy("pebble", (32, 32), 100, 150, 5, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.99, "purple": 1}, False, 0),
+          "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, True, 24),
+          "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, True, 24),
           "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
-          "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True),
-          "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, False),
-          "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, False),
-          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
+          "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
+          "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, True, 32),
+          "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 42),
+          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.5}),
 }

@@ -147,8 +147,8 @@ class Enemy:
                     pos = self.get_position()
                     current_sprite = self.get_current_sprite()
                     if self.has_shadow:
-                              shadow_image = self.game.methods.get_shadow_image(self, current_sprite)
-                              self.game.displayS.blit(shadow_image, (pos[0], pos[1] + self.res[1] - shadow_image.height / 2))
+                              shadow_image = self.game.methods.get_shadow_image2(self, self.shadow_width)
+                              self.game.displayS.blit(shadow_image, (pos[0] + self.res[0] / 2 - shadow_image.width / 2, pos[1] + self.res[1] - shadow_image.height / 2))
                     if self.hit_count is not None:
                               current_sprite = self.game.methods.get_image_mask(current_sprite)
                               self.hit_count += MISC["hit_effect"][1] * self.game.dt
