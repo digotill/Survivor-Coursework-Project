@@ -44,21 +44,21 @@ class Gun:
 
           def calc_angle(self):
                     # Calculate x difference to mouse
-                    change_in_x = self.game.player.rect.centerx - self.game.cameraM.rect.x - self.game.correct_mouse_pos[0]
+                    change_in_x = self.game.player.rect.centerx - self.game.cameraM.rect.x - self.game.inputM.get("position")[0]
                     # Calculate y difference to mouse
-                    change_in_y = self.game.player.rect.centery - self.game.cameraM.rect.y - self.game.correct_mouse_pos[1]
+                    change_in_y = self.game.player.rect.centery - self.game.cameraM.rect.y - self.game.inputM.get("position")[1]
                     self.angle = v2(change_in_x, change_in_y).angle_to((0, 1))  # Calculate angle to mouse
 
           def update_shooting(self):
                     current_time = self.game.game_time  # Get current game time
                     if self.can_shoot(current_time):  # Check if gun can shoot
                               self.shoot(current_time)  # Perform shooting
-                    elif not self.game.mouse_state[0]:  # If mouse button released
+                    elif not self.game.inputM.get("left_click"):  # If mouse button released
                               self.continuous_fire_start = None  # Reset continuous fire
 
           def can_shoot(self, current_time):
                     return (self.fire_rate + self.last_shot < current_time and  # Check cooldown
-                            self.game.mouse_state[0] and  # Check mouse pressed
+                            self.game.inputM.get("left_click") and  # Check mouse pressed
                             not self.game.changing_settings and  # Check not in settings
                             not self.game.died)  # Check player alive
 
@@ -74,7 +74,7 @@ class Gun:
 
                     start_coordinates = self.calculate_bullet_start_position()  # Get bullet start position
 
-                    self.game.soundM.play_sound(self.name + "_shot", 0.1)  # Play gun shot sound
+                    self.game.soundM.play_sound(self.name + "_shot", VOLUMES["gun_shot_frequancy"], VOLUMES["gun_shot_volume"])  # Play gun shot sound
 
                     for _ in range(self.shots):  # For each shot
                               self.game.sparkM.create_spark(270 - self.angle, start_coordinates, SPARKS['muzzle_flash'])   # Create muzzle flash

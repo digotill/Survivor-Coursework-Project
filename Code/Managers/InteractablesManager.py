@@ -87,7 +87,7 @@ class InteractablesManager:
                               self.game.uiM.brightness = self.sliders['brightness'].value
                               self.game.reduced_screen_shake = self.sliders['shake'].value / 100
                               self.game.colour_mode = self.sliders['colour'].value
-                              self.game.volume = self.sliders['volume'].value / 100
+                              self.game.master_volume = self.sliders['volume'].value / 100
                               self.game.text_size = self.sliders['text_size'].value / 100
 
                               self.value_cooldown_timer.reactivate(self.game.ticks)
@@ -103,7 +103,7 @@ class InteractablesManager:
                     self.xp_bar.update()
                     self.xp_bar.text_input = "level: " + str(self.game.player.level)
 
-                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider and self.game.changing_settings:
+                    if self.game.inputM.get("left_click") and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider and self.game.changing_settings:
                               # Handle various button interactions in the settings menu
                               self._handle_settings_interactions()
 
@@ -114,12 +114,16 @@ class InteractablesManager:
                     # Handle button interactions in the settings menu
                     if self.game_buttons['resume'].check_for_input():
                               self.game.changing_settings = False
+                              self.play_click()
                     elif self.game_buttons['fullscreen'].check_for_input():
                               pygame.display.toggle_fullscreen()
+                              self.play_click()
                     elif self.game_buttons['quit'].check_for_input():
                               self.game.running = False
+                              self.play_click()
                     elif self.game_buttons['return'].check_for_input():
                               self.game.screeneffectM.draw_restart_transition = True
+                              self.play_click()
 
           def _update_menu_buttons(self):
                     # Update and handle interactions for menu buttons
@@ -127,7 +131,7 @@ class InteractablesManager:
                               button.update()
                               button.change_colour()
 
-                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider:
+                    if self.game.inputM.get("left_click") and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider:
                               self._handle_menu_interactions()
                               self.button_cooldown_timer.reactivate(self.game.ticks)
 
@@ -135,8 +139,11 @@ class InteractablesManager:
                     # Handle button interactions in the main menu
                     if self.menu_buttons['play'].check_for_input():
                               self.game.playing_transition = True
+                              self.game.soundM.fade_music(40, self.game.assets["game_music"])
+                              self.play_click()
                     elif self.menu_buttons['quit'].check_for_input():
                               self.game.running = False
+                              self.play_click()
                     else:
                               self._handle_difficulty_selection()
                               self._handle_weapon_selection()
@@ -147,6 +154,7 @@ class InteractablesManager:
                               if button.can_change():
                                         self.game.difficulty = button.text_input
                                         button.change_on()
+                                        self.play_click()
                                         for other_button in self.difficulty_switches:
                                                   if other_button != button:
                                                             other_button.on = False
@@ -157,6 +165,7 @@ class InteractablesManager:
                               if button in self.weapons_switches and button.can_change():
                                         self.game.player.gun = self.weapons[button_name]
                                         button.change_on()
+                                        self.play_click()
                                         for other_button in self.weapons_switches:
                                                   if other_button != button:
                                                             other_button.on = False
@@ -167,12 +176,17 @@ class InteractablesManager:
                               button.active = True
                               button.update()
                               button.change_colour()
-                    if self.game.mouse_state[0] and self.button_cooldown_timer.check(self.game.ticks):
+                    if self.game.inputM.get("left_click") and self.button_cooldown_timer.check(self.game.ticks):
                               if self.end_buttons['restart'].check_for_input():
                                         self.game.screeneffectM.draw_restart_transition = True
+                                        self.play_click()
                               elif self.end_buttons['quit'].check_for_input():
                                         self.game.running = False
+                                        self.play_click()
                               self.button_cooldown_timer.reactivate(self.game.ticks)
+
+          def play_click(self):
+                    self.game.soundM.play_sound("click", VOLUMES["click_shot_frequancy"], VOLUMES["click_shot_volume"])
 
           def draw(self):
                     # Draw all relevant buttons based on the current game state

@@ -51,7 +51,7 @@ class Interactable:
 
           def check_for_input(self):
                     # Check if the mouse is over the UI element
-                    return self.rect.collidepoint(self.game.correct_mouse_pos)
+                    return self.rect.collidepoint(self.game.inputM.get("position"))
 
 
           def draw(self):
@@ -69,7 +69,7 @@ class Interactable:
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / (self.speed * self.distance_factor), 1)
                 
-                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
+                    if self.rect.collidepoint(self.game.inputM.get("position")) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
                         self.current_hover_offset = min(
                             self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
                     else:
@@ -119,7 +119,7 @@ class Button(Interactable):
           def change_colour(self):
                     # Change the color of the button text based on hover state
                     if self.has_text:
-                              colour = self.hovering_colour if self.rect.collidepoint(self.game.correct_mouse_pos) else self.base_colour
+                              colour = self.hovering_colour if self.rect.collidepoint(self.game.inputM.get("position")) else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
 
 
@@ -170,7 +170,7 @@ class Slider(Interactable):
                     speed_factor = min(distance / (self.speed * self.distance_factor), 1)
 
                     # Add hover effect logic
-                    if self.rect.collidepoint(self.game.correct_mouse_pos) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
+                    if self.rect.collidepoint(self.game.inputM.get("position")) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
                         self.current_hover_offset = min(
                             self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
                     else:
@@ -194,8 +194,8 @@ class Slider(Interactable):
 
                     self.update_value = False
 
-                    if self.game.mouse_state[0]:
-                              if self.circle_rect.collidepoint(self.game.correct_mouse_pos) and not self.game.interactablesM.grabbing_slider:
+                    if self.game.inputM.get("left_click"):
+                              if self.circle_rect.collidepoint(self.game.inputM.get("position")) and not self.game.interactablesM.grabbing_slider:
                                         self.is_dragging = True
                                         self.game.interactablesM.grabbing_slider = True
                               if self.is_dragging:
@@ -229,7 +229,7 @@ class Slider(Interactable):
 
           def set_value(self):
                     # Set the slider's value based on the mouse position
-                    mouse_x = self.game.correct_mouse_pos[0]
+                    mouse_x = self.game.inputM.get("position")[0]
                     if mouse_x <= self.rect.left + self.padding:
                               self.value = self.min_value
                     elif mouse_x >= self.rect.right - self.padding:
@@ -261,7 +261,7 @@ class Switch(Interactable):
 
           def can_change(self):
                     # Check if the switch can change its state (based on cooldown and current state)
-                    return (self.rect.collidepoint(self.game.correct_mouse_pos) and
+                    return (self.rect.collidepoint(self.game.inputM.get("position")) and
                             self.cooldown_timer.check(self.game.ticks) and
                             not self.on)
 

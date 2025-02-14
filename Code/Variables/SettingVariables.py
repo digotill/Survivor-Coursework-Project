@@ -4,8 +4,8 @@ from Code.Variables.ImportDependencies import *
 pygame.init()
 
 # Set window and rendering resolutions
-WINRES = (1280, int(1280 / (pygame.display.Info().current_w / pygame.display.Info().current_h)))
-RENRES = 640, int(640 / (pygame.display.Info().current_w / pygame.display.Info().current_h))
+WINRES = 1280, 720
+RENRES = 640, 360
 GAMESIZE = 1500, 1500
 
 # Set up the display
@@ -20,6 +20,8 @@ M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
 
+DISPLAY_INFO = pygame.display.Info()
+
 # Set up mouse cursor and window properties
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
 pygame.display.set_icon(AM.assets["cover"])
@@ -27,7 +29,6 @@ pygame.display.set_caption("Survivor Game")
 
 # General game settings
 GENERAL = {
-          'volume': (0.05, 0.05),  # sound volume, music volume
           'enemies': (10, 0.2, True, 0.1, 0.1),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
@@ -40,6 +41,9 @@ PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1
                90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8,"golem": 1},
                220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
                350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
+
+# Volume settings
+VOLUMES = {"music_volume": 0.6, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.08, "click_shot_frequancy": 0.1, "click_shot_volume": 5}
 
 # Boss settings
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
@@ -92,9 +96,9 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 
 # Weapon settings
 WEAPONS = {
-          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.1, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
+          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
                    "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
-          "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.8, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -2, "friction": 0.1,
+          "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -2, "friction": 0.1,
                       "spread_time": 2, "pierce": 5, "shots": 10, "name": "shotgun"}}
 
 # Button settings for various game states
@@ -118,7 +122,7 @@ BUTTONS = {
                     "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 240, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),

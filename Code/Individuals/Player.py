@@ -188,7 +188,7 @@ class Player:
           def update_facing(self):
                     # Update player's facing direction based on mouse position
                     if not self.game.died:
-                              if self.game.correct_mouse_pos[0] < self.get_mid_position()[0]:
+                              if self.game.inputM.get("position")[0] < self.get_mid_position()[0]:
                                         self.facing = "left"
                               else:
                                         self.facing = "right"

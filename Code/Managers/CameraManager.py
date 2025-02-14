@@ -41,8 +41,8 @@ class CameraManager():
 
           def update_mouse_smoothing(self):
                     # Calculate target mouse position relative to screen center
-                    mouse_target = v2(self.game.correct_mouse_pos[0] - 0.5 * self.res[0],
-                                      self.game.correct_mouse_pos[1] - 0.5 * self.res[1])
+                    mouse_target = v2(self.game.inputM.get("position")[0] - 0.5 * self.res[0],
+                                      self.game.inputM.get("position")[1] - 0.5 * self.res[1])
 
                     # Apply smoothing to mouse movement
                     dt = min(self.game.dt, 1 / 20)

@@ -13,6 +13,7 @@ class GameVariables:
                     self.game.died = False  # Flag for player death
                     self.game.playing_transition = False  # Flag for transition state
                     self.game.playing_end_trantition = False  # Flag for end screen transition state
+                    self.game.fullscreen = pygame.display.is_fullscreen()   # Flag for fullscreen mode
 
                     self.game.assets = AM.assets  # Store game assets
                     self.game.methods = M  # Store game methods
@@ -26,31 +27,27 @@ class GameVariables:
                     self.game.player = None  # Initialize player object
                     self.game.reduced_screen_shake = 1
                     self.game.colour_mode = 50
-                    self.game.volume = 0.5
+                    self.game.master_volume = 1
                     self.game.text_size = 1
-
                     self.update()  # Call update method
 
           def update_font_sizes(self):
                     self.game.assets["font8"] = pygame.font.Font("Assets/Fonts/font8.ttf", int(8 * self.game.text_size))
                     self.game.assets["font14"] = pygame.font.Font("Assets/Fonts/font14.ttf", int(14 * self.game.text_size))
 
+          def update_rect(self):
+                    self.game.drawing_rect = pygame.Rect(0, 0, self.game.display.width, self.game.display.height) if not self.game.fullscreen else (
+                              pygame.Rect(0, 0, DISPLAY_INFO.current_w, DISPLAY_INFO.current_h))
+
           def update(self):
                     # Update game state variables each frame
                     self.game.inputM.update()  # Update input manager
-                    self.game.keys = pygame.key.get_pressed()  # Get current keyboard state
-                    self.game.mouse_pos = (max(0, min(pygame.mouse.get_pos()[0], self.game.display.width)),
-                                           max(0, min(pygame.mouse.get_pos()[1], self.game.display.height)))  # Get clamped mouse position
-                    self.game.correct_mouse_pos = (int(self.game.mouse_pos[0] * self.game.render_resolution[0] / self.game.display.width),
-                                                   int(self.game.mouse_pos[1] * self.game.render_resolution[1] / self.game.display.height))  # Calculate corrected mouse position
-                    if self.game.mouse_pos != pygame.mouse.get_pos(): pygame.mouse.set_pos(self.game.mouse_pos)  # Update mouse position if changed
-                    self.game.mouse_state = pygame.mouse.get_pressed()  # Get current mouse button state
-                    if self.game.clock.get_fps() != 0:
-                              self.game.dt = 1 / self.game.clock.get_fps()  # Calculate delta time
-                    else:
-                              self.game.dt = 0
+                    if self.game.clock.get_fps() != 0: self.game.dt = 1 / self.game.clock.get_fps()  # Calculate delta time
+                    else: self.game.dt = 0
                     if not self.game.changing_settings and not self.game.in_menu: self.game.game_time += self.game.dt  # Update game time
                     self.game.ticks = pygame.time.get_ticks() / 1000  # Get current time in seconds
                     if self.game.ticks % 10 == 0: gc.collect()  # Perform garbage collection every 10 seconds
                     if self.game.player is not None and self.game.player.health <= 0: self.game.died = True  # Check for player death
                     self.update_font_sizes()  # Update font sizes
+                    self.game.fullscreen = pygame.display.is_fullscreen()  # Flag for fullscreen mode
+                    self.update_rect()

@@ -19,8 +19,10 @@ class Data:
                     for slider_name, config in self.slider_configs.items():
                               value = self.save_load_system.load_game_data([slider_name], [config['default']])
                               self.game.interactablesM.sliders[slider_name].value = value
+                    self.game.wins = self.save_load_system.load_game_data(["wins"], [0])
 
           def save_data(self):
                     for slider_name in self.slider_configs.keys():
                               value = self.game.interactablesM.sliders[slider_name].value
                               self.save_load_system.save_game_data([value], [slider_name])
+                    self.save_load_system.save_game_data([self.game.wins], ["wins"])

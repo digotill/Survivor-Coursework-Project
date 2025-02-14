@@ -78,13 +78,13 @@ class UIManager:
 
           def display_mouse(self):
                     if pygame.mouse.get_focused():  # Only display cursor if mouse is focused
-                              if self.game.mouse_state[0]:
+                              if self.game.inputM.get("left_click"):
                                         image = self.game.assets["cursor"][1]  # Use clicked cursor image
                               else:
                                         image = self.game.assets["cursor"][0]  # Use normal cursor image
                               self.game.uiS.blit(image,  # Draw cursor on UI surface
-                                                 (self.game.correct_mouse_pos[0] - image.get_rect().width / 2,
-                                                  self.game.correct_mouse_pos[1] - image.get_rect().height / 2))
+                                                 (self.game.inputM.get("position")[0] - image.get_rect().width / 2,
+                                                  self.game.inputM.get("position")[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
                     if self.game.changing_settings:  # Darken screen when changing settings

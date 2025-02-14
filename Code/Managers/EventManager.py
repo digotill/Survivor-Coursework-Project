@@ -23,7 +23,7 @@ class EventManager:
                               self.fullscreen_timer.reactivate(current_time)  # Reset the cooldown timer
 
           def toggle_grab(self):
-                    if self.game.mouse_state[0] and not self.game.changing_settings and not self.game.in_menu:  # Grab mouse if clicked and not in menus
+                    if self.game.inputM.get("left_click") and not self.game.changing_settings and not self.game.in_menu:  # Grab mouse if clicked and not in menus
                               pygame.event.set_grab(True)
                     elif self.game.inputM.get("ungrab") or self.game.in_menu:  # Release mouse grab if key pressed or in menu
                               pygame.event.set_grab(False)

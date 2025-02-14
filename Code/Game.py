@@ -72,10 +72,11 @@ class Game:
           def update_display(self):
                     # Update the display with all drawn elements
                     self.uiM.update_display()
-                    self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
+                    self.shader.render_direct(self.drawing_rect)
                     pygame.display.flip()
 
           def run_game(self):
+                    self.soundM.play_music(self.assets["menu_music"])
                     # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
