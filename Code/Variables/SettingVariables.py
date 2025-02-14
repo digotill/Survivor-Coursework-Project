@@ -8,7 +8,7 @@ M = Methods()
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
-GAMESIZE = 1500, 1500
+GAMESIZE = 4000, 4000
 
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
@@ -58,7 +58,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10}
+        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -71,7 +71,7 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
          "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 20000, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Effect settings

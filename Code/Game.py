@@ -23,25 +23,11 @@ class Game:
 
                     # Initialize various game managers
                     self.eventM = EventManager(self)
-                    self.enemyM = EnemyManager(self)
-                    self.sparkM = SparkManager(self)
-                    self.bulletM = BulletManager(self)
-                    self.effectM = EffectManager(self)
-                    self.rainM = RainManager(self)
-                    self.interactablesM = InteractablesManager(self)
-                    self.uiM = UIManager(self)
-                    self.drawingM = DrawingManager(self)
-                    self.grassM = GrassManager(self)
-                    self.tilemapM = TileMapManager(self)
-                    self.objectM = ObjectManager(self)
-                    self.screeneffectM = ScreenEffectManager(self)
                     self.backgroundM = BackgroundManager(self)
-                    self.experienceM = ExperienceManager(self)
-
-                    self.player = Player(self)
-                    self.cameraM = CameraManager(self)
-
                     self.soundM = SoundManager(self)
+                    self.interactablesM = InteractablesManager(self)
+                    self.screeneffectM = ScreenEffectManager(self)
+                    self.uiM = UIManager(self)
 
                     self.data = Data(self)
                     self.data.load_data()
@@ -53,6 +39,27 @@ class Game:
                     self.__init__()
                     self.screeneffectM.set_transition_to_play()
                     self.run_game()
+
+          def load_game(self):
+                    self.soundM.fade_music(40, self.assets["loading_music"])
+                    self.enemyM = EnemyManager(self)
+                    self.effectM = EffectManager(self)
+                    self.sparkM = SparkManager(self)
+                    self.bulletM = BulletManager(self)
+                    self.rainM = RainManager(self)
+                    self.drawingM = DrawingManager(self)
+                    self.grassM = GrassManager(self)
+                    self.tilemapM = TileMapManager(self)
+                    self.objectM = ObjectManager(self)
+                    self.experienceM = ExperienceManager(self)
+                    self.player = Player(self)
+                    self.cameraM = CameraManager(self)
+                    self.soundM.fade_music(40, self.assets["game_music"])
+
+          def check_if_load_game(self):
+                    if not self.loaded_game and not self.in_menu:
+                              self.load_game()
+                              self.loaded_game = True
 
           def update_managers(self):
                     # Update game entities and managers
@@ -81,6 +88,7 @@ class Game:
                     # Main game loop
                     while self.running:
                               self.clock.tick_busy_loop(self.fps)
+                              self.check_if_load_game()
                               self.gameV.update()
                               self.eventM.handle_events()
                               self.update_managers()

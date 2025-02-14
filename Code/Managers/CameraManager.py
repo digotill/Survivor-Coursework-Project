@@ -64,10 +64,11 @@ class CameraManager():
                               self.window_max_offset * int(self.mouse_smoothing.y)
                     )
 
+                    dt = min(self.game.dt, 1 / 20)
                     # Smoothly interpolate current offset towards target offset
                     self.current_offset = v2(
-                              self.game.methods.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * self.game.dt),
-                              self.game.methods.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * self.game.dt)
+                              self.game.methods.lerp(self.current_offset.x, self.target_offset.x, self.lerp_speed * dt),
+                              self.game.methods.lerp(self.current_offset.y, self.target_offset.y, self.lerp_speed * dt)
                     )
 
                     return v2(round(self.current_offset.x), round(self.current_offset.y))

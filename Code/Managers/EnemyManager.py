@@ -13,7 +13,7 @@ class EnemyManager:
                     self.rebuild_timer = Timer(GENERAL["enemies"][4], self.game.game_time)
 
           def update(self):
-                    if not self.game.changing_settings:
+                    if not self.game.changing_settings and self.game.game_time > 10:
                               for enemy in self.grid.items:
                                         enemy.update()  # Update each enemy's state
                                         if self.seperation_timer.update(self.game.game_time):
@@ -25,11 +25,9 @@ class EnemyManager:
 
                               self._add_enemies()  # Spawn new enemies if necessary
 
-                              if self.rebuild_timer.update(self.game.game_time):  # 10% chance to rebuild grid
+                              if self.rebuild_timer.update(self.game.game_time):
                                         self.grid.rebuild()  # Periodically rebuild spatial hash grid
                                         self.rebuild_timer.reactivate(self.game.game_time)
-
-          import random
 
           def _add_enemies(self):
                     if self.spawn_timer.update(self.game.game_time):

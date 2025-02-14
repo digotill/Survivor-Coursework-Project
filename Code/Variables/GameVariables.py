@@ -13,6 +13,7 @@ class GameVariables:
                     self.game.died = False  # Flag for player death
                     self.game.playing_transition = False  # Flag for transition state
                     self.game.playing_end_trantition = False  # Flag for end screen transition state
+                    self.game.loaded_game = False    # Flag for whether a game has been loaded
 
                     self.game.assets = AM.assets  # Store game assets
                     self.game.methods = M  # Store game methods
@@ -42,7 +43,8 @@ class GameVariables:
                     self.game.inputM.update()  # Update input manager
                     if self.game.clock.get_fps() != 0: self.game.dt = 1 / self.game.clock.get_fps()  # Calculate delta time
                     else: self.game.dt = 0
-                    if not self.game.changing_settings and not self.game.in_menu: self.game.game_time += self.game.dt  # Update game time
+                    dt = min(self.game.dt, 1/20)
+                    if not self.game.changing_settings and not self.game.in_menu: self.game.game_time += dt  # Update game time
                     self.game.ticks = pygame.time.get_ticks() / 1000  # Get current time in seconds
                     if self.game.ticks % 10 == 0: gc.collect()  # Perform garbage collection every 10 seconds
                     if self.game.player is not None and self.game.player.health <= 0: self.game.died = True  # Check for player death

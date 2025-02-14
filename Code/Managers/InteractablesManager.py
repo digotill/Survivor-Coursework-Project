@@ -139,7 +139,6 @@ class InteractablesManager:
                     # Handle button interactions in the main menu
                     if self.menu_buttons['play'].check_for_input():
                               self.game.playing_transition = True
-                              self.game.soundM.fade_music(40, self.game.assets["game_music"])
                               self.play_click()
                     elif self.menu_buttons['quit'].check_for_input():
                               self.game.running = False
