@@ -29,7 +29,7 @@ pygame.display.set_caption("Survivor Game")
 # General game settings
 GENERAL = {
           'enemies': (15, 0.5, True, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
-          'brightness': (1.5, 1.5, 70),  # max, min, paused
+          'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16, 48),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
@@ -58,7 +58,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 150), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6, "fps_pos": (190, 10)}
+        "starting_weapon": "spas12", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6, "fps_pos": (190, 10)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -78,7 +78,7 @@ PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed
 EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
 
 # Screen shake settings     magnitude, duration
-SHAKE = {"ak47": (5, 0.1), "shotgun": (25, 0.1), "minigun": (5, 0.1), "hit": (20, 0.5)}
+SHAKE = {"ak47": (5, 0.1), "spas12": (25, 0.1), "hit": (20, 0.5)}
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -97,10 +97,10 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 
 # Weapon settings
 WEAPONS = {
-          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -2, "friction": 0.1,
+          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.1,
                    "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
-          "shotgun": {"vel": 900, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -2, "friction": 0.1,
-                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "shotgun"}}
+          "spas12": {"vel": 900, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.1,
+                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12"}}
 
 # Button settings for various game states
 BUTTONS = {
@@ -110,8 +110,8 @@ BUTTONS = {
                     "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
                     "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 220), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}),
-                    "shotgun": M.create_button("shotgun", v2(600, 140), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"})},
+                    "ak47": M.create_button("ak47", v2(600, 220), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}),
+                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"})},
           "Menu_Buttons": {
                     "play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
                     "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),

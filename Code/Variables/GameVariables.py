@@ -1,5 +1,5 @@
 from Code.Variables.SettingVariables import *
-
+from Code.Individuals.Gun import *
 
 class GameVariables:
           def __init__(self, game):

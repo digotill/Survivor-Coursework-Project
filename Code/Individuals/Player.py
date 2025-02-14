@@ -14,7 +14,7 @@ class Player:
 
                     # Initialize player state variables
                     self.current_vel = 0
-                    self.gun = Gun(self.game, WEAPONS[MISC["starting_weapon"]])
+                    self.gun = self.game.gun
                     self.max_vel = self.vel
                     self.base_max_vel = self.max_vel
                     self.current_animation = 'idle'

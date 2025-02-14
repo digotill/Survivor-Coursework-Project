@@ -49,12 +49,12 @@ class InteractablesManager:
                     button_configs = BUTTONS["Weapon_Buttons"] | BUTTONS["Menu_Buttons"]
                     for name, config in button_configs.items():
                               # Use Switch class for specific buttons, Button class for others
-                              button_class = Switch if name in ['easy', 'medium', 'hard', 'ak47', 'shotgun',] else Button
+                              button_class = Switch if name in ['easy', 'medium', 'hard'] or name in BUTTONS["Weapon_Buttons"].keys() else Button
                               self.menu_buttons[name] = button_class(self.game, copy.deepcopy(config))
 
                     # Group difficulty and weapon switches for easier management
                     self.difficulty_switches = [self.menu_buttons[d] for d in ['easy', 'medium', 'hard']]
-                    self.weapons_switches = [self.menu_buttons[w] for w in ['ak47', 'shotgun']]
+                    self.weapons_switches = [self.menu_buttons[w] for w in BUTTONS["Weapon_Buttons"].keys()]
 
           def create_end_buttons(self):
                     # Create buttons for the end screen
@@ -66,6 +66,7 @@ class InteractablesManager:
                     # Create weapon objects for each weapon type
                     button_configs = BUTTONS["Weapon_Buttons"]
                     self.weapons = {weapon_type: Gun(self.game, WEAPONS[weapon_type]) for weapon_type in button_configs.keys()}
+                    self.game.gun = Gun(self.game, WEAPONS[MISC["starting_weapon"]])
 
           def update(self):
                     # Update method handles button interactions based on game state
@@ -162,7 +163,7 @@ class InteractablesManager:
                     # Handle weapon selection in the main menu
                     for button_name, button in self.menu_buttons.items():
                               if button in self.weapons_switches and button.can_change():
-                                        self.game.player.gun = self.weapons[button_name]
+                                        self.game.gun = self.weapons[button_name]
                                         button.change_on()
                                         self.play_click()
                                         for other_button in self.weapons_switches:

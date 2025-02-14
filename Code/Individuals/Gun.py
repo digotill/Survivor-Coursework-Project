@@ -9,7 +9,7 @@ class Gun:
 
                     self.gun_image = self.game.assets[self.name]  # Load gun image
                     self.res = self.game.assets[self.name].size  # Get gun image resolution
-                    self.bullet_image = self.game.assets[self.name + "_bullet"]  # Load bullet image
+                    self.bullet_image = self.game.assets["bullet"]  # Load bullet image
 
                     self.pos = v2(0, 0)  # Initialize gun position
                     self.rect = pygame.Rect(0, 0, self.res[0], self.res[1])  # Create gun rectangle
@@ -38,7 +38,7 @@ class Gun:
                                        self.game.cameraM.rect.x)
                               pos_y = (self.game.player.rect.centery +  # Calculate gun y position
                                        math.cos(math.radians(self.angle)) * self.distance -
-                                       self.game.cameraM.rect.y)
+                                       self.game.cameraM.rect.y) + 1
                               self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))  # Update gun rectangle
                               surface.blit(self.rotated_image, self.rect)  # Draw gun on surface
 
@@ -91,7 +91,7 @@ class Gun:
 
           def calculate_bullet_start_position(self):
                     start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 2)  # Calculate bullet start x
+                              self.distance - self.res[0])  # Calculate bullet start x
                     start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 2)  # Calculate bullet start y
+                              self.distance - self.res[0])  # Calculate bullet start y
                     return start_x, start_y  # Return start coordinates
