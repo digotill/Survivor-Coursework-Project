@@ -53,7 +53,6 @@ class Interactable:
                     # Check if the mouse is over the UI element
                     return self.rect.collidepoint(self.game.inputM.get("position"))
 
-
           def draw(self):
                     # Draw the UI element and its text if visible
                     if self.is_visible_on_screen():
@@ -68,27 +67,32 @@ class Interactable:
 
                     distance = (target - self.current_pos).length()
                     speed_factor = min(distance / (self.speed * self.distance_factor), 1)
-                
+
                     if self.rect.collidepoint(self.game.inputM.get("position")) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
-                        self.current_hover_offset = min(
-                            self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
+                              # Easing out effect for hover
+                              remaining_distance = self.hover_offset - self.current_hover_offset
+                              easing_factor = remaining_distance / self.hover_offset
+                              hover_speed = self.hover_speed * (easing_factor ** 2)  # Quadratic easing
+                              self.current_hover_offset = min(
+                                        self.current_hover_offset + hover_speed * self.game.dt, self.hover_offset)
                     else:
-                        self.current_hover_offset = max(
-                            self.current_hover_offset - self.hover_speed * self.game.dt, 0)
-                
+                              # Quick return when not hovering
+                              self.current_hover_offset = max(
+                                        self.current_hover_offset - self.hover_speed * 2 * self.game.dt, 0)
+
                     # Update the target vector
                     if self.axis == "x":
-                        target.x = (self.pos.x if self.active else self.starting_pos[0])
+                              target.x = (self.pos.x if self.active else self.starting_pos[0])
                     else:  # axis is "y"
-                        target.y = (self.pos.y if self.active else self.starting_pos[1])
-                
+                              target.y = (self.pos.y if self.active else self.starting_pos[1])
+
                     direction = (target - self.current_pos).normalize() if (target - self.current_pos).length_squared() > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
                     if movement.length() > distance:
-                        self.current_pos = target
+                              self.current_pos = target
                     else:
-                        self.current_pos += movement
-                
+                              self.current_pos += movement
+
                     temp_pos = round(self.current_pos.x + (self.current_hover_offset if self.hover_slide else 0)), round(self.current_pos.y)
                     self.rect.center = temp_pos
 
@@ -171,26 +175,26 @@ class Slider(Interactable):
 
                     # Add hover effect logic
                     if self.rect.collidepoint(self.game.inputM.get("position")) and self.hover_slide and not self.game.interactablesM.grabbing_slider:
-                        self.current_hover_offset = min(
-                            self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
+                              self.current_hover_offset = min(
+                                        self.current_hover_offset + self.hover_speed * self.game.dt, self.hover_offset)
                     else:
-                        self.current_hover_offset = max(
-                            self.current_hover_offset - self.hover_speed * self.game.dt, 0)
+                              self.current_hover_offset = max(
+                                        self.current_hover_offset - self.hover_speed * self.game.dt, 0)
 
                     direction = (target - self.current_pos).normalize() if distance > 0 else v2(0, 0)
                     movement = direction * self.speed * speed_factor * self.game.dt
                     if movement.length() > distance:
-                        self.current_pos = target
+                              self.current_pos = target
                     else:
-                        self.current_pos += movement
+                              self.current_pos += movement
 
                     # Apply hover offset
                     if self.axis == "x":
-                        self.rect.centerx = round(self.current_pos.x + (self.current_hover_offset if self.hover_slide else 0))
-                        self.rect.centery = round(self.current_pos.y)
+                              self.rect.centerx = round(self.current_pos.x + (self.current_hover_offset if self.hover_slide else 0))
+                              self.rect.centery = round(self.current_pos.y)
                     else:  # axis is "y"
-                        self.rect.centerx = round(self.current_pos.x)
-                        self.rect.centery = round(self.current_pos.y + (self.current_hover_offset if self.hover_slide else 0))
+                              self.rect.centerx = round(self.current_pos.x)
+                              self.rect.centery = round(self.current_pos.y + (self.current_hover_offset if self.hover_slide else 0))
 
                     self.update_value = False
 

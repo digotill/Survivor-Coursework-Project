@@ -49,7 +49,7 @@ VOLUMES = {"music_volume": 0.6, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
-DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}
+DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
 
 # Experience settings
 EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "orange": 20, "green": 50, "purple": 500, "animation_speed": 10,
@@ -58,7 +58,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun"}
+        "starting_weapon": "shotgun", "wins_pos": (320, 340)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,

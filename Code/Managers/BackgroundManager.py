@@ -17,3 +17,7 @@ class BackgroundManager:
 
                               rect = self.game.assets["tutorial"].get_rect(center=MISC["tutorial_pos"])
                               self.game.displayS.blit(self.game.assets["tutorial"], rect)
+
+                              wins = max(min(int(self.game.wins), 10), 0)
+                              rect = self.game.assets["wins" + str(wins)].get_rect(center=MISC["wins_pos"])
+                              self.game.displayS.blit(self.game.assets["wins" + str(wins)], rect)
