@@ -5,8 +5,6 @@ pygame.init()
 
 M = Methods()
 
-print(M.get_current_monitor_ratio())
-
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
@@ -30,7 +28,7 @@ pygame.display.set_caption("Survivor Game")
 
 # General game settings
 GENERAL = {
-          'enemies': (10, 0.2, True, 0.1, 0.1),  # max, spawn rate, spawning on
+          'enemies': (15, 0.5, True, 0.1, 0.1),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
@@ -44,7 +42,8 @@ PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1
                350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
 # Volume settings
-VOLUMES = {"music_volume": 0.6, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.08, "click_shot_frequancy": 0.1, "click_shot_volume": 5}
+VOLUMES = {"music_volume": 0.6, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.04, "click_shot_frequancy": 0.1, "click_shot_volume": 5, "heartbeat_frequancy": 0.1,
+           "heartbeat_volume": 30}
 
 # Boss settings
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
@@ -53,12 +52,13 @@ BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 5, 1)}
 
 # Experience settings
-EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 10, "orange": 50, "green": 200, "purple": 1000, "animation_speed": 10,
+EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "orange": 20, "green": 50, "purple": 500, "animation_speed": 10,
               "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 150}
 
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180)}
+        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
+        "starting_weapon": "shotgun"}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -87,7 +87,7 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings       chance of biome spawning, tree density, padding density
-BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 0.5, 0.5), "forest": (0.55, 0.5, 0.5), "snow": (0.6, 0.5, 0.5), "cherryblossom": (1, 0.5, 0.5), }
+BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 1, 0.5), "forest": (0.55, 1, 0.5), "snow": (0.6, 1, 0.5), "cherryblossom": (1, 1, 0.5), }
 
 # Tile settings
 TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
@@ -110,8 +110,8 @@ BUTTONS = {
                     "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
                     "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 220), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"}),
-                    "shotgun": M.create_button("shotgun", v2(600, 140), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"})},
+                    "ak47": M.create_button("ak47", v2(600, 220), M.get_image_outline(AM.assets["ak47"]), {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}),
+                    "shotgun": M.create_button("shotgun", v2(600, 140), M.get_image_outline(AM.assets["shotgun"]), {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"})},
           "Menu_Buttons": {
                     "play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
                     "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),
@@ -133,17 +133,17 @@ BUTTONS = {
 }
 
 # Enemy settings
-ENEMIES = { # name, res, health, vel, damage, attack_range, stopping_range, steering_strength, friction, animation_speed, hit_cooldown, separation_radius, separation_strength, armour, attack_cooldown, xp_chances, has_shadow
+ENEMIES = {                                             # name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
           "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, True),
           "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True),
           "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True),
-          "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
-          "pebble": M.create_enemy("pebble", (32, 32), 500, 150, 40, 50, 2, {"blue": 0.5, "orange": 0.65, "green": 0.85, "purple": 1}, False),
+          "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
+          "pebble": M.create_enemy("pebble", (32, 32), 100, 150, 5, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.99, "purple": 1}, False),
           "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, False),
           "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, False),
-          "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
+          "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
           "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True),
           "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, False),
           "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, False),
-          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False),
+          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.5}),
 }

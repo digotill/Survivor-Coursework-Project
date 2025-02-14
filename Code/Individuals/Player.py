@@ -14,7 +14,7 @@ class Player:
 
                     # Initialize player state variables
                     self.current_vel = 0
-                    self.gun = Gun(self.game, WEAPONS["ak47"])
+                    self.gun = Gun(self.game, WEAPONS[MISC["starting_weapon"]])
                     self.max_vel = self.vel
                     self.base_max_vel = self.max_vel
                     self.current_animation = 'idle'
@@ -202,6 +202,7 @@ class Player:
                               if not self.dead:
                                         self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0])
                                         self.last_hit = self.game.game_time
+                                        self.game.soundM.play_sound("heartbeat", VOLUMES["heartbeat_frequancy"], VOLUMES["heartbeat_volume"])
                                         self.hit_count = 0
                                         self.game.screeneffectM.add_blood_effect()
                                         for _ in range(MISC["blood_on_player_hit"]):

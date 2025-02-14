@@ -13,7 +13,7 @@ class Methods:
                                          }
                     }
                     self.enemy_config = {"stopping_range": 25 ** 2, "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 100,
-                              "separation_strength": 0.2, "attack_cooldown": 0.4}
+                              "separation_strength": 0.2, "attack_cooldown": 0.4, "knockback": 1}
 
           @staticmethod
           def get_transparent_image(image, alpha):

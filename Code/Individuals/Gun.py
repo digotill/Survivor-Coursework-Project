@@ -91,7 +91,7 @@ class Gun:
 
           def calculate_bullet_start_position(self):
                     start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance - self.res[0])  # Calculate bullet start x
+                              self.distance - self.res[0] / 2)  # Calculate bullet start x
                     start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance - self.res[0])  # Calculate bullet start y
+                              self.distance - self.res[0] / 2)  # Calculate bullet start y
                     return start_x, start_y  # Return start coordinates

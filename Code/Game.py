@@ -48,6 +48,7 @@ class Game:
 
           def refresh(self):
                     # Refresh the display and restart the game
+                    pygame.mixer.music.stop()
                     pygame.display.flip()
                     self.__init__()
                     self.screeneffectM.set_transition_to_play()

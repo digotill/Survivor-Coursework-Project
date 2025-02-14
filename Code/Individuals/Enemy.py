@@ -203,3 +203,6 @@ class Enemy:
                     self.dead = True
                     # Add any death animation or particle effects here
                     self.game.remove_enemy(self)
+
+          def apply_knockback(self, force):
+                    self.apply_force(force * self.knockback)

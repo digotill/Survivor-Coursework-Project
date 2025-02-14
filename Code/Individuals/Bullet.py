@@ -65,7 +65,7 @@ class Bullet:
                               if target.health > 0:
                                         # Apply knockback if the enemy is still alive
                                         knockback_force = self.vel_vector.normalize() * MISC["bullet_knockback"]
-                                        target.apply_force(knockback_force)
+                                        target.apply_knockback(knockback_force)
 
                               target.hit_count = 0
                               if self.pierce <= 0:
