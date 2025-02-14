@@ -150,5 +150,9 @@ class UIManager:
                     self.game.displayS.blit(filter_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
           def draw_ui_surface(self):
-                    self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display
+                    if self.game.uiS.size == self.game.displayS.size:
+                              self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display
+                    else:
+                              surface = pygame.transform.scale(self.game.uiS, self.game.displayS.size)
+                              self.game.displayS.blit(surface, (0, 0))  # Draw UI surface on main display
                     self.game.uiS.fill((0, 0, 0, 0))  # Clear UI surface for next frame

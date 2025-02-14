@@ -44,6 +44,7 @@ class InputManager:
                                                 max(0, min(mouse_pos[1], self.game.display.height)))
                     self.mouse["position"] = v2(int(self.mouse["real_position"].x * self.game.render_resolution[0] / self.game.display.width),
                                                     int(self.mouse["real_position"].y * self.game.render_resolution[1] / self.game.display.height))
+                    if self.mouse["real_position"] != mouse_pos: pygame.mouse.set_pos(self.mouse["real_position"])  # Update mouse position if changed
 
 
 class Input:

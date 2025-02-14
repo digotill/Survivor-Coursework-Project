@@ -3,9 +3,13 @@ from Code.Variables.ImportDependencies import *
 # Initialize Pygame
 pygame.init()
 
+M = Methods()
+
+print(M.get_current_monitor_ratio())
+
 # Set window and rendering resolutions
-WINRES = 1280, 720
-RENRES = 640, 360
+WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
+RENRES = 640, int(640 / M.get_current_monitor_ratio())
 GAMESIZE = 1500, 1500
 
 # Set up the display
@@ -16,11 +20,8 @@ pygame.display.toggle_fullscreen()
 pygame.display.toggle_fullscreen()
 
 # Initialize Methods class and rename files
-M = Methods()
 M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
-
-DISPLAY_INFO = pygame.display.Info()
 
 # Set up mouse cursor and window properties
 pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))

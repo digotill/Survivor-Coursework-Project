@@ -13,7 +13,6 @@ class GameVariables:
                     self.game.died = False  # Flag for player death
                     self.game.playing_transition = False  # Flag for transition state
                     self.game.playing_end_trantition = False  # Flag for end screen transition state
-                    self.game.fullscreen = pygame.display.is_fullscreen()   # Flag for fullscreen mode
 
                     self.game.assets = AM.assets  # Store game assets
                     self.game.methods = M  # Store game methods
@@ -22,7 +21,6 @@ class GameVariables:
                     self.game.game_time = 0  # Initialize game time
                     self.game.difficulty = "medium"  # Set default difficulty
                     self.game.fps = 240  # Set frames per second
-                    self.game.stats = pd.DataFrame(columns=['Coins', 'Level', 'Enemies Killed'])  # Initialize stats
                     self.game.uiS.set_colorkey((0, 0, 0))  # Set UI surface transparency
                     self.game.player = None  # Initialize player object
                     self.game.reduced_screen_shake = 1
@@ -36,11 +34,11 @@ class GameVariables:
                     self.game.assets["font14"] = pygame.font.Font("Assets/Fonts/font14.ttf", int(14 * self.game.text_size))
 
           def update_rect(self):
-                    self.game.drawing_rect = pygame.Rect(0, 0, self.game.display.width, self.game.display.height) if not self.game.fullscreen else (
-                              pygame.Rect(0, 0, DISPLAY_INFO.current_w, DISPLAY_INFO.current_h))
+                    self.game.drawing_rect = pygame.Rect(0, 0, self.game.display.width, self.game.display.height)
 
           def update(self):
                     # Update game state variables each frame
+                    self.game.displayinfo = pygame.display.Info()
                     self.game.inputM.update()  # Update input manager
                     if self.game.clock.get_fps() != 0: self.game.dt = 1 / self.game.clock.get_fps()  # Calculate delta time
                     else: self.game.dt = 0
