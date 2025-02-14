@@ -31,7 +31,7 @@ GENERAL = {
           'enemies': (15, 0.5, True, 0.1, 0.1),  # max, spawn rate, spawning on
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP
+          'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16, 48),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20), }  # main menu. transition, you died
 
@@ -58,7 +58,7 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
 # Miscellaneous settings
 MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun", "wins_pos": (320, 340)}
+        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 20}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
