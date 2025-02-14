@@ -44,10 +44,11 @@ class Interactable:
 
           def update_text_render(self):
                     # Update the rendered text
-                    if self.has_text:
+                    if self.has_text and self.text_timer.update(self.game.ticks) and not self.is_switch:
                               self.font = self.game.assets["font8"]
                               self.text = self.font.render(self.text_input, False, self.base_colour)
                               self.update_text_position()
+                              self.text_timer.reactivate(self.game.ticks)
 
           def check_for_input(self):
                     # Check if the mouse is over the UI element
@@ -119,12 +120,16 @@ class Button(Interactable):
                     self.game.methods.set_attributes(self, dictionary)
 
                     self.init_positions()
+                    self.text_timer = Timer(self.game.ticks, GENERAL["misc"][3])
+                    self.colour_timer = Timer(self.game.ticks, GENERAL["misc"][4])
+                    self.is_switch = False
 
           def change_colour(self):
                     # Change the color of the button text based on hover state
-                    if self.has_text:
+                    if self.has_text and self.rect.collidepoint(self.game.inputM.get("position")) or self.colour_timer.update(self.game.ticks):
                               colour = self.hovering_colour if self.rect.collidepoint(self.game.inputM.get("position")) else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
+                              self.colour_timer.reactivate(self.game.ticks)
 
 
 # Slider class, inherits from UIElement
@@ -150,6 +155,8 @@ class Slider(Interactable):
                                                    self.rect.y - self.circle_radius + 0.5 * self.rect.height,
                                                    self.circle_radius * 2, self.circle_radius * 2)
                     self.current_hover_offset = 0  # Add this line
+
+                    self.text_timer = Timer(self.game.ticks, GENERAL["misc"][3])
 
           def draw(self):
                     # Draw the slider, including the line and circle
@@ -217,9 +224,11 @@ class Slider(Interactable):
                               self.update_text()
 
           def update_text(self):
-                    # Update the text displayed on the slider
-                    self.font = self.game.assets["font8"]
-                    self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_colour)
+                    if self.game.interactablesM.grabbing_slider or self.text_timer.update(self.game.ticks):
+                              # Update the text displayed on the slider
+                              self.font = self.game.assets["font8"]
+                              self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_colour)
+                              self.text_timer.reactivate(self.game.ticks)
                     self.update_text_position()
 
           def change_colour(self):
@@ -256,6 +265,8 @@ class Switch(Interactable):
                     self.init_positions()
 
                     self.cooldown_timer = Timer(GENERAL['cooldowns'][0], self.game.ticks)
+                    self.text_timer = Timer(self.game.ticks, GENERAL["misc"][3])
+                    self.is_switch = True
 
           def change_colour(self):
                     # Change the color of the switch text based on its state (on/off)

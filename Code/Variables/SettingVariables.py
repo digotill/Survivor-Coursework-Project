@@ -35,7 +35,7 @@ GENERAL = {
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20),   # main menu. transition, you died
           "enviroment_density": (0.05, 16, 150),
-          "misc": ("spas12", 100, (20, 0.5))    # starting weapon, enemy spawn distance, screen shake on hit
+          "misc": ("spas12", 100, (20, 0.5), 0.1, 0.1),    # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
 }
 
 # Progression settings
@@ -66,7 +66,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
           'shake_speed': 200, 'reduced_screen_shake': 1}
 
 # Grass settings
-GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.4,
+GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.2,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
          "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
@@ -86,7 +86,7 @@ SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255)
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
 # Biome settings       chance of biome spawning, tree density, padding density
-BIOMES = {"wasteland": (0.35, 1, 1), "spring": (0.45, 1, 0.5), "forest": (0.55, 1, 0.5), "snow": (0.6, 1, 0.5), "cherryblossom": (1, 1, 0.5), }
+BIOMES = {"wasteland": (0.35, 0.7, 0.8), "spring": (0.45, 0.7, 0.8), "forest": (0.55, 0.7, 0.8), "snow": (0.6, 0.7, 0.8), "cherryblossom": (1, 0.7, 0.8), }
 
 # Tile settings
 TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }

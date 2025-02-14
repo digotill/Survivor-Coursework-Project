@@ -28,11 +28,12 @@ class GameVariables:
                     self.game.colour_mode = 50
                     self.game.master_volume = 1
                     self.game.text_size = 1
+                    self.update_font_sizes()
                     self.update()  # Call update method
 
           def update_font_sizes(self):
-                    self.game.assets["font8"] = pygame.font.Font("Assets/Fonts/font8.ttf", int(8 * self.game.text_size))
-                    self.game.assets["font14"] = pygame.font.Font("Assets/Fonts/font14.ttf", int(14 * self.game.text_size))
+                    self.game.assets["font8"] = pygame.font.Font("Assets/UI/fonts/font8.ttf", int(8 * self.game.text_size))
+                    self.game.assets["font14"] = pygame.font.Font("Assets/UI/fonts/font14.ttf", int(14 * self.game.text_size))
 
           def update_rect(self):
                     self.game.drawing_rect = pygame.Rect(0, 0, self.game.display.width, self.game.display.height)
@@ -48,6 +49,6 @@ class GameVariables:
                     self.game.ticks = pygame.time.get_ticks() / 1000  # Get current time in seconds
                     if self.game.ticks % 10 == 0: gc.collect()  # Perform garbage collection every 10 seconds
                     if self.game.player is not None and self.game.player.health <= 0: self.game.died = True  # Check for player death
-                    self.update_font_sizes()  # Update font sizes
+                    if getattr(self.game, "interactablesM", None) is not None and self.game.interactablesM.grabbing_slider: self.update_font_sizes()  # Update font sizes
                     self.game.fullscreen = pygame.display.is_fullscreen()  # Flag for fullscreen mode
                     self.update_rect()
