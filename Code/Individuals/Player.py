@@ -147,8 +147,8 @@ class Player:
                     # Apply hit effect if player was recently hit
                     if self.hit_count is not None:
                               image = self.game.methods.get_image_mask(image)
-                              self.hit_count += MISC["hit_effect"][1] * self.game.dt
-                              if self.hit_count >= MISC["hit_effect"][0]:
+                              self.hit_count += self.hit_effect[1] * self.game.dt
+                              if self.hit_count >= self.hit_effect[0]:
                                         self.hit_count = None
 
                     # Draw player
@@ -200,13 +200,13 @@ class Player:
                               self.check_if_alive()
 
                               if not self.dead:
-                                        self.game.cameraM.add_screen_shake(SHAKE["hit"][1], SHAKE["hit"][0])
+                                        self.game.cameraM.add_screen_shake(GENERAL["misc"][2][1], GENERAL["misc"][2][0])
                                         self.last_hit = self.game.game_time
                                         self.game.soundM.play_sound("heartbeat", VOLUMES["heartbeat_frequancy"], VOLUMES["heartbeat_volume"])
                                         self.hit_count = 0
                                         self.game.screeneffectM.add_blood_effect()
-                                        for _ in range(MISC["blood_on_player_hit"]):
-                                                  self.game.effectM.add_effect(self.pos, random.random() * 360, EFFECTS["blood"])
+                                        for _ in range(BLOOD["blood_on_player_hit"]):
+                                                  self.game.effectM.add_effect(self.pos, random.random() * 360, BLOOD["blood"])
 
           def check_if_alive(self):
                     # Check if player's health has depleted

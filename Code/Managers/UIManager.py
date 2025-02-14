@@ -17,7 +17,7 @@ class UIManager:
                               bar_image=self.game.assets["health_bar"],  # Image for health bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for health bar
                               ratio=health_ratio,  # Ratio of current health to max health
-                              position=MISC["ui_bars"],  # Position of health bar on screen
+                              position=UI["ui_bars"],  # Position of health bar on screen
                               is_flipped=False  # Health bar is not flipped
                     )
 
@@ -28,7 +28,7 @@ class UIManager:
                               bar_image=self.game.assets["stamina_bar"],  # Image for stamina bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for stamina bar
                               ratio=stamina_ratio,  # Ratio of current stamina to max stamina
-                              position=MISC["ui_bars"],  # Position of stamina bar on screen
+                              position=UI["ui_bars"],  # Position of stamina bar on screen
                               is_flipped=True  # Stamina bar is flipped
                     )
 
@@ -65,7 +65,7 @@ class UIManager:
                                         max(min(BUTTONS["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
                                             BUTTONS["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
-                              text_rect = text.get_rect(center=(MISC["fps_pos"][0], MISC["fps_pos"][1]))  # Position FPS text
+                              text_rect = text.get_rect(center=(UI["fps_pos"][0], UI["fps_pos"][1]))  # Position FPS text
                               self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface
 
           def draw_time(self):
@@ -73,7 +73,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
-                                        self.game.render_resolution[0] - MISC["fps_pos"][0], MISC["fps_pos"][1]))  # Position time text
+                                        self.game.render_resolution[0] - UI["fps_pos"][0], UI["fps_pos"][1]))  # Position time text
                               self.game.uiS.blit(text, text_rect)  # Draw time text on UI surface
 
           def display_mouse(self):
@@ -120,7 +120,7 @@ class UIManager:
 
           def draw_xp_underbar(self):
                     if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
-                              rect = self.game.assets["xp_bar_outline"].get_rect(center=(MISC["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, MISC["xp_bar"][1]))
+                              rect = self.game.assets["xp_bar_outline"].get_rect(center=(UI["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, UI["xp_bar"][1]))
                               self.game.uiS.blit(self.game.assets["xp_bar_outline"], rect)  # Draw UI bar on UI surface
 
           def draw_xp_bar(self):
@@ -128,7 +128,7 @@ class UIManager:
                               res = self.game.assets["xp_bar_coloured"].width * max(min(self.game.player.xp / self.game.player.max_xp, 1), 0), self.game.assets["xp_bar_uncoloured"].height
                               surface = pygame.Surface(res)
                               surface.blit(self.game.assets["xp_bar_coloured"], (-self.game.assets["xp_bar_coloured"].width / 2 + res[0] / 2, 0))
-                              rect = surface.get_rect(center=(MISC["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, MISC["xp_bar"][1]))
+                              rect = surface.get_rect(center=(UI["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, UI["xp_bar"][1]))
                               self.game.uiS.blit(surface, rect)  # Draw UI bar on UI surface
 
           def apply_color_filter(self):

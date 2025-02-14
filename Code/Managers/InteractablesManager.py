@@ -66,7 +66,7 @@ class InteractablesManager:
                     # Create weapon objects for each weapon type
                     button_configs = BUTTONS["Weapon_Buttons"]
                     self.weapons = {weapon_type: Gun(self.game, WEAPONS[weapon_type]) for weapon_type in button_configs.keys()}
-                    self.game.gun = Gun(self.game, WEAPONS[MISC["starting_weapon"]])
+                    self.game.gun = Gun(self.game, WEAPONS[GENERAL["misc"][0]])
 
           def update(self):
                     # Update method handles button interactions based on game state

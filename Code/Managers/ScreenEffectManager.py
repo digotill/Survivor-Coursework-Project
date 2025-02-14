@@ -16,7 +16,7 @@ class ScreenEffectManager:
           def _initialize_flags(self):
                     self.inverted_transition = False
                     self.youdied_start_time = None
-                    self.youdied_duration = MISC["youdied_duration"]
+                    self.youdied_duration = 3
                     self.draw_restart_transition = False
                     self.drawing_restart_transition = False
                     self.play_start_transition = False
@@ -57,11 +57,11 @@ class ScreenEffectManager:
                                         self.game.in_menu = False
 
           def _handle_game_start_transition(self):
-                    if not self.game.in_menu and self.game.game_time < MISC["transition_time"]:
+                    if not self.game.in_menu and self.game.game_time < 1:
                               self.transition_effect.draw()
 
           def _handle_in_game_transition(self):
-                    if not self.game.in_menu and self.game.game_time >= MISC["transition_time"] and self.game.playing_transition:
+                    if not self.game.in_menu and self.game.game_time >= 1 and self.game.playing_transition:
                               if not self.inverted_transition:
                                         self.transition_effect.frame = self.transition_effect.length
                                         self.inverted_transition = True
@@ -90,11 +90,11 @@ class ScreenEffectManager:
           def _draw_blood_effect(self):
                     if self.has_blood_effect and not self.game.died:
                               elapsed_time = self.game.game_time - self.blood_effect_start_time
-                              if elapsed_time < MISC["blood_effect_duration"]:
+                              if elapsed_time < BLOOD["blood_effect_duration"]:
                                         self.blood_effect.draw()
                                         if self.blood_effect.frame > self.blood_effect.length:
                                                   self.blood_effect.frame = self.blood_effect.length
-                              elif elapsed_time > MISC["blood_effect_duration"]:
+                              elif elapsed_time > BLOOD["blood_effect_duration"]:
                                         self.blood_effect.draw(-1)
                                         if self.blood_effect.frame < 0:
                                                   self.has_blood_effect = False

@@ -33,7 +33,10 @@ GENERAL = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16, 48),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20, 10, 20), }  # main menu. transition, you died
+          'animation_speeds': (15, 20, 10, 20),   # main menu. transition, you died
+          "enviroment_density": (0.05, 16, 150),
+          "misc": ("spas12", 100, (20, 0.5))    # starting weapon, enemy spawn distance, screen shake on hit
+}
 
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
@@ -41,12 +44,12 @@ PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1
                220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
                350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
+# Boss settings
+BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
+
 # Volume settings
 VOLUMES = {"music_volume": 0.6, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.04, "click_shot_frequancy": 0.1, "click_shot_volume": 5, "heartbeat_frequancy": 0.1,
            "heartbeat_volume": 30}
-
-# Boss settings
-BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
@@ -55,10 +58,8 @@ DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
 EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "orange": 20, "green": 50, "purple": 500, "animation_speed": 10,
               "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 150}
 
-# Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 150), "blood_on_player_hit": 20,
-        "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "spas12", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6, "fps_pos": (190, 10)}
+# UI settings
+UI = {"ui_bars": (80, 30), "xp_bar": (240, 30), "fps_pos": (190, 10), "wins_pos": (320, 340), "tutorial_pos": (40, 180)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -71,14 +72,12 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
          "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10),
+PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), "hit_effect": (20, 200),
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
-# Effect settings
-EFFECTS = {"blood": {"name": "blood", "res": (48, 48), "speed": (800, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, }
-
-# Screen shake settings     magnitude, duration
-SHAKE = {"ak47": (5, 0.1), "spas12": (25, 0.1), "hit": (20, 0.5)}
+# Blood settings
+BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10},
+           "max_blood": 10, "blood_amount": 0.6, "blood_effect_duration": 4, "blood_on_player_hit": 20}
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -97,10 +96,10 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 
 # Weapon settings
 WEAPONS = {
-          "ak47": {"vel": 750, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.1,
-                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47"},
-          "spas12": {"vel": 900, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.1,
-                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12"}}
+          "ak47": {"vel": 1300, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.1,
+                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47", "knockback":  80, "screen_shake": 5},
+          "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.1,
+                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback":  20, "screen_shake": 25}}
 
 # Button settings for various game states
 BUTTONS = {

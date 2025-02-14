@@ -59,12 +59,12 @@ class Bullet:
 
                               # Add blood effect
                               angle = self.angle if self.angle > 0 else 360 + self.angle
-                              if random.random() < MISC["blood"]:
-                                        self.game.effectM.add_effect(self.pos, angle, EFFECTS["blood"])
+                              if random.random() < BLOOD["blood_amount"]:
+                                        self.game.effectM.add_effect(self.pos, angle, BLOOD["blood"])
 
                               if target.health > 0:
                                         # Apply knockback if the enemy is still alive
-                                        knockback_force = self.vel_vector.normalize() * MISC["bullet_knockback"]
+                                        knockback_force = self.vel_vector.normalize() * self.game.player.gun.knockback
                                         target.apply_knockback(knockback_force)
 
                               target.hit_count = 0

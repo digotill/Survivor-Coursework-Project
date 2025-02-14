@@ -39,7 +39,7 @@ class Enemy:
 
           def set_coordinates(self):
                     # Set initial coordinates for the enemy spawn
-                    s = MISC["enemy_spawns"]
+                    s = GENERAL["misc"][1]
                     camera_rect = self.game.cameraM.rect
                     spawn_area = pygame.Rect(camera_rect.left - s, camera_rect.top - s, camera_rect.width + 2 * s, camera_rect.height + 2 * s)
 
@@ -151,8 +151,8 @@ class Enemy:
                               self.game.displayS.blit(shadow_image, (pos[0] + self.res[0] / 2 - shadow_image.width / 2, pos[1] + self.res[1] - shadow_image.height / 2))
                     if self.hit_count is not None:
                               current_sprite = self.game.methods.get_image_mask(current_sprite)
-                              self.hit_count += MISC["hit_effect"][1] * self.game.dt
-                              if self.hit_count >= MISC["hit_effect"][0]:
+                              self.hit_count += self.hit_effect[1] * self.game.dt
+                              if self.hit_count >= self.hit_effect[0]:
                                         self.hit_count = None
                     surface.blit(current_sprite, pos)
 

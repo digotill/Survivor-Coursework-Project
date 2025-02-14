@@ -94,7 +94,12 @@ class GrassManager():
 class GrassAssets:
           def __init__(self, gm):
                     self.gm = gm
-                    self.blades = AM.assets["grass"]
+                    self.game = self.gm.game
+                    grass_array = []
+                    for key in GRASS["positions"].keys():
+                              for image in self.game.assets[key]:
+                                        grass_array.append(image)
+                    self.blades = grass_array
 
           def render_blade(self, surf, blade_id, location, rotation):
                     # rotate the blade

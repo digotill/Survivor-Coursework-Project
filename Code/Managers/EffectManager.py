@@ -48,7 +48,7 @@ class EffectManager:
                     effect = Effect(self.game, pos, direction, dictionary)
                     for cell in self.find_cells(effect.rect):
                               items = self.count_grid.get(cell)
-                              if items is not None and self.count_grid[cell] < MISC["max_blood"]:
+                              if items is not None and self.count_grid[cell] < BLOOD["max_blood"]:
                                         self.grid.insert(effect)
                               if items is None:
                                         self.count_grid[cell] = 1
