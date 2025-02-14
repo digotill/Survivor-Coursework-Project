@@ -41,20 +41,31 @@ class Game:
                     self.run_game()
 
           def load_game(self):
-                    self.soundM.fade_music(40, self.assets["loading_music"])
-                    self.enemyM = EnemyManager(self)
-                    self.effectM = EffectManager(self)
-                    self.sparkM = SparkManager(self)
-                    self.bulletM = BulletManager(self)
-                    self.rainM = RainManager(self)
-                    self.drawingM = DrawingManager(self)
-                    self.grassM = GrassManager(self)
-                    self.tilemapM = TileMapManager(self)
-                    self.objectM = ObjectManager(self)
-                    self.experienceM = ExperienceManager(self)
-                    self.player = Player(self)
-                    self.cameraM = CameraManager(self)
-                    self.soundM.fade_music(40, self.assets["game_music"])
+                    self.displayS.fill((68, 137, 26))
+                    self.uiM.draw_brightness()
+                    self.uiM.apply_color_filter()
+                    self.shader.render_direct(self.drawing_rect)
+                    pygame.display.flip()
+                    pygame.mouse.set_visible(True)
+                    self.soundM.fade_music(1000, self.assets["loading_music"])
+                    managers = {
+                              "enemyM": EnemyManager,
+                              "effectM": EffectManager,
+                              "sparkM": SparkManager,
+                              "bulletM": BulletManager,
+                              "rainM": RainManager,
+                              "drawingM": DrawingManager,
+                              "grassM": GrassManager,
+                              "tilemapM": TileMapManager,
+                              "objectM": ObjectManager,
+                              "experienceM": ExperienceManager,
+                              "player": Player,
+                              "cameraM": CameraManager,
+                    }
+                    for manager_name, manager_class in managers.items():
+                              setattr(self, manager_name, manager_class(self))
+                    self.soundM.fade_music(1000, self.assets["game_music"])
+                    pygame.mouse.set_visible(False)
 
           def check_if_load_game(self):
                     if not self.loaded_game and not self.in_menu:

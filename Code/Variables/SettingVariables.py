@@ -22,7 +22,7 @@ M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Pr
 AM = LoadAssets()
 
 # Set up mouse cursor and window properties
-pygame.mouse.set_cursor((8, 8), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0))
+pygame.mouse.set_visible(False)
 pygame.display.set_icon(AM.assets["cover"])
 pygame.display.set_caption("Survivor Game")
 
