@@ -49,14 +49,8 @@ class Game:
                     pygame.mouse.set_visible(True)
                     self.soundM.fade_music(1000, self.assets["loading_music"])
                     managers = {
-                              "enemyM": EnemyManager,
-                              "effectM": EffectManager,
-                              "sparkM": SparkManager,
-                              "bulletM": BulletManager,
-                              "rainM": RainManager,
-                              "drawingM": DrawingManager,
-                              "grassM": GrassManager,
-                              "tilemapM": TileMapManager,
+                              "enemyM": EnemyManager, "effectM": EffectManager, "sparkM": SparkManager, "bulletM": BulletManager, "rainM": RainManager,
+                              "drawingM": DrawingManager, "grassM": GrassManager,"tilemapM": TileMapManager,
                               "objectM": ObjectManager,
                               "experienceM": ExperienceManager,
                               "player": Player,

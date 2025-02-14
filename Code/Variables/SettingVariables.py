@@ -8,7 +8,7 @@ M = Methods()
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
-GAMESIZE = 4000, 4000
+GAMESIZE = 1000, 1000
 
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
@@ -28,7 +28,7 @@ pygame.display.set_caption("Survivor Game")
 
 # General game settings
 GENERAL = {
-          'enemies': (15, 0.5, True, 0.1, 0.1),  # max, spawn rate, spawning on
+          'enemies': (15, 0.5, True, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
           'brightness': (1.5, 1.5, 70),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16, 48),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
@@ -56,9 +56,9 @@ EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "or
               "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 150}
 
 # Miscellaneous settings
-MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 250), "blood_on_player_hit": 20,
+MISC = {"hit_effect": (20, 200), "enemy_spawns": 100, "transition_time": 1, "enviroment_density": (0.05, 16, 150), "blood_on_player_hit": 20,
         "ui_bars": (80, 30), "bullet_knockback": 80, "xp_bar": (240, 30), "blood": 0.6, "youdied_duration": 3, "blood_effect_duration": 4, "tutorial_pos": (40, 180),
-        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6}
+        "starting_weapon": "shotgun", "wins_pos": (320, 340), "max_blood": 10, "colour_change_timer": 0.5, "music_transition_time": 6, "fps_pos": (190, 10)}
 
 # Camera settings
 CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3,
@@ -128,8 +128,8 @@ BUTTONS = {
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
                      "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
-          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": True,
-                                                                                      "res": AM.assets["xp_bar_uncoloured"].size, "distance_factor": 0.1, "axisl": "min"})
+          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": False,
+                                                                                      "res": AM.assets["xp_bar_uncoloured"].size, "axisl": "min"})
 }
 
 # Enemy settings

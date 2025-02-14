@@ -65,7 +65,7 @@ class UIManager:
                                         max(min(BUTTONS["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
                                             BUTTONS["Sliders"]["fps"]["min_value"])))
                               text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
-                              text_rect = text.get_rect(center=(MISC["ui_bars"][0], MISC["ui_bars"][1] - 20))  # Position FPS text
+                              text_rect = text.get_rect(center=(MISC["fps_pos"][0], MISC["fps_pos"][1]))  # Position FPS text
                               self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface
 
           def draw_time(self):
@@ -73,7 +73,7 @@ class UIManager:
                               text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
                                                                        pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
-                                        self.game.render_resolution[0] - MISC["ui_bars"][0], MISC["ui_bars"][1] - 20))  # Position time text
+                                        self.game.render_resolution[0] - MISC["fps_pos"][0], MISC["fps_pos"][1]))  # Position time text
                               self.game.uiS.blit(text, text_rect)  # Draw time text on UI surface
 
           def display_mouse(self):
