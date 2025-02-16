@@ -74,7 +74,7 @@ class Shader:
 
                     self.shader_data = {}
                     self.shader = Shader.create_vertfrag_shader(self.ctx, vertex_path, fragment_path)
-                    self.render_rect = screen_rect.ScreenRect(self.target_surface.get_size(), self.target_surface.get_size(), (0, 0), self.ctx, self.shader)
+                    self.render_rect = None  # Initialize as None
 
                     self.screen_texture = texture.Texture(pygame.Surface(self.target_surface.get_size()), self.ctx)
                     self.framebuffer = self.ctx.simple_framebuffer(size=self.target_surface.get_size(), components=4)
@@ -140,7 +140,11 @@ class Shader:
                     rect = screen_rect.ScreenRect.pygame_rect_to_screen_rect(rect, self.target_surface, size)
 
                     # self.__upload_uniforms()
-                    self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), size, (rect.x, rect.y), self.ctx, self.shader)
+                    if self.render_rect is None or self.render_rect.size != (rect.w, rect.h):
+                              self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), size, (rect.x, rect.y), self.ctx, self.shader)
+                    else:
+                              self.render_rect.update_position((rect.x, rect.y))
+                              self.render_rect.update_size((rect.w, rect.h))
 
                     if update_surface:
                               self.screen_texture.update(self.target_surface)
@@ -164,6 +168,20 @@ class Shader:
                               self.render_rect.vao.render()
                               surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
                     return pygame.transform.flip(surf, False, True)
+
+          def __enter__(self):
+                    return self
+
+          def __exit__(self, exc_type, exc_val, exc_tb):
+                    self.cleanup()
+
+          def cleanup(self):
+                    if self.render_rect:
+                              self.render_rect.vao.release()
+                    self.screen_texture.texture.release()
+                    self.framebuffer.release()
+                    self.shader.release()
+                    self.ctx.release()
 
 
 class ComputeShader:

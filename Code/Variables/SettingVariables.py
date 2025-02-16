@@ -119,7 +119,7 @@ BUTTONS = {
                     "hard": M.create_button("hard", v2(420, 30), AM.assets["button12"], {"active": True, "axisl": "min"})},
           "Sliders": {"brightness":
                     M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 240, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 500, 240, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
