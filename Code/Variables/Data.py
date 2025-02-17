@@ -5,7 +5,10 @@ import pygame
 class Data:
           def __init__(self, game):
                     self.game = game
-                    self.save_load_system = SaveLoadSystem(".save", "DataSave")
+
+                    self.save_folder = "DataSave"
+                    self._validate_save_folder()
+                    self.save_load_system = SaveLoadSystem(".save", self.save_folder)
                     self.slider_configs = {
                               'fps': {'default': pygame.display.get_current_refresh_rate()},
                               'brightness': {'default': 50},
@@ -14,6 +17,16 @@ class Data:
                               'volume': {'default': 50},
                               'text_size': {'default': 100}
                     }
+
+          def _validate_save_folder(self):
+                    if not os.path.exists(self.save_folder):
+                              try:
+                                        os.makedirs(self.save_folder)
+                                        print(f"Created save folder: {self.save_folder}")
+                              except OSError as e:
+                                        print(f"Error creating save folder: {e}")
+                    else:
+                              print(f"Save folder already exists: {self.save_folder}")
 
           def load_data(self):
                     for slider_name, config in self.slider_configs.items():
