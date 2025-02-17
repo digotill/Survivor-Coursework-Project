@@ -37,14 +37,13 @@ class Interactable:
                     else:
                               self.text_rect = self.text.get_rect(center=self.rect.center)
 
-          def is_visible_on_screen(self):
-                    # Check if the UI element is visible on the screen
+          def update_is_visible(self):
                     screen_rect = self.game.displayS.get_rect()
-                    return self.rect.colliderect(screen_rect)
+                    self.is_visible = self.rect.colliderect(screen_rect)
 
           def update_text_render(self):
                     # Update the rendered text
-                    if self.has_text and self.text_timer.update(self.game.ticks) and not self.is_switch:
+                    if self.has_text and self.is_visible:
                               self.font = self.game.assets["font8"]
                               self.text = self.font.render(self.text_input, False, self.base_colour)
                               self.update_text_position()
@@ -56,12 +55,13 @@ class Interactable:
 
           def draw(self):
                     # Draw the UI element and its text if visible
-                    if self.is_visible_on_screen():
+                    if self.is_visible:
                               self.game.uiS.blit(self.image, self.rect)
                               if self.has_text:
                                         self.game.uiS.blit(self.text, self.text_rect)
 
           def update(self):
+                    self.update_is_visible()
                     # Update the position and state of the UI element
                     # Handle hover effects and smooth transitions
                     target = self.pos if self.active else v2(self.starting_pos)
@@ -126,11 +126,9 @@ class Button(Interactable):
 
           def change_colour(self):
                     # Change the color of the button text based on hover state
-                    if self.has_text and self.rect.collidepoint(self.game.inputM.get("position")) or self.colour_timer.update(self.game.ticks):
+                    if self.has_text and self.is_visible:
                               colour = self.hovering_colour if self.rect.collidepoint(self.game.inputM.get("position")) else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
-                              self.colour_timer.reactivate(self.game.ticks)
-
 
 # Slider class, inherits from UIElement
 class Slider(Interactable):
@@ -160,7 +158,7 @@ class Slider(Interactable):
 
           def draw(self):
                     # Draw the slider, including the line and circle
-                    if self.is_visible_on_screen():
+                    if self.is_visible:
                               self.game.uiS.blit(self.image, self.rect)
 
                               line_start = (self.rect.left + self.padding, self.rect.centery)
@@ -174,6 +172,7 @@ class Slider(Interactable):
                                         self.game.uiS.blit(self.text, self.text_rect)
 
           def update(self):
+                    self.update_is_visible()
                     # Update the slider's position, value, and handle user interaction
                     target = self.pos if self.active else v2(self.starting_pos)
 
@@ -224,7 +223,7 @@ class Slider(Interactable):
                               self.update_text()
 
           def update_text(self):
-                    if self.game.interactablesM.grabbing_slider or self.text_timer.update(self.game.ticks):
+                    if self.is_visible:
                               # Update the text displayed on the slider
                               self.font = self.game.assets["font8"]
                               self.text = self.font.render(self.text_input + str(int(self.value)), False, self.base_colour)
@@ -270,7 +269,7 @@ class Switch(Interactable):
 
           def change_colour(self):
                     # Change the color of the switch text based on its state (on/off)
-                    if self.has_text:
+                    if self.has_text and self.is_visible:
                               colour = self.hovering_colour if self.on else self.base_colour
                               self.text = self.font.render(self.text_input, False, colour)
 

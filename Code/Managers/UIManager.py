@@ -62,8 +62,8 @@ class UIManager:
           def draw_fps(self):
                     if self.fps_enabled:  # Only draw FPS if enabled
                               fps = str(int(  # Get current FPS, clamped to min/max values
-                                        max(min(BUTTONS["Sliders"]["fps"]["max_value"], self.game.clock.get_fps()),
-                                            BUTTONS["Sliders"]["fps"]["min_value"])))
+                                        max(min(self.game.interactablesM.sliders['fps'].value, self.game.clock.get_fps()),
+                                            self.game.interactablesM.sliders['fps'].min_value)))
                               text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
                               text_rect = text.get_rect(center=(UI["fps_pos"][0], UI["fps_pos"][1]))  # Position FPS text
                               self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface

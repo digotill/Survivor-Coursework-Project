@@ -44,7 +44,7 @@ class Game:
                     self.displayS.fill((68, 137, 26))
                     self.uiM.draw_brightness()
                     self.uiM.apply_color_filter()
-                    self.shader.render_direct(self.drawing_rect)
+                    self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                     pygame.display.flip()
                     pygame.mouse.set_visible(True)
                     self.soundM.fade_music(1000, self.assets["loading_music"])
@@ -84,15 +84,18 @@ class Game:
 
           def update_display(self):
                     # Update the display with all drawn elements
-                    self.uiM.update_display()
-                    self.shader.render_direct(self.drawing_rect)
-                    pygame.display.flip()
+                    self.lag += self.dt
+                    if self.lag >= 1.0 / self.fps:
+                              self.uiM.update_display()
+                              self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
+                              pygame.display.flip()
+                              self.lag = self.lag % (1.0 / self.fps)
 
           def run_game(self):
                     self.soundM.play_music(self.assets["menu_music"])
                     # Main game loop
                     while self.running:
-                              self.clock.tick_busy_loop(self.fps)
+                              self.clock.tick_busy_loop(10000)
                               self.check_if_load_game()
                               self.gameV.update()
                               self.eventM.handle_events()

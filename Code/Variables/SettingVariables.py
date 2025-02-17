@@ -35,7 +35,7 @@ GENERAL = {
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20),   # main menu. transition, you died
           "enviroment_density": (0.05, 16, 150),
-          "misc": ("spas12", 100, (20, 0.5), 0.1, 0.1),    # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
+          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05),    # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
 }
 
 # Progression settings
@@ -66,7 +66,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
           'shake_speed': 200, 'reduced_screen_shake': 1}
 
 # Grass settings
-GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.2,
+GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.6,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
          "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
@@ -109,8 +109,8 @@ BUTTONS = {
                     "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
                     "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 220), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x"}),
-                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x"})},
+                    "ak47": M.create_button("ak47", v2(600, 220), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": (32, 16)}),
+                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": (32, 16)})},
           "Menu_Buttons": {
                     "play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
                     "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),
@@ -119,7 +119,7 @@ BUTTONS = {
                     "hard": M.create_button("hard", v2(420, 30), AM.assets["button12"], {"active": True, "axisl": "min"})},
           "Sliders": {"brightness":
                     M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 500, 240, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 60, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
