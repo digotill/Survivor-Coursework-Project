@@ -20,6 +20,7 @@ class Bullet:
                     # Set up bullet position and velocity
                     self.pos = v2(pos)
                     self.vel_vector = v2(0, -gun.vel).rotate(-self.angle)
+                    self.original_vel_vector = self.vel_vector
                     self.rect = self.image.get_rect(center=self.pos)
                     self.res = self.rect.size
 
@@ -53,7 +54,7 @@ class Bullet:
                     # Check for collision with a target
                     rect = self.rect.inflate(self.res[0] / 2, self.res[1] / 2)
                     if rect.colliderect(target.rect) and target not in self.hit_list and not target.dead:
-                              target.health -= self.damage
+                              target.health -= self.damage * self.vel_vector.length_squared() / self.original_vel_vector.length_squared()
                               self.pierce -= target.armour
                               self.hit_list.append(target)
 

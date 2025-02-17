@@ -14,7 +14,7 @@ class ExperienceManager:
                               xp.reset(location, name)
                     else:
                               xp = Experience(self.game, location, name)
-                              self.grid.insert(xp)
+                    self.grid.insert(xp)
 
           def update(self):
                     if not self.game.changing_settings:
