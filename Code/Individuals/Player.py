@@ -156,6 +156,7 @@ class Player:
 
                     # Draw gun
                     self.gun.draw(surface)
+                    self.game.muzzleflashM.draw()
 
           def handle_stamina(self):
                     self.is_sprinting = self.game.inputM.get("sprint") and (self.dx != 0 or self.dy != 0) and not self.game.changing_settings
@@ -202,7 +203,7 @@ class Player:
                               if not self.dead:
                                         self.game.cameraM.add_screen_shake(GENERAL["misc"][2][1], GENERAL["misc"][2][0])
                                         self.last_hit = self.game.game_time
-                                        self.game.soundM.play_sound("heartbeat", VOLUMES["heartbeat_frequancy"], VOLUMES["heartbeat_volume"])
+                                        self.game.soundM.play_sound("heartbeat", VOLUMES["heartbeat_frequancy"], VOLUMES["heartbeat_volume"] * self.game.master_volume)
                                         self.hit_count = 0
                                         self.game.screeneffectM.add_blood_effect()
                                         for _ in range(BLOOD["blood_on_player_hit"]):

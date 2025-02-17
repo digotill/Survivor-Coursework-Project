@@ -14,9 +14,10 @@ class InteractablesManager:
                     self.menu_buttons = {}  # Buttons used in the main menu
                     self.end_buttons = {}  # Buttons used in the end screen
                     self.sliders = {}  # Sliders for adjusting settings
-                    self.xp_bar = Button(self.game, BUTTONS["XP_bar"])
+                    self.bars = {}
 
                     # Initialize all buttons and sliders
+                    self._create_bars()
                     self._create_ingame_buttons()
                     self._create_sliders()
                     self.create_buttons()
@@ -27,6 +28,14 @@ class InteractablesManager:
                     self.button_cooldown_timer = Timer(GENERAL['cooldowns'][0], self.game.ticks)
                     # Timer for updating values (e.g., FPS, brightness) at regular intervals
                     self.value_cooldown_timer = Timer(GENERAL['cooldowns'][1], self.game.ticks)
+
+          def _create_bars(self):
+                    # Create buttons used during gameplay
+                    for name, config in BUTTONS["Bars"].items():
+                              self.bars[name] = Button(
+                                        self.game,
+                                        copy.deepcopy(config)
+                              )
 
           def _create_ingame_buttons(self):
                     # Create buttons used during gameplay
@@ -93,7 +102,6 @@ class InteractablesManager:
 
                               self.value_cooldown_timer.reactivate(self.game.ticks)
 
-
           def _update_ingame_buttons(self):
                     # Update and handle interactions for in-game buttons and sliders
                     for buttons in list(self.game_buttons.values()) + list(self.sliders.values()):
@@ -101,8 +109,11 @@ class InteractablesManager:
                               buttons.update()
                               buttons.change_colour()
 
-                    self.xp_bar.update()
-                    self.xp_bar.text_input = "level: " + str(self.game.player.level)
+                    for bar in list(self.bars.values()):
+                              bar.update()
+                    self.bars["XP_bar"].text_input = "level: " + str(self.game.player.level)
+                    self.bars["Health_bar"].text_input = "health: " + str(self.game.player.health)
+                    self.bars["Stamina_bar"].text_input = "stamina: " + str(int(self.game.player.stamina))
 
                     if self.game.inputM.get("left_click") and self.button_cooldown_timer.check(self.game.ticks) and not self.grabbing_slider and self.game.changing_settings:
                               # Handle various button interactions in the settings menu
@@ -186,7 +197,7 @@ class InteractablesManager:
                               self.button_cooldown_timer.reactivate(self.game.ticks)
 
           def play_click(self):
-                    self.game.soundM.play_sound("click", VOLUMES["click_shot_frequancy"], VOLUMES["click_shot_volume"])
+                    self.game.soundM.play_sound("click", VOLUMES["click_shot_frequancy"], VOLUMES["click_shot_volume"] * self.game.master_volume)
 
           def draw(self):
                     # Draw all relevant buttons based on the current game state
@@ -194,7 +205,8 @@ class InteractablesManager:
                               # Draw in-game buttons and sliders
                               for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()), key=lambda element: element.pos.y):
                                         button.draw()
-                              self.xp_bar.draw()
+                              for bar in list(self.bars.values()):
+                                        bar.draw()
                     elif self.game.in_menu and not self.game.died:
                               # Draw menu buttons
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):

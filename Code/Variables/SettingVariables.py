@@ -31,16 +31,16 @@ GENERAL = {
           'enemies': (15, 0.5, True, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
           'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
-          'hash_maps': (32, 40, 16, 100, 90, 30, 60, 16, 48),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
+          'hash_maps': (32, 48, 16, 96, 96, 32, 64, 16, 48, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20, 10, 20),   # main menu. transition, you died
+          'animation_speeds': (15, 20, 10, 20, 30),  # main menu. transition, you died, muzzleflash
           "enviroment_density": (0.05, 16, 150),
-          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05),    # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
+          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05),  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
 }
 
 # Progression settings
 PROGRESSION = {0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
-               90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8,"golem": 1},
+               90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8, "golem": 1},
                220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
                350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
@@ -69,7 +69,7 @@ CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothin
 GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.6,
          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2),
          "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15), "positions": {"forest_grass": [0, 1, 2, 3, 4],
-         "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+                                                                                                                                      "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
 PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), "hit_effect": (20, 200),
@@ -77,7 +77,7 @@ PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed
 
 # Blood settings
 BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10},
-           "max_blood": 10, "blood_amount": 0.6, "blood_effect_duration": 4, "blood_on_player_hit": 20}
+         "max_blood": 10, "blood_amount": 0.6, "blood_effect_duration": 4, "blood_on_player_hit": 20}
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -96,10 +96,16 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 
 # Weapon settings
 WEAPONS = {
-          "ak47": {"vel": 1300, "spread": 3, "fire_rate": 0.15, "lifetime": 3, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.3,
-                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47", "knockback":  80, "screen_shake": 5},
-          "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.3,
-                      "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback":  20, "screen_shake": 25}}
+          "ak47": {"vel": 1300, "spread": 0, "fire_rate": 0.15, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.2,
+                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47", "knockback": 80, "screen_shake": 5},
+          "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.5,
+                     "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback": 20, "screen_shake": 25},
+          "m16a4": {"vel": 1600, "spread": 0, "fire_rate": 0.25, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 100, "distance": -7, "friction": 0.1,
+                             "spread_time": 2, "pierce": 10, "shots": 1, "name": "m16a4", "knockback": 200, "screen_shake": 5},
+          "m60e4": {"vel": 1400, "spread": 4, "fire_rate": 0.1, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.4,
+                   "spread_time": 2, "pierce": 2, "shots": 1, "name": "m60e4", "knockback": 80, "screen_shake": 7},
+
+}
 
 # Button settings for various game states
 BUTTONS = {
@@ -109,16 +115,19 @@ BUTTONS = {
                     "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
                     "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 220), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
-                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size})},
+                    "ak47": M.create_button("ak47", v2(600, 60), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
+                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size}),
+                    "m16a4": M.create_button("m16a4", v2(600, 220), AM.assets["m16a4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m16a4"].size}),
+                    "m60e4": M.create_button("m60e4", v2(600, 300), AM.assets["m60e4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m60e4"].size}),
+          },
           "Menu_Buttons": {
                     "play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
                     "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),
                     "easy": M.create_button("easy", v2(220, 30), AM.assets["button12"], {"active": True, "axisl": "min"}),
                     "medium": M.create_button("medium", v2(320, 30), AM.assets["button12"], {"on": True, "active": True, "axisl": "min"}),
                     "hard": M.create_button("hard", v2(420, 30), AM.assets["button12"], {"active": True, "axisl": "min"})},
-          "Sliders": {"brightness":
-                    M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+          "Sliders": {
+                    "brightness": M.create_slider(v2(60, 225), "brightness:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 60, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
@@ -126,13 +135,15 @@ BUTTONS = {
                     "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
-                     "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
-          "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": False,
-                                                                                      "res": AM.assets["xp_bar_uncoloured"].size, "axisl": "min"})
+                    "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
+          "Bars": {
+                    "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["xp_bar_uncoloured"].size, "axisl": "min"}),
+                    "Health_bar": M.create_button("", v2(80, 35), AM.assets["empty_bar_outline"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["empty_bar_outline"].size, "axisl": "min"}),
+                    "Stamina_bar": M.create_button("", v2(560, 35), AM.assets["empty_bar_outline"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["empty_bar_outline"].size, "axisl": "min"})}
 }
 
 # Enemy settings
-ENEMIES = {                                             # name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
+ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
           "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.9, "orange": 0.95, "green": 0.99, "purple": 1}, True, 48),
           "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True, 48),
           "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True, 48),

@@ -49,13 +49,9 @@ class Game:
                     pygame.mouse.set_visible(True)
                     self.soundM.fade_music(1000, self.assets["loading_music"])
                     managers = {
-                              "enemyM": EnemyManager, "effectM": EffectManager, "sparkM": SparkManager, "bulletM": BulletManager, "rainM": RainManager,
-                              "drawingM": DrawingManager, "grassM": GrassManager,"tilemapM": TileMapManager,
-                              "objectM": ObjectManager,
-                              "experienceM": ExperienceManager,
-                              "player": Player,
-                              "cameraM": CameraManager,
-                    }
+                              "enemyM": EnemyManager, "effectM": EffectManager, "muzzleflashM": MuzzleFlashManager, "sparkM": SparkManager, "bulletM": BulletManager,
+                              "rainM": RainManager, "drawingM": DrawingManager, "grassM": GrassManager, "tilemapM": TileMapManager, "objectM": ObjectManager,
+                              "experienceM": ExperienceManager, "player": Player, "cameraM": CameraManager}
                     for manager_name, manager_class in managers.items():
                               setattr(self, manager_name, manager_class(self))
                     self.soundM.fade_music(1000, self.assets["game_music"])
@@ -69,7 +65,7 @@ class Game:
           def update_managers(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM]:
+                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM, self.muzzleflashM]:
                                         manager.update()
                     self.interactablesM.update()
                     self.soundM.update()

@@ -20,19 +20,16 @@ class Data:
 
           def _validate_save_folder(self):
                     if not os.path.exists(self.save_folder):
-                              try:
-                                        os.makedirs(self.save_folder)
-                                        print(f"Created save folder: {self.save_folder}")
-                              except OSError as e:
-                                        print(f"Error creating save folder: {e}")
-                    else:
-                              print(f"Save folder already exists: {self.save_folder}")
+                              os.makedirs(self.save_folder)
+                              print(f"Created save folder: {self.save_folder}")
+
 
           def load_data(self):
                     for slider_name, config in self.slider_configs.items():
                               value = self.save_load_system.load_game_data([slider_name], [config['default']])
                               self.game.interactablesM.sliders[slider_name].value = value
                     self.game.wins = self.save_load_system.load_game_data(["wins"], [0])
+                    self.game.master_volume = self.game.interactablesM.sliders["volume"].value
 
           def save_data(self):
                     for slider_name in self.slider_configs.keys():

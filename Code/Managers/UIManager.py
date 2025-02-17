@@ -43,7 +43,7 @@ class UIManager:
                               crop_rect = pygame.Rect(bar_rect.width * (1 - ratio), 0, bar_rect.width * ratio, bar_rect.height)
                               bar_surface.blit(bar_image, (bar_rect.width * (1 - ratio), 0), crop_rect)
                               bar_x = self.game.render_resolution[0] - (position[0] + 0.5 * bar_rect.width) + 1
-                              outer_x = self.game.render_resolution[0] - (position[0] + 0.5 * outer_rect.width)
+                              outer_x = self.game.render_resolution[0] - (position[0] + 0.5 * outer_rect.width) - 1
                     else:
                               # For non-flipped bars (e.g., health), crop from the left
                               crop_rect = pygame.Rect(0, 0, bar_rect.width * ratio, bar_rect.height)

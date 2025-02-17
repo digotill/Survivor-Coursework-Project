@@ -1,3 +1,5 @@
+import pygame.transform
+
 from Code.Variables.SettingVariables import *
 
 
@@ -56,6 +58,44 @@ class Effect:
                               image = self.images[frame]
                               self.game.tilemapM.cached_surface.blit(image, self.rect)
                               self.has_been_drawn = True
+
+          def set_rect(self):
+                    # Set the rectangle for the effect
+                    self.rect = pygame.Rect(self.pos.x - self.res[0] / 2, self.pos.y - self.res[1] / 2, self.res[0], self.res[1])
+
+
+class MuzzleFlash:
+          def __init__(self, game, pos, rotation, flip, name):
+                    self.game = game
+
+                    # Randomly select an image set for variety
+                    self.images = self.game.assets[name + "_flash"]
+                    self.images = [pygame.transform.flip(pygame.transform.rotate(image, rotation), True, False) if flip else pygame.transform.rotate(image, -rotation + 180) for image in self.images]
+                    self.res = self.images[0].size
+
+                    self.frame = 0
+                    self.animation_speed = GENERAL['animation_speeds'][4]
+                    self.pos = v2(pos)
+                    self.set_rect()
+                    self.dead = False
+
+          def update(self):
+                    if self.frame > len(self.images) - 1:
+                              self.dead = True
+                    elif not self.game.changing_settings:
+                              self.frame += self.animation_speed * self.game.dt
+                              self.pos = v2(self.game.player.gun.calculate_spark_start_position())
+                              self.set_rect()
+
+          def draw(self, surface=None):
+                    if surface is None:
+                              surface = self.game.displayS
+                              # Select the appropriate frame
+                    frame = int(self.frame) % len(self.images)
+                    image = self.images[frame]
+
+                    # Draw the image, accounting for camera offset
+                    surface.blit(image, (self.rect.x - self.game.cameraM.rect.x, self.rect.y - self.game.cameraM.rect.y))
 
           def set_rect(self):
                     # Set the rectangle for the effect
