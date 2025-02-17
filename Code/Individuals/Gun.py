@@ -74,24 +74,12 @@ class Gun:
 
                     self.game.soundM.play_sound(self.name + "_shot", VOLUMES["gun_shot_frequancy"], VOLUMES["gun_shot_volume"] * self.game.master_volume)  # Play gun shot sound
 
+                    self.game.muzzleflashM.add_muzzle_flash(self.calculate_position(2), 270 - self.angle, True if self.game.player.facing == "left" else False)  # Create muzzle flash
+                    self.game.casingM.add_casing(self.game.player.rect.center, True if self.game.player.facing == "left" else False)
                     for _ in range(self.shots):  # For each shot
-                              self.game.muzzleflashM.add_muzzle_flash(self.calculate_spark_start_position(), 270 - self.angle, True if self.game.player.facing == "left" else False)  # Create muzzle flash
+                              self.game.bulletM.add_bullet(self.calculate_position(3), self.game.methods.change(self.angle, self.spread), "Player Bullet", spread_factor)
 
-                              self.game.bulletM.add_bullet(  # Add bullet with spread
-                                        self.calculate_bullet_start_position(),
-                                        self.game.methods.change(self.angle, self.spread),
-                                        "Player Bullet", spread_factor)
-
-          def calculate_bullet_start_position(self):
-                    start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 3)  # Calculate bullet start x
-                    start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 3)  # Calculate bullet start y
-                    return start_x, start_y  # Return start coordinates
-
-          def calculate_spark_start_position(self):
-                    start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 2)  # Calculate bullet start x
-                    start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(
-                              self.distance - self.res[0] / 2)  # Calculate bullet start y
+          def calculate_position(self, ratio):
+                    start_x = self.game.player.rect.centerx + math.sin(math.radians(self.angle)) * int(self.distance - self.res[0] / ratio)  # Calculate bullet start x
+                    start_y = self.game.player.rect.centery + math.cos(math.radians(self.angle)) * int(self.distance - self.res[0] / ratio)  # Calculate bullet start y
                     return start_x, start_y  # Return start coordinates

@@ -56,7 +56,7 @@ class EnemyManager:
                               self.spawn_timer.reactivate(self.game.game_time)
 
                     for key in BOSSES.keys():
-                              if self.game.game_time >= key and not getattr(self, BOSSES[key] + "_spawned", False):
+                              if self.game.game_time >= key and not getattr(self, BOSSES[key] + "_spawned", False) and GENERAL["enemies"][2]:
                                         enemy = Enemy(self.game, ENEMIES[BOSSES[key]])
                                         self.grid.insert(enemy)
                                         setattr(self, BOSSES[key] + "_spawned", True)

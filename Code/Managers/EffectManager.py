@@ -80,3 +80,29 @@ class MuzzleFlashManager:
                     # Draw all effects that are within the visible window
                     for effect in self.grid.window_query():
                               effect.draw()
+
+class CasingManager:
+          def __init__(self, game):
+                    self.game = game
+                    # Initialize a spatial hash map for efficient effect management
+                    self.grid = HashMap(self.game, GENERAL["hash_maps"][9])
+
+          def add_casing(self, pos, facing):
+                    # Create a new muzzle flash effect and add it to the grid
+                    effect = Casing(self.game, pos, self.game.player.gun.name, facing)
+                    self.grid.insert(effect)
+
+          def update(self):
+                    # Update all effects and remove those that have faded out
+                    for effect in self.grid.items.copy():
+                              effect.update()
+                              # Remove effect if it has completely faded (alpha <= 0)
+                              if effect.hit_ground:
+                                        self.grid.remove(effect)
+                    # Rebuild the spatial hash map after updates
+                    self.grid.rebuild()
+
+          def draw(self):
+                    # Draw all effects that are within the visible window
+                    for effect in self.grid.window_query():
+                              effect.draw()
