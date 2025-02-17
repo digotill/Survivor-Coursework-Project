@@ -28,7 +28,7 @@ pygame.display.set_caption("Survivor Game")
 
 # General game settings
 GENERAL = {
-          'enemies': (15, 0.5, False, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
+          'enemies': (15, 0.5, True, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
           'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 48, 16, 96, 96, 32, 64, 16, 48, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
@@ -39,10 +39,8 @@ GENERAL = {
 
 # Progression settings
 PROGRESSION = {
-          0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1},
-          90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8, "golem": 1},
-          220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1},
-          350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
+          0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1}, 90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8, "golem": 1},
+          220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1}, 350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
 
 # Boss spawn settings
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
@@ -72,8 +70,7 @@ PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
 
 # Blood settings
-BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10},
-         "max_blood": 10, "blood_amount": 0.8, "blood_effect_duration": 4, "blood_on_player_hit": 20}
+BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.8, "blood_effect_duration": 4, "blood_on_player_hit": 20}
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
@@ -101,7 +98,7 @@ WEAPONS = {
 BUTTONS = {
           "In_Game_Buttons": {
                     "resume": M.create_button("resume", v2(320, 135), AM.assets["button12"]),
-                    "fullscreen": M.create_button("fullscreen", v2(580, 90), AM.assets["button12"], {"axis": "x", "axisl": "max"}),
+                    "fullscreen": M.create_button("resize", v2(580, 90), AM.assets["button12"], {"axis": "x", "axisl": "max"}),
                     "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
                     "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
           "Weapon_Buttons": {
@@ -121,7 +118,7 @@ BUTTONS = {
                     "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "text_size": M.create_slider(v2(60, 270), "text size:  ", 100, 150, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
+                    "text_size": M.create_slider(v2(60, 270), "text size:  ", 120, 200, 120, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
                     "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
@@ -143,5 +140,13 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
           "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, True, 32),
           "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 42),
-          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),
+          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),}
+
+# Card settings
+CARDS = {
+          "damage": [],
+          "health": [],
+          "knockback": [],
+          "pierce": [],
+          "accuracy": [],
 }
