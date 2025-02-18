@@ -48,6 +48,7 @@ class EventManager:
                               pygame.mixer.music.pause()
                     else:
                               pygame.mixer.music.unpause()
+                    self.game.soundM.play_sound("pausing", VOLUMES["pausing_frequancy"], VOLUMES["pausing_volume"] * self.game.master_volume)
 
           def handle_events(self):
                     self.handle_quitting()  # Check for quit events

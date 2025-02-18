@@ -14,7 +14,7 @@ class Data:
                               'brightness': {'default': 100},
                               'shake': {'default': 100},
                               'colour': {'default': 50},
-                              'volume': {'default': 20},
+                              'volume': {'default': 50},
                               'text_size': {'default': 120}
                     }
 

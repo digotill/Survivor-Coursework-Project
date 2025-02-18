@@ -208,6 +208,8 @@ class Player:
                                         self.game.cameraM.add_screen_shake(GENERAL["misc"][2][1], GENERAL["misc"][2][0])
                                         self.last_hit = self.game.game_time
                                         self.game.soundM.play_sound("heartbeat", VOLUMES["heartbeat_frequancy"], VOLUMES["heartbeat_volume"] * self.game.master_volume)
+                                        integer = str(random.randint(0, 4))
+                                        self.game.soundM.play_sound("splatter" + integer, VOLUMES["splatter_frequancy"], VOLUMES["splatter_volume"] * self.game.master_volume)
                                         self.hit_count = 0
                                         self.game.screeneffectM.add_blood_effect()
                                         for _ in range(BLOOD["blood_on_player_hit"]):

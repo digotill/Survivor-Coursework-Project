@@ -46,7 +46,8 @@ PROGRESSION = {
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
 
 # Volume settings
-VOLUMES = {"music_volume": 0.3, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.04, "click_shot_frequancy": 0.1, "click_shot_volume": 5, "heartbeat_frequancy": 0.1, "heartbeat_volume": 60}
+VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200,
+           "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1, "youdied_sound_frequancy": 0, "youdied_sound_volume": 1}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
@@ -98,8 +99,8 @@ WEAPONS = {
 # Button settings for various game states
 BUTTONS = {
           "In_Game_Buttons": {
-                    "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"], {"axis": "y", "axisl": "min"}),
-                    "return": M.create_button("return", v2(320, 225), AM.assets["button12"], {"axis": "y", "axisl": "max"}),
+                    "quit": M.create_button("quit", v2(320, 225), AM.assets["button12"], {"axis": "y", "axisl": "max"}),
+                    "return": M.create_button("return", v2(320, 180), AM.assets["button12"], {"axis": "y", "axisl": "min"}),
                     "resize": M.create_button("resize", v2(190, 90), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "music": M.create_button("music", v2(190, 135), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "stats": M.create_button("stats", v2(190, 180), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
@@ -123,7 +124,7 @@ BUTTONS = {
                     "fps": M.create_slider(v2(450, 180), "max fps:  ", 20, 240, 60, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
                     "shake": M.create_slider(v2(450, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
                     "colour": M.create_slider(v2(450, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
-                    "volume": M.create_slider(v2(450, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "volume": M.create_slider(v2(450, 315), "sound volume:  ", 0, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
                     "text_size": M.create_slider(v2(450, 270), "text size:  ", 120, 200, 120, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"})},
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
