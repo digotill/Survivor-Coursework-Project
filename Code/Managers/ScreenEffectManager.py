@@ -84,7 +84,7 @@ class ScreenEffectManager:
                               if self.youdied_start_time is None:
                                         self.youdied_start_time = self.game.game_time
                                         pygame.mixer.music.stop()
-                                        self.game.soundM.play_sound("youdied_sound", VOLUMES["youdied_sound_frequancy"], VOLUMES["youdied_sound_volume"] * self.game.master_volume)
+                                        self.game.soundM.play_sound("youdied_sound", VOLUMES["youdied_frequancy"], VOLUMES["youdied_volume"] * self.game.master_volume)
                               elapsed_time = self.game.game_time - self.youdied_start_time
                               self.youdied_effect.alpha = min(max(elapsed_time / self.youdied_duration, 0), 1) * 255
                               self.youdied_effect.draw()
