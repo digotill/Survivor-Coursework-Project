@@ -34,7 +34,6 @@ class GameVariables:
 
           def update_font_sizes(self):
                     self.game.assets["font8"] = pygame.font.Font("Assets/UI/fonts/font8.ttf", int(8 * self.game.text_size))
-                    self.game.assets["font14"] = pygame.font.Font("Assets/UI/fonts/font14.ttf", int(14 * self.game.text_size))
 
           def update(self):
                     # Update game state variables each frame

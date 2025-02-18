@@ -38,6 +38,21 @@ class EffectManager:
                     # Rebuild the spatial hash map after updates
                     self.grid.rebuild()
 
+          def draw_at(self, rect):
+                    for cell in self.find_cells(rect):
+                              items = self.count_grid.get(cell)
+                              if items is not None and self.count_grid[cell] < BLOOD["max_blood"]:
+                                        new_rect = pygame.Rect(rect.centerx - 48 / 6, rect.centery - 48 / 6, 48 / 3, 48 / 3)
+                                        collision = self.game.tilemapM.tile_collision(new_rect, "water_tile")
+                                        if not collision:
+                                                  integer = random.randint(1, 10)
+                                                  blood_image = self.game.assets["blood" + str(integer)][0]
+                                                  self.game.tilemapM.cached_surface.blit(blood_image, rect)
+                              if items is None:
+                                        self.count_grid[cell] = 1
+                              else:
+                                        self.count_grid[cell] += 1
+
           def draw(self):
                     # Draw all effects that are within the visible window
                     for effect in self.grid.window_query():

@@ -35,7 +35,7 @@ GENERAL = {
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
           'animation_speeds': (15, 20, 10, 20, 30, 15),  # main menu. transition, you died, muzzleflash
           "enviroment_density": (0.05, 16, 150),
-          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy
+          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout
 
 # Progression settings
 PROGRESSION = {
@@ -71,7 +71,7 @@ PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 1.6, "slowed
           "friction": 0.9, "acceleration_rate": 2000}
 
 # Blood settings
-BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.8, "blood_effect_duration": 4, "blood_on_player_hit": 20}
+BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.3, "blood_effect_duration": 4, "blood_on_player_hit": 20}
 
 # Spark effect settings
 SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}

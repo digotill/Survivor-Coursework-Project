@@ -64,14 +64,13 @@ class UIManager:
                               fps = str(int(  # Get current FPS, clamped to min/max values
                                         max(min(self.game.interactablesM.sliders['fps'].value, self.game.clock.get_fps()),
                                             self.game.interactablesM.sliders['fps'].min_value)))
-                              text = self.game.assets["font14"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
+                              text = self.game.assets["font8"].render(fps + "  FPS", False, pygame.Color("orange"))  # Render FPS text
                               text_rect = text.get_rect(center=(UI["fps_pos"][0], UI["fps_pos"][1]))  # Position FPS text
                               self.game.uiS.blit(text, text_rect)  # Draw FPS text on UI surface
 
           def draw_time(self):
                     if self.fps_enabled:  # Only draw time if FPS is enabled
-                              text = self.game.assets["font14"].render(str(int(self.game.game_time)) + " SECONDS", False,
-                                                                       pygame.Color("orange"))  # Render time text
+                              text = self.game.assets["font8"].render(str(int(self.game.game_time)) + " SECONDS", False,pygame.Color("orange"))  # Render time text
                               text_rect = text.get_rect(center=(
                                         self.game.render_resolution[0] - UI["fps_pos"][0], UI["fps_pos"][1]))  # Position time text
                               self.game.uiS.blit(text, text_rect)  # Draw time text on UI surface

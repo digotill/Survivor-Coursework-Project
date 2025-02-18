@@ -81,6 +81,7 @@ class EnemyManager:
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
                                         xp_type = self.get_experience(enemy)
                                         self.game.experienceM.add_experience(xp_type, enemy.rect.center)  # Add enemy's experience to player's total
+                                        self.game.effectM.draw_at(enemy.rect)
 
           @staticmethod
           def get_experience(enemy):

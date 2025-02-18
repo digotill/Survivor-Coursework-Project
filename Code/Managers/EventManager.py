@@ -40,6 +40,10 @@ class EventManager:
                     current_time = self.game.ticks
                     if self.game.inputM.get("ungrab") and self.settings_timer.check(current_time) and not self.game.in_menu and not self.game.died:  # Toggle settings menu if conditions met
                               self.game.changing_settings = not self.game.changing_settings
+                              if self.game.changing_settings:
+                                        pygame.mixer.music.pause()
+                              else:
+                                        pygame.mixer.music.unpause()
                               self.settings_timer.reactivate(current_time)  # Reset the cooldown timer
 
           def handle_events(self):

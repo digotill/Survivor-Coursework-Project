@@ -65,8 +65,8 @@ class Player:
                     new_pos = self.pos + self.velocity * self.game.dt
 
                     # Check and adjust for game boundaries
-                    new_pos.x = max(self.offset, min(new_pos.x, GAMESIZE[0] - self.res[0] - self.offset))
-                    new_pos.y = max(self.offset, min(new_pos.y, GAMESIZE[1] - self.res[1] - self.offset))
+                    new_pos.x = max(self.res[0] / 2 + self.offset, min(new_pos.x, GAMESIZE[0] - self.res[0] / 2 - self.offset))
+                    new_pos.y = max(self.res[0] / 2 + self.offset, min(new_pos.y, GAMESIZE[1] - self.res[1] / 2 - self.offset))
 
                     self.pos = new_pos
 
