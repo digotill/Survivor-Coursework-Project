@@ -19,7 +19,6 @@ class Shader:
           """
 
           @staticmethod
-          @staticmethod
           def create_vertfrag_shader(ctx: moderngl.Context, vertex_filepath: str, fragment_filepath: str) -> moderngl.Program:
               """
               Create a moderngl shader program containing the shaders at the given filepaths.

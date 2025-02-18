@@ -89,15 +89,15 @@ class CameraManager():
                     player_bottom = player_top + player.res[1]
 
                     # Adjust camera if player is too close to the edges
-                    if player_left < player.offset[0]:
-                              self.rect.x += player_left - player.offset[0]
-                    elif player_right > self.res[0] - player.offset[2]:
-                              self.rect.x += player_right - (self.res[0] - player.offset[2])
+                    if player_left < player.offset:
+                              self.rect.x += player_left - player.offset
+                    elif player_right > self.res[0] - player.offset:
+                              self.rect.x += player_right - (self.res[0] - player.offset)
 
-                    if player_top < player.offset[1]:
-                              self.rect.y += player_top - player.offset[1]
-                    elif player_bottom > self.res[1] - player.offset[3]:
-                              self.rect.y += player_bottom - (self.res[1] - player.offset[3])
+                    if player_top < player.offset:
+                              self.rect.y += player_top - player.offset
+                    elif player_bottom > self.res[1] - player.offset:
+                              self.rect.y += player_bottom - (self.res[1] - player.offset)
 
                     # Ensure camera stays within game boundaries
                     self.rect.x = max(0, min(self.rect.x, GAMESIZE[0] - self.res[0]))

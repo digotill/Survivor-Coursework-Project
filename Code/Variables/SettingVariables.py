@@ -66,8 +66,9 @@ GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5
          "positions": {"forest_grass": [0, 1, 2, 3, 4], "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
 # Player settings
-PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 180, "slowed_vel": 50, 'damage': 30, 'acceleration': 200, "offset": (10, 10, -10, -10), "hit_effect": (20, 200),
-          'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1}
+PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 1.6, "slowed_vel": 0.5, 'damage': 30, 'acceleration': 200, "offset": 10, "hit_effect": (20, 200),
+          'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1,
+          "friction": 0.9, "acceleration_rate": 2000}
 
 # Blood settings
 BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.8, "blood_effect_duration": 4, "blood_on_player_hit": 20}
