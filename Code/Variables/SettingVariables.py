@@ -46,8 +46,8 @@ PROGRESSION = {
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
 
 # Volume settings
-VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200,
-           "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1, "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1}
+VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200,"pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
+           "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
