@@ -27,7 +27,7 @@ from pstats import Stats  # For profiling statistics
 from line_profiler import profile    # For profiling Python code use kernprof -l -v run.py
 
 # Local imports
-from Code.Shaders import PygameShaders  # Custom shader module
+from Code.Shaders import Shader  # Custom shader module
 from Code.Variables.LoadAssets import *  # Asset loading module
 from Code.DataStructures.Timer import *  # Custom timer module
 from Code.Utilities.Methods import *  # Utility methods module

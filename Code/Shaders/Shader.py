@@ -6,37 +6,10 @@ from pympler import asizeof
 import moderngl
 import pygame
 import typing
+import os
 
-DEFAULT_VERTEX_SHADER = """
-#version 330 core
-
-layout (location = 0) in vec3 vertexPos;
-layout (location = 1) in vec2 vertexTexCoord;
-
-out vec2 fragmentTexCoord;
-
-void main()
-{
-    fragmentTexCoord = vertexTexCoord;
-    gl_Position = vec4(vertexPos, 1.0);
-}
-"""
-
-DEFAULT_FRAGMENT_SHADER = """
-#version 330 core
-
-in vec3 fragmentColor;
-in vec2 fragmentTexCoord;
-
-out vec4 color;
-
-uniform sampler2D imageTexture;
-
-void main() {
-    color = texture(imageTexture, fragmentTexCoord);
-}
-"""
-
+DEFAULT_VERTEX_SHADER = os.path.join("Code", "Shaders", "default_vertex.glsl")
+DEFAULT_FRAGMENT_SHADER = os.path.join("Code", "Shaders", "default_fragment.glsl")
 
 class Shader:
           """
@@ -46,24 +19,25 @@ class Shader:
           """
 
           @staticmethod
+          @staticmethod
           def create_vertfrag_shader(ctx: moderngl.Context, vertex_filepath: str, fragment_filepath: str) -> moderngl.Program:
-                    """
-                    Create a moderngl shader program containing the shaders at the given filepaths.
-                    """
-
-                    if vertex_filepath != DEFAULT_VERTEX_SHADER:
-                              with open(vertex_filepath, 'r') as f:
-                                        vertex_src = f.read()
-                    else:
-                              vertex_src = DEFAULT_VERTEX_SHADER
-                    if fragment_filepath != DEFAULT_FRAGMENT_SHADER:
-                              with open(fragment_filepath, 'r') as f:
-                                        fragment_src = f.read()
-                    else:
-                              fragment_src = DEFAULT_FRAGMENT_SHADER
-
-                    shader = ctx.program(vertex_shader=vertex_src, fragment_shader=fragment_src)
-                    return shader
+              """
+              Create a moderngl shader program containing the shaders at the given filepaths.
+              """
+              def read_shader(filepath):
+                  with open(filepath, 'r') as f:
+                      return f.read()
+          
+              vertex_src = read_shader(vertex_filepath)
+              fragment_src = read_shader(fragment_filepath)
+          
+              try:
+                  shader = ctx.program(vertex_shader=vertex_src, fragment_shader=fragment_src)
+              except Exception as e:
+                  print(f"Error compiling shaders:\nVertex Shader:\n{vertex_src}\n\nFragment Shader:\n{fragment_src}")
+                  raise e
+          
+              return shader
 
           def __init__(self, vertex_path: str, fragment_path: str, target_surface: pygame.Surface) -> None:
                     self.ctx = moderngl.create_context()
@@ -81,6 +55,9 @@ class Shader:
                     self.scope = self.ctx.scope(self.framebuffer)
 
                     self.window_size = pygame.display.get_surface().get_size()
+
+                    self.shader['u_brightness'] = 1.0
+                    self.shader['u_color_filter'] = (1.0, 1.0, 1.0)
 
           def clear(self, color: typing.Union[pygame.Color, typing.Tuple[int]]) -> None:
                     """
@@ -169,19 +146,13 @@ class Shader:
                               surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
                     return pygame.transform.flip(surf, False, True)
 
-          def __enter__(self):
-                    return self
+          def set_brightness(self, brightness: float) -> None:
+                    """Set the brightness value for the shader."""
+                    self.shader['u_brightness'] = brightness
 
-          def __exit__(self, exc_type, exc_val, exc_tb):
-                    self.cleanup()
-
-          def cleanup(self):
-                    if self.render_rect:
-                              self.render_rect.vao.release()
-                    self.screen_texture.texture.release()
-                    self.framebuffer.release()
-                    self.shader.release()
-                    self.ctx.release()
+          def set_color_filter(self, r: float, g: float, b: float) -> None:
+                    """Set the color filter for the shader."""
+                    self.shader['u_color_filter'] = (r, g, b)
 
 
 class ComputeShader:

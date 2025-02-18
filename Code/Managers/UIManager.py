@@ -93,21 +93,11 @@ class UIManager:
                                                       special_flags=pygame.BLEND_RGB_SUB)
 
           def draw_brightness(self):
-                    if self.brightness == 50: return None  # No adjustment needed at 50% brightness
-                    if self.brightness > 50:
-                              # Increase brightness
-                              self.game.displayS.fill([int(GENERAL['brightness'][1] * (
-                                      self.brightness - 50)) for _ in range(3)],
-                                                      special_flags=pygame.BLEND_RGB_ADD)
-                    elif self.brightness < 50:
-                              # Decrease brightness
-                              self.game.displayS.fill([int(GENERAL['brightness'][0] * (
-                                      50 - self.brightness)) for _ in range(3)],
-                                                      special_flags=pygame.BLEND_RGB_SUB)
+                    self.game.shader.set_brightness(self.brightness / 100)  # Set brightness for shader
 
           def draw(self):
                     self.darken_screen()  # Apply screen darkening effect
-                    self.draw_xp_underbar()   # Draw XP underbar
+                    self.draw_xp_underbar()  # Draw XP underbar
                     self.draw_bars()  # Draw health and stamina bars
                     self.draw_fps()  # Draw FPS counter
                     self.draw_time()  # Draw game time
@@ -116,7 +106,7 @@ class UIManager:
                     self.display_mouse()  # Display custom mouse cursor
                     self.draw_ui_surface()  # Draw UI elements
                     self.draw_brightness()  # Apply brightness adjustment
-                    self.apply_color_filter()  # Apply color filter for color blindness modes
+                    self.apply_color_filter()
 
           def draw_xp_underbar(self):
                     if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
@@ -133,21 +123,17 @@ class UIManager:
 
           def apply_color_filter(self):
                     if self.game.colour_mode == 50:  # Normal vision, no filter applied
+                              self.game.shader.set_color_filter(1.0, 1.0, 1.0)
                               return
 
-                    filter_surface = pygame.Surface(self.game.render_resolution, pygame.SRCALPHA)
-
                     if self.game.colour_mode < 50:  # Protanopia (red-green color blindness)
-                              red_value = max(0, min(255, int(200 * self.game.colour_mode / 50)))
-                              filter_color = (red_value, 255, 255, 255)
+                              red_value = max(0, min(1.0, 0.8 * self.game.colour_mode / 50))
+                              self.game.shader.set_color_filter(red_value, 1.0, 1.0)
                     elif self.game.colour_mode > 50:  # Deuteranopia (another type of red-green color blindness)
-                              green_value = max(0, min(255, int(200 * (100 - self.game.colour_mode) / 50)))
-                              filter_color = (255, green_value, 255, 255)
+                              green_value = max(0, min(1.0, 0.8 * (100 - self.game.colour_mode) / 50))
+                              self.game.shader.set_color_filter(1.0, green_value, 1.0)
                     else:
-                              return  # This case shouldn't occur, but just in case
-
-                    filter_surface.fill(filter_color)
-                    self.game.displayS.blit(filter_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+                              self.game.shader.set_color_filter(1.0, 1.0, 1.0)  # This case shouldn't occur, but just in case
 
           def draw_ui_surface(self):
                     if self.game.uiS.size == self.game.displayS.size:
