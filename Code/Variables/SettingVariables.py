@@ -33,14 +33,14 @@ GENERAL = {
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 48, 16, 96, 96, 32, 64, 16, 48, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
           'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
-          'animation_speeds': (15, 20, 10, 20, 30, 15),  # main menu. transition, you died, muzzleflash
+          'animation_speeds': (15, 20, 10, 20, 30, 15, 20),  # main menu background, transition, you died, muzzleflash, casing, blood
           "enviroment_density": (0.05, 16, 150),
           "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout
 
 # Progression settings
 PROGRESSION = {
           0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1}, 90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8, "golem": 1},
-          220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1}, 350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}}
+          220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1}, 350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}, 480: {"nothing": 1}}
 
 # Boss spawn settings
 BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
@@ -92,16 +92,21 @@ RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle":
 WEAPONS = {
           "ak47": {"vel": 1300, "spread": 4, "fire_rate": 0.15, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.2, "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47", "knockback": 80, "screen_shake": 5},
           "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.5, "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback": 20, "screen_shake": 25},
-          "m16a4": {"vel": 1600, "spread": 1, "fire_rate": 0.25, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 100, "distance": -7, "friction": 0.1, "spread_time": 2, "pierce": 10, "shots": 1, "name": "m16a4", "knockback": 200, "screen_shake": 5},
-          "m60e4": {"vel": 1400, "spread": 10, "fire_rate": 0.1, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.4, "spread_time": 2, "pierce": 2, "shots": 1, "name": "m60e4", "knockback": 80, "screen_shake": 7}, }
+          "m16a4": {"vel": 1600, "spread": 1, "fire_rate": 0.25, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 120, "distance": -7, "friction": 0.1, "spread_time": 2, "pierce": 10, "shots": 1, "name": "m16a4", "knockback": 200, "screen_shake": 5},
+          "m60e4": {"vel": 1400, "spread": 10, "fire_rate": 0.1, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 70, "distance": -7, "friction": 0.4, "spread_time": 2, "pierce": 2, "shots": 1, "name": "m60e4", "knockback": 80, "screen_shake": 7}, }
 
 # Button settings for various game states
 BUTTONS = {
           "In_Game_Buttons": {
-                    "resume": M.create_button("resume", v2(320, 135), AM.assets["button12"]),
-                    "fullscreen": M.create_button("resize", v2(580, 90), AM.assets["button12"], {"axis": "x", "axisl": "max"}),
-                    "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"]),
-                    "return": M.create_button("return", v2(320, 90), AM.assets["button12"]), },
+                    "quit": M.create_button("quit", v2(320, 180), AM.assets["button12"], {"axis": "y", "axisl": "min"}),
+                    "return": M.create_button("return", v2(320, 225), AM.assets["button12"], {"axis": "y", "axisl": "max"}),
+                    "resize": M.create_button("resize", v2(190, 90), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "music": M.create_button("music", v2(190, 135), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "stats": M.create_button("stats", v2(190, 180), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "shoot": M.create_button("shoot", v2(190, 225), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "reset": M.create_button("reset", v2(190, 270), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+                    "resume": M.create_button("resume", v2(190, 315), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
+          },
           "Weapon_Buttons": {
                     "ak47": M.create_button("ak47", v2(600, 60), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
                     "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size}),
@@ -114,15 +119,18 @@ BUTTONS = {
                     "medium": M.create_button("medium", v2(320, 30), AM.assets["button12"], {"on": True, "active": True, "axisl": "min"}),
                     "hard": M.create_button("hard", v2(420, 30), AM.assets["button12"], {"active": True, "axisl": "min"})},
           "Sliders": {
-                    "brightness": M.create_slider(v2(60, 225), "brightness:  ", 20, 180, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "fps": M.create_slider(v2(60, 180), "max fps:  ", 20, 240, 60, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "shake": M.create_slider(v2(60, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "colour": M.create_slider(v2(60, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "volume": M.create_slider(v2(60, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "text_size": M.create_slider(v2(60, 270), "text size:  ", 120, 200, 120, AM.assets["button12"], {"axis": "x", "axisl": "min"})},
+                    "brightness": M.create_slider(v2(450, 225), "brightness:  ", 20, 180, 100, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "fps": M.create_slider(v2(450, 180), "max fps:  ", 20, 240, 60, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "shake": M.create_slider(v2(450, 135), "reduced shake:  ", 0, 100, 100, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "colour": M.create_slider(v2(450, 90), "colour mode:  ", 1, 100, 50, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "volume": M.create_slider(v2(450, 315), "sound volume:  ", 0, 100, 20, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"}),
+                    "text_size": M.create_slider(v2(450, 270), "text size:  ", 120, 200, 120, AM.assets["button12"], {"axis": "x", "axisl": "max", "text_pos": "right"})},
           "End_Screen_Buttons": {
                     "restart": M.create_button("restart", v2(240, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
                     "quit": M.create_button("quit", v2(400, 270), AM.assets["button8"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
+          "Won_Screen_Buttons": {
+                    "restart": M.create_button("restart", v2(240, 270), AM.assets["button20"], {"axis": "y", "axisl": "max", "res": (92, 30)}),
+                    "quit": M.create_button("quit", v2(400, 270), AM.assets["button20"], {"axis": "y", "axisl": "max", "res": (92, 30)})},
           "Bars": {
                     "XP_bar": M.create_button("", v2(320, 30), AM.assets["xp_bar_uncoloured"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["xp_bar_uncoloured"].size, "axisl": "min"}),
                     "Health_bar": M.create_button("", v2(80, 35), AM.assets["empty_bar_outline"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["empty_bar_outline"].size, "axisl": "min"}),
@@ -134,10 +142,10 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.8, "orange": 0.9, "green": 0.95, "purple": 1}, True, 48),
           "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.9, "purple": 1}, True, 48),
           "werewolf": M.create_enemy("werewolf", (184, 64), 8000, 200, 60, 100, 5, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 100, {"knockback": 0.8}),
-          "pebble": M.create_enemy("pebble", (32, 32), 100, 150, 5, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.99, "purple": 1}, False, 0),
-          "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, True, 24),
-          "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, True, 24),
-          "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.8}),
+          "pebble": M.create_enemy("pebble", (32, 32), 100, 150, 5, 50, 2, {"blue": 0.6, "orange": 0.7, "green": 0.99, "purple": 1}, False, 0, {"spawn_blood": False}),
+          "golem": M.create_enemy("golem", (32, 32), 600, 160, 50, 50, 2, {"blue": 0.45, "orange": 0.6, "green": 0.8, "purple": 1}, True, 24, {"spawn_blood": False}),
+          "armoured_golem": M.create_enemy("armoured_golem", (32, 32), 700, 160, 60, 50, 5, {"blue": 0.35, "orange": 0.5, "green": 0.75, "purple": 1}, True, 24, {"spawn_blood": False}),
+          "titan": M.create_enemy("titan", (130, 100), 16000, 220, 80, 50, 10, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, False, {"knockback": 0.8, "spawn_blood": False}),
           "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
           "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, True, 32),
           "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 42),

@@ -11,18 +11,17 @@ class Data:
                     self.save_load_system = SaveLoadSystem(".save", self.save_folder)
                     self.slider_configs = {
                               'fps': {'default': pygame.display.get_current_refresh_rate()},
-                              'brightness': {'default': 50},
+                              'brightness': {'default': 100},
                               'shake': {'default': 100},
                               'colour': {'default': 50},
-                              'volume': {'default': 50},
-                              'text_size': {'default': 100}
+                              'volume': {'default': 20},
+                              'text_size': {'default': 120}
                     }
 
           def _validate_save_folder(self):
                     if not os.path.exists(self.save_folder):
                               os.makedirs(self.save_folder)
                               print(f"Created save folder: {self.save_folder}")
-
 
           def load_data(self):
                     for slider_name, config in self.slider_configs.items():
@@ -36,3 +35,9 @@ class Data:
                               value = self.game.interactablesM.sliders[slider_name].value
                               self.save_load_system.save_game_data([value], [slider_name])
                     self.save_load_system.save_game_data([self.game.wins], ["wins"])
+
+          def load_default_data(self):
+                    for slider_name, config in self.slider_configs.items():
+                              default_value = config['default']
+                              self.game.interactablesM.sliders[slider_name].value = default_value
+                              self.save_load_system.save_game_data([default_value], [slider_name])

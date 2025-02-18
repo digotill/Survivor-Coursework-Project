@@ -13,7 +13,7 @@ class UIManager:
                     # Draw Health Bar
                     health = max(self.game.player.health, 1)  # Ensure health is at least 1
                     health_ratio = health / self.game.player.max_health  # Calculate health ratio
-                    self._draw_bar(
+                    self.draw_bar(
                               bar_image=self.game.assets["health_bar"],  # Image for health bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for health bar
                               ratio=health_ratio,  # Ratio of current health to max health
@@ -24,7 +24,7 @@ class UIManager:
                     # Draw Stamina Bar
                     stamina = max(self.game.player.stamina, 1)  # Ensure stamina is at least 1
                     stamina_ratio = stamina / PLAYER['stamina']  # Calculate stamina ratio
-                    self._draw_bar(
+                    self.draw_bar(
                               bar_image=self.game.assets["stamina_bar"],  # Image for stamina bar
                               outer_image=self.game.assets["bar_outline"],  # Outline image for stamina bar
                               ratio=stamina_ratio,  # Ratio of current stamina to max stamina
@@ -32,7 +32,7 @@ class UIManager:
                               is_flipped=True  # Stamina bar is flipped
                     )
 
-          def _draw_bar(self, bar_image, outer_image, ratio, position, is_flipped):
+          def draw_bar(self, bar_image, outer_image, ratio, position, is_flipped):
                     bar_rect = bar_image.get_rect()  # Get rect for bar image
                     outer_rect = outer_image.get_rect()  # Get rect for outer image
 
@@ -96,10 +96,13 @@ class UIManager:
 
           def draw(self):
                     self.darken_screen()  # Apply screen darkening effect
-                    self.draw_xp_underbar()  # Draw XP underbar
-                    self.draw_bars()  # Draw health and stamina bars
-                    self.draw_fps()  # Draw FPS counter
-                    self.draw_time()  # Draw game time
+                    self.game.screeneffectM.draw_blood_effect()
+                    self.game.screeneffectM.draw_blood_when_dead()
+                    if not self.game.died and not self.game.won:
+                              self.draw_xp_underbar()  # Draw XP underbar
+                              self.draw_bars()  # Draw health and stamina bars
+                              self.draw_fps()  # Draw FPS counter
+                              self.draw_time()  # Draw game time
 
           def update_display(self):
                     self.display_mouse()  # Display custom mouse cursor
@@ -108,12 +111,12 @@ class UIManager:
                     self.apply_color_filter()
 
           def draw_xp_underbar(self):
-                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
+                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition and not self.game.won:
                               rect = self.game.assets["xp_bar_outline"].get_rect(center=(UI["xp_bar"][0] + self.game.assets["xp_bar_coloured"].width / 2 + 10, UI["xp_bar"][1]))
                               self.game.uiS.blit(self.game.assets["xp_bar_outline"], rect)  # Draw UI bar on UI surface
 
           def draw_xp_bar(self):
-                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition:
+                    if not self.game.in_menu and not self.game.died and not self.game.playing_transition and not self.game.won:
                               res = self.game.assets["xp_bar_coloured"].width * max(min(self.game.player.xp / self.game.player.max_xp, 1), 0), self.game.assets["xp_bar_uncoloured"].height
                               surface = pygame.Surface(res)
                               surface.blit(self.game.assets["xp_bar_coloured"], (-self.game.assets["xp_bar_coloured"].width / 2 + res[0] / 2, 0))

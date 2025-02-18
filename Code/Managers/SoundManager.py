@@ -53,5 +53,8 @@ class SoundManager:
                     return resampled
 
           def update(self):
-                    self.music_volume = VOLUMES["music_volume"] * self.game.master_volume
+                    if self.game.music:
+                              self.music_volume = VOLUMES["music_volume"] * self.game.master_volume
+                    else:
+                              self.music_volume = 0
                     pygame.mixer.music.set_volume(self.music_volume)

@@ -13,11 +13,13 @@ class InteractablesManager:
                     self.game_buttons = {}  # Buttons used during gameplay
                     self.menu_buttons = {}  # Buttons used in the main menu
                     self.end_buttons = {}  # Buttons used in the end screen
+                    self.won_buttons = {}
                     self.sliders = {}  # Sliders for adjusting settings
                     self.bars = {}
 
                     # Initialize all buttons and sliders
                     self._create_bars()
+                    self.create_won_buttons()
                     self._create_ingame_buttons()
                     self._create_sliders()
                     self.create_buttons()
@@ -71,6 +73,12 @@ class InteractablesManager:
                     for name, config in button_configs.items():
                               self.end_buttons[name] = Button(self.game, copy.deepcopy(config))
 
+          def create_won_buttons(self):
+                    # Create buttons for the end screen
+                    button_configs = BUTTONS["Won_Screen_Buttons"]
+                    for name, config in button_configs.items():
+                              self.won_buttons[name] = Button(self.game, copy.deepcopy(config))
+
           def create_weapons(self):
                     # Create weapon objects for each weapon type
                     button_configs = BUTTONS["Weapon_Buttons"]
@@ -79,15 +87,18 @@ class InteractablesManager:
 
           def update(self):
                     # Update method handles button interactions based on game state
-                    if not self.game.in_menu and not self.game.died:
+                    if not self.game.in_menu and not self.game.died and not self.game.won:
                               # Update in-game buttons and sliders
                               self._update_ingame_buttons()
-                    elif self.game.in_menu and not self.game.died:
+                    elif self.game.in_menu and not self.game.died and not self.game.won:
                               # Update menu buttons
                               self._update_menu_buttons()
                     if self.game.died:
                               # Update end screen buttons
                               self._update_end_buttons()
+                    if self.game.won:
+                              # Update end screen buttons
+                              self._update_won_buttons()
                     self._update_slider_values()
 
           def _update_slider_values(self):
@@ -101,6 +112,20 @@ class InteractablesManager:
                               self.game.text_size = self.sliders['text_size'].value / 100
 
                               self.value_cooldown_timer.reactivate(self.game.ticks)
+
+          def _update_won_buttons(self):
+                    for button in sorted(self.won_buttons.values(), key=lambda b: b.pos.y):
+                              button.active = True
+                              button.update()
+                              button.change_colour()
+                    if self.game.inputM.get("left_click") and self.button_cooldown_timer.check(self.game.ticks):
+                              if self.won_buttons['restart'].check_for_input():
+                                        self.game.screeneffectM.draw_restart_transition = True
+                                        self.play_click()
+                              elif self.won_buttons['quit'].check_for_input():
+                                        self.game.running = False
+                                        self.play_click()
+                              self.button_cooldown_timer.reactivate(self.game.ticks)
 
           def _update_ingame_buttons(self):
                     # Update and handle interactions for in-game buttons and sliders
@@ -125,9 +150,9 @@ class InteractablesManager:
           def _handle_settings_interactions(self):
                     # Handle button interactions in the settings menu
                     if self.game_buttons['resume'].check_for_input():
-                              self.game.changing_settings = False
+                              self.game.eventM.toggle_settings()
                               self.play_click()
-                    elif self.game_buttons['fullscreen'].check_for_input():
+                    elif self.game_buttons['resize'].check_for_input():
                               pygame.display.toggle_fullscreen()
                               self.play_click()
                     elif self.game_buttons['quit'].check_for_input():
@@ -135,6 +160,18 @@ class InteractablesManager:
                               self.play_click()
                     elif self.game_buttons['return'].check_for_input():
                               self.game.screeneffectM.draw_restart_transition = True
+                              self.play_click()
+                    elif self.game_buttons['stats'].check_for_input():
+                              self.game.uiM.fps_enabled = not self.game.uiM.fps_enabled
+                              self.play_click()
+                    elif self.game_buttons['music'].check_for_input():
+                              self.game.music = not self.game.music
+                              self.play_click()
+                    elif self.game_buttons['shoot'].check_for_input():
+                              self.game.auto_shoot = not self.game.auto_shoot
+                              self.play_click()
+                    elif self.game_buttons['reset'].check_for_input():
+                              self.game.data.load_default_data()
                               self.play_click()
 
           def _update_menu_buttons(self):
@@ -201,12 +238,10 @@ class InteractablesManager:
 
           def draw(self):
                     # Draw all relevant buttons based on the current game state
-                    if not self.game.in_menu and not self.game.died:
+                    if not self.game.in_menu and not self.game.died and not self.game.won:
                               # Draw in-game buttons and sliders
-                              for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()), key=lambda element: element.pos.y):
+                              for button in sorted(list(self.game_buttons.values()) + list(self.sliders.values()) + list(self.bars.values()), key=lambda element: element.pos.y):
                                         button.draw()
-                              for bar in list(self.bars.values()):
-                                        bar.draw()
                     elif self.game.in_menu and not self.game.died:
                               # Draw menu buttons
                               for button in sorted(self.menu_buttons.values(), key=lambda b: b.pos.y):
@@ -214,4 +249,8 @@ class InteractablesManager:
                     if self.game.died:
                               # Draw end screen buttons
                               for button in sorted(self.end_buttons.values(), key=lambda b: b.pos.y):
+                                        button.draw()
+                    if self.game.won:
+                              # Draw won screen buttons
+                              for button in sorted(self.won_buttons.values(), key=lambda b: b.pos.y):
                                         button.draw()

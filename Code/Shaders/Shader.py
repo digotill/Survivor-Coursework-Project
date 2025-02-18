@@ -3,10 +3,7 @@ import Code.Shaders.ScreenRect as screen_rect
 from memory_profiler import profile
 from pympler import asizeof
 
-import moderngl
-import pygame
-import typing
-import os
+import moderngl, pygame, typing, os
 
 DEFAULT_VERTEX_SHADER = os.path.join("Code", "Shaders", "default_vertex.glsl")
 DEFAULT_FRAGMENT_SHADER = os.path.join("Code", "Shaders", "default_fragment.glsl")
@@ -20,23 +17,24 @@ class Shader:
 
           @staticmethod
           def create_vertfrag_shader(ctx: moderngl.Context, vertex_filepath: str, fragment_filepath: str) -> moderngl.Program:
-              """
-              Create a moderngl shader program containing the shaders at the given filepaths.
-              """
-              def read_shader(filepath):
-                  with open(filepath, 'r') as f:
-                      return f.read()
-          
-              vertex_src = read_shader(vertex_filepath)
-              fragment_src = read_shader(fragment_filepath)
-          
-              try:
-                  shader = ctx.program(vertex_shader=vertex_src, fragment_shader=fragment_src)
-              except Exception as e:
-                  print(f"Error compiling shaders:\nVertex Shader:\n{vertex_src}\n\nFragment Shader:\n{fragment_src}")
-                  raise e
-          
-              return shader
+                    """
+                    Create a moderngl shader program containing the shaders at the given filepaths.
+                    """
+
+                    def read_shader(filepath):
+                              with open(filepath, 'r') as f:
+                                        return f.read()
+
+                    vertex_src = read_shader(vertex_filepath)
+                    fragment_src = read_shader(fragment_filepath)
+
+                    try:
+                              shader = ctx.program(vertex_shader=vertex_src, fragment_shader=fragment_src)
+                    except Exception as e:
+                              print(f"Error compiling shaders:\nVertex Shader:\n{vertex_src}\n\nFragment Shader:\n{fragment_src}")
+                              raise e
+
+                    return shader
 
           def __init__(self, vertex_path: str, fragment_path: str, target_surface: pygame.Surface) -> None:
                     self.ctx = moderngl.create_context()

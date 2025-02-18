@@ -28,7 +28,7 @@ class CameraManager():
                     self.noise_map = PerlinNoise(MAP["camera_shake_map"][0], random.randint(0, 100000))
 
           def update(self):
-                    if not self.game.died:
+                    if not self.game.died and not self.game.won:
                               # Update camera position based on player movement
                               self.pos = v2(self.game.player.pos.x - self.res[0] / 2, self.game.player.pos.y - self.res[1] / 2)
 

@@ -110,7 +110,7 @@ class Player:
                     self.change_animation(new_animation)
 
           def update(self):
-                    if not self.game.changing_settings and not self.game.died:
+                    if not self.game.changing_settings and not self.game.died  and not self.game.won:
                               self.handle_input()
                               self.handle_stamina()
                               self.update_physics()
@@ -178,7 +178,7 @@ class Player:
                               self.is_sprinting = False
 
           def update_frame(self):
-                    if not self.game.died:
+                    if not self.game.died  and not self.game.won:
                               factor = self.velocity.length() / self.base_vel
                               self.frame += self.animation_speed * factor * self.game.dt
 
@@ -192,7 +192,7 @@ class Player:
 
           def update_facing(self):
                     # Update player's facing direction based on mouse position
-                    if not self.game.died:
+                    if not self.game.died and not self.game.won:
                               if self.game.inputM.get("position")[0] < self.get_mid_position()[0]:
                                         self.facing = "left"
                               else:

@@ -25,7 +25,7 @@ class Gun:
                     self.update_shooting()  # Update shooting mechanics
 
           def draw(self, surface):
-                    if not self.game.died:  # Only draw if player is alive
+                    if not self.game.died and not self.game.won:  # Only draw if player is alive
                               if self.game.player.facing == "right":
                                         self.rotated_image = pygame.transform.rotate(  # Rotate gun image for right-facing
                                                   self.gun_image, self.angle + 90)
@@ -60,7 +60,7 @@ class Gun:
                     return (self.fire_rate + self.last_shot < current_time and  # Check cooldown
                             self.game.inputM.get("left_click") and  # Check mouse pressed
                             not self.game.changing_settings and  # Check not in settings
-                            not self.game.died)  # Check player alive
+                            not self.game.died and not self.game.won)  # Check player alive
 
           def shoot(self, current_time):
                     if self.continuous_fire_start is None:  # If starting to fire

@@ -28,6 +28,8 @@ class EnemyManager:
                               if self.rebuild_timer.update(self.game.game_time):
                                         self.grid.rebuild()  # Periodically rebuild spatial hash grid
                                         self.rebuild_timer.reactivate(self.game.game_time)
+                    if len(self.grid.items) == 0 and not self.game.player.dead and self.game.game_time > 480:
+                              self.game.won = True
 
           def _add_enemies(self):
                     if self.spawn_timer.update(self.game.game_time):
@@ -81,7 +83,8 @@ class EnemyManager:
                                         self.enemy_pool.add(enemy)  # Add dead enemy back to pool for reuse
                                         xp_type = self.get_experience(enemy)
                                         self.game.experienceM.add_experience(xp_type, enemy.rect.center)  # Add enemy's experience to player's total
-                                        self.game.effectM.draw_at(enemy.rect)
+                                        if enemy.spawn_blood:
+                                                  self.game.effectM.draw_at(enemy.rect)
 
           @staticmethod
           def get_experience(enemy):
