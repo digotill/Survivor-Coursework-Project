@@ -8,7 +8,7 @@ M = Methods()
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
-GAMESIZE = 1000, 1000
+GAMESIZE = 3000, 3000
 
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
@@ -39,11 +39,13 @@ GENERAL = {
 
 # Progression settings
 PROGRESSION = {
-          0: {"canine_grey": 1}, 30: {"canine_grey": 0.8, "canine_white": 1}, 60: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1}, 90: {"canine_white": 0.1, "canine_black": 1, "werewolf": 0}, 120: {"canine_black": 1}, 160: {"pebble": 1}, 190: {"pebble": 0.8, "golem": 1},
-          220: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 250: {"golem": 0.1, "armoured_golem": 1}, 280: {"armoured_golem": 1}, 320: {"mini_peka": 1}, 350: {"mini_peka": 0.8, "bat": 1}, 380: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 410: {"bat": 0.1, "skinny": 1}, 440: {"skinny": 1}, 480: {"nothing": 1}}
+          0: {"canine_grey": 1}, 25: {"canine_grey": 0.8, "canine_white": 1}, 50: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1}, 75: {"canine_white": 0.1, "canine_black": 1}, 100: {"canine_black": 1},
+          125: {"pebble": 1}, 150: {"pebble": 0.8, "golem": 1}, 175: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 200: {"golem": 0.1, "armoured_golem": 1}, 225: {"armoured_golem": 1},
+          250: {"mini_peka": 1}, 275: {"mini_peka": 0.8, "bat": 1}, 300: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 325: {"bat": 0.1, "skinny": 1}, 350: {"skinny": 1},
+          375: {"blood_goo1": 1}, 400: {"blood_goo1": 0.8, "blood_goo3": 1}, 425: {"blood_goo1": 0.1, "blood_goo3": 1}, 450: {"blood_goo3": 1}}
 
 # Boss spawn settings
-BOSSES = {130: "werewolf", 290: "titan", 450: "brain"}
+BOSSES = {100: "werewolf", 225: "titan", 350: "brain", 450: "blood_king"}
 
 # Volume settings
 VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200,"pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
@@ -150,7 +152,10 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "mini_peka": M.create_enemy("mini_peka", (32, 32), 800, 160, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
           "bat": M.create_enemy("bat", (64, 64), 900, 165, 80, 50, 1, {"blue": 0.25, "orange": 0.4, "green": 0.6, "purple": 1}, True, 32),
           "skinny": M.create_enemy("skinny", (64, 64), 1000, 170, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 42),
-          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),}
+          "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),
+          "blood_goo1": M.create_enemy("blood_goo1", (200, 60), 800, 130, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
+          "blood_goo3": M.create_enemy("blood_goo3", (200, 100), 1000, 140, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 32),
+          "blood_king": M.create_enemy("blood_king", (300, 80), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),}
 
 # Card settings
 CARDS = {

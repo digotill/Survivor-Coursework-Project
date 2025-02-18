@@ -51,9 +51,7 @@ class Enemy:
                               enemy_rect = pygame.Rect(x, y, self.res[0], self.res[1])
 
                               # Check if the enemy is outside the camera view and within the game boundaries
-                              if (not camera_rect.colliderect(enemy_rect) and
-                                      0 <= x < GAMESIZE[0] - self.res[0] and
-                                      0 <= y < GAMESIZE[1] - self.res[1]):
+                              if not camera_rect.colliderect(enemy_rect) and 0 <= x < GAMESIZE[0] - self.res[0] and 0 <= y < GAMESIZE[1] - self.res[1]:
                                         self.pos = v2(x, y)
                                         break
 
@@ -147,8 +145,8 @@ class Enemy:
                     pos = self.get_position()
                     current_sprite = self.get_current_sprite()
                     if self.has_shadow:
-                              shadow_image = self.game.methods.get_shadow_image2(self, self.shadow_width)
-                              self.game.displayS.blit(shadow_image, (pos[0] + self.res[0] / 2 - shadow_image.width / 2, pos[1] + self.res[1] - shadow_image.height / 2))
+                        shadow_image = self.game.methods.get_shadow_image2(self, self.shadow_width)
+                        self.game.displayS.blit(shadow_image, (pos[0] + self.res[0] / 2 - shadow_image.width / 2, pos[1] + self.res[1] - shadow_image.height / 2))
                     if self.hit_count is not None:
                               current_sprite = self.game.methods.get_image_mask(current_sprite)
                               self.hit_count += self.hit_effect[1] * self.game.dt
