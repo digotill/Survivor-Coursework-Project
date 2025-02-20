@@ -85,26 +85,47 @@ class Methods:
                     color_list = [(c, v) for c, v in pygame.color.THECOLORS.items() if colour in c]
                     for colour in color_list: print(colour)
 
-          def rename_files_recursive(self, directory):
+          @staticmethod
+          def rename_files_recursive(directory):
                     # Rename image files in a directory and its subdirectories
                     image_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.bmp')
 
+                    # First pass: remove "_1", "_2", etc. from the end of filenames
+                    for root, _, files in os.walk(directory):
+                              for filename in files:
+                                        if filename.lower().endswith(image_extensions):
+                                                  base, ext = os.path.splitext(filename)
+                                                  if base.split('_')[-1].isdigit():
+                                                            new_base = '_'.join(base.split('_')[:-1])
+                                                            new_filename = f"{new_base}{ext}"
+                                                            old_path = os.path.join(root, filename)
+                                                            new_path = os.path.join(root, new_filename)
+                                                            try:
+                                                                      os.rename(old_path, new_path)
+                                                                      print(f"Removed number suffix: {old_path} -> {new_path}")
+                                                            except OSError as e:
+                                                                      print(f"Error removing number suffix from {old_path}: {e}")
+
+                    # Second pass: rename files (lowercase and replace spaces with underscores)
                     for root, _, files in os.walk(directory):
                               for filename in files:
                                         if filename.lower().endswith(image_extensions):
                                                   old_path = os.path.join(root, filename)
                                                   new_filename = filename.lower().replace(' ', '_')
 
-                                                  # Remove '_1' suffix if present
-                                                  base, ext = os.path.splitext(new_filename)
-                                                  if base.endswith('_1'):
-                                                            new_filename = f"{base[:-2]}{ext}"
-
                                                   if filename != new_filename:
                                                             new_path = os.path.join(root, new_filename)
-                                                            new_path = self.get_unique_filename(new_path)
 
                                                             try:
+                                                                      if os.path.exists(new_path):
+                                                                                # If the file already exists, find a unique name
+                                                                                base, ext = os.path.splitext(new_filename)
+                                                                                counter = 1
+                                                                                while os.path.exists(new_path):
+                                                                                          new_filename = f"{base}_{counter}{ext}"
+                                                                                          new_path = os.path.join(root, new_filename)
+                                                                                          counter += 1
+
                                                                       os.rename(old_path, new_path)
                                                                       print(f"Renamed: {old_path} -> {new_path}")
                                                             except OSError as e:
