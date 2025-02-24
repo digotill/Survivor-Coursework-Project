@@ -5,8 +5,8 @@ from pympler import asizeof
 
 import moderngl, pygame, typing, os
 
-DEFAULT_VERTEX_SHADER = os.path.join("Code", "Shaders", "default_vertex.glsl")
-DEFAULT_FRAGMENT_SHADER = os.path.join("Code", "Shaders", "default_fragment.glsl")
+DEFAULT_VERTEX_SHADER = os.path.join("Shaders", "default_vertex.glsl")
+DEFAULT_FRAGMENT_SHADER = os.path.join("Shaders", "default_fragment.glsl")
 
 class Shader:
           """
