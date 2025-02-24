@@ -5,7 +5,7 @@ from Code.Variables.GameVariables import *
 from Code.Variables.LoadAssets import *
 from Code.Individuals.Player import *
 from Code.Managers.InputManager import *
-from Code.Variables.Data import *
+from Code.Variables.LoadSaveData import *
 
 class Game:
           def __init__(self):
@@ -41,17 +41,15 @@ class Game:
                     self.run_game()
 
           def load_game(self):
-                    self.displayS.fill((68, 137, 26))
-                    self.uiM.draw_brightness()
-                    self.uiM.apply_color_filter()
+                    self.uiM.draw_loading()
                     self.shader.render_direct(pygame.Rect(0, 0, self.display.width, self.display.height))
                     pygame.display.flip()
                     pygame.mouse.set_visible(True)
                     self.soundM.fade_music(1000, self.assets["loading_music"])
                     managers = {
-                              "enemyM": EnemyManager, "effectM": EffectManager, "muzzleflashM": MuzzleFlashManager, "casingM": CasingManager, "sparkM": SparkManager, "bulletM": BulletManager,
-                              "rainM": RainManager, "drawingM": DrawingManager, "grassM": GrassManager, "tilemapM": TileMapManager, "objectM": ObjectManager,
-                              "experienceM": ExperienceManager, "player": Player, "cameraM": CameraManager}
+                              "enemyM": EnemyManager, "effectM": EffectManager, "muzzleflashM": MuzzleFlashManager, "casingM": CasingManager,
+                              "bulletM": BulletManager, "rainM": RainManager, "drawingM": DrawingManager, "grassM": GrassManager, "tilemapM": TileMapManager,
+                              "objectM": ObjectManager,"experienceM": ExperienceManager, "player": Player, "cameraM": CameraManager, "cardM": CardManager}
                     for manager_name, manager_class in managers.items():
                               setattr(self, manager_name, manager_class(self))
                     self.soundM.fade_music(1000, self.assets["game_music"])
@@ -65,7 +63,7 @@ class Game:
           def update_managers(self):
                     # Update game entities and managers
                     if not self.in_menu:
-                              for manager in [self.enemyM, self.sparkM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM, self.muzzleflashM, self.casingM]:
+                              for manager in [self.enemyM, self.bulletM, self.experienceM, self.rainM, self.player, self.effectM, self.cameraM, self.muzzleflashM, self.cardM, self.casingM]:
                                         manager.update()
                     self.interactablesM.update()
                     self.soundM.update()
@@ -73,7 +71,7 @@ class Game:
           def draw_managers(self):
                     # Draw game elements in order
                     if not self.in_menu:
-                              for manager in [self.tilemapM, self.effectM, self.drawingM, self.rainM, self.uiM]:
+                              for manager in [self.tilemapM, self.effectM, self.drawingM, self.rainM, self.uiM, self.cardM]:
                                         manager.draw()
                     for manager in [self.backgroundM, self.interactablesM, self.screeneffectM]:
                               manager.draw()

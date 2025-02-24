@@ -8,7 +8,7 @@ M = Methods()
 # Set window and rendering resolutions
 WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
-GAMESIZE = 3000, 3000
+GAMESIZE = 2000, 2000
 
 # Set up the display
 DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
@@ -32,10 +32,10 @@ GENERAL = {
           'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 48, 16, 96, 96, 32, 64, 16, 48, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
-          'cooldowns': (0.5, 0.1),  # toggle cooldowns, value checker cooldown
+          'cooldowns': (0.5, 0.1, 2, 3),  # toggle cooldowns, value checker cooldown, choose card cooldown, upgrade dissapear time
           'animation_speeds': (15, 20, 10, 20, 30, 15, 20),  # main menu background, transition, you died, muzzleflash, casing, blood
           "enviroment_density": (0.05, 16, 150),
-          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout
+          "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2, 5)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout, number of cards
 
 # Progression settings
 PROGRESSION = {
@@ -48,7 +48,7 @@ PROGRESSION = {
 BOSSES = {100: "werewolf", 225: "titan", 350: "brain", 450: "blood_king"}
 
 # Volume settings
-VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200,"pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
+VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200, "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
            "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
@@ -155,13 +155,39 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "brain": M.create_enemy("brain", (80, 64), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),
           "blood_goo1": M.create_enemy("blood_goo1", (200, 60), 800, 130, 70, 50, 1, {"blue": 0.3, "orange": 0.45, "green": 0.7, "purple": 1}, True, 32),
           "blood_goo3": M.create_enemy("blood_goo3", (200, 100), 1000, 140, 90, 50, 1, {"blue": 0.2, "orange": 0.3, "green": 0.6, "purple": 1}, True, 32),
-          "blood_king": M.create_enemy("blood_king", (300, 80), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}),}
+          "blood_king": M.create_enemy("blood_king", (300, 80), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}), }
 
 # Card settings
+# Card settings
 CARDS = {
-          "damage": [],
-          "health": [],
-          "knockback": [],
-          "pierce": [],
-          "accuracy": [],
-}
+          6: ["damage", 2],
+          13: ["health", 5],
+          20: ["pierce", 0.5],
+          25: ["attack_speed", 0.002],
+          29: ["stamina", 5],
+          33: ["shots", 0.4],
+          41: ["knockback", 5],
+
+          45: ["damage", 3],
+          55: ["health", 7],
+          59: ["pierce", 0.7],
+          67: ["attack_speed", 0.004],
+          74: ["spread", 1],
+          83: ["stamina", 7],
+          90: ["knockback", 5],
+
+          97: ["damage", 4],
+          106: ["health", 9],
+          111: ["pierce", 0.8],
+          120: ["attack_speed", 0.005],
+          127: ["spread", 1],
+          134: ["stamina", 9],
+          140: ["knockback", 5],
+
+          144: ["damage", 20],
+          148: ["health", 20],
+          152: ["pierce", 1],
+          156: ["attack_speed", 0.008],
+          160: ["spread", 1],
+          163: ["stamina", 20],
+          165: ["knockback", 5]}

@@ -9,7 +9,7 @@ class BulletManager:
                     self.bullet_pool = set()  # Object pool for bullet reuse
 
           def update(self):
-                    if not self.game.changing_settings:
+                    if not self.game.changing_settings and not self.game.cardM.cards_on:
                               current_time = self.game.game_time
                               for bullet in self.grid.items:
                                         bullet.update()

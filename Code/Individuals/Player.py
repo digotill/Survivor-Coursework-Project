@@ -110,7 +110,7 @@ class Player:
                     self.change_animation(new_animation)
 
           def update(self):
-                    if not self.game.changing_settings and not self.game.died  and not self.game.won:
+                    if not self.game.changing_settings and not self.game.died and not self.game.won and not self.game.cardM.cards_on and not self.game.cardM.cards_on:
                               self.handle_input()
                               self.handle_stamina()
                               self.update_physics()
@@ -129,6 +129,7 @@ class Player:
                               self.level += 1
                               self.xp = self.xp - self.max_xp
                               self.calculate_max_xp()
+                              self.game.cardM.toggle()
                     else:
                               self.calculate_max_xp()
                               xp = EXPERIENCE["gradual_increase"] * self.game.dt * self.xp_to_add / self.max_xp
@@ -178,7 +179,7 @@ class Player:
                               self.is_sprinting = False
 
           def update_frame(self):
-                    if not self.game.died  and not self.game.won:
+                    if not self.game.died and not self.game.won:
                               factor = self.velocity.length() / self.base_vel
                               self.frame += self.animation_speed * factor * self.game.dt
 
@@ -224,4 +225,4 @@ class Player:
           def handle_slowdown(self):
                     collision = self.game.tilemapM.tile_collision(pygame.Rect(self.pos.x, self.pos.y + self.res[1] / 2, 0, 0), "water_tile")
                     if collision:
-                                        self.vel *= self.slowed_vel
+                              self.vel *= self.slowed_vel

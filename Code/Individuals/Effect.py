@@ -26,7 +26,7 @@ class Effect:
                     self.has_been_drawn = False
 
           def update(self):
-                    if not self.grounded and not self.game.changing_settings:
+                    if not self.grounded and not self.game.changing_settings and not self.game.cardM.cards_on:
                               # Check for collision with water tiles
                               rect = pygame.Rect(self.pos.x - self.res[0] / 6, self.pos.y - self.res[1] / 6, self.res[0] / 3, self.res[1] / 3)
                               collision = self.game.tilemapM.tile_collision(rect, "water_tile")

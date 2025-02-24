@@ -8,6 +8,10 @@ class UIManager:
                     self.health_bar_rect = self.game.assets["health_bar"].get_rect()  # Get rect for health bar image
                     self.stamina_bar_rect = self.game.assets["stamina_bar"].get_rect()  # Get rect for stamina bar image
                     self.brightness = 50  # Default brightness value
+                    self.upgrade_timer = Timer(GENERAL['cooldowns'][3], self.game.ticks)
+                    self.upgrade_message = ""
+                    self.render_text()
+                    self.text_draw_time = 0
 
           def draw_bars(self):
                     # Draw Health Bar
@@ -91,6 +95,13 @@ class UIManager:
                               self.game.displayS.fill((a, a, a),
                                                       special_flags=pygame.BLEND_RGB_SUB)
 
+          def draw_loading(self):
+                    self.game.displayS.fill((68, 137, 26))
+                    rect = self.game.assets["loading"].get_rect(center=(self.game.render_resolution[0] / 2, self.game.render_resolution[1] / 2))
+                    self.game.displayS.blit(self.game.assets["loading"], rect)
+                    self.draw_brightness()
+                    self.apply_color_filter()
+
           def draw_brightness(self):
                     self.game.shader.set_brightness(self.brightness / 100)  # Set brightness for shader
 
@@ -103,6 +114,7 @@ class UIManager:
                               self.draw_bars()  # Draw health and stamina bars
                               self.draw_fps()  # Draw FPS counter
                               self.draw_time()  # Draw game time
+                              self.draw_card_upgrade()
 
           def update_display(self):
                     self.display_mouse()  # Display custom mouse cursor
@@ -144,3 +156,17 @@ class UIManager:
                               surface = pygame.transform.scale(self.game.uiS, self.game.displayS.size)
                               self.game.displayS.blit(surface, (0, 0))  # Draw UI surface on main display
                     self.game.uiS.fill((0, 0, 0, 0))  # Clear UI surface for next frame
+
+          def toggle_card_upgrade(self, message):
+                    self.upgrade_message = message
+                    self.render_text()
+                    self.text_draw_time = self.game.ticks
+
+          def render_text(self):
+                    self.font = self.game.assets["font8"]
+                    self.text = self.font.render(self.upgrade_message, False, (255, 255, 255))
+
+          def draw_card_upgrade(self):
+                    if self.game.ticks - self.text_draw_time < GENERAL['cooldowns'][3]:
+                              rect = self.text.get_rect(center=(self.game.render_resolution[0] / 2, self.game.render_resolution[1] / 2))
+                              self.game.uiS.blit(self.text, rect)

@@ -40,7 +40,6 @@ class DrawingManager:
                     # Add drawable objects from various game managers to the drawables list
                     self.drawables.extend(self.game.objectM.grid.window_query())
                     self.drawables.extend(self.game.enemyM.grid.window_query())
-                    self.drawables.extend(self.game.sparkM.grid.window_query())
                     self.drawables.extend(self.game.bulletM.grid.window_query())
                     self.drawables.extend(self.game.experienceM.grid.window_query())
                     self.drawables.extend(self.game.casingM.grid.window_query())

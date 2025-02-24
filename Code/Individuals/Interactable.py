@@ -1,6 +1,5 @@
 from Code.Variables.SettingVariables import *
 
-
 # Base class for UI elements
 class Interactable:
           def set_rect(self):
@@ -99,8 +98,7 @@ class Interactable:
 
                     if self.has_text:
                               self.update_text_position()
-
-                    self.update_text_render()
+                              self.update_text_render()
 
           def init_positions(self):
                     # Initialize the positions and text for the UI element
@@ -108,7 +106,8 @@ class Interactable:
                     self.starting_pos = self.calculate_starting_position()
                     self.current_pos = v2(self.starting_pos)
                     self.rect.center = self.current_pos
-                    self.setup_text()
+                    if self.has_text:
+                              self.setup_text()
 
 
 # Button class, inherits from UIElement
@@ -118,6 +117,7 @@ class Button(Interactable):
                     self.game = game
 
                     self.game.methods.set_attributes(self, dictionary)
+                    self.has_text = True
 
                     self.init_positions()
                     self.text_timer = Timer(self.game.ticks, GENERAL["misc"][3])
@@ -138,6 +138,7 @@ class Slider(Interactable):
                     self.game = game
 
                     self.game.methods.set_attributes(self, dictionary)
+                    self.has_text = True
 
                     self.init_positions()
 
@@ -260,6 +261,7 @@ class Switch(Interactable):
                     self.game = game
 
                     self.game.methods.set_attributes(self, dictionary)
+                    self.has_text = True
 
                     self.init_positions()
 
@@ -283,3 +285,46 @@ class Switch(Interactable):
                     # Toggle the switch's state and reset the cooldown timer
                     self.on = not self.on
                     self.cooldown_timer.reactivate(self.game.ticks)
+
+
+class Cards(Interactable):
+          def __init__(self, game, pos, dictionary):
+                    # Initialize the button with game instance and attributes from dictionary
+                    self.game = game
+
+                    self.game.methods.set_attributes(self, dictionary)
+
+                    self.pos = v2(pos)
+                    self.index = None
+                    self.has_text = False
+
+                    self.init_positions()
+
+          def reset(self, dictionary, index):
+                    self.game.methods.set_attributes(self, dictionary)
+                    self.image = self.game.assets["cards"][index]
+
+          def apply_effect(self):
+                    if self.damage != 0:
+                              self.game.player.damage += self.damage
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.damage) + " damage")
+                    elif self.health != 0:
+                              self.game.player.health += self.health
+                              self.game.player.health = min(self.game.player.health, self.game.player.max_health)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.health) + " health")
+                    elif self.pierce != 0:
+                              self.game.player.gun.pierce += self.pierce
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.pierce) + " pierce")
+                    elif self.attack_speed != 0:
+                              self.game.player.gun.fire_rate -= self.attack_speed
+                              self.game.uiM.toggle_card_upgrade("- " + str(self.attack_speed) + " attack_speed")
+                    elif self.stamina != 0:
+                              self.game.player.stamina += self.stamina
+                              self.game.player.stamina = min(self.game.player.stamina, self.game.player.max_stamina)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.stamina) + " stamina")
+                    elif self.shots != 0:
+                              self.game.player.gun.pierce += self.shots
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.shots) + " shots")
+                    elif self.knockback != 0:
+                              self.game.player.gun.knockback += self.knockback
+                              self.game.uiM.toggle_card_upgrade("+ " + str(self.knockback) + " knockback")

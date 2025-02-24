@@ -10,8 +10,9 @@ class Methods:
                               "slider": {"res": (64, 24), "axis": "y", "axisl": "max", "text_pos": "right", "speed": 1500, "base_colour": (255, 255, 255), "distance_factor": 0.3,
                                          "circle_base_colour": (131, 64, 44), "circle_hovering_colour": (38, 27, 46), "hover_slide": False, "hover_offset": 15, "hover_speed": 30,
                                          "line_thickness": 2, "line_colour": (131, 64, 44), "on": False, "active": False, "current_hover_offset": 0,
-                                         }
-                    }
+                                         },
+                              "card": {"res": (44, 67), "axis": "y", "axisl": "min", "speed": 1500, "distance_factor": 0.3, "hover_slide": True, "hover_offset": 15, "hover_speed": 30,
+                                         "active": False,  "current_hover_offset": 0}}
                     self.enemy_config = {"stopping_range": 25 ** 2, "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 8,
                               "separation_strength": 4, "attack_cooldown": 0.4, "knockback": 1, "hit_effect": (20, 200), "spawn_blood": True}
 
@@ -164,6 +165,22 @@ class Methods:
                               "image": image,
                     }
                     value.update(self.button_config["slider"])
+                    if dictionary2 is not None:
+                              value.update(dictionary2)
+                    return value
+
+          def create_card(self, dictionary2=None):
+                    # Create a slider configuration dictionary
+                    value = {
+                              "damage": 0,
+                              "health": 0,
+                              "pierce": 0,
+                              "attack_speed": 0,
+                              "spread": 0,
+                              "shots": 0,
+                              "knockbacks": 0,
+                    }
+                    value.update(self.button_config["card"])
                     if dictionary2 is not None:
                               value.update(dictionary2)
                     return value
