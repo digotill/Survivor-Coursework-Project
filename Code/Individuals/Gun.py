@@ -39,7 +39,7 @@ class Gun:
                               pos_y = (self.game.player.rect.centery +  # Calculate gun y position
                                        math.cos(math.radians(self.angle)) * self.distance -
                                        self.game.cameraM.rect.y) + 1
-                              self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y))  # Update gun rectangle
+                              self.rect = self.rotated_image.get_rect(center=(pos_x, pos_y + self.game.player.air_offset))  # Update gun rectangle
                               surface.blit(self.rotated_image, self.rect)  # Draw gun on surface
 
           def calc_angle(self):
@@ -60,7 +60,7 @@ class Gun:
                     return (self.fire_rate + self.last_shot < current_time and  # Check cooldown
                             self.game.inputM.get("left_click") and  # Check mouse pressed
                             not self.game.changing_settings and  # Check not in settings
-                            not self.game.died and not self.game.won and not self.game.cards_on)  # Check player alive
+                            not self.game.died and not self.game.won and not self.game.cards_on and not self.game.player.is_on_air)  # Check player alive
 
           def shoot(self, current_time):
                     if self.continuous_fire_start is None:  # If starting to fire

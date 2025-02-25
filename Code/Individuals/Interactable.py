@@ -325,12 +325,7 @@ class Cards(Interactable):
                               self.game.player.gun.fire_rate -= self.attack_speed
                               self.game.uiM.toggle_card_upgrade("- " + str(ratio) + " % attack speed")
                     elif self.stamina != 0:
-                              if self.game.player.health + int(self.stamina) > self.game.player.max_stamina:
-                                        self.game.player.stamina += int(self.stamina)
-                                        self.game.player.stamina_health = self.game.player.stamina
-                              else:
-                                        self.game.player.stamina += int(self.stamina)
-                              self.game.player.stamina = min(self.game.player.stamina, self.game.player.max_stamina)
+                              self.game.player.max_stamina += int(self.stamina)
                               self.game.uiM.toggle_card_upgrade("+ " + str(int(self.stamina)) + " stamina")
                     elif self.shots != 0:
                               self.game.player.gun.pierce += int(self.shots)

@@ -26,6 +26,13 @@ class Player:
                     self.water_check_timer = Timer(0.2, 0)
                     self.hit_count = None
 
+                    self.jump_velocity = self.jumping_velocity  # Adjust this value to change jump height
+                    self.gravity = self.gravity  # Adjust this value to change falling speed
+                    self.air_offset = 0  # This will be used to draw the player above their actual position
+
+                    self.is_on_air = False
+                    self.jumping_timer = Timer(self.jump_cooldown, self.game.game_time)
+
                     self.xp = 0
                     self.level = 1
                     self.calculate_max_xp()
@@ -38,12 +45,22 @@ class Player:
           def apply_force(self, force):
                     self.acceleration += force
 
+          def jump(self):
+                    if not self.is_on_air and self.stamina - self.jump_stamina > 0 and self.jumping_timer.update(self.game.game_time):
+                              self.jump_velocity = self.jumping_velocity
+                              self.is_on_air = True
+                              self.stamina -= self.jump_stamina
+                              self.air_offset = -1
+                              self.game.soundM.play_sound("jump", VOLUMES["jump_frequancy"], VOLUMES["jump_volume"] * self.game.master_volume)
+                              self.velocity *= self.jump_vel
+
           def handle_input(self):
                     input_force = v2(0, 0)
                     if self.game.inputM.get("move_left"): input_force.x -= 1
                     if self.game.inputM.get("move_right"): input_force.x += 1
                     if self.game.inputM.get("move_up"): input_force.y -= 1
                     if self.game.inputM.get("move_down"): input_force.y += 1
+                    if self.game.inputM.get("jump"):self.jump()
 
                     if input_force.length() > 0:
                               input_force = input_force.normalize() * self.acceleration_rate
@@ -53,13 +70,13 @@ class Player:
                     self.vel = self.base_vel
 
           def update_physics(self):
-                    # Apply friction
-                    self.velocity *= self.friction
 
                     # Update velocity
-                    self.velocity += self.acceleration * self.game.dt
-                    if self.velocity.length() > self.vel:
-                              self.velocity.scale_to_length(self.vel)
+                    if not self.is_on_air:
+                              self.velocity *= self.friction
+                              self.velocity += self.acceleration * self.game.dt
+                              if self.velocity.length() > self.vel:
+                                        self.velocity.scale_to_length(self.vel)
 
                     # Update position
                     new_pos = self.pos + self.velocity * self.game.dt
@@ -114,6 +131,7 @@ class Player:
                               self.handle_input()
                               self.handle_stamina()
                               self.update_physics()
+                              self.update_jumping()
                               self.update_position()
                               self.handle_slowdown()
                               self.manage_xp()
@@ -123,6 +141,17 @@ class Player:
                     self.gun.update()
                     self.update_frame()
                     self.game.grassM.apply_force(self.rect.midbottom, self.rect.width, self.grass_force)
+
+          def update_jumping(self):
+                    if self.is_on_air and self.air_offset >= 0:
+                              self.is_on_air = False
+                              self.jumping_timer.reactivate(self.game.game_time)
+
+                    if self.is_on_air:
+                              self.air_offset += self.jump_velocity * self.game.dt
+                              self.jump_velocity += self.gravity * self.game.dt
+                    else:
+                              self.air_offset = 0
 
           def manage_xp(self):
                     if self.xp >= self.max_xp:
@@ -160,7 +189,7 @@ class Player:
                                         self.hit_count = None
 
                     # Draw player
-                    surface.blit(image, self.get_position())
+                    surface.blit(image, (self.get_position()[0], self.get_position()[1] + self.air_offset))
 
                     # Draw gun
                     self.gun.draw(surface)
@@ -180,7 +209,7 @@ class Player:
                               self.is_sprinting = False
 
           def update_frame(self):
-                    if not self.game.died and not self.game.won:
+                    if not self.game.died and not self.game.won and not self.is_on_air:
                               factor = self.velocity.length() / self.base_vel
                               self.frame += self.animation_speed * factor * self.game.dt
 
@@ -202,7 +231,7 @@ class Player:
 
           def deal_damage(self, damage):
                     # Apply damage to player if not in hit cooldown
-                    if self.game.game_time - self.last_hit > self.hit_cooldown:
+                    if self.game.game_time - self.last_hit > self.hit_cooldown and not self.is_on_air:
                               self.health -= damage
                               self.check_if_alive()
 

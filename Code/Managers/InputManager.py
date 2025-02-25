@@ -9,12 +9,13 @@ class InputManager:
                               'move_left': Input(self.game, pygame.K_a),
                               'move_down': Input(self.game, pygame.K_s),
                               'move_right': Input(self.game, pygame.K_d),
+                              'jump': Input(self.game, pygame.K_SPACE),
                               'sprint': Input(self.game, pygame.K_LSHIFT),
                               'dodge': Input(self.game, pygame.K_SPACE, 1),
                               'toggle_fullscreen': Input(self.game, pygame.K_F11, 0.5),
                               'toggle_fps': Input(self.game, pygame.K_F12, 0.2),
                               'quit': Input(self.game, pygame.K_F10),
-                              'ungrab': Input(self.game, pygame.K_ESCAPE)
+                              'ungrab': Input(self.game, pygame.K_ESCAPE),
                     }
                     self.mouse = {
                               "left_click": False,
