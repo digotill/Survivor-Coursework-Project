@@ -29,8 +29,6 @@ class EnemyManager:
                               if self.rebuild_timer.update(self.game.game_time):
                                         self.grid.rebuild()  # Periodically rebuild spatial hash grid
                                         self.rebuild_timer.reactivate(self.game.game_time)
-                    if len(self.grid.items) == 0 and not self.game.player.dead and self.game.game_time > 480:
-                              self.game.won = True
 
           def _add_enemies(self):
                     if self.spawn_timer.update(self.game.game_time):

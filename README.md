@@ -1,6 +1,6 @@
 # Survivor Coursework Project
 
-![Game Cover](Assets/UI/cover2.png)
+![Game Cover](Assets/UI/images/cover2.png)
 
 ## 🎮 About The Game
 
@@ -16,7 +16,7 @@
 
 ## 🖼 Screenshots
 
-![Gameplay Screenshot](Assets/UI/game_screenshot.png)
+![Gameplay Screenshot](Assets/UI/images/game_screenshot.png)
 
 ## 📦 Dependencies
 
@@ -54,7 +54,7 @@ Simply run the provided "run.exe" file to start the game.
 To create an executable, use pyinstaller:
 
 ```bash
-pyinstaller Run.py --onefile --windowed --noconsole --add-data "Assets:Assets" --add-data "Code:Code"
+pyinstaller --clean --icon=C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets\UI\images\cover.png Run.py --onedir --windowed --noconsole --add-data "Code:Code"
 ```
 
 ## 👨‍💻 Authors
