@@ -110,7 +110,7 @@ class Player:
                     self.change_animation(new_animation)
 
           def update(self):
-                    if not self.game.changing_settings and not self.game.died and not self.game.won and not self.game.cardM.cards_on and not self.game.cardM.cards_on:
+                    if not self.game.changing_settings and not self.game.died and not self.game.won and not self.game.cards_on:
                               self.handle_input()
                               self.handle_stamina()
                               self.update_physics()
@@ -130,6 +130,7 @@ class Player:
                               self.xp = self.xp - self.max_xp
                               self.calculate_max_xp()
                               self.game.cardM.toggle()
+                              self.game.soundM.play_sound("level_up", VOLUMES["level_up_frequancy"], VOLUMES["level_up_volume"] * self.game.master_volume)
                     else:
                               self.calculate_max_xp()
                               xp = EXPERIENCE["gradual_increase"] * self.game.dt * self.xp_to_add / self.max_xp

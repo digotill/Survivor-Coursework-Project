@@ -17,7 +17,7 @@ class ExperienceManager:
                     self.grid.insert(xp)
 
           def update(self):
-                    if not self.game.changing_settings and not self.game.cardM.cards_on:
+                    if not self.game.changing_settings and not self.game.cards_on:
                               for xp in self.grid.items.copy():
                                         xp.update()
                                         if xp.is_collected and xp in self.grid.items:

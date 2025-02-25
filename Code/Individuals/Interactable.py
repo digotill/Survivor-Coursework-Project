@@ -306,25 +306,36 @@ class Cards(Interactable):
 
           def apply_effect(self):
                     if self.damage != 0:
-                              self.game.player.damage += self.damage
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.damage) + " damage")
+                              ratio = int(self.damage / self.game.player.damage * 100)
+                              self.game.player.damage += int(self.damage)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(ratio) + " % damage")
                     elif self.health != 0:
-                              self.game.player.health += self.health
+                              if self.game.player.health + int(self.health) > self.game.player.max_health:
+                                        self.game.player.health += int(self.health)
+                                        self.game.player.max_health = self.game.player.health
+                              else:
+                                        self.game.player.health += int(self.health)
                               self.game.player.health = min(self.game.player.health, self.game.player.max_health)
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.health) + " health")
+                              self.game.uiM.toggle_card_upgrade("+ " + str(int(self.health)) + " health")
                     elif self.pierce != 0:
-                              self.game.player.gun.pierce += self.pierce
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.pierce) + " pierce")
+                              self.game.player.gun.pierce += int(self.pierce)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(int(self.pierce)) + " bullet pierce")
                     elif self.attack_speed != 0:
+                              ratio = int(self.attack_speed / self.game.player.gun.fire_rate * 100)
                               self.game.player.gun.fire_rate -= self.attack_speed
-                              self.game.uiM.toggle_card_upgrade("- " + str(self.attack_speed) + " attack_speed")
+                              self.game.uiM.toggle_card_upgrade("- " + str(ratio) + " % attack speed")
                     elif self.stamina != 0:
-                              self.game.player.stamina += self.stamina
+                              if self.game.player.health + int(self.stamina) > self.game.player.max_stamina:
+                                        self.game.player.stamina += int(self.stamina)
+                                        self.game.player.stamina_health = self.game.player.stamina
+                              else:
+                                        self.game.player.stamina += int(self.stamina)
                               self.game.player.stamina = min(self.game.player.stamina, self.game.player.max_stamina)
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.stamina) + " stamina")
+                              self.game.uiM.toggle_card_upgrade("+ " + str(int(self.stamina)) + " stamina")
                     elif self.shots != 0:
-                              self.game.player.gun.pierce += self.shots
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.shots) + " shots")
+                              self.game.player.gun.pierce += int(self.shots)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(int(self.shots)) + " shots fired")
                     elif self.knockback != 0:
-                              self.game.player.gun.knockback += self.knockback
-                              self.game.uiM.toggle_card_upgrade("+ " + str(self.knockback) + " knockback")
+                              ratio = int(self.knockback / self.game.player.gun.knockback * 100)
+                              self.game.player.gun.knockback += int(self.knockback)
+                              self.game.uiM.toggle_card_upgrade("+ " + str(ratio) + " % knockback")

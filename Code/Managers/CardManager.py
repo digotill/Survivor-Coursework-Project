@@ -9,16 +9,15 @@ class CardManager:
                     self.cards = []
                     for i in range(1, GENERAL["misc"][6] + 1):
                               self.cards.append(Cards(self.game, (self.game.render_resolution[0] / (GENERAL["misc"][6] + 1) * i, self.game.render_resolution[1] / 2), self.game.methods.create_card()))
-                    self.cards_on = False
                     self.on_timer = Timer(GENERAL['cooldowns'][2], self.game.ticks)
 
           def update(self):
                     for card in self.cards:
                               card.update()
-                              card.active = self.cards_on
+                              card.active = self.game.cards_on
                               if card.check_for_input() and self.game.inputM.get("left_click") and self.on_timer.update(self.game.ticks):
                                         card.apply_effect()
-                                        self.cards_on = False
+                                        self.game.cards_on = False
 
           def draw(self):
                     if not self.game.died:
@@ -26,7 +25,7 @@ class CardManager:
                                         card.draw()
 
           def toggle(self):
-                    self.cards_on = True
+                    self.game.cards_on = True
                     self.on_timer.reactivate(self.game.ticks)
                     for i in range(0, GENERAL["misc"][6]):
                               index = random.randint(0, 165)

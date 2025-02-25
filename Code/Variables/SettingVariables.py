@@ -32,7 +32,7 @@ GENERAL = {
           'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
           'hash_maps': (32, 48, 16, 96, 96, 32, 64, 16, 48, 16),  # Enemies, Bullets, Tilemap, Rain, Objects, Particles, Effects, XP, blood count
-          'cooldowns': (0.5, 0.1, 2, 3),  # toggle cooldowns, value checker cooldown, choose card cooldown, upgrade dissapear time
+          'cooldowns': (0.5, 0.1, 0.6, 3),  # toggle cooldowns, value checker cooldown, choose card cooldown, upgrade text dissapear time
           'animation_speeds': (15, 20, 10, 20, 30, 15, 20),  # main menu background, transition, you died, muzzleflash, casing, blood
           "enviroment_density": (0.05, 16, 150),
           "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2, 5)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout, number of cards
@@ -49,7 +49,7 @@ BOSSES = {100: "werewolf", 225: "titan", 350: "brain", 450: "blood_king"}
 
 # Volume settings
 VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200, "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
-           "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1}
+           "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1, "level_up_frequancy": 0, "level_up_volume": 1}
 
 # Difficulty settings    enemy speed, enemy health, enemy damage
 DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
@@ -75,9 +75,6 @@ PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 1.6, "slowed
 
 # Blood settings
 BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.3, "blood_effect_duration": 4, "blood_on_player_hit": 20}
-
-# Spark effect settings
-SPARKS = {"muzzle_flash": {"spread": 20, "scale": 0.8, "colour": (255, 255, 255), "amount": 10, "min_vel": 3, "max_vel": 10}}
 
 # Map generation settings
 MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
@@ -108,11 +105,10 @@ BUTTONS = {
                     "stats": M.create_button("stats", v2(190, 180), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shoot": M.create_button("shoot", v2(190, 225), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "reset": M.create_button("reset", v2(190, 270), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "resume": M.create_button("resume", v2(190, 315), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-          },
+                    "resume": M.create_button("resume", v2(190, 315), AM.assets["button12"], {"axis": "x", "axisl": "min"}),},
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 60), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
-                    "spas12": M.create_button("spas12", v2(600, 140), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size}),
+                    "ak47": M.create_button("ak47", v2(600, 140), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
+                    "spas12": M.create_button("spas12", v2(600, 60), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size}),
                     "m16a4": M.create_button("m16a4", v2(600, 220), AM.assets["m16a4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m16a4"].size}),
                     "m60e4": M.create_button("m60e4", v2(600, 300), AM.assets["m60e4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m60e4"].size}), },
           "Menu_Buttons": {
@@ -158,36 +154,8 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "blood_king": M.create_enemy("blood_king", (300, 80), 30000, 210, 100, 50, 2, {"blue": 0, "orange": 0, "green": 0, "purple": 1}, True, 48, {"knockback": 0.8}), }
 
 # Card settings
-# Card settings
 CARDS = {
-          6: ["damage", 2],
-          13: ["health", 5],
-          20: ["pierce", 0.5],
-          25: ["attack_speed", 0.002],
-          29: ["stamina", 5],
-          33: ["shots", 0.4],
-          41: ["knockback", 5],
-
-          45: ["damage", 3],
-          55: ["health", 7],
-          59: ["pierce", 0.7],
-          67: ["attack_speed", 0.004],
-          74: ["spread", 1],
-          83: ["stamina", 7],
-          90: ["knockback", 5],
-
-          97: ["damage", 4],
-          106: ["health", 9],
-          111: ["pierce", 0.8],
-          120: ["attack_speed", 0.005],
-          127: ["spread", 1],
-          134: ["stamina", 9],
-          140: ["knockback", 5],
-
-          144: ["damage", 20],
-          148: ["health", 20],
-          152: ["pierce", 1],
-          156: ["attack_speed", 0.008],
-          160: ["spread", 1],
-          163: ["stamina", 20],
-          165: ["knockback", 5]}
+          6: ["damage", 2], 13: ["health", 5], 20: ["pierce", 0.5], 25: ["attack_speed", 0.002],29: ["stamina", 5],33: ["shots", 0.4],41: ["knockback", 5],  # common
+          45: ["damage", 3],55: ["health", 7],59: ["pierce", 0.7],67: ["attack_speed", 0.004],74: ["spread", 1],83: ["stamina", 7],90: ["knockback", 5],  # rare
+          97: ["damage", 4],106: ["health", 9],111: ["pierce", 0.8],120: ["attack_speed", 0.005],127: ["spread", 1],134: ["stamina", 9],140: ["knockback", 5],  # epic
+          144: ["damage", 20],148: ["health", 20],152: ["pierce", 1],156: ["attack_speed", 0.008],160: ["spread", 1],163: ["stamina", 20],165: ["knockback", 5]}  # legendary

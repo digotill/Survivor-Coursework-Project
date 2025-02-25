@@ -60,7 +60,7 @@ class Gun:
                     return (self.fire_rate + self.last_shot < current_time and  # Check cooldown
                             self.game.inputM.get("left_click") and  # Check mouse pressed
                             not self.game.changing_settings and  # Check not in settings
-                            not self.game.died and not self.game.won and not self.game.cardM.cards_on)  # Check player alive
+                            not self.game.died and not self.game.won and not self.game.cards_on)  # Check player alive
 
           def shoot(self, current_time):
                     if self.continuous_fire_start is None:  # If starting to fire

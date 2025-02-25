@@ -13,7 +13,7 @@ class Game:
                     # Set up display and rendering surfaces
                     self.display = DISPLAY
                     self.displayS = pygame.Surface(RENRES).convert()
-                    self.uiS = pygame.Surface((640, 360)).convert()
+                    self.uiS = pygame.Surface(RENRES).convert()
                     self.shader = Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER, self.displayS)
 
                     # Initialize clock for managing frame rate

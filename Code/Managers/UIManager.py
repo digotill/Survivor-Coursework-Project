@@ -90,7 +90,7 @@ class UIManager:
                                                   self.game.inputM.get("position")[1] - image.get_rect().height / 2))
 
           def darken_screen(self):
-                    if self.game.changing_settings:  # Darken screen when changing settings
+                    if self.game.changing_settings or self.game.cards_on:  # Darken screen when changing settings
                               a = GENERAL['brightness'][2]
                               self.game.displayS.fill((a, a, a),
                                                       special_flags=pygame.BLEND_RGB_SUB)
@@ -150,11 +150,7 @@ class UIManager:
                               self.game.shader.set_color_filter(1.0, 1.0, 1.0)  # This case shouldn't occur, but just in case
 
           def draw_ui_surface(self):
-                    if self.game.uiS.size == self.game.displayS.size:
-                              self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display
-                    else:
-                              surface = pygame.transform.scale(self.game.uiS, self.game.displayS.size)
-                              self.game.displayS.blit(surface, (0, 0))  # Draw UI surface on main display
+                    self.game.displayS.blit(self.game.uiS, (0, 0))  # Draw UI surface on main display
                     self.game.uiS.fill((0, 0, 0, 0))  # Clear UI surface for next frame
 
           def toggle_card_upgrade(self, message):

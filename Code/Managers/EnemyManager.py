@@ -13,7 +13,7 @@ class EnemyManager:
                     self.rebuild_timer = Timer(GENERAL["enemies"][4], self.game.game_time)
 
           def update(self):
-                    if not self.game.changing_settings and self.game.game_time > 5 and not self.game.cardM.cards_on:
+                    if not self.game.changing_settings and self.game.game_time > 5 and not self.game.cards_on:
                               for enemy in self.grid.items:
                                         enemy.update()  # Update each enemy's state
                                         if self.seperation_timer.update(self.game.game_time):
