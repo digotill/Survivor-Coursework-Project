@@ -5,10 +5,11 @@ from Code.DataStructures.HashMap import *
 class EnemyManager:
           def __init__(self, game):
                     self.game = game
+
                     self.grid = HashMap(game, GENERAL["hash_maps"][0])  # Spatial hash grid for efficient enemy management
                     self.enemy_pool = set()  # Pool of inactive enemies for reuse
+
                     self.spawn_timer = Timer(GENERAL["enemies"][1], self.game.game_time)  # Timer for enemy spawning
-                    self.enemy_multiplier = 1  # Multiplier for enemy attributes (e.g., health, damage)
                     self.seperation_timer = Timer(GENERAL["enemies"][3], self.game.game_time)
                     self.rebuild_timer = Timer(GENERAL["enemies"][4], self.game.game_time)
 

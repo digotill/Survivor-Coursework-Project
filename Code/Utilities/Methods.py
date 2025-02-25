@@ -16,6 +16,8 @@ class Methods:
                     self.enemy_config = {"stopping_range": 25 ** 2, "steering_strength": 0.4, "friction": 0.2, "animation_speed": 15, "hit_cooldown": 0, "separation_radius": 8,
                               "separation_strength": 4, "attack_cooldown": 0.4, "knockback": 1, "hit_effect": (20, 200), "spawn_blood": True}
 
+                    self.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
+
           @staticmethod
           def get_transparent_image(image, alpha):
                     # Create a transparent version of the given image

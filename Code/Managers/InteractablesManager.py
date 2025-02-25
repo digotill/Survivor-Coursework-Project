@@ -210,7 +210,7 @@ class InteractablesManager:
           def _handle_weapon_selection(self):
                     # Handle weapon selection in the main menu
                     for button_name, button in self.menu_buttons.items():
-                              if button in self.weapons_switches and button.can_change():
+                              if button in self.weapons_switches and button.can_change() and button.requirement <= self.game.wins:
                                         self.game.gun = self.weapons[button_name]
                                         button.change_on()
                                         self.play_click()

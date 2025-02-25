@@ -76,7 +76,12 @@ class ScreenEffectManager:
                               if self.youwon_start_time is None:
                                         self.youwon_start_time = self.game.game_time
                                         pygame.mixer.music.stop()
-                                        self.game.wins += 1
+                                        if self.game.difficulty == "easy":
+                                                  self.game.wins += 1
+                                        elif self.game.difficulty == "medium":
+                                                  self.game.wins += 2
+                                        elif self.game.difficulty == "hard":
+                                                  self.game.wins += 3
                                         self.game.soundM.play_sound("youwon_sound", VOLUMES["youwon_frequancy"], VOLUMES["youwon_volume"] * self.game.master_volume)
                               elapsed_time = self.game.game_time - self.youwon_start_time
                               self.youwon_effect.alpha = min(max(elapsed_time / self.youwon_duration, 0), 1) * 255

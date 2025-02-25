@@ -1,33 +1,25 @@
 from Code.Variables.ImportDependencies import *
 
-# Initialize Pygame
 pygame.init()
 
 M = Methods()
 
-# Set window and rendering resolutions
-WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))
+WINRES = (1280, int(1280 / M.get_current_monitor_ratio()))  # Set window and rendering resolutions
 RENRES = 640, int(640 / M.get_current_monitor_ratio())
-GAMESIZE = 2000, 2000
+GAMESIZE = 4000, 4000
 
-# Set up the display
-DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)
+DISPLAY = pygame.display.set_mode(WINRES, pygame.OPENGL | pygame.DOUBLEBUF)  # Set up the display
 
-# Toggle fullscreen twice (to fix a display issue)
-pygame.display.toggle_fullscreen()
+pygame.display.toggle_fullscreen()  # Toggle fullscreen twice (to fix a display issue)
 pygame.display.toggle_fullscreen()
 
-# Initialize Methods class and rename files
-M.rename_files_recursive(r"C:\Users\digot\PycharmProjects\Survivor-Coursework-Project\Assets")
 AM = LoadAssets()
 
-# Set up mouse cursor and window properties
-pygame.mouse.set_visible(False)
+pygame.mouse.set_visible(False)  # Set up mouse cursor and window properties
 pygame.display.set_icon(AM.assets["cover"])
 pygame.display.set_caption("Survivor Game")
 
-# General game settings
-GENERAL = {
+GENERAL = {  # General game settings
           'enemies': (15, 0.5, True, 0.05, 0.1),  # max, spawn rate, spawning on, seperation, rebuild
           'brightness': (1.5, 1.5, 50),  # max, min, paused
           'sparks': (20, 0.3, 3.5, 0.1),  # friction, width, height, min_vel
@@ -37,67 +29,64 @@ GENERAL = {
           "enviroment_density": (0.05, 16, 150),
           "misc": ("spas12", 100, (20, 0.5), 0.05, 0.05, 2, 5)}  # starting weapon, enemy spawn distance, screen shake on hit, text update frequancy, music fadeout, number of cards
 
-# Progression settings
-PROGRESSION = {
+PROGRESSION = {  # Progression settings
           0: {"canine_grey": 1}, 25: {"canine_grey": 0.8, "canine_white": 1}, 50: {"canine_grey": 0.1, "canine_white": 0.8, "canine_black": 1}, 75: {"canine_white": 0.1, "canine_black": 1}, 100: {"canine_black": 1},
           125: {"pebble": 1}, 150: {"pebble": 0.8, "golem": 1}, 175: {"pebble": 0.1, "golem": 0.8, "armoured_golem": 1}, 200: {"golem": 0.1, "armoured_golem": 1}, 225: {"armoured_golem": 1},
           250: {"mini_peka": 1}, 275: {"mini_peka": 0.8, "bat": 1}, 300: {"mini_peka": 0.1, "bat": 0.8, "skinny": 1}, 325: {"bat": 0.1, "skinny": 1}, 350: {"skinny": 1},
           375: {"blood_goo1": 1}, 400: {"blood_goo1": 0.8, "blood_goo3": 1}, 425: {"blood_goo1": 0.1, "blood_goo3": 1}, 450: {"blood_goo3": 1}}
 
-# Boss spawn settings
-BOSSES = {100: "werewolf", 225: "titan", 350: "brain", 450: "blood_king"}
+BOSSES = {  # Boss spawn settings
+          100: "werewolf", 225: "titan", 350: "brain", 450: "blood_king"}
 
-# Volume settings
-VOLUMES = {"music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200, "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
-           "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1, "level_up_frequancy": 0, "level_up_volume": 1,
-           "jump_frequancy": 0.1, "jump_volume": 1}
+VOLUMES = {  # Volume settings
+          "music_volume": 1.1, "gun_shot_frequancy": 0.1, "gun_shot_volume": 0.2, "click_shot_frequancy": 0.1, "click_shot_volume": 10, "heartbeat_frequancy": 0.1, "heartbeat_volume": 200, "pausing_frequancy": 0.05, "pausing_volume": 0.15, "splatter_frequancy": 0.1, "splatter_volume": 1,
+          "youdied_frequancy": 0, "youdied_volume": 1, "picked_xp_frequancy": 0.2, "picked_xp_volume": 0.1, "youwon_frequancy": 0, "youwon_volume": 1, "level_up_frequancy": 0, "level_up_volume": 1,
+          "jump_frequancy": 0.1, "jump_volume": 1}
 
-# Difficulty settings    enemy speed, enemy health, enemy damage
-DIFFICULTY = {"easy": (0.9, 0.8, 1), "medium": (1, 1, 1), "hard": (1.1, 1.2, 1)}
+DIFFICULTY = {  # Difficulty settings    enemy speed, enemy health, enemy damage
+          "easy": (0.9, 0.6, 0.5), "medium": (1, 1, 1), "hard": (1.1, 1.6, 1.7), "win_change": (1.1, 1.5, 1.6)}
 
-# Experience settings
-EXPERIENCE = {"starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "orange": 15, "green": 24, "purple": 48, "light_blue": 64, "red": 86, "animation_speed": 10, "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 600}
+EXPERIENCE = {  # Experience settings
+          "starting_max_xp": 100, "xp_progression_rate": 1.2, "blue": 8, "orange": 15, "green": 24, "purple": 48, "light_blue": 64, "red": 86, "animation_speed": 10, "attributes": {"speed": 200, "attraction_distance": 50, "collection_distance": 10}, "gradual_increase": 600}
 
-# UI settings
-UI = {"ui_bars": (80, 30), "xp_bar": (240, 30), "fps_pos": (190, 10), "wins_pos": (320, 340), "tutorial_pos": (40, 180)}
+UI = {  # UI settings
+          "ui_bars": (80, 30), "xp_bar": (240, 30), "fps_pos": (190, 10), "wins_pos": (320, 340), "tutorial_pos": (100, 180)}
 
-# Camera settings
-CAMERA = {'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1}
+CAMERA = {  # Camera settings
+          'lerp_speed': 5, 'mouse_smoothing': v2(10, 10), 'window_mouse_smoothing_amount': 5, 'deadzone': 1, 'window_max_offset': 0.3, 'shake_speed': 200, 'reduced_screen_shake': 1}
 
-# Grass settings
-GRASS = {"tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.6,
-         "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2), "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15),
-         "positions": {"forest_grass": [0, 1, 2, 3, 4], "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
+GRASS = {  # Grass settings
+          "tile_size": 16, "shade_amount": 100, "stiffness": 300, "max_unique": 5, "vertical_place_range": (0, 1), "wind_effect": (13, 25), "density": 0.6,
+          "shadow_radius": 3, "shadow_strength": 60, "shadow_shift": (1, 2), "Rot_Function": lambda x_val, y_val, game_time: int(math.sin(game_time * 2 + x_val / 100 + y_val / 100) * 15),
+          "positions": {"forest_grass": [0, 1, 2, 3, 4], "snow_grass": [5, 6, 7, 8, 9], "spring_grass": [10, 11, 12, 13, 14], "cherryblossom_grass": [15, 16, 17, 18, 19], "wasteland_grass": [20, 21, 22, 23, 24]}}
 
-# Player settings
-PLAYER = {'health': 200, "res": (16, 16), 'vel': 100, "sprint_vel": 1.6, "slowed_vel": 0.5, 'damage': 30, 'acceleration': 200, "offset": 10, "hit_effect": (20, 200),
+PLAYER = {  # Player settings
+          'health': 200, "res": (16, 16), 'vel': 80, "sprint_vel": 1.6, "slowed_vel": 0.5, 'damage': 30, 'acceleration': 200, "offset": 10, "hit_effect": (20, 200),
           'animation_speed': 10, "hit_cooldown": 0.4, 'stamina': 100, "stamina_consumption": 30, "stamina_recharge_rate": 8, "grass_force": 10, "slow_cooldown": 0.1,
           "friction": 0.9, "acceleration_rate": 2000, "jumping_velocity": -300, "gravity": 1000, "jump_stamina": 40, "jump_cooldown": 0.25, "jump_vel": 2}
 
-# Blood settings
-BLOOD = {"blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.3, "blood_effect_duration": 4, "blood_on_player_hit": 20}
+BLOOD = {  # Blood settings
+          "blood": {"name": "blood", "res": (48, 48), "speed": (1500, 30), "direction": 20, "animation_speed": 40, "vanish_time": (1, 1.5), "variety": 10}, "max_blood": 10, "blood_amount": 0.3, "blood_effect_duration": 4, "blood_on_player_hit": 20}
 
-# Map generation settings
-MAP = {"biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
+MAP = {  # Map generation settings
+          "biomes_map": (0.004, 1), "biomes_density_map": (0.05, 4), "tiles_map": (0.2, 1), "gun_shake_map": (0.1, 2), "camera_shake_map": (0.1, 3)}
 
-# Biome settings       chance of biome spawning, tree density, padding density
-BIOMES = {"wasteland": (0.35, 0.7, 0.8), "spring": (0.45, 0.7, 0.8), "forest": (0.55, 0.7, 0.8), "snow": (0.6, 0.7, 0.8), "cherryblossom": (1, 0.7, 0.8), }
+BIOMES = {  # Biome settings       chance of biome spawning, tree density, padding density
+          "wasteland": (0.35, 0.7, 0.8), "spring": (0.45, 0.7, 0.8), "forest": (0.55, 0.7, 0.8), "snow": (0.6, 0.7, 0.8), "cherryblossom": (1, 0.7, 0.8), }
 
-# Tile settings
-TILES = {"Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
+TILES = {  # Tile settings
+          "Tile_Ranges": {"water_tile": -0.1, "grass_tile": 1}, "transitions": [["grass_tile", "water_tile"]], "animation_speed": 5, "animated_tiles": [], }
 
-# Rain effect settings
-RAIN = {"spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle": 40, "vel": (800, 50), "lifetime": (0.5, 0.8)}
+RAIN = {  # Rain effect settings
+          "spawn_rate": 0.1, "amount_spawning": 5, "animation_speed": 30, "angle": 40, "vel": (800, 50), "lifetime": (0.5, 0.8)}
 
-# Weapon settings
-WEAPONS = {
+WEAPONS = {  # Weapon settings
           "ak47": {"vel": 1300, "spread": 4, "fire_rate": 0.15, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 50, "distance": -7, "friction": 0.2, "spread_time": 2, "pierce": 2, "shots": 1, "name": "ak47", "knockback": 80, "screen_shake": 5},
-          "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 40, "distance": -7, "friction": 0.5, "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback": 20, "screen_shake": 25},
-          "m16a4": {"vel": 1600, "spread": 1, "fire_rate": 0.25, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 120, "distance": -7, "friction": 0.1, "spread_time": 2, "pierce": 10, "shots": 1, "name": "m16a4", "knockback": 200, "screen_shake": 5},
-          "m60e4": {"vel": 1400, "spread": 10, "fire_rate": 0.1, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 70, "distance": -7, "friction": 0.4, "spread_time": 2, "pierce": 2, "shots": 1, "name": "m60e4", "knockback": 80, "screen_shake": 7}, }
+          "spas12": {"vel": 1500, "spread": 15, "fire_rate": 0.9, "lifetime": 0.5, "lifetime_randomness": 0.2, "damage": 80, "distance": -7, "friction": 0.5, "spread_time": 2, "pierce": 5, "shots": 10, "name": "spas12", "knockback": 20, "screen_shake": 25},
+          "m16a4": {"vel": 1600, "spread": 1, "fire_rate": 0.25, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 220, "distance": -7, "friction": 0.1, "spread_time": 2, "pierce": 10, "shots": 1, "name": "m16a4", "knockback": 200, "screen_shake": 5},
+          "m60e4": {"vel": 1400, "spread": 10, "fire_rate": 0.1, "lifetime": 1, "lifetime_randomness": 0.2, "damage": 160, "distance": -7, "friction": 0.4, "spread_time": 2, "pierce": 2, "shots": 1, "name": "m60e4", "knockback": 80, "screen_shake": 7}, }
 
-# Button settings for various game states
-BUTTONS = {
+BUTTONS = {  # Button settings for various game states
           "In_Game_Buttons": {
                     "quit": M.create_button("quit", v2(320, 225), AM.assets["button12"], {"axis": "y", "axisl": "max"}),
                     "return": M.create_button("return", v2(320, 180), AM.assets["button12"], {"axis": "y", "axisl": "min"}),
@@ -106,12 +95,12 @@ BUTTONS = {
                     "stats": M.create_button("stats", v2(190, 180), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "shoot": M.create_button("shoot", v2(190, 225), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
                     "reset": M.create_button("reset", v2(190, 270), AM.assets["button12"], {"axis": "x", "axisl": "min"}),
-                    "resume": M.create_button("resume", v2(190, 315), AM.assets["button12"], {"axis": "x", "axisl": "min"}),},
+                    "resume": M.create_button("resume", v2(190, 315), AM.assets["button12"], {"axis": "x", "axisl": "min"}), },
           "Weapon_Buttons": {
-                    "ak47": M.create_button("ak47", v2(600, 140), AM.assets["ak47"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size}),
-                    "spas12": M.create_button("spas12", v2(600, 60), AM.assets["spas12"], {"text_pos": "left", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size}),
-                    "m16a4": M.create_button("m16a4", v2(600, 220), AM.assets["m16a4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m16a4"].size}),
-                    "m60e4": M.create_button("m60e4", v2(600, 300), AM.assets["m60e4"], {"text_pos": "left", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m60e4"].size}), },
+                    "ak47": M.create_button("ak47 (2 win)", v2(540, 140), AM.assets["ak47"], {"text_pos": "top", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["ak47"].size, "requirement": 2}),
+                    "spas12": M.create_button("spas12 (0 wins)", v2(540, 60), AM.assets["spas12"], {"text_pos": "top", "on": True, "active": True, "axisl": "max", "axis": "x", "res": AM.assets["spas12"].size, "requirement": 0}),
+                    "m16a4": M.create_button("m16a4 (4 wins)", v2(540, 220), AM.assets["m16a4"], {"text_pos": "top", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m16a4"].size, "requirement": 4}),
+                    "m60e4": M.create_button("m60e4 (6 wins)", v2(540, 300), AM.assets["m60e4"], {"text_pos": "top", "active": True, "axisl": "max", "axis": "x", "res": AM.assets["m60e4"].size, "requirement": 6}), },
           "Menu_Buttons": {
                     "play": M.create_button("play", v2(280, 180), AM.assets["button12"], {"active": True}),
                     "quit": M.create_button("quit", v2(360, 180), AM.assets["button12"], {"active": True}),
@@ -136,8 +125,7 @@ BUTTONS = {
                     "Health_bar": M.create_button("", v2(80, 35), AM.assets["empty_bar_outline"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["empty_bar_outline"].size, "axisl": "min"}),
                     "Stamina_bar": M.create_button("", v2(560, 35), AM.assets["empty_bar_outline"], {"text_pos": "top", "active": True, "hover_slide": False, "res": AM.assets["empty_bar_outline"].size, "axisl": "min"})}}
 
-# Enemy settings
-ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
+ENEMIES = {  # Enemy settings           name,       res,      health, vel, damage, attack_range, armour, xp_chances, has_shadow
           "canine_grey": M.create_enemy("canine_grey", (48, 32), 200, 140, 20, 50, 1, {"blue": 0.95, "orange": 1}, True, 48),
           "canine_white": M.create_enemy("canine_white", (48, 32), 300, 150, 25, 50, 1, {"blue": 0.95, "orange": 1}, True, 48),
           "canine_black": M.create_enemy("canine_black", (48, 32), 400, 150, 30, 50, 2, {"blue": 0.95, "orange": 1}, True, 48),
@@ -154,9 +142,8 @@ ENEMIES = {  # name,       res,      health, vel, damage, attack_range, armour, 
           "blood_goo3": M.create_enemy("blood_goo3", (200, 100), 1000, 140, 90, 50, 1, {"purple": 0.95, "light_blue": 1}, True, 32),
           "blood_king": M.create_enemy("blood_king", (300, 80), 30000, 210, 100, 50, 2, {"red": 1}, True, 48, {"knockback": 0.8}), }
 
-# Card settings
-CARDS = {
-          6: ["damage", 2], 13: ["health", 5], 20: ["pierce", 0.5], 25: ["attack_speed", 0.002],29: ["stamina", 5],33: ["shots", 0.4],41: ["knockback", 5],  # common
-          45: ["damage", 3],55: ["health", 7],59: ["pierce", 0.7],67: ["attack_speed", 0.004],74: ["spread", 1],83: ["stamina", 7],90: ["knockback", 5],  # rare
-          97: ["damage", 4],106: ["health", 9],111: ["pierce", 0.8],120: ["attack_speed", 0.005],127: ["spread", 1],134: ["stamina", 9],140: ["knockback", 5],  # epic
-          144: ["damage", 20],148: ["health", 20],152: ["pierce", 1],156: ["attack_speed", 0.008],160: ["spread", 1],163: ["stamina", 20],165: ["knockback", 5]}  # legendary
+CARDS = {  # Card settings
+          6: ["damage", 2], 13: ["health", 5], 20: ["pierce", 0.5], 25: ["attack_speed", 0.002], 29: ["stamina", 5], 33: ["shots", 0.4], 41: ["knockback", 5],  # common
+          45: ["damage", 3], 55: ["health", 7], 59: ["pierce", 0.7], 67: ["attack_speed", 0.004], 74: ["spread", 1], 83: ["stamina", 7], 90: ["knockback", 5],  # rare
+          97: ["damage", 4], 106: ["health", 9], 111: ["pierce", 0.8], 120: ["attack_speed", 0.005], 127: ["spread", 1], 134: ["stamina", 9], 140: ["knockback", 5],  # epic
+          144: ["damage", 20], 148: ["health", 20], 152: ["pierce", 1], 156: ["attack_speed", 0.008], 160: ["spread", 1], 163: ["stamina", 20], 165: ["knockback", 5]}  # legendary

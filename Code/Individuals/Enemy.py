@@ -12,9 +12,9 @@ class Enemy:
                     self.set_coordinates()
                     self.game.methods.set_rect(self)
 
-                    self.health *= DIFFICULTY[self.game.difficulty][1]
-                    self.vel *= DIFFICULTY[self.game.difficulty][0]
-                    self.damage *= DIFFICULTY[self.game.difficulty][2]
+                    self.health *= DIFFICULTY[self.game.difficulty][1] * (DIFFICULTY["win_change"][1] ** self.game.wins)
+                    self.vel *= DIFFICULTY[self.game.difficulty][0] * (DIFFICULTY["win_change"][0] ** self.game.wins)
+                    self.damage *= DIFFICULTY[self.game.difficulty][2] * (DIFFICULTY["win_change"][2] ** self.game.wins)
 
                     self.acceleration = v2(0, 0)
                     self.vel_vector = v2(0, 0)

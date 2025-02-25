@@ -12,10 +12,10 @@ class Data:
                     self.slider_configs = {
                               'fps': {'default': pygame.display.get_current_refresh_rate()},
                               'brightness': {'default': 100},
-                              'shake': {'default': 100},
+                              'shake': {'default': 20},
                               'colour': {'default': 50},
                               'volume': {'default': 50},
-                              'text_size': {'default': 120}
+                              'text_size': {'default': 200}
                     }
 
           def _validate_save_folder(self):
